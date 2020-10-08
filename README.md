@@ -478,7 +478,7 @@ combined %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ijfjzthelx .gt_table {
+#ranewwrzau .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -489,7 +489,7 @@ combined %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -503,7 +503,7 @@ combined %>%
   border-left-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_heading {
+#ranewwrzau .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -515,7 +515,7 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_title {
+#ranewwrzau .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -525,7 +525,7 @@ combined %>%
   border-bottom-width: 0;
 }
 
-#ijfjzthelx .gt_subtitle {
+#ranewwrzau .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -535,14 +535,14 @@ combined %>%
   border-top-width: 0;
 }
 
-#ijfjzthelx .gt_bottom_border {
+#ranewwrzau .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_col_headings {
-  border-top-style: none;
+#ranewwrzau .gt_col_headings {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -556,11 +556,11 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_col_heading {
+#ranewwrzau .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -576,11 +576,11 @@ combined %>%
   overflow-x: hidden;
 }
 
-#ijfjzthelx .gt_column_spanner_outer {
+#ranewwrzau .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -588,15 +588,15 @@ combined %>%
   padding-right: 4px;
 }
 
-#ijfjzthelx .gt_column_spanner_outer:first-child {
+#ranewwrzau .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ijfjzthelx .gt_column_spanner_outer:last-child {
+#ranewwrzau .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ijfjzthelx .gt_column_spanner {
+#ranewwrzau .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -608,7 +608,7 @@ combined %>%
   width: 100%;
 }
 
-#ijfjzthelx .gt_group_heading {
+#ranewwrzau .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -630,7 +630,7 @@ combined %>%
   vertical-align: middle;
 }
 
-#ijfjzthelx .gt_empty_group_heading {
+#ranewwrzau .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -645,17 +645,17 @@ combined %>%
   vertical-align: middle;
 }
 
-#ijfjzthelx .gt_from_md > :first-child {
+#ranewwrzau .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ijfjzthelx .gt_from_md > :last-child {
+#ranewwrzau .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ijfjzthelx .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+#ranewwrzau .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -672,7 +672,7 @@ combined %>%
   overflow-x: hidden;
 }
 
-#ijfjzthelx .gt_stub {
+#ranewwrzau .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -684,7 +684,7 @@ combined %>%
   padding-left: 12px;
 }
 
-#ijfjzthelx .gt_summary_row {
+#ranewwrzau .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -694,7 +694,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#ijfjzthelx .gt_first_summary_row {
+#ranewwrzau .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -704,7 +704,7 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_grand_summary_row {
+#ranewwrzau .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -714,7 +714,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#ijfjzthelx .gt_first_grand_summary_row {
+#ranewwrzau .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -724,12 +724,12 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_striped {
+#ranewwrzau .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ijfjzthelx .gt_table_body {
-  border-top-style: none;
+#ranewwrzau .gt_table_body {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -737,7 +737,7 @@ combined %>%
   border-bottom-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_footnotes {
+#ranewwrzau .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -751,13 +751,13 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_footnote {
+#ranewwrzau .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ijfjzthelx .gt_sourcenotes {
+#ranewwrzau .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -771,47 +771,47 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#ijfjzthelx .gt_sourcenote {
+#ranewwrzau .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ijfjzthelx .gt_left {
+#ranewwrzau .gt_left {
   text-align: left;
 }
 
-#ijfjzthelx .gt_center {
+#ranewwrzau .gt_center {
   text-align: center;
 }
 
-#ijfjzthelx .gt_right {
+#ranewwrzau .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ijfjzthelx .gt_font_normal {
+#ranewwrzau .gt_font_normal {
   font-weight: normal;
 }
 
-#ijfjzthelx .gt_font_bold {
+#ranewwrzau .gt_font_bold {
   font-weight: bold;
 }
 
-#ijfjzthelx .gt_font_italic {
+#ranewwrzau .gt_font_italic {
   font-style: italic;
 }
 
-#ijfjzthelx .gt_super {
+#ranewwrzau .gt_super {
   font-size: 65%;
 }
 
-#ijfjzthelx .gt_footnote_marks {
+#ranewwrzau .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="ijfjzthelx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ranewwrzau" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -863,37 +863,37 @@ Total
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Never
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 79
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 24
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 3
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 111
 
@@ -903,37 +903,37 @@ Never
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Former
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 175
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 6
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 11
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 6
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 198
 
@@ -943,37 +943,37 @@ Former
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Current
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 61
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 14
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 9
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 89
 
@@ -983,37 +983,37 @@ Current
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 (Missing)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 11
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 13
 
@@ -1023,37 +1023,37 @@ Current
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Total
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 411
 
@@ -1090,7 +1090,7 @@ combined %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tkhpaejyrv .gt_table {
+#pbpyqfpxlh .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1101,7 +1101,7 @@ combined %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -1115,7 +1115,7 @@ combined %>%
   border-left-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_heading {
+#pbpyqfpxlh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1127,7 +1127,7 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_title {
+#pbpyqfpxlh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1137,7 +1137,7 @@ combined %>%
   border-bottom-width: 0;
 }
 
-#tkhpaejyrv .gt_subtitle {
+#pbpyqfpxlh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1147,14 +1147,14 @@ combined %>%
   border-top-width: 0;
 }
 
-#tkhpaejyrv .gt_bottom_border {
+#pbpyqfpxlh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_col_headings {
-  border-top-style: none;
+#pbpyqfpxlh .gt_col_headings {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -1168,11 +1168,11 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_col_heading {
+#pbpyqfpxlh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -1188,11 +1188,11 @@ combined %>%
   overflow-x: hidden;
 }
 
-#tkhpaejyrv .gt_column_spanner_outer {
+#pbpyqfpxlh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -1200,15 +1200,15 @@ combined %>%
   padding-right: 4px;
 }
 
-#tkhpaejyrv .gt_column_spanner_outer:first-child {
+#pbpyqfpxlh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tkhpaejyrv .gt_column_spanner_outer:last-child {
+#pbpyqfpxlh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tkhpaejyrv .gt_column_spanner {
+#pbpyqfpxlh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1220,7 +1220,7 @@ combined %>%
   width: 100%;
 }
 
-#tkhpaejyrv .gt_group_heading {
+#pbpyqfpxlh .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1242,7 +1242,7 @@ combined %>%
   vertical-align: middle;
 }
 
-#tkhpaejyrv .gt_empty_group_heading {
+#pbpyqfpxlh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1257,17 +1257,17 @@ combined %>%
   vertical-align: middle;
 }
 
-#tkhpaejyrv .gt_from_md > :first-child {
+#pbpyqfpxlh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tkhpaejyrv .gt_from_md > :last-child {
+#pbpyqfpxlh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tkhpaejyrv .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+#pbpyqfpxlh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -1284,7 +1284,7 @@ combined %>%
   overflow-x: hidden;
 }
 
-#tkhpaejyrv .gt_stub {
+#pbpyqfpxlh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1296,7 +1296,7 @@ combined %>%
   padding-left: 12px;
 }
 
-#tkhpaejyrv .gt_summary_row {
+#pbpyqfpxlh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1306,7 +1306,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#tkhpaejyrv .gt_first_summary_row {
+#pbpyqfpxlh .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1316,7 +1316,7 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_grand_summary_row {
+#pbpyqfpxlh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1326,7 +1326,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#tkhpaejyrv .gt_first_grand_summary_row {
+#pbpyqfpxlh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1336,12 +1336,12 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_striped {
+#pbpyqfpxlh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tkhpaejyrv .gt_table_body {
-  border-top-style: none;
+#pbpyqfpxlh .gt_table_body {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -1349,7 +1349,7 @@ combined %>%
   border-bottom-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_footnotes {
+#pbpyqfpxlh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1363,13 +1363,13 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_footnote {
+#pbpyqfpxlh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#tkhpaejyrv .gt_sourcenotes {
+#pbpyqfpxlh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1383,47 +1383,47 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#tkhpaejyrv .gt_sourcenote {
+#pbpyqfpxlh .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#tkhpaejyrv .gt_left {
+#pbpyqfpxlh .gt_left {
   text-align: left;
 }
 
-#tkhpaejyrv .gt_center {
+#pbpyqfpxlh .gt_center {
   text-align: center;
 }
 
-#tkhpaejyrv .gt_right {
+#pbpyqfpxlh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tkhpaejyrv .gt_font_normal {
+#pbpyqfpxlh .gt_font_normal {
   font-weight: normal;
 }
 
-#tkhpaejyrv .gt_font_bold {
+#pbpyqfpxlh .gt_font_bold {
   font-weight: bold;
 }
 
-#tkhpaejyrv .gt_font_italic {
+#pbpyqfpxlh .gt_font_italic {
   font-style: italic;
 }
 
-#tkhpaejyrv .gt_super {
+#pbpyqfpxlh .gt_super {
   font-size: 65%;
 }
 
-#tkhpaejyrv .gt_footnote_marks {
+#pbpyqfpxlh .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="tkhpaejyrv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pbpyqfpxlh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -1503,55 +1503,55 @@ agedx
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 White
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 46
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 61.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 70.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 76.75
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 90.00
 
@@ -1561,55 +1561,55 @@ White
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Asian
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 28
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 34.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 54.75
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 62.50
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 73.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 85.00
 
@@ -1619,55 +1619,55 @@ Asian
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Black
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 17
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 43.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 59.50
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 66.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 73.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 90.00
 
@@ -1677,55 +1677,55 @@ Black
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 NA
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 15
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 47.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 57.50
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 70.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 76.50
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 84.00
 
@@ -1745,55 +1745,55 @@ bmidx
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 White
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 283
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 268
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 14.96
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 24.23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 26.99
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 30.41
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 59.05
 
@@ -1803,55 +1803,55 @@ White
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Asian
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 43
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 43
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 16.02
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 19.47
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 21.01
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 22.39
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 25.36
 
@@ -1861,55 +1861,55 @@ Asian
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Black
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 19
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18.96
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23.04
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 26.16
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 28.52
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 68.32
 
@@ -1919,55 +1919,55 @@ Black
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 NA
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 17
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 17
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18.82
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23.53
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 25.83
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 27.28
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 33.46
 
@@ -1987,55 +1987,55 @@ dxyear
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 White
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 313
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 16
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 1999.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2009.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2011.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2012.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2013.00
 
@@ -2045,55 +2045,55 @@ White
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Asian
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 43
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 8
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2005.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2011.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2012.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2013.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2013.00
 
@@ -2103,55 +2103,55 @@ Asian
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Black
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 22
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 8
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2006.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2010.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2011.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2011.75
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2013.00
 
@@ -2161,55 +2161,55 @@ Black
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 NA
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 15
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 8
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2000.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2006.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2007.00
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2009.50
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2013.00
 
@@ -2229,55 +2229,55 @@ purity
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 White
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 326
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 320
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 85
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.09
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.41
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.57
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.75
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 1.00
 
@@ -2287,55 +2287,55 @@ White
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Asian
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 43
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 31
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.21
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.68
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.84
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.92
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.98
 
@@ -2345,55 +2345,55 @@ Asian
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 Black
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 22
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 21
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.28
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.44
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.64
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.84
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.95
 
@@ -2403,55 +2403,55 @@ Black
 
 <tr>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 NA
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 18
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 16
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 13
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.26
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.67
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.79
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.92
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0.96
 
@@ -2483,7 +2483,7 @@ combined %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#twafeheryc .gt_table {
+#wlmheestan .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2494,7 +2494,7 @@ combined %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -2508,7 +2508,7 @@ combined %>%
   border-left-color: #D3D3D3;
 }
 
-#twafeheryc .gt_heading {
+#wlmheestan .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2520,7 +2520,7 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#twafeheryc .gt_title {
+#wlmheestan .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2530,7 +2530,7 @@ combined %>%
   border-bottom-width: 0;
 }
 
-#twafeheryc .gt_subtitle {
+#wlmheestan .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2540,14 +2540,14 @@ combined %>%
   border-top-width: 0;
 }
 
-#twafeheryc .gt_bottom_border {
+#wlmheestan .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#twafeheryc .gt_col_headings {
-  border-top-style: none;
+#wlmheestan .gt_col_headings {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -2561,11 +2561,11 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#twafeheryc .gt_col_heading {
+#wlmheestan .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -2581,11 +2581,11 @@ combined %>%
   overflow-x: hidden;
 }
 
-#twafeheryc .gt_column_spanner_outer {
+#wlmheestan .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -2593,15 +2593,15 @@ combined %>%
   padding-right: 4px;
 }
 
-#twafeheryc .gt_column_spanner_outer:first-child {
+#wlmheestan .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#twafeheryc .gt_column_spanner_outer:last-child {
+#wlmheestan .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#twafeheryc .gt_column_spanner {
+#wlmheestan .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2613,7 +2613,7 @@ combined %>%
   width: 100%;
 }
 
-#twafeheryc .gt_group_heading {
+#wlmheestan .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2635,7 +2635,7 @@ combined %>%
   vertical-align: middle;
 }
 
-#twafeheryc .gt_empty_group_heading {
+#wlmheestan .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2650,17 +2650,17 @@ combined %>%
   vertical-align: middle;
 }
 
-#twafeheryc .gt_from_md > :first-child {
+#wlmheestan .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#twafeheryc .gt_from_md > :last-child {
+#wlmheestan .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#twafeheryc .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+#wlmheestan .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -2677,7 +2677,7 @@ combined %>%
   overflow-x: hidden;
 }
 
-#twafeheryc .gt_stub {
+#wlmheestan .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2689,7 +2689,7 @@ combined %>%
   padding-left: 12px;
 }
 
-#twafeheryc .gt_summary_row {
+#wlmheestan .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2699,7 +2699,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#twafeheryc .gt_first_summary_row {
+#wlmheestan .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2709,7 +2709,7 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#twafeheryc .gt_grand_summary_row {
+#wlmheestan .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2719,7 +2719,7 @@ combined %>%
   padding-right: 5px;
 }
 
-#twafeheryc .gt_first_grand_summary_row {
+#wlmheestan .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2729,12 +2729,12 @@ combined %>%
   border-top-color: #D3D3D3;
 }
 
-#twafeheryc .gt_striped {
+#wlmheestan .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#twafeheryc .gt_table_body {
-  border-top-style: none;
+#wlmheestan .gt_table_body {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -2742,7 +2742,7 @@ combined %>%
   border-bottom-color: #D3D3D3;
 }
 
-#twafeheryc .gt_footnotes {
+#wlmheestan .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2756,13 +2756,13 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#twafeheryc .gt_footnote {
+#wlmheestan .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#twafeheryc .gt_sourcenotes {
+#wlmheestan .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2776,47 +2776,47 @@ combined %>%
   border-right-color: #D3D3D3;
 }
 
-#twafeheryc .gt_sourcenote {
+#wlmheestan .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#twafeheryc .gt_left {
+#wlmheestan .gt_left {
   text-align: left;
 }
 
-#twafeheryc .gt_center {
+#wlmheestan .gt_center {
   text-align: center;
 }
 
-#twafeheryc .gt_right {
+#wlmheestan .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#twafeheryc .gt_font_normal {
+#wlmheestan .gt_font_normal {
   font-weight: normal;
 }
 
-#twafeheryc .gt_font_bold {
+#wlmheestan .gt_font_bold {
   font-weight: bold;
 }
 
-#twafeheryc .gt_font_italic {
+#wlmheestan .gt_font_italic {
   font-style: italic;
 }
 
-#twafeheryc .gt_super {
+#wlmheestan .gt_super {
   font-size: 65%;
 }
 
-#twafeheryc .gt_footnote_marks {
+#wlmheestan .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="twafeheryc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wlmheestan" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -2886,55 +2886,55 @@ max
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 ascore
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 411
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 401
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 35
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 7
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 14
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 19
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 34
 
@@ -2944,55 +2944,55 @@ ascore
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 ascore\_amp
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 411
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 401
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 2
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 5
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 9
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 22
 
@@ -3002,55 +3002,55 @@ ascore\_amp
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 ascore\_del
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 411
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 401
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 25
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 0
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 3
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 7
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 12
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 23
 
@@ -3159,7 +3159,7 @@ analytical %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zvhjkwsblx .gt_table {
+#qdusielgkq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3170,7 +3170,7 @@ analytical %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -3184,7 +3184,7 @@ analytical %>%
   border-left-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_heading {
+#qdusielgkq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3196,7 +3196,7 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_title {
+#qdusielgkq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3206,7 +3206,7 @@ analytical %>%
   border-bottom-width: 0;
 }
 
-#zvhjkwsblx .gt_subtitle {
+#qdusielgkq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3216,14 +3216,14 @@ analytical %>%
   border-top-width: 0;
 }
 
-#zvhjkwsblx .gt_bottom_border {
+#qdusielgkq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_col_headings {
-  border-top-style: none;
+#qdusielgkq .gt_col_headings {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -3237,11 +3237,11 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_col_heading {
+#qdusielgkq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -3257,11 +3257,11 @@ analytical %>%
   overflow-x: hidden;
 }
 
-#zvhjkwsblx .gt_column_spanner_outer {
+#qdusielgkq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -3269,15 +3269,15 @@ analytical %>%
   padding-right: 4px;
 }
 
-#zvhjkwsblx .gt_column_spanner_outer:first-child {
+#qdusielgkq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zvhjkwsblx .gt_column_spanner_outer:last-child {
+#qdusielgkq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zvhjkwsblx .gt_column_spanner {
+#qdusielgkq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3289,7 +3289,7 @@ analytical %>%
   width: 100%;
 }
 
-#zvhjkwsblx .gt_group_heading {
+#qdusielgkq .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3311,7 +3311,7 @@ analytical %>%
   vertical-align: middle;
 }
 
-#zvhjkwsblx .gt_empty_group_heading {
+#qdusielgkq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3326,17 +3326,17 @@ analytical %>%
   vertical-align: middle;
 }
 
-#zvhjkwsblx .gt_from_md > :first-child {
+#qdusielgkq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zvhjkwsblx .gt_from_md > :last-child {
+#qdusielgkq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zvhjkwsblx .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+#qdusielgkq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -3353,7 +3353,7 @@ analytical %>%
   overflow-x: hidden;
 }
 
-#zvhjkwsblx .gt_stub {
+#qdusielgkq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3365,7 +3365,7 @@ analytical %>%
   padding-left: 12px;
 }
 
-#zvhjkwsblx .gt_summary_row {
+#qdusielgkq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3375,7 +3375,7 @@ analytical %>%
   padding-right: 5px;
 }
 
-#zvhjkwsblx .gt_first_summary_row {
+#qdusielgkq .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3385,7 +3385,7 @@ analytical %>%
   border-top-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_grand_summary_row {
+#qdusielgkq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3395,7 +3395,7 @@ analytical %>%
   padding-right: 5px;
 }
 
-#zvhjkwsblx .gt_first_grand_summary_row {
+#qdusielgkq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3405,12 +3405,12 @@ analytical %>%
   border-top-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_striped {
+#qdusielgkq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zvhjkwsblx .gt_table_body {
-  border-top-style: none;
+#qdusielgkq .gt_table_body {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -3418,7 +3418,7 @@ analytical %>%
   border-bottom-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_footnotes {
+#qdusielgkq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3432,13 +3432,13 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_footnote {
+#qdusielgkq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zvhjkwsblx .gt_sourcenotes {
+#qdusielgkq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3452,47 +3452,47 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#zvhjkwsblx .gt_sourcenote {
+#qdusielgkq .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zvhjkwsblx .gt_left {
+#qdusielgkq .gt_left {
   text-align: left;
 }
 
-#zvhjkwsblx .gt_center {
+#qdusielgkq .gt_center {
   text-align: center;
 }
 
-#zvhjkwsblx .gt_right {
+#qdusielgkq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zvhjkwsblx .gt_font_normal {
+#qdusielgkq .gt_font_normal {
   font-weight: normal;
 }
 
-#zvhjkwsblx .gt_font_bold {
+#qdusielgkq .gt_font_bold {
   font-weight: bold;
 }
 
-#zvhjkwsblx .gt_font_italic {
+#qdusielgkq .gt_font_italic {
   font-style: italic;
 }
 
-#zvhjkwsblx .gt_super {
+#qdusielgkq .gt_super {
   font-size: 65%;
 }
 
-#zvhjkwsblx .gt_footnote_marks {
+#qdusielgkq .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="zvhjkwsblx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qdusielgkq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -3538,31 +3538,31 @@ Total
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 FALSE
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 320
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 43
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 22
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 385
 
@@ -3572,31 +3572,31 @@ FALSE
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 TRUE
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 8
 
@@ -3606,31 +3606,31 @@ TRUE
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Total
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 326
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 44
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23
 
 </td>
 
-<td class="gt_row gt_right" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_right">
 
 393
 
@@ -3662,7 +3662,7 @@ analytical %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qjmxxlxopl .gt_table {
+#ahcaiqignf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3673,7 +3673,7 @@ analytical %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -3687,7 +3687,7 @@ analytical %>%
   border-left-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_heading {
+#ahcaiqignf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3699,7 +3699,7 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_title {
+#ahcaiqignf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3709,7 +3709,7 @@ analytical %>%
   border-bottom-width: 0;
 }
 
-#qjmxxlxopl .gt_subtitle {
+#ahcaiqignf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3719,14 +3719,14 @@ analytical %>%
   border-top-width: 0;
 }
 
-#qjmxxlxopl .gt_bottom_border {
+#ahcaiqignf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_col_headings {
-  border-top-style: none;
+#ahcaiqignf .gt_col_headings {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -3740,11 +3740,11 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_col_heading {
+#ahcaiqignf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -3760,11 +3760,11 @@ analytical %>%
   overflow-x: hidden;
 }
 
-#qjmxxlxopl .gt_column_spanner_outer {
+#ahcaiqignf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -3772,15 +3772,15 @@ analytical %>%
   padding-right: 4px;
 }
 
-#qjmxxlxopl .gt_column_spanner_outer:first-child {
+#ahcaiqignf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qjmxxlxopl .gt_column_spanner_outer:last-child {
+#ahcaiqignf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qjmxxlxopl .gt_column_spanner {
+#ahcaiqignf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3792,7 +3792,7 @@ analytical %>%
   width: 100%;
 }
 
-#qjmxxlxopl .gt_group_heading {
+#ahcaiqignf .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3814,7 +3814,7 @@ analytical %>%
   vertical-align: middle;
 }
 
-#qjmxxlxopl .gt_empty_group_heading {
+#ahcaiqignf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3829,17 +3829,17 @@ analytical %>%
   vertical-align: middle;
 }
 
-#qjmxxlxopl .gt_from_md > :first-child {
+#ahcaiqignf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qjmxxlxopl .gt_from_md > :last-child {
+#ahcaiqignf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qjmxxlxopl .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+#ahcaiqignf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -3856,7 +3856,7 @@ analytical %>%
   overflow-x: hidden;
 }
 
-#qjmxxlxopl .gt_stub {
+#ahcaiqignf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3868,7 +3868,7 @@ analytical %>%
   padding-left: 12px;
 }
 
-#qjmxxlxopl .gt_summary_row {
+#ahcaiqignf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3878,7 +3878,7 @@ analytical %>%
   padding-right: 5px;
 }
 
-#qjmxxlxopl .gt_first_summary_row {
+#ahcaiqignf .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3888,7 +3888,7 @@ analytical %>%
   border-top-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_grand_summary_row {
+#ahcaiqignf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3898,7 +3898,7 @@ analytical %>%
   padding-right: 5px;
 }
 
-#qjmxxlxopl .gt_first_grand_summary_row {
+#ahcaiqignf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3908,12 +3908,12 @@ analytical %>%
   border-top-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_striped {
+#ahcaiqignf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qjmxxlxopl .gt_table_body {
-  border-top-style: none;
+#ahcaiqignf .gt_table_body {
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -3921,7 +3921,7 @@ analytical %>%
   border-bottom-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_footnotes {
+#ahcaiqignf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3935,13 +3935,13 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_footnote {
+#ahcaiqignf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qjmxxlxopl .gt_sourcenotes {
+#ahcaiqignf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3955,47 +3955,47 @@ analytical %>%
   border-right-color: #D3D3D3;
 }
 
-#qjmxxlxopl .gt_sourcenote {
+#ahcaiqignf .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qjmxxlxopl .gt_left {
+#ahcaiqignf .gt_left {
   text-align: left;
 }
 
-#qjmxxlxopl .gt_center {
+#ahcaiqignf .gt_center {
   text-align: center;
 }
 
-#qjmxxlxopl .gt_right {
+#ahcaiqignf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qjmxxlxopl .gt_font_normal {
+#ahcaiqignf .gt_font_normal {
   font-weight: normal;
 }
 
-#qjmxxlxopl .gt_font_bold {
+#ahcaiqignf .gt_font_bold {
   font-weight: bold;
 }
 
-#qjmxxlxopl .gt_font_italic {
+#ahcaiqignf .gt_font_italic {
   font-style: italic;
 }
 
-#qjmxxlxopl .gt_super {
+#ahcaiqignf .gt_super {
   font-size: 65%;
 }
 
-#qjmxxlxopl .gt_footnote_marks {
+#ahcaiqignf .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="qjmxxlxopl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ahcaiqignf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -4052,31 +4052,31 @@ race</strong></span>
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 N
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 393
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 326
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 44
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23
 
@@ -4086,25 +4086,25 @@ N
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Ethnicity
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -4112,31 +4112,31 @@ Ethnicity
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Hispanic Or Latino
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (1%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (2%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0 (0%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0 (0%)
 
@@ -4146,31 +4146,31 @@ Hispanic Or Latino
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Not Hispanic Or Latino
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 368 (99%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 307 (98%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 44 (100%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 17 (100%)
 
@@ -4180,31 +4180,31 @@ Not Hispanic Or Latino
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 20
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 14
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6
 
@@ -4214,25 +4214,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Sex
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -4240,31 +4240,31 @@ Sex
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Female
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 101 (26%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 83 (25%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8 (18%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 10 (43%)
 
@@ -4274,31 +4274,31 @@ Female
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Male
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 292 (74%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 243 (75%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 36 (82%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13 (57%)
 
@@ -4308,31 +4308,31 @@ Male
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Age at diagnosis
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 69.0 (60.0, 76.0)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 70.0 (61.0, 76.8)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 62.5 (54.8, 73.0)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 66.0 (59.5, 73.0)
 
@@ -4342,31 +4342,31 @@ Age at diagnosis
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Calendar year of initial diagnosis
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2,011 (2,009, 2,012)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2,011 (2,009, 2,012)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2,012 (2,011, 2,013)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2,011 (2,010, 2,012)
 
@@ -4376,31 +4376,31 @@ Calendar year of initial diagnosis
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 15
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
@@ -4410,25 +4410,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Smoking status at diagnosis
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -4436,31 +4436,31 @@ Smoking status at diagnosis
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Never
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 108 (28%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 79 (25%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 24 (55%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (24%)
 
@@ -4470,31 +4470,31 @@ Never
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Former
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 192 (51%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 175 (56%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6 (14%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 11 (52%)
 
@@ -4504,31 +4504,31 @@ Former
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Current
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 80 (21%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 61 (19%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 14 (32%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (24%)
 
@@ -4538,31 +4538,31 @@ Current
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 11
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2
 
@@ -4572,31 +4572,31 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Body mass index at diagnosis
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 26.0 (23.2, 29.7)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 27.0 (24.2, 30.4)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 21.0 (19.5, 22.4)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 26.2 (23.0, 28.5)
 
@@ -4606,31 +4606,31 @@ Body mass index at diagnosis
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 49
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 43
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5
 
@@ -4640,25 +4640,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 AJCC pathologic stage
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -4666,31 +4666,31 @@ AJCC pathologic stage
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Stage I
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2 (1%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1 (0%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1 (2%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0 (0%)
 
@@ -4700,31 +4700,31 @@ Stage I
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Stage II
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 125 (32%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 87 (27%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 30 (68%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8 (35%)
 
@@ -4734,31 +4734,31 @@ Stage II
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Stage III
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 134 (34%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 115 (35%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 11 (25%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8 (35%)
 
@@ -4768,31 +4768,31 @@ Stage III
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Stage IV
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 131 (33%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 122 (38%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2 (5%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 7 (30%)
 
@@ -4802,31 +4802,31 @@ Stage IV
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
@@ -4836,25 +4836,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Metastases at diagnosis
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -4862,31 +4862,31 @@ Metastases at diagnosis
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 M0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 184 (47%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 136 (42%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 39 (91%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 9 (39%)
 
@@ -4896,31 +4896,31 @@ M0
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 M1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 10 (3%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 9 (3%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0 (0%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1 (4%)
 
@@ -4930,31 +4930,31 @@ M1
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 MX
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 196 (50%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 179 (55%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 4 (9%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13 (57%)
 
@@ -4964,31 +4964,31 @@ MX
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 3
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
@@ -4998,25 +4998,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Histologic grade
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -5024,31 +5024,31 @@ Histologic grade
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 High Grade
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 370 (95%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 321 (99%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 26 (59%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23 (100%)
 
@@ -5058,31 +5058,31 @@ High Grade
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Low Grade
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 21 (5%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 3 (1%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 18 (41%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0 (0%)
 
@@ -5092,31 +5092,31 @@ Low Grade
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
@@ -5126,25 +5126,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Histologic subtype
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -5152,31 +5152,31 @@ Histologic subtype
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Non-Papillary
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 262 (67%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 225 (70%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 18 (41%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 19 (83%)
 
@@ -5186,31 +5186,31 @@ Non-Papillary
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Papillary
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 127 (33%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 97 (30%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 26 (59%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 4 (17%)
 
@@ -5220,31 +5220,31 @@ Papillary
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 4
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 4
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0
 
@@ -5254,31 +5254,31 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 DNA tumor purity by ABSOLUTE
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0.60 (0.42, 0.79)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0.57 (0.41, 0.75)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0.84 (0.68, 0.92)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 0.64 (0.44, 0.84)
 
@@ -5288,31 +5288,31 @@ DNA tumor purity by ABSOLUTE
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
@@ -5322,25 +5322,25 @@ Unknown
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Whole genome doubling
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -5348,31 +5348,31 @@ Whole genome doubling
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 0
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 154 (40%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 119 (37%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 28 (65%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 7 (32%)
 
@@ -5382,31 +5382,31 @@ Whole genome doubling
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 193 (50%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 166 (52%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 14 (33%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13 (59%)
 
@@ -5416,31 +5416,31 @@ Whole genome doubling
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 2
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 38 (10%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 35 (11%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1 (2%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 2 (9%)
 
@@ -5450,31 +5450,31 @@ Whole genome doubling
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
@@ -5527,7 +5527,7 @@ analytical %>%
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -5580,7 +5580,7 @@ analytical %>%
 }
 
 #yrfwjgkqpp .gt_col_headings {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -5598,7 +5598,7 @@ analytical %>%
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -5618,7 +5618,7 @@ analytical %>%
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -5692,8 +5692,8 @@ analytical %>%
 }
 
 #yrfwjgkqpp .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -5767,7 +5767,7 @@ analytical %>%
 }
 
 #yrfwjgkqpp .gt_table_body {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -5906,31 +5906,31 @@ race</strong></span>
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 N
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 393
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 326
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 44
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 23
 
@@ -5940,25 +5940,25 @@ N
 
 <tr>
 
-<td class="gt_row gt_left" style="font-weight: bold; text-align: left; vertical-align: top;">
+<td class="gt_row gt_left" style="font-weight: bold;">
 
 Aneuploidy score
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 </td>
 
@@ -5966,31 +5966,31 @@ Aneuploidy score
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 \[0,5\]
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 75 (19%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 49 (15%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 22 (51%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 4 (18%)
 
@@ -6000,31 +6000,31 @@ Aneuploidy score
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 (5,10\]
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 71 (18%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 61 (19%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (12%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 5 (23%)
 
@@ -6034,31 +6034,31 @@ Aneuploidy score
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 (10,20\]
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 162 (42%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 139 (43%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 13 (30%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 10 (45%)
 
@@ -6068,31 +6068,31 @@ Aneuploidy score
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 (20,34\]
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 77 (20%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 71 (22%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 3 (7%)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 3 (14%)
 
@@ -6102,31 +6102,31 @@ Aneuploidy score
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top;">
+<td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">
 
 Unknown
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 8
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 6
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 1
 
@@ -6213,7 +6213,7 @@ tribble(~Model,                         ~confounders,
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -6266,7 +6266,7 @@ tribble(~Model,                         ~confounders,
 }
 
 #nscsdqhqpm .gt_col_headings {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -6284,7 +6284,7 @@ tribble(~Model,                         ~confounders,
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -6304,7 +6304,7 @@ tribble(~Model,                         ~confounders,
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -6378,8 +6378,8 @@ tribble(~Model,                         ~confounders,
 }
 
 #nscsdqhqpm .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -6453,7 +6453,7 @@ tribble(~Model,                         ~confounders,
 }
 
 #nscsdqhqpm .gt_table_body {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -6581,31 +6581,31 @@ Observations
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Model (1) Age/sex-adjusted
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-4.3 (-6.7 to -1.9)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-0.9 (-4.1 to 2.4)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 385
 
@@ -6615,31 +6615,31 @@ Model (1) Age/sex-adjusted
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Model (2) Model 1 + smoking
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-3.7 (-6.2 to -1.2)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-1.7 (-5.1 to 1.7)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 372
 
@@ -6649,31 +6649,31 @@ Model (2) Model 1 + smoking
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Model (3) Model 2 + histology
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-3.4 (-6.0 to -0.9)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-1.6 (-5.0 to 1.7)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 368
 
@@ -6683,31 +6683,31 @@ Model (3) Model 2 + histology
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Model (4) Model 3 + grade
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-2.1 (-5.0 to 0.9)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-1.6 (-5.0 to 1.7)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 366
 
@@ -6760,7 +6760,7 @@ tribble(
   font-style: normal;
   background-color: #FFFFFF;
   width: auto;
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
   border-right-style: none;
@@ -6813,7 +6813,7 @@ tribble(
 }
 
 #nmgnvvtekw .gt_col_headings {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -6831,7 +6831,7 @@ tribble(
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
   border-left-width: 1px;
@@ -6851,7 +6851,7 @@ tribble(
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
-  font-weight: bold;
+  font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
   padding-bottom: 0;
@@ -6925,8 +6925,8 @@ tribble(
 }
 
 #nmgnvvtekw .gt_row {
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -7000,7 +7000,7 @@ tribble(
 }
 
 #nmgnvvtekw .gt_table_body {
-  border-top-style: none;
+  border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
   border-bottom-style: solid;
@@ -7138,31 +7138,31 @@ Sex
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Female
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-1.5 (-7.3 to 4.2)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 1.3 (-4.1 to 6.8)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 99
 
@@ -7172,31 +7172,31 @@ Female
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Male
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-4.9 (-7.7 to -2.2)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-2.3 (-6.5 to 1.8)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 286
 
@@ -7216,31 +7216,31 @@ Histology
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Papillary
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-1.9 (-5.7 to 1.9)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-4.8 (-13.1 to 3.4)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 127
 
@@ -7250,31 +7250,31 @@ Papillary
 
 <tr>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 Non-Papillary
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0 (reference)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 \-5.4 (-8.9 to -1.9)
 
 </td>
 
-<td class="gt_row gt_left" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_left">
 
 0.4 (-3.0 to 3.8)
 
 </td>
 
-<td class="gt_row gt_center" style="text-align: left; vertical-align: top;">
+<td class="gt_row gt_center">
 
 254
 
