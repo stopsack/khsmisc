@@ -158,14 +158,14 @@ tsummary <- function(data,
 #' @param mytab gt object
 #' @noRd
 mytabstyle <- function(mytab) {
-  mytab #%>%
-    # gt::tab_options(data_row.padding = gt::px(0),
-    #                 column_labels.border.top.style = "none",
-    #                 table.border.top.style = "none",
-    #                 table_body.border.top.style = "none",
-    #                 column_labels.font.weight = "bold") %>%
-    # gt::tab_style(style = cell_text(align = "left", v_align = "top"),
-    #               locations = cells_body())
+  mytab %>%
+    gt::tab_options(data_row.padding = gt::px(0),
+                    column_labels.border.top.style = "none",
+                    table.border.top.style = "none",
+                    table_body.border.top.style = "none",
+                    column_labels.font.weight = "bold") %>%
+    gt::tab_style(style = cell_text(align = "left", v_align = "top"),
+                  locations = cells_body())
 }
 
 #' Turn tibble into gt Table with Custom Formatting
