@@ -124,19 +124,19 @@ mytab <- function(data,
 tsummary <- function(data,
                      by    = NULL,
                      na.rm = TRUE) {
-  data %<>% labelled::remove_labels()
+  data <- data %>% labelled::remove_labels()
   if(is.null(by)) {
-    data %<>%
+    data <- data %>%
       dplyr::select_if(is.numeric) %>%
       tidyr::gather(key = "variable", value = "value") %>%
       dplyr::group_by(.data$variable)
   } else {
     var1 <- "variable"
     to_keep <- c(data %>% dplyr::select_if(is.numeric) %>% names(), by)
-    data %<>%
+    data <- data %>%
       dplyr::select(dplyr::one_of(to_keep)) %>%
       tidyr::gather(key = "variable", value = "value",
-                    -dplyr::contains(paste(by))) %<>%
+                    -dplyr::contains(paste(by))) %>%
       dplyr::group_by_at(dplyr::vars(dplyr::all_of(var1), dplyr::all_of(by)))
   }
   data %>% dplyr::summarize(rows   = dplyr::n(),

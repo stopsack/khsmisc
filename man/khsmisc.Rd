@@ -63,6 +63,12 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 \code{\link[khsmisc]{rates}}: Event counts, person-time, incidence rates, and cumulative incidence
 }
 
+\section{Functions for plots}{
+
+
+\code{\link[khsmisc]{stripplot}}: Box-whiskers/dot plot
+}
+
 \seealso{
 \url{https://github.com/stopsack/khsmisc}
 }

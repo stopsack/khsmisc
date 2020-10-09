@@ -1,11 +1,5 @@
 # Functions for data handling
 
-#' @title Export reverse pipe
-#'
-#' @importFrom magrittr `%<>%`
-#' @export
-NULL
-
 #' Variable List, Stata-style
 #'
 #' @import tidyverse labelled broom cowplot readxl tibble viridis stringr

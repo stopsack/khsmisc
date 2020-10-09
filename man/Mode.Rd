@@ -13,8 +13,8 @@ Mode(x)
 Scalar: most frequent value.
 }
 \description{
-Not to be confused with \code{mode} in lowercase,
-a \code{base} function that returns the storage mode of an object.
+Not to be confused with \code{\link[base]{mode}} in lowercase,
+a \code{base} R function that returns the storage mode of an object.
 }
 \examples{
 Mode(c(1, "b", "b", 0.3))

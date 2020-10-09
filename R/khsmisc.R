@@ -49,6 +49,10 @@
 #'
 #' \code{\link[khsmisc]{rates}}: Event counts, person-time, incidence rates, and cumulative incidence
 #'
+#' @section Functions for plots:
+#'
+#' \code{\link[khsmisc]{stripplot}}: Box-whiskers/dot plot
+#'
 #' @docType package
 #' @name khsmisc
 #' @seealso \url{https://github.com/stopsack/khsmisc}
