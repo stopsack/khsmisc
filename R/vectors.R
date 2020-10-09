@@ -28,7 +28,7 @@ scale_to_range <- function(x, min = 0, max = 1, ...) {
 
 #' Most Frequent Observation
 #'
-#' @description Not to be confused with \code{\link[base]{mode}} in lowercase,
+#' @description Not to be confused with \code{mode} in lowercase,
 #'   a \code{base} R function that returns the storage mode of an object.
 #'
 #' @param x Vector
