@@ -1,0 +1,518 @@
+---
+title: "Sample analysis workflow using `khsmisc` and TCGA `BLCA`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sample analysis workflow using `khsmisc` and TCGA `BLCA`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Installation
+
+The `khsmisc` package can be installed from [GitHub](https://github.com/stopsack/khsmisc):
+
+```r
+# if "remotes" library is missing, install it first:
+#   install.packages("remotes")
+library(remotes)
+remotes::install_github("stopsack/khsmisc", build_vignettes = TRUE)
+```
+
+To access the documentation after installing the package, run
+```r
+help("khsmisc")
+```
+
+or
+
+```r
+vignette("khsmisc")
+```
+
+
+## Setting up a new RMarkdown
+
+After successfully installing `khsmisc`:
+
+(@) **Create an RMarkdown file**
+
+    RStudio: *File* > *New File* > *R Markdown...* > *Create Empty Document*
+
+(@) **Add a header for the RMarkdown**
+
+    Copy the following so-called "YAML" header into the empty document, including the three dashes (`---`) at the beginning and end:
+    
+```{yaml, eval = FALSE}
+---
+title: "A test project: Aneuploidy in TCGA-BLCA"
+author: "Konrad H. Stopsack <stopsack@mskcc.org>"
+date: "`r format(Sys.time(), '%b %d, %Y %X')`"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: cosmo
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+---
+```
+
+   + Change the `title:` and `author:` fields. 
+   + The date will automatically be updated when compiling the document. 
+   + Note that this type of code, "YAML," is sensitive to exact identation. Every indentation is done by exactly two spaces.
+
+(@) **Load `khsmisc` library**
+    
+    Click *Insert* > *R* in the toolbar. Write into the new piece of code ("chunk"):
+
+```r
+library(khsmisc)
+```
+
+(@) **Knit the RMarkdown a first time**
+
+    You are ready to compile the RMarkdown using the *Knit* button. An HTML document should open that has nothing but a title and the startup messages of `khsmisc` about all the packages it loads. If an an error message is shown instead, perhaps `khsmisc` was not installed properly? 
+    
+    Learn more about the syntax of RMarkdown in the [RStudio cheatsheets](http://www.rstudio.com/resources/cheatsheets/).
+
+
+```{r quietload, include = FALSE, message = FALSE}
+library(khsmisc)
+```
+
+## Data handling
+
+### Load the TCGA `BLCA` dataset
+
+Participant and tumor data from the Cancer Genome Atlas Bladder Cancer "cohort" (`BLCA`) will be used in their published 2017 version. Insert a new R chunk into the markdown (toolbar: *Insert* > *R*), and add code for reading a tab-separated file ("TSV"). The code retrieves the file `data_clinical_patient.txt`, which can be downloaded as part of the [cBioPortal TCGA-BLCA tarball (276 MB)](http://download.cbioportal.org/blca_tcga_pub_2017.tar.gz). A copy of just the "clinical" dataset is available in the `extdata` directory of the khsmisc package. The first four lines of the TSV file are skipped because they contain meta-data.
+     
+```{r}
+clinical <- read_tsv(file = system.file("extdata", "data_clinical_patient.txt", 
+                                        package = "khsmisc", mustWork = TRUE),
+                     skip = 4)
+```
+
+An inventory of the dataset:
+
+```{r}
+varlist(clinical) %>%
+  print(n = 15)  # show the first 15 lines of output
+```
+
+Select and rename variables of interest:
+
+```{r}
+clinical <- clinical %>%
+  select(id         = PATIENT_ID, 
+         sex        = SEX,
+         race       = RACE,
+         ethnicity  = ETHNICITY,
+         height     = HEIGHT,
+         weight     = WEIGHT,
+         smoke      = TOBACCO_SMOKING_HISTORY_INDICATOR,
+         agedx      = AGE, 
+         dxyear     = INITIAL_PATHOLOGIC_DX_YEAR,
+         c_tstage   = CLIN_T_STAGE,
+         p_stage    = AJCC_PATHOLOGIC_TUMOR_STAGE,
+         p_tstage   = AJCC_TUMOR_PATHOLOGIC_PT, 
+         p_nstage   = AJCC_NODES_PATHOLOGIC_PN,
+         mstage     = AJCC_METASTASIS_PATHOLOGIC_PM,
+         grade      = GRADE,
+         histology  = HISTOLOGICAL_SUBTYPE,
+         os_status  = OS_STATUS, 
+         os_mos     = OS_MONTHS, 
+         dfs_status = DFS_STATUS,
+         dfs_mos    = DFS_MONTHS)
+```
+
+### Load Taylor *et al.* aneuploidy calls
+
+Additional exposure data on tumors of the same study participants comes in the form of derived tumor aneuploidy scores as per Taylor, ..., Meyerson ([Cancer Cell 2018;33:676–689](https://doi.org/10.1016/j.ccell.2018.03.007)).
+
+    
+Load the Excel file provided as their [Supplementary Table 2 via a HTTPS URL](https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/1bed73fe-bc7e-438a-a632-ddc92d466773/mmc2.xlsx"), show dataset inventory, and select/rename variables:
+    
+```{r}
+# --Workaround: read_xlsx() is currently not supporting reading URLs directly--
+# Generate temporary path
+temporary_path <- tempfile(fileext = ".xlsx")
+# Download Taylor suppl. table 2 to that temporary path
+download.file(url = "https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/1bed73fe-bc7e-438a-a632-ddc92d466773/mmc2.xlsx", 
+              destfile = temporary_path)
+# Print temporary file location
+print(paste("Taylor et al. suppl. table 2 is temporarily available locally at",
+      temporary_path))
+# Read Excel file from temporary path:
+taylor <- read_xlsx(path = temporary_path, 
+                    skip = 1)  # skip the first line
+# --end workaround--
+
+varlist(taylor) %>%
+  print(n = 20)
+
+taylor <- taylor %>%
+  select(id         = Sample,
+         ascore     = `AneuploidyScore(AS)`,
+         ascore_del = AS_del,
+         ascore_amp = AS_amp,
+         doubling   = Genome_doublings,
+         purity     = Purity)
+```
+
+
+### Merging datasets
+
+Left-join the Taylor *et al.* aneuploidy scores to the clinical data, *i.e.*, keep all observations from `clinical` and those that match from `taylor`. Because IDs in `taylor` are tumor IDs, they contain an extra suffix that we need to remove before merging. We also need to check that this procedure did not introduce duplicates.
+    
+```{r}
+taylor <- taylor %>%
+  mutate(id = str_sub(string = id, start = 1, end = -4))
+
+combined <- clinical %>%
+  left_join(taylor, by = "id")
+
+sum(duplicated(combined$id))  # Check for duplicates. Should return 0.
+```
+   
+
+### Recoding variables
+
+Consistently code categorical variables as a `factor` and continuous variables as `numeric`:
+
+```{r}
+combined <- combined %>%
+  mutate_at(.vars = vars(sex, race, ethnicity, smoke,
+                         c_tstage, p_stage, p_tstage, p_nstage, mstage, 
+                         grade, histology, 
+                         os_status, dfs_status),
+            .funs = factor) %>%
+  mutate_at(.vars = vars(height, weight, agedx, dxyear, os_mos, dfs_mos),
+            .funs = as.numeric)
+```
+
+The warning messages are expected, as some numeric variables contain non-numeric values.
+
+
+Next, recode various labels of missing data in categorical variables to a consistent missing type, using `fct_collapse`:
+
+```{r}
+# Tabulate some examples
+combined %>% select(race, dfs_status, histology) %>%
+  map(.f = table, useNA = "always")  # always show NA ("missing") levels
+
+# Collapse all actually missings to R's missing
+combined <- combined %>%
+  mutate_if(.predicate = is.factor, 
+            .funs = ~fct_collapse(., NULL = c("[Not Available]", 
+                                              "[Discrepancy]", 
+                                              "Indeterminate")))
+
+# Revisit the examples after recoding
+combined %>% select(race, dfs_status, histology) %>%
+  map(.f = table, useNA = "always")  # always show NA ("missing") levels
+```
+
+
+Recode event indicators to the numeric values that `survival` functions require:
+
+```{r}
+combined <- combined %>%
+  mutate(dfs_event = case_when(dfs_status == "Recurred/Progressed" ~ 1,
+                               dfs_status == "DiseaseFree"         ~ 0),
+         os_event  = case_when(os_status  == "DECEASED"            ~ 1,
+                               os_status  == "LIVING"              ~ 0))
+```
+
+
+Recode race categories to make them more readable:
+
+```{r}
+# Before:
+combined %>%
+  count(race)
+
+combined <- combined %>% 
+         # Change from all uppercase:
+  mutate(race      = factor(str_to_title(race)),
+         ethnicity = factor(str_to_title(ethnicity)),
+         # Make "Black" as short as other categories
+         race = fct_recode(race, Black = "Black Or African American"),
+         # Make "White" the reference category because of sample size
+         race = fct_relevel(race, "White"))
+
+# After:
+combined %>%
+  count(race)
+```
+
+Assign meaningful labels to the `smoke` variable, based on inspection of other smoking-related variables in the full dataset:
+
+```{r}
+combined <- combined %>%
+  mutate(smoke = factor(smoke, levels = 1:5, 
+                        labels = c("Never", "Current", 
+                                   "Former, quit >15 y", "Former, quit <15 y", 
+                                   "Former")),
+         # Combine all "formers":
+         smoke3 = fct_collapse(smoke, Former = c("Former", 
+                                                 "Former, quit >15 y", 
+                                                 "Former, quit <15 y")),
+         # Change order of levels, starting with "never" as the reference:
+         smoke3 = fct_relevel(smoke3, "Never", "Former", "Current"))
+```
+
+
+### Creating derived variables
+
+```{r}
+combined <- combined %>%
+  mutate(bmidx = weight / ((height/100)^2)) %>%
+  select(-height, -weight)
+```
+
+### Categorizing variables
+
+Category boundaries are informed by results from code to be run below.
+
+```{r}
+combined <- combined %>%
+  mutate(ascore_cat = cut(ascore, 
+                          breaks = c(0, 5, 10, 20, max(ascore, na.rm = TRUE)), 
+                          include.lowest = TRUE))
+```
+
+### Labeling variables
+
+```{r}
+combined <- combined %>%
+  set_variable_labels(sex        = "Sex",
+                      race       = "Self-reported race",
+                      ethnicity  = "Ethnicity",
+                      smoke      = "Smoking status at diangosis",
+                      smoke3     = "Smoking status at diagnosis",
+                      agedx      = "Age at diagnosis",
+                      dxyear     = "Calendar year of initial diagnosis",
+                      bmidx      = "Body mass index at diagnosis",
+                      p_stage    = "AJCC pathologic stage",
+                      mstage     = "Metastases at diagnosis",
+                      grade      = "Histologic grade",
+                      histology  = "Histologic subtype",
+                      ascore     = "Aneuploidy score",
+                      ascore_cat = "Aneuploidy score",
+                      ascore_del = "Aneuploidy score: deletions",
+                      ascore_amp = "Aneuploidy score: amplifications",
+                      doubling   = "Whole genome doubling",
+                      purity     = "DNA tumor purity by ABSOLUTE")
+```
+
+
+## Data description
+
+### Contingency tables
+
+```{r}
+combined %>%
+  select(smoke3, race) %>%
+  mytab() %>%  # make contingency table
+  mygt()  # format
+```
+
+### Table of distributional statistics
+
+Exposure and confounders
+
+```{r}
+combined %>%
+  select(race, agedx, bmidx, dxyear, purity) %>%
+  tsummary(by = "race") %>%  # make descriptive table
+  select(-mean, -sd, -sum) %>%  # remove undesired statistics
+  mutate_if(.predicate = is.numeric, .funs = round, digits = 2) %>%  # round
+  mygt()  # format
+```
+
+Outcome
+
+```{r}
+combined %>%
+  select(starts_with("ascore")) %>%
+  tsummary() %>%  # make descriptive table
+  select(-mean, -sd, -sum) %>%  # remove undesired statistics
+  mygt()  # format
+```
+
+
+### Plots of the outcome
+
+```{r}
+combined %>%
+  ggplot(mapping = aes(x = ascore)) +
+  geom_histogram(binwidth = 2) +  # each bar = 2 units of "ascore"
+  theme_minimal_grid()
+```
+
+Is the outcome reasonably normally distributed? Show a quantile--quantile plot before and after log transformation.
+
+```{r}
+combined %>% 
+  ggplot(aes(sample = ascore)) + 
+  stat_qq() + stat_qq_line() +
+  labs(y = "Sample, untransformed") +
+  theme_minimal_grid()
+
+combined %>% ggplot(aes(sample = log(ascore + 0.1))) + 
+  stat_qq() + stat_qq_line() +
+  labs(y = "Sample, log(x + 0.1)-transformed") +
+  theme_minimal_grid()
+```
+
+
+## Main results
+
+### Study population: Applying and documenting exclusions
+
+Because the main exposure is self-reported race, we will have to exclude participants with missing race from the analytical population.
+
+```{r}
+# All participants:
+nrow(combined)
+
+# Exclude with missing race:
+analytical <- combined %>%
+  filter(!is.na(race)) %>%
+  copy_labels_from(from = combined)
+
+# Analytical population:
+nrow(analytical)
+```
+
+Note that the dataset contains participants with tumors that were metastatic at diagnosis (M1):
+```{r}
+analytical %>%
+  count(mstage)
+```
+
+In the analytical dataset, does everyone have an aneuploidy score?
+
+```{r}
+analytical %>%
+  mutate(missing_ascore = is.na(ascore)) %>%
+  select(missing_ascore, race) %>%
+  mytab() %>%
+  mygt()
+```
+
+
+### Table 1: Exposure-stratified characteristics of the study population
+
+```{r}
+analytical %>%
+  select(race, ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
+         p_stage, mstage, grade, histology, purity, doubling) %>%
+  table1(by = "race", digits = list(agedx  = c(1, 1), 
+                                    dxyear = c(0, 0)))
+```
+
+
+### Figure 1: Box-whiskers/dot plots
+
+```{r}
+analytical %>%
+  stripplot(x = "race", y = "ascore")
+```
+
+
+### Table 2: Stratified and regression analyses
+
+```{r}
+# Part 1: Stratified
+analytical %>%
+  select(ascore_cat, race) %>%
+  table1(by = "race")
+
+# Function to run linear regression model and return "tidy" results
+run_lm <- function(data, outcome, exposure, covariates = "") {
+  # Fit linear model
+  fit <- lm(formula = as.formula(paste(outcome, "~", exposure, covariates)),
+            data = data)
+  
+  fit %>%
+    # Obtain coefficients and confidence intervals
+    tidy(conf.int = TRUE) %>%
+    # restrict to exposure variable only
+    filter(str_detect(string = term, pattern = paste0("^", exposure))) %>%
+    # Round estimates
+    mutate_at(.vars = vars(estimate, conf.low, conf.high),
+              .funs = ~trimws(format(round(., digits = 1), nsmall = 1))) %>%
+    # Concatenate point estimate and confidence interval into one string
+    transmute(exp = str_remove(string = term, pattern = exposure),
+              res = paste0(estimate, " (", conf.low, " to ", conf.high, ")")) %>%
+    # Add reference category in front
+    bind_rows(tibble(exp = data %>% 
+                       select(exp = one_of(exposure)) %>% 
+                       pull(exp) %>% 
+                       levels(.) %>%
+                       pluck(1), 
+                     res = "0 (reference)"), 
+              .) %>%
+    # Make result table horizontal
+    pivot_wider(names_from = exp, values_from = res) %>%
+    # Add a column with the numnber of observations in model
+    # to detect inadvertent exclusions due to missing data
+    mutate(Observations = fit %>% glance() %>% pull(nobs))
+}
+
+# Run different outcome regression models:
+  # (1) Define covariate sets
+tribble(~Model,                         ~confounders,
+       "Model (1) Age/sex-adjusted",    "+ agedx + sex",
+       "Model (2) Model 1 + smoking",   "+ agedx + sex + smoke3",
+       "Model (3) Model 2 + histology", "+ agedx + sex + smoke3 + histology",
+       "Model (4) Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade") %>%
+  # (2) Execute run_lm() for each row of the above tibble
+  mutate(res = map(.x = confounders,
+                   .f = run_lm,
+                   # data, outcome, and exposure are the same each time:
+                   data = analytical, outcome = "ascore", exposure = "race")) %>%
+  # (3) Unnest the list column with the results
+  unnest(cols = res) %>%
+  # (4) Remove the cryptic and duplicative "confounders" column
+  select(-confounders) %>%
+  # Format the table
+  mygt()
+```
+
+
+### Table 3: Effect modification
+
+Models are adjusted for age (and sex, unless sex is an effect modifier).
+
+```{r}
+tribble(
+  ~effectm,    ~Stratum,        ~subset,                                                     ~confounders,
+  "Sex",       "Female",        analytical %>% filter(sex == "Female"),              "+ agedx",
+  "Sex",       "Male",          analytical %>% filter(sex == "Male"),                "+ agedx",
+  "Histology", "Papillary",     analytical %>% filter(histology == "Papillary"),     "+ agedx + sex",
+  "Histology", "Non-Papillary", analytical %>% filter(histology == "Non-Papillary"), "+ agedx + sex") %>%
+  mutate(res = map2(.x = subset, .y = confounders,
+                    .f = run_lm,
+                    outcome = "ascore", exposure = "race")) %>%
+  unnest(cols = res) %>%
+  group_by(effectm) %>%
+  select(-subset, -confounders) %>%
+  mygt()
+````
+
+
+### Table 4: Sensitivity analyses
+
+...
