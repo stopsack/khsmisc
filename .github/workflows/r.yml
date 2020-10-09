@@ -13,13 +13,25 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # set to run 3AM each Wednesday
+    - cron: "0 4 * * 3"
+
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
-        r-version: [3.5, 3.6]
+        config:
+          # comment out lines if you do not want to build on certain platforms
+          - { os: windows-latest, r: "release" }
+          - { os: macOS-latest, r: "release", pkgdown: "true" }
+          #- { os: macOS-latest, r: "devel" }
+          - { os: ubuntu-latest, r: "release" }
+
 
     steps:
       - uses: actions/checkout@v2
