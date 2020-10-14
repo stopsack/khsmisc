@@ -54,7 +54,8 @@ will be made available:
     for event counts, person-time, incidence rates, and cumulative
     incidence.
   - **Functions for figures:** `stripplot` for box/whiskers plots
-    overlaid the a dot plot of all data points
+    overlaid the a dot plot of all data points; `corrmat` for
+    correlation matrices
 
 # An analysis example: TCGA `BLCA`
 
