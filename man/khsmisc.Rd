@@ -67,6 +67,8 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 
 
 \code{\link[khsmisc]{stripplot}}: Box-whiskers/dot plot
+
+\code{\link[khsmisc]{corrmat}}: Correlation matrix
 }
 
 \seealso{

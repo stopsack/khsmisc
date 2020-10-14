@@ -113,3 +113,137 @@ stripplot <- function(data, x, y,
   else
     return(myplot)
 }
+
+
+#' Correlation plot
+#'
+#' @description Performs pairwise Pearson or Spearman correlations of all
+#'   numeric variables that exist in the provided data frame.
+#'
+#' @param data Required: Data frame. Only numeric variables will be used;
+#'   variables of other types will silently be dropped. To include
+#'   categorical variables, coerce factors to numeric first. See examples.
+#' @param method Correlation method. Defaults to \code{"pearson"}.
+#' @param missing How \code{\link[stats]{cor}} handles
+#'   missing values. Defaults to a restriction to complete
+#'   observations with all variables. See help for
+#'   \code{\link[stats]{cor}} for alternatives.
+#' @param reorder Perform hierarchical clustering in the correlation matrix?
+#'   This will order variables by their correlation patterns with other variables.
+#'   If turned off to \code{FALSE}, the order of variables in the dataset will be retained.
+#'   Defaults to \code{TRUE}.
+#' @param digits Decimal digits for displayed correlation coefficients. Defaults to \code{2}.
+#' @param legendpos (x, y) coordinates of color legend. Use
+#'   \code{legendpos = "none"} to turn off the legend.
+#'   Defaults to \code{c(0.15, 0.35)}.
+#' @param cutpoints Correlation coefficient values that have a distinct
+#'   color. Defaults to \code{c(-1, 0, 1)}.
+#' @param colors Colors for the \code{cutpoints}. Defaults to blue (for negative),
+#'   white (no correlation), and yellow (positive correlation) on the
+#'   \code{cividis} color scale.
+#'
+#' @return ggplot. Can be modified with the usual ggplot commands, such as
+#'   \code{\link[ggplot2]{theme}}.
+#' @export
+#'
+#' @seealso \url{http://www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}
+#' @examples
+#' data(mtcars)
+#'
+#' mtcars %>%
+#'   select(mpg, cyl, hp, wt, qsec) %>%
+#'   corrmat()
+#'
+#' # If "cyl" was a character, it would be excluded:
+#' mtcars %>%
+#'   mutate(cyl_chr = as.character(cyl)) %>%
+#'   select(mpg, cyl_chr, hp, wt, qsec) %>%
+#'   corrmat()
+#'
+#' # To retain the character variable "cyl",
+#' # convert to factor and then make numeric:
+#' mtcars %>%
+#'   mutate(cyl_chr = as.character(cyl),
+#'          cyl_chr = as.numeric(factor(cyl_chr))) %>%
+#'   select(mpg, cyl_chr, hp, wt, qsec) %>%
+#'   corrmat()
+corrmat <- function(
+  data,
+  method    = "pearson",
+  missing   = "pairwise.complete.obs",
+  reorder   = TRUE,
+  digits    = 2,
+  legendpos = c(0.15, 0.35),
+  cutpoints = c(-1, 0, 1),
+  colors    = c(viridis_pal(option = "cividis")(10)[1],     # for lowest value of scale
+                "white",                                    # middle
+                viridis_pal(option = "cividis")(10)[8])) {  # highest
+
+  # matrix reorder by hierarchical clustering (optional)
+  reorder_cormat <- function(cormat) {
+    # Use correlation between variables as distance
+    dd <- stats::as.dist((1 - cormat) / 2)
+    hc <- stats::hclust(dd)
+    cormat <- cormat[hc$order, hc$order]
+  }
+
+  # Get upper triangle of the correlation matrix
+  get_upper_triangle <- function(cormat) {
+    cormat[base::lower.tri(cormat)] <- NA
+    return(cormat)
+  }
+
+  mymat <- data %>%
+    dplyr::select_if(is.numeric) %>%
+    stats::cor(method = method, use = missing)
+  if(reorder == TRUE)
+    mymat <- mymat %>% reorder_cormat()
+  mymat %>%
+    get_upper_triangle() %>%
+    tibble::as_tibble(rownames = "var1") %>%
+    tidyr::pivot_longer(cols = -.data$var1, names_to = "var2", values_to = "value",
+                        values_drop_na = TRUE) %>%
+    dplyr::mutate_at(.vars = vars(.data$var1, .data$var2),
+                     .funs = ~forcats::fct_inorder(factor(.))) %>%
+    dplyr::group_by(.data$var1) %>%
+    dplyr::mutate(ylabel = dplyr::if_else(dplyr::row_number() == 1,
+                                          true = as.character(.data$var1), false = "")) %>%
+    dplyr::ungroup() %>%
+    ggplot2::ggplot(mapping = aes(.data$var2, .data$var1, fill = .data$value)) +
+    ggplot2::geom_tile(color = "white") +
+    ggplot2::scale_fill_gradient2(low      = colors[1],
+                         high     = colors[3],
+                         mid      = colors[2],
+                         midpoint = cutpoints[2],
+                         limit    = c(cutpoints[1], cutpoints[3]),
+                         space    = "Lab",
+                         name     = stringr::str_to_title(paste(method,
+                                                                "correlation", sep = "\n"))) +
+    ggplot2::coord_fixed(clip = "off") +
+    ggplot2::geom_text(aes(x = .data$var2, y = .data$var1,
+                           label = format(round(.data$value, digits = digits),
+                                          nsmall = digits)),
+                       color = "black", size = 4) +
+    ggplot2::geom_text(mapping = aes(x = as.numeric(.data$var2) - 0.7,
+                                     y = as.numeric(.data$var1),
+                                     label = .data$ylabel),
+              hjust = 1) +
+    ggplot2::scale_x_discrete(expand = c(0, 0)) +
+    ggplot2::scale_y_discrete(expand = c(0, 0)) +
+    ggplot2::theme(axis.title.x     = element_blank(),
+                   axis.title.y     = element_blank(),
+                   axis.text.x      = element_text(angle = 45, vjust = 1,
+                                                   size = 12, hjust = 1),
+                   axis.text.y      = element_blank(),
+                   panel.grid.major = element_blank(),
+                   panel.border     = element_blank(),
+                   panel.background = element_blank(),
+                   axis.line        = element_blank(),
+                   axis.ticks       = element_blank(),
+                   legend.position  = legendpos,
+                   plot.margin      = margin(t = 0, r = 0, b = 0, l = 2, unit = "cm"),
+                   legend.direction = "vertical",
+                   legend.justification = c(1, 0)) +
+    ggplot2::guides(fill = ggplot2::guide_colorbar(barwidth = 1, barheight = 5,
+                                                   title.position = "top", title.hjust = 0.5))
+}

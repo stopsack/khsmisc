@@ -53,6 +53,8 @@
 #'
 #' \code{\link[khsmisc]{stripplot}}: Box-whiskers/dot plot
 #'
+#' \code{\link[khsmisc]{corrmat}}: Correlation matrix
+#'
 #' @docType package
 #' @name khsmisc
 #' @seealso \url{https://github.com/stopsack/khsmisc}
