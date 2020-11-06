@@ -53,15 +53,14 @@ Tibble:
 \item \code{Events} Count of events.
 \item \code{Person-time} Sum of person-time.
 \item \code{Rate per person-time} Incidence rate.
-\item \code{Risk (\%)} Cumulative incidence.
-at time \code{risk_time} or, if not provided, at the end of follow-up,
+\item \code{Risk (\%)} Cumulative incidence at time
+\code{risk_time} or, if not provided, at the end of follow-up,
 with log-log 95\% confidence intervals.
 }
 }
 \description{
-Summary table of overall or stratified incidence rates and cumulative indicence.
-To obtain stratified results, group the tibble before calling \code{rates}.
-See examples.
+Summary table of overall or stratified incidence rates
+and cumulative incidence.
 }
 \examples{
 data(ovarian)  # from survival package

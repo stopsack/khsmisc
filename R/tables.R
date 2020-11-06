@@ -395,9 +395,8 @@ table1 <- function(data,
 #' @importFrom stats qnorm
 #' @importFrom utils tail
 #'
-#' @description Summary table of overall or stratified incidence rates and cumulative indicence.
-#'   To obtain stratified results, group the tibble before calling \code{rates}.
-#'   See examples.
+#' @description Summary table of overall or stratified incidence rates
+#'   and cumulative incidence.
 #'
 #' @param data Data frame/tibble. If grouped using \code{\link[dplyr]{group_by}},
 #'   then stratified results will be returned.
@@ -425,8 +424,8 @@ table1 <- function(data,
 #'   *  \code{Events} Count of events.
 #'   *  \code{Person-time} Sum of person-time.
 #'   *  \code{Rate per person-time} Incidence rate.
-#'   *  \code{Risk (%)} Cumulative incidence.
-#'      at time \code{risk_time} or, if not provided, at the end of follow-up,
+#'   *  \code{Risk (%)} Cumulative incidence at time
+#'      \code{risk_time} or, if not provided, at the end of follow-up,
 #'      with log-log 95% confidence intervals.
 #'
 #' @export
