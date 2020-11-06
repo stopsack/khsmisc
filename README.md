@@ -59,9 +59,5 @@ will be made available:
 
 # An analysis example: TCGA `BLCA`
 
-To see the vignette on sample analysis workflow using the khsmisc
-package and TCGA `BLCA`, run in R:
-
-``` r
-vignette("khsmisc")
-```
+  - The [“Get Started”](articles/khsmisc.html) vignette described an
+    sample analysis workflow using the khsmisc package and TCGA `BLCA`.

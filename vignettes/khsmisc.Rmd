@@ -322,8 +322,7 @@ combined <- combined %>%
 
 ```{r}
 combined %>%
-  select(smoke3, race) %>%
-  mytab() %>%  # make contingency table
+  tabulate_rowcol(smoke3, race) %>%  # make contingency table
   mygt()  # format
 ```
 
@@ -333,8 +332,7 @@ Exposure and confounders
 
 ```{r}
 combined %>%
-  select(race, agedx, bmidx, dxyear, purity) %>%
-  tsummary(by = "race") %>%  # make descriptive table
+  tsummary(race, agedx, bmidx, dxyear, purity, by = race) %>%  # make descriptive table
   select(-mean, -sd, -sum) %>%  # remove undesired statistics
   mutate_if(.predicate = is.numeric, .funs = round, digits = 2) %>%  # round
   mygt()  # format
@@ -344,8 +342,7 @@ Outcome
 
 ```{r}
 combined %>%
-  select(starts_with("ascore")) %>%
-  tsummary() %>%  # make descriptive table
+  tsummary(starts_with("ascore")) %>%  # make descriptive table
   select(-mean, -sd, -sum) %>%  # remove undesired statistics
   mygt()  # format
 ```
@@ -406,8 +403,7 @@ In the analytical dataset, does everyone have an aneuploidy score?
 ```{r}
 analytical %>%
   mutate(missing_ascore = is.na(ascore)) %>%
-  select(missing_ascore, race) %>%
-  mytab() %>%
+  tabulate_rowcol(missing_ascore, race) %>%
   mygt()
 ```
 
@@ -416,10 +412,10 @@ analytical %>%
 
 ```{r}
 analytical %>%
-  select(race, ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
-         p_stage, mstage, grade, histology, purity, doubling) %>%
-  table1(by = "race", digits = list(agedx  = c(1, 1), 
-                                    dxyear = c(0, 0)))
+  table1(ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
+         p_stage, mstage, grade, histology, purity, doubling,
+         by = race, digits = list(agedx  = c(1, 1), 
+                                  dxyear = c(0, 0)))
 ```
 
 
@@ -427,7 +423,7 @@ analytical %>%
 
 ```{r}
 analytical %>%
-  stripplot(x = "race", y = "ascore")
+  stripplot(x = race, y = ascore)
 ```
 
 
@@ -436,8 +432,7 @@ analytical %>%
 ```{r}
 # Part 1: Stratified
 analytical %>%
-  select(ascore_cat, race) %>%
-  table1(by = "race")
+  table1(ascore_cat, by = "race")
 
 # Function to run linear regression model and return "tidy" results
 run_lm <- function(data, outcome, exposure, covariates = "") {
