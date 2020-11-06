@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Contingency Table — mytab • khsmisc</title>
+<title>Contingency Table (Deprecated, Use tabulate_rowcol Instead) — mytab • khsmisc</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="Contingency Table — mytab" />
+<meta property="og:title" content="Contingency Table (Deprecated, Use tabulate_rowcol Instead) — mytab" />
 <meta property="og:description" content="Tabulates X times Y. Using a data frame (tibble)
 as input, the first and second columns of the data will be used
-as rows and columns, respectively." />
+as rows and columns, respectively.
+This function has been deprecated. Use
+tabulate_rowcol instead." />
 
 
 
@@ -74,7 +76,7 @@ as rows and columns, respectively." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -92,6 +94,9 @@ as rows and columns, respectively." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -108,7 +113,7 @@ as rows and columns, respectively." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Contingency Table</h1>
+    <h1>Contingency Table (Deprecated, Use tabulate_rowcol Instead)</h1>
     
     <div class="hidden name"><code>mytab.Rd</code></div>
     </div>
@@ -117,6 +122,8 @@ as rows and columns, respectively." />
     <p>Tabulates X times Y. Using a data frame (tibble)
 as input, the first and second columns of the data will be used
 as rows and columns, respectively.</p>
+<p>This function has been deprecated. Use
+<code><a href='tabulate_rowcol.html'>tabulate_rowcol</a></code> instead.</p>
     </div>
 
     <pre class="usage"><span class='fu'>mytab</span><span class='op'>(</span><span class='va'>data</span>, maxlevels <span class='op'>=</span> <span class='fl'>30</span>, rowsums <span class='op'>=</span> <span class='cn'>TRUE</span>, colsums <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>

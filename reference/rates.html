@@ -74,7 +74,7 @@ See examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -91,6 +91,9 @@ See examples." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -123,6 +126,8 @@ See examples.</p>
   <span class='va'>data</span>,
   <span class='va'>time</span>,
   <span class='va'>event</span>,
+  <span class='va'>by</span>,
+  risk_time <span class='op'>=</span> <span class='cn'>NULL</span>,
   conversion <span class='op'>=</span> <span class='fl'>1</span>,
   rate_digits <span class='op'>=</span> <span class='fl'>1</span>,
   risk_digits <span class='op'>=</span> <span class='fl'>1</span>,
@@ -146,23 +151,37 @@ then stratified results will be returned.</p></td>
       <td><p>Variable indicating events (event = 1, censor = 0).</p></td>
     </tr>
     <tr>
+      <th>by</th>
+      <td><p>Optional. Variable to stratify results by. Defaults
+to how the dataset is grouped, i.e., if it is grouped already,
+results will be shown by the stratification variable.</p></td>
+    </tr>
+    <tr>
+      <th>risk_time</th>
+      <td><p>Optional. Time point at which cumulative incidence
+(risk) should be calculated. Provide in original units of follow-up
+time, i.e., before potential division by the <code>conversion</code> factor.
+If not provided, defaults to the end of follow-up, which may not
+be the best interpretable timepoint.</p></td>
+    </tr>
+    <tr>
       <th>conversion</th>
-      <td><p>Divisor for follow-up time. Defaults to 1.
+      <td><p>Optional. Divisor for follow-up time. Defaults to 1.
 Set <code>conversion = 12</code> if <code>time</code> is in months and
 rates per person-years are desired.</p></td>
     </tr>
     <tr>
       <th>rate_digits</th>
-      <td><p>Decimal digits to display for rates. Defaults to 1.</p></td>
+      <td><p>Optional. Decimal digits to display for rates. Defaults to 1.</p></td>
     </tr>
     <tr>
       <th>risk_digits</th>
-      <td><p>Decimal digits to display for
+      <td><p>Optional. Decimal digits to display for
 cumulative incidence (risk). Defaults to 1.</p></td>
     </tr>
     <tr>
       <th>factor</th>
-      <td><p>Person-time units for the denominator. Defaults to <code>1000</code>,
+      <td><p>Optional. Person-time units for the denominator. Defaults to <code>1000</code>,
 e.g., for rates per 1000 person-years of follow-up.</p></td>
     </tr>
     </table>
@@ -170,12 +189,13 @@ e.g., for rates per 1000 person-years of follow-up.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Tibble:</p><ul>
-<li><p><code>n</code> Count of participants</p></li>
-<li><p><code>Events</code> Count of events</p></li>
-<li><p><code>Person-time</code> Sum of person-time</p></li>
-<li><p><code>Rate per person-time</code> Incidence rate</p></li>
-<li><p><code>Risk (Kaplan-Meier, %)</code> Cumulative incidence
-at the end of follow-up, with log-log 95% confidence intervals</p></li>
+<li><p><code>n</code> Count of participants.</p></li>
+<li><p><code>Events</code> Count of events.</p></li>
+<li><p><code>Person-time</code> Sum of person-time.</p></li>
+<li><p><code>Rate per person-time</code> Incidence rate.</p></li>
+<li><p><code>Risk (%)</code> Cumulative incidence.
+at time <code>risk_time</code> or, if not provided, at the end of follow-up,
+with log-log 95% confidence intervals.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -190,27 +210,33 @@ approximation for variance of incidence rates)</p>
 
 <span class='co'># Unstratified</span>
 <span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='st'>"futime"</span>, event <span class='op'>=</span> <span class='st'>"fustat"</span><span class='op'>)</span>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 5</span><span>
-#&gt;       n Events `Person-time` `Rate per person-time` `Risk (Kaplan-Meier, %)`
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   
-#&gt; </span><span style='color: #555555;'>1</span><span>    26     12         </span><span style='text-decoration: underline;'>15</span><span>588 0.8 (0.4-1.4)          50.3 (32.1-71.8)        </div><div class='input'>
-<span class='co'># Convert time to person-years</span>
+#&gt;       n Events `Person-time` `Rate per person-time` `Risk (%)`      
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           
+#&gt; </span><span style='color: #555555;'>1</span><span>    26     12         </span><span style='text-decoration: underline;'>15</span><span>588 0.8 (0.4-1.4)          50.3 (32.1-71.8)</div><div class='input'>
+<span class='co'># Show risk (cumulative incidence) at 25 years,</span>
+<span class='co'># show follow-up time to person-years</span>
 <span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='st'>"futime"</span>, event <span class='op'>=</span> <span class='st'>"fustat"</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span>,
+        risk_time <span class='op'>=</span> <span class='fl'>25</span> <span class='op'>*</span> <span class='fl'>12</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 5</span><span>
-#&gt;       n Events `Person-time` `Rate per person-time` `Risk (Kaplan-Meier, %)`
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   
-#&gt; </span><span style='color: #555555;'>1</span><span>    26     12          </span><span style='text-decoration: underline;'>1</span><span>299 9.2 (5.2-16.3)         50.3 (32.1-71.8)        </div><div class='input'>
-<span class='co'># Stratified by "ecog.ps":</span>
+#&gt;       n Events `Person-time` `Rate per person-time` `Risk (%)`     
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          
+#&gt; </span><span style='color: #555555;'>1</span><span>    26     12          </span><span style='text-decoration: underline;'>1</span><span>299 9.2 (5.2-16.3)         15.4 (6.1-36.0)</div><div class='input'>
+<span class='co'># Stratified by "ecog.ps" and "resid.ds":</span>
 <span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>ecog.ps</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='st'>"futime"</span>, event <span class='op'>=</span> <span class='st'>"fustat"</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 6</span><span>
-#&gt;   ecog.ps     n Events `Person-time` `Rate per person-tim… `Risk (Kaplan-Meier,…
-#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                
-#&gt; </span><span style='color: #555555;'>1</span><span>       1    14      5           694 7.2 (3.0-17.3)        37.5 (17.4-68.5)     
-#&gt; </span><span style='color: #555555;'>2</span><span>       2    12      7           605 11.6 (5.5-24.3)       62.5 (36.2-88.3)     </div></span></pre>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span>,
+        by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ecog.ps</span>, <span class='va'>resid.ds</span><span class='op'>)</span>,
+        risk_time <span class='op'>=</span> <span class='fl'>25</span> <span class='op'>*</span> <span class='fl'>12</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 7</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   resid.ds [2]</span><span>
+#&gt;   resid.ds ecog.ps     n Events `Person-time` `Rate per person-ti… `Risk (%)`   
+#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span>        1       1     5      0           347 0.0 (0.0-NaN)        0.0 (0.0-0.0)
+#&gt; </span><span style='color: #555555;'>2</span><span>        1       2     6      3           340 8.8 (2.8-27.3)       0.0 (0.0-0.0)
+#&gt; </span><span style='color: #555555;'>3</span><span>        2       1     9      5           348 14.4 (6.0-34.5)      22.2 (6.1-63…
+#&gt; </span><span style='color: #555555;'>4</span><span>        2       2     6      4           264 15.1 (5.7-40.3)      33.3 (9.6-80…</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
