@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `khsmisc` package serves two purposes: (a) loading a set of core packages for epidemiology research and (b) providing a set of custom functions, which also build on the core packages.
+The khsmisc package serves two purposes: (a) loading a set of core packages for epidemiology research and (b) providing a set of custom functions, which also build on the core packages.
 
 ## Installation
 
-The `khsmisc` package can be installed from [GitHub](https://github.com/stopsack/khsmisc). A CRAN submission is not planned.
+The khsmisc package can be installed from [GitHub](https://github.com/stopsack/khsmisc). A CRAN submission is not planned.
 
 ```r
 # if "remotes" library is missing, install it first:
@@ -47,15 +47,15 @@ variable labels via `labelled`; reading Excel files via `readxl`.
 
 ## Additional Functions for Epidemiology Research
 
-* **Data handling:** `varlist` for variable list/dataset inventory, Stata style; `write_csv_safely`, `save_safely`, and `pdf_safely` to export CSV files, R objects, or PDFs without overwriting existing files.
-* **Functions for vectors:** `scale_to_range` to scale a vector to a given range; `Mode` to obtain the most common value; `roundp` to round and format *p*-values
-* **Functions for descriptive tables:** `mytab` for categorical variables; `tsummary` for continuous variables; `mygt` for formatting and printing any tibble as a 'gt' table; `table1` for formatted stratified descriptive tables using `gtsummary`; `rates` for event counts, person-time, incidence rates, and cumulative incidence.
-* **Functions for figures:** `stripplot` for box/whiskers plots overlaid the a dot plot of all data points; `corrmat` for correlation matrices
+* **Data handling:** `varlist()` for variable list/dataset inventory, Stata style; `write_csv_safely()`, `save_safely()`, and `pdf_safely()` to export CSV files, R objects, or PDFs without overwriting existing files.
+* **Functions for vectors:** `scale_to_range()` to scale a vector to a given range; `Mode()` to obtain the most common value; `roundp()` to round and format *p*-values
+* **Functions for descriptive tables:** `tabulate_rowcol()` for categorical variables (replaces `mytab()`); `tsummary()` for continuous variables; `mygt()` for formatting and printing any tibble as a 'gt' table; `table1()` for formatted stratified descriptive tables using `gtsummary`; `rates()` for event counts, person-time, incidence rates, and cumulative incidence.
+* **Functions for figures:** `stripplot()` for box/whiskers plots overlaid with a dot plot of all data points; `corrmat()` for correlation matrices
 
 
 # An analysis example: TCGA `BLCA`
 
-To see the vignette on sample analysis workflow using `khsmisc` and TCGA `BLCA`, run in R:
+To see the vignette on sample analysis workflow using the khsmisc package and TCGA `BLCA`, run in R:
 
 ```r
 vignette("khsmisc")

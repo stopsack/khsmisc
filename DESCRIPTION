@@ -1,6 +1,6 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",
@@ -16,7 +16,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
-    rlang,
+    rlang (>= 0.4.0),
     magrittr,
     stats,
     utils

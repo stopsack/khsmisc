@@ -60,8 +60,7 @@ Mode <- function(x) {
 #'
 #' @examples
 #' roundp(0.1138)
-#' roundp(0.01138)
-#' roundp(0.0000138)
+#' roundp(c(0.01138, 0.0000138))
 #'
 #' # Omit equal sign
 #' roundp(0.01138, equal = FALSE)
