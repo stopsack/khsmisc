@@ -4,10 +4,14 @@
 \alias{tsummary}
 \title{Summary of All Numeric Variables in a Data Frame}
 \usage{
-tsummary(data, by = NULL, na.rm = TRUE)
+tsummary(data, ..., by = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{data}{Data frame (tibble).}
+
+\item{...}{Optional. Variables to summarize. If not provided,
+all numeric variables will be summarized. Supports tidy evaluation;
+see examples.}
 
 \item{by}{Optional. Categorical variable(s) to stratify results by.}
 
@@ -39,22 +43,19 @@ can be stratified by one or more categorical variable(s).
 \examples{
 data(mtcars)
 mtcars \%>\%
-  select(mpg, cyl, hp, am, gear, carb) \%>\%
   tsummary()
 
-# Remove certain summary statistics:
+# Select specific variables and
+# remove some summary statistics:
 mtcars \%>\%
-  select(mpg, cyl, hp, am, gear, carb) \%>\%
-  tsummary() \%>\%
+  tsummary(mpg, cyl, hp, am, gear, carb) \%>\%
   select(-mean, -sd, -sum)
 
 # Stratify by 'gear':
 mtcars \%>\%
-  select(mpg, hp, gear, carb) \%>\%
-  tsummary(by = "gear")
+  tsummary(mpg, hp, carb, by = gear)
 
 # Stratify by 'gear' and 'am':
 mtcars \%>\%
-  select(mpg, hp, gear, am, carb) \%>\%
-  tsummary(by = c("am", "gear"))
+  tsummary(mpg, hp, carb, by = c(am, gear))
 }

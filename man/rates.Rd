@@ -8,6 +8,8 @@ rates(
   data,
   time,
   event,
+  by,
+  risk_time = NULL,
   conversion = 1,
   rate_digits = 1,
   risk_digits = 1,
@@ -22,27 +24,38 @@ then stratified results will be returned.}
 
 \item{event}{Variable indicating events (event = 1, censor = 0).}
 
-\item{conversion}{Divisor for follow-up time. Defaults to 1.
+\item{by}{Optional. Variable to stratify results by. Defaults
+to how the dataset is grouped, i.e., if it is grouped already,
+results will be shown by the stratification variable.}
+
+\item{risk_time}{Optional. Time point at which cumulative incidence
+(risk) should be calculated. Provide in original units of follow-up
+time, i.e., before potential division by the \code{conversion} factor.
+If not provided, defaults to the end of follow-up, which may not
+be the best interpretable timepoint.}
+
+\item{conversion}{Optional. Divisor for follow-up time. Defaults to 1.
 Set \code{conversion = 12} if \code{time} is in months and
 rates per person-years are desired.}
 
-\item{rate_digits}{Decimal digits to display for rates. Defaults to 1.}
+\item{rate_digits}{Optional. Decimal digits to display for rates. Defaults to 1.}
 
-\item{risk_digits}{Decimal digits to display for
+\item{risk_digits}{Optional. Decimal digits to display for
 cumulative incidence (risk). Defaults to 1.}
 
-\item{factor}{Person-time units for the denominator. Defaults to \code{1000},
+\item{factor}{Optional. Person-time units for the denominator. Defaults to \code{1000},
 e.g., for rates per 1000 person-years of follow-up.}
 }
 \value{
 Tibble:
 \itemize{
-\item \code{n} Count of participants
-\item \code{Events} Count of events
-\item \code{Person-time} Sum of person-time
-\item \code{Rate per person-time} Incidence rate
-\item \code{Risk (Kaplan-Meier, \%)} Cumulative incidence
-at the end of follow-up, with log-log 95\% confidence intervals
+\item \code{n} Count of participants.
+\item \code{Events} Count of events.
+\item \code{Person-time} Sum of person-time.
+\item \code{Rate per person-time} Incidence rate.
+\item \code{Risk (\%)} Cumulative incidence.
+at time \code{risk_time} or, if not provided, at the end of follow-up,
+with log-log 95\% confidence intervals.
 }
 }
 \description{
@@ -55,16 +68,19 @@ data(ovarian)  # from survival package
 
 # Unstratified
 ovarian \%>\%
-  rates(time = "futime", event = "fustat")
+  rates(time = futime, event = fustat)
 
-# Convert time to person-years
+# Show risk (cumulative incidence) at 25 years,
+# show follow-up time to person-years
 ovarian \%>\%
-  rates(time = "futime", event = "fustat", conversion = 12)
+  rates(time = futime, event = fustat,
+        risk_time = 25 * 12, conversion = 12)
 
-# Stratified by "ecog.ps":
+# Stratified by "ecog.ps" and "resid.ds":
 ovarian \%>\%
-  group_by(ecog.ps) \%>\%
-  rates(time = "futime", event = "fustat", conversion = 12)
+  rates(time = futime, event = fustat,
+        by = c(ecog.ps, resid.ds),
+        risk_time = 25 * 12, conversion = 12)
 }
 \references{
 Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:

@@ -6,16 +6,19 @@
 \usage{
 table1(
   data,
+  ...,
   by = NULL,
   overall = TRUE,
   label = "",
   digits = list(all_continuous() ~ c(1, 1)),
-  statistic = NULL,
-  ...
+  statistic = NULL
 )
 }
 \arguments{
 \item{data}{Data frame/tibble to print. Required.}
+
+\item{...}{Optional: Rows to include in table. If none are provided,
+all variables will be shown. Supports tidy evaluation; see examples.}
 
 \item{by}{Optional: Stratification variable for columns.}
 
@@ -33,8 +36,6 @@ Precision can also be changed for individual variables, e.g.:
 \item{statistic}{Optional: Summary statistic to the shown for specific variables, e.g.:
 \code{list(a_specific_variable ~ "{min}, {max}")}.
 Passed on to \code{\link[gtsummary]{tbl_summary}(statistic = ...)}.}
-
-\item{...}{Optional: Passed on to \code{\link[gtsummary]{tbl_summary}}.}
 }
 \value{
 Formatted table. Continuous variables are
@@ -52,6 +53,12 @@ count (column percent).
 }
 \examples{
 data(mtcars)
+
+# Stratify by "gear":
 mtcars \%>\%
-  table1(by = "gear")
+  table1(by = gear)
+
+# Show only selected variables in rows:
+mtcars \%>\%
+  table1(cyl, mpg, disp, by = gear)
 }
