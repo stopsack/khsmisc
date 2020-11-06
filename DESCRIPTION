@@ -42,3 +42,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://stopsack.github.io/khsmisc, https://github.com/stopsack/khsmisc
