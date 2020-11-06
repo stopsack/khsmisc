@@ -38,14 +38,14 @@
 #'
 #' # Basic plot
 #' mtcars %>%
-#'   stripplot(x = "gear", y = "mpg")
+#'   stripplot(x = gear, y = mpg)
 #'
 #' # Add mean difference between extreme categories, reduce digits,
 #' # add color by 'wt', add different color scale, and label,
 #' # all using standard ggplot syntax.
 #' mtcars %>%
-#'   stripplot(x = "gear", y = "mpg",
-#'   contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = "wt") +
+#'   stripplot(x = gear, y = mpg,
+#'   contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = wt) +
 #'   scale_color_viridis(option = "cividis") +
 #'   labs(y = "Miles per gallon", color = "Weight")
 stripplot <- function(data, x, y,
@@ -56,34 +56,43 @@ stripplot <- function(data, x, y,
                       color     = NULL,
                       na.rm     = FALSE,
                       printplot = FALSE) {
+  x <- names(data %>% dplyr::select({{ x }}))
+  y <- names(data %>% dplyr::select({{ y }}))
+  color <- names(data %>% dplyr::select({{ color }}))
   xlbl <- labelled::var_label(dplyr::pull(data, x))
   ylbl <- labelled::var_label(dplyr::pull(data, y))
   if(is.null(xlbl))
     xlbl <- x
   if(is.null(ylbl))
     ylbl <- y
-  if(na.rm == TRUE)
-    data <- data %>% dplyr::filter(!is.na(get(x)))
+  if(na.rm == TRUE) {
+    data <- data %>%
+      dplyr::filter(!is.na(get(x)))
+  }
 
-  myplot <- ggplot2::ggplot(data, aes(factor(get(x)), get(y))) +
+  myplot <- ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = get(x), y = get(y))) +
     ggplot2::geom_boxplot(outlier.shape = NA) +
     labs(x = xlbl, y = ylbl)
   if (jitter == TRUE) {
     set.seed(3457)
-    if(is.null(color))
+    if(length(color) == 0)
       myplot <- myplot + ggplot2::geom_jitter(height = 0, width = 0.2)
     else
       myplot <- myplot + ggplot2::geom_jitter(height = 0, width = 0.2,
                                               mapping = ggplot2::aes(color = get(color)))
   } else {
-    if(is.null(color))
+    if(length(color) == 0)
       myplot <- myplot + ggplot2::geom_point()
     else
       myplot <- myplot + ggplot2::geom_point(mapping = ggplot2::aes(color = get(color)))
   }
 
   if(!is.null(contrast)) {
-    fit <- stats::lm(paste0(y, " ~ as.factor(", x, ")"), data = data)
+    fit <- stats::lm(formula = yvar ~ xvar,
+                     data = data %>%
+                       dplyr::rename(xvar = one_of(x),
+                                     yvar = one_of(y)) %>%
+                       dplyr::mutate(xvar = as.factor(.data$xvar)))
     estlab <- paste0(
       contrast,
       ", ",
@@ -117,16 +126,18 @@ stripplot <- function(data, x, y,
 
 #' Correlation plot
 #'
-#' @description Performs pairwise Pearson or Spearman correlations of all
-#'   numeric variables that exist in the provided data frame.
+#' @description Performs pairwise Pearson or Spearman correlations.
 #'
-#' @param data Required: Data frame. Only numeric variables will be used;
+#' @param data Required. Data frame. Only numeric variables will be used;
 #'   variables of other types will silently be dropped. To include
 #'   categorical variables, coerce factors to numeric first. See examples.
-#' @param method Correlation method. Defaults to \code{"pearson"}.
-#' @param missing How \code{\link[stats]{cor}} handles
+#' @param ... Optional. Variables to correlate. If not provided,
+#'   all numeric variables will be used. Supports tidy evaluation;
+#'   see examples.
+#' @param method Optional. Correlation method. Defaults to \code{"pearson"}.
+#' @param use How \code{\link[stats]{cor}} handles
 #'   missing values. Defaults to a restriction to complete
-#'   observations with all variables. See help for
+#'   observations with all variables. See parameter \code{use} of
 #'   \code{\link[stats]{cor}} for alternatives.
 #' @param reorder Perform hierarchical clustering in the correlation matrix?
 #'   This will order variables by their correlation patterns with other variables.
@@ -151,26 +162,33 @@ stripplot <- function(data, x, y,
 #' data(mtcars)
 #'
 #' mtcars %>%
+#'   corrmat(mpg, cyl, hp, wt, qsec)
+#'
+#' # Equivalent:
+#' mtcars %>%
 #'   select(mpg, cyl, hp, wt, qsec) %>%
 #'   corrmat()
+#'
+#' # Can use tidy evaluation to select variables:
+#' mtcars %>%
+#'   corrmat(contains("a"), starts_with("c"))
 #'
 #' # If "cyl" was a character, it would be excluded:
 #' mtcars %>%
 #'   mutate(cyl_chr = as.character(cyl)) %>%
-#'   select(mpg, cyl_chr, hp, wt, qsec) %>%
-#'   corrmat()
+#'   corrmat(mpg, cyl_chr, hp, wt, qsec)
 #'
 #' # To retain the character variable "cyl",
 #' # convert to factor and then make numeric:
 #' mtcars %>%
 #'   mutate(cyl_chr = as.character(cyl),
 #'          cyl_chr = as.numeric(factor(cyl_chr))) %>%
-#'   select(mpg, cyl_chr, hp, wt, qsec) %>%
-#'   corrmat()
+#'   corrmat(mpg, cyl_chr, hp, wt, qsec)
 corrmat <- function(
   data,
+  ...,
   method    = "pearson",
-  missing   = "pairwise.complete.obs",
+  use       = "pairwise.complete.obs",
   reorder   = TRUE,
   digits    = 2,
   legendpos = c(0.15, 0.35),
@@ -193,9 +211,14 @@ corrmat <- function(
     return(cormat)
   }
 
+  newdata <- data %>% select(!!!rlang::enquos(...))
+  if(ncol(newdata) == 0)
+    newdata <- data
+  data <- newdata
+
   mymat <- data %>%
     dplyr::select_if(is.numeric) %>%
-    stats::cor(method = method, use = missing)
+    stats::cor(method = method, use = use)
   if(reorder == TRUE)
     mymat <- mymat %>% reorder_cormat()
   mymat %>%

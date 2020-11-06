@@ -6,8 +6,9 @@
 \usage{
 corrmat(
   data,
+  ...,
   method = "pearson",
-  missing = "pairwise.complete.obs",
+  use = "pairwise.complete.obs",
   reorder = TRUE,
   digits = 2,
   legendpos = c(0.15, 0.35),
@@ -17,15 +18,19 @@ corrmat(
 )
 }
 \arguments{
-\item{data}{Required: Data frame. Only numeric variables will be used;
+\item{data}{Required. Data frame. Only numeric variables will be used;
 variables of other types will silently be dropped. To include
 categorical variables, coerce factors to numeric first. See examples.}
 
-\item{method}{Correlation method. Defaults to \code{"pearson"}.}
+\item{...}{Optional. Variables to correlate. If not provided,
+all numeric variables will be used. Supports tidy evaluation;
+see examples.}
 
-\item{missing}{How \code{\link[stats]{cor}} handles
+\item{method}{Optional. Correlation method. Defaults to \code{"pearson"}.}
+
+\item{use}{How \code{\link[stats]{cor}} handles
 missing values. Defaults to a restriction to complete
-observations with all variables. See help for
+observations with all variables. See parameter \code{use} of
 \code{\link[stats]{cor}} for alternatives.}
 
 \item{reorder}{Perform hierarchical clustering in the correlation matrix?
@@ -51,29 +56,34 @@ ggplot. Can be modified with the usual ggplot commands, such as
 \code{\link[ggplot2]{theme}}.
 }
 \description{
-Performs pairwise Pearson or Spearman correlations of all
-numeric variables that exist in the provided data frame.
+Performs pairwise Pearson or Spearman correlations.
 }
 \examples{
 data(mtcars)
 
 mtcars \%>\%
+  corrmat(mpg, cyl, hp, wt, qsec)
+
+# Equivalent:
+mtcars \%>\%
   select(mpg, cyl, hp, wt, qsec) \%>\%
   corrmat()
+
+# Can use tidy evaluation to select variables:
+mtcars \%>\%
+  corrmat(contains("a"), starts_with("c"))
 
 # If "cyl" was a character, it would be excluded:
 mtcars \%>\%
   mutate(cyl_chr = as.character(cyl)) \%>\%
-  select(mpg, cyl_chr, hp, wt, qsec) \%>\%
-  corrmat()
+  corrmat(mpg, cyl_chr, hp, wt, qsec)
 
 # To retain the character variable "cyl",
 # convert to factor and then make numeric:
 mtcars \%>\%
   mutate(cyl_chr = as.character(cyl),
          cyl_chr = as.numeric(factor(cyl_chr))) \%>\%
-  select(mpg, cyl_chr, hp, wt, qsec) \%>\%
-  corrmat()
+  corrmat(mpg, cyl_chr, hp, wt, qsec)
 }
 \seealso{
 \url{http://www.sthda.com/english/wiki/ggplot2-quick-correlation-matrix-heatmap-r-software-and-data-visualization}

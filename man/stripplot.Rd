@@ -64,14 +64,14 @@ data(mtcars)
 
 # Basic plot
 mtcars \%>\%
-  stripplot(x = "gear", y = "mpg")
+  stripplot(x = gear, y = mpg)
 
 # Add mean difference between extreme categories, reduce digits,
 # add color by 'wt', add different color scale, and label,
 # all using standard ggplot syntax.
 mtcars \%>\%
-  stripplot(x = "gear", y = "mpg",
-  contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = "wt") +
+  stripplot(x = gear, y = mpg,
+  contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = wt) +
   scale_color_viridis(option = "cividis") +
   labs(y = "Miles per gallon", color = "Weight")
 }
