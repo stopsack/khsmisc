@@ -19,6 +19,7 @@ reference:
   - tsummary
   - mygt
   - table1
+  - table2
   - rates
 - title: "Functions for Plots"
   desc: "Generating figures"

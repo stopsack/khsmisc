@@ -204,15 +204,15 @@ tsummary <- function(data,
                      na.rm = TRUE) {
   data <- data %>% labelled::remove_labels()
   by <- data %>% dplyr::select({{ by }}) %>% names()
-  newdata <- data %>% select(!!!rlang::enquos(...), all_of(by))
-  if(ncol(newdata) == ncol(data %>% select(all_of(by))))
+  newdata <- data %>% dplyr::select(!!!rlang::enquos(...), dplyr::all_of(by))
+  if(ncol(newdata) == ncol(data %>% dplyr::select(dplyr::all_of(by))))
     newdata <- data
   data <- newdata
 
   if(is.null(by)) {
     data <- data %>%
       dplyr::select_if(is.numeric) %>%
-      tidyr::pivot_longer(cols = everything(),
+      tidyr::pivot_longer(cols = dplyr::everything(),
                           names_to = "variable",
                           values_to = "value") %>%
       dplyr::group_by(.data$variable)

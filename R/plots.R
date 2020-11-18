@@ -72,7 +72,8 @@ stripplot <- function(data, x, y,
 
   myplot <- ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = get(x), y = get(y))) +
     ggplot2::geom_boxplot(outlier.shape = NA) +
-    labs(x = xlbl, y = ylbl)
+    labs(x = xlbl, y = ylbl) +
+    cowplot::theme_minimal_hgrid()
   if (jitter == TRUE) {
     set.seed(3457)
     if(length(color) == 0)
@@ -90,8 +91,8 @@ stripplot <- function(data, x, y,
   if(!is.null(contrast)) {
     fit <- stats::lm(formula = yvar ~ xvar,
                      data = data %>%
-                       dplyr::rename(xvar = one_of(x),
-                                     yvar = one_of(y)) %>%
+                       dplyr::rename(xvar = dplyr::one_of(x),
+                                     yvar = dplyr::one_of(y)) %>%
                        dplyr::mutate(xvar = as.factor(.data$xvar)))
     estlab <- paste0(
       contrast,
@@ -110,13 +111,6 @@ stripplot <- function(data, x, y,
     myplot <- myplot + ggplot2::annotate(geom = "text", label = estlab,
                                          x = Inf, y = Inf, hjust = 1, vjust = 1)
   }
-  myplot <- myplot +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(axis.line          = element_blank(),
-                   panel.grid.major.y = element_line(color = "gray80"),
-                   panel.grid.minor.y = element_blank(),
-                   panel.grid.major.x = element_blank(),
-                   axis.ticks         = element_blank())
   if(printplot == TRUE)
     print(myplot)
   else
