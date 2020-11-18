@@ -51,7 +51,8 @@ will be made available:
     categorical variables (replaces `mytab()`); `tsummary()` for
     continuous variables; `mygt()` for formatting and printing any
     tibble as a ‘gt’ table; `table1()` for formatted stratified
-    descriptive tables using `gtsummary`; `rates()` for event counts,
+    descriptive tables using `gtsummary`; `table2()` for stratified
+    survival analysis and Cox regression; `rates()` for event counts,
     person-time, incidence rates, and cumulative incidence.
   - **Functions for figures:** `stripplot()` for box/whiskers plots
     overlaid with a dot plot of all data points; `corrmat()` for

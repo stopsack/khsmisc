@@ -1,3 +1,8 @@
+# khsmisc 0.2.1
+
+* Add alpha version of `table2()`.
+
+
 # khsmisc 0.2.0
 
 * `tabulate_rowcol()` is the replacement for `mytab()` (which remains available); it supports tidy evaluation.
