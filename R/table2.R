@@ -27,6 +27,7 @@ table_counts <- function(data, event, time, exposure,
     dplyr::group_by(.data$.exposure)
 
   data %>% dplyr::summarize(res = dplyr::case_when(
+    type == "events"       ~ paste(sum(.data$event)),
     type == "time"         ~ format(round(sum(.data$time), digits = 0), nsmall = 0),
     type == "total"        ~ paste(n()),
     type == "events/time"  ~ paste(sum(.data$event), sum(.data$time), sep = "/"),
@@ -217,8 +218,8 @@ fill_cells <- function(data, event, time, exposure, effect_modifier, stratum, co
 #' tribble(
 #'    ~label,                      ~stratum, ~confounders, ~type,
 #'   "Overall: Events",            NULL,     "",           "events",
-#'   "Overall: Person-years",       NULL,     "",           "time",
-#'   "Overall: Rate/1000 years",    NULL,     "",           "rate",
+#'   "Overall: Person-years",      NULL,     "",           "time",
+#'   "Overall: Rate/1000 years",   NULL,     "",           "rate",
 #'   "  Unadjusted HR (95% CI)",   NULL,     "",           "cox",
 #'   "  Age-adjusted HR (95% CI)", NULL,     "+ age",      "cox",
 #'   "",                           NULL,     "",           "blank",
