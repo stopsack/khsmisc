@@ -183,7 +183,7 @@ to obtain Cox models with stratification by, e.g., <code>site</code>.</p></li>
 <li><p><code>"cox"</code> Hazard ratio and 95% confidence interval.
 Models will be fit separately for each stratum of
 the <code>effect_modifier</code>.</p></li>
-<li><p><code>"cox"</code> Hazard ratio and 95% confidence interval.
+<li><p><code>"cox_joint"</code> Hazard ratio and 95% confidence interval.
 A 'joint' model for exposure and effect modifier with a
 single reference category will be fit.</p></li>
 <li><p><code>"events"</code> Event count</p></li>
@@ -214,8 +214,8 @@ variables that are used repeatedly (e.g., <code>time, event</code>). See example
 <span class='fu'>tribble</span><span class='op'>(</span>
    <span class='op'>~</span><span class='va'>label</span>,                      <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>confounders</span>, <span class='op'>~</span><span class='va'>type</span>,
   <span class='st'>"Overall: Events"</span>,            <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"events"</span>,
-  <span class='st'>"Overall: Person-years"</span>,       <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"time"</span>,
-  <span class='st'>"Overall: Rate/1000 years"</span>,    <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"rate"</span>,
+  <span class='st'>"Overall: Person-years"</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"time"</span>,
+  <span class='st'>"Overall: Rate/1000 years"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"rate"</span>,
   <span class='st'>"  Unadjusted HR (95% CI)"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"cox"</span>,
   <span class='st'>"  Age-adjusted HR (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"+ age"</span>,      <span class='st'>"cox"</span>,
   <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
