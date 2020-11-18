@@ -27,6 +27,7 @@ table_counts <- function(data, event, time, exposure,
     dplyr::group_by(.data$.exposure)
 
   data %>% dplyr::summarize(res = dplyr::case_when(
+    type == "events"       ~ paste(sum(.data$event)),
     type == "time"         ~ format(round(sum(.data$time), digits = 0), nsmall = 0),
     type == "total"        ~ paste(n()),
     type == "events/time"  ~ paste(sum(.data$event), sum(.data$time), sep = "/"),
