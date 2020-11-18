@@ -53,7 +53,7 @@ to obtain Cox models with stratification by, e.g., \code{site}.
 \item \code{"cox"} Hazard ratio and 95\% confidence interval.
 Models will be fit separately for each stratum of
 the \code{effect_modifier}.
-\item \code{"cox"} Hazard ratio and 95\% confidence interval.
+\item \code{"cox_joint"} Hazard ratio and 95\% confidence interval.
 A 'joint' model for exposure and effect modifier with a
 single reference category will be fit.
 \item \code{"events"} Event count
@@ -84,8 +84,8 @@ ovarian <- ovarian \%>\%
 tribble(
    ~label,                      ~stratum, ~confounders, ~type,
   "Overall: Events",            NULL,     "",           "events",
-  "Overall: Person-years",       NULL,     "",           "time",
-  "Overall: Rate/1000 years",    NULL,     "",           "rate",
+  "Overall: Person-years",      NULL,     "",           "time",
+  "Overall: Rate/1000 years",   NULL,     "",           "rate",
   "  Unadjusted HR (95\% CI)",   NULL,     "",           "cox",
   "  Age-adjusted HR (95\% CI)", NULL,     "+ age",      "cox",
   "",                           NULL,     "",           "blank",
