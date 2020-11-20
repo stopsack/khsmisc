@@ -38,11 +38,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up R ${{ matrix.r-version }}
-<<<<<<< HEAD
         uses: r-lib/actions/setup-r@main #ffe45a39586f073cc2e9af79c4ba563b657dc6e3
-=======
-        uses: r-lib/actions/setup-r@main #@ffe45a39586f073cc2e9af79c4ba563b657dc6e3
->>>>>>> 954f8aa821b1ef49a0701587bd9735deb47f2e54
         with:
           r-version: ${{ matrix.r-version }}
 
