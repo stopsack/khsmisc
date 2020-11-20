@@ -76,6 +76,11 @@ jobs:
       - name: Install system dependencies
         run: brew install harfbuzz fribidi
 
+      - name: Install GH dependencies
+        run: |
+          remotes::install_github("stopsack/risks")
+        shell: Rscript {0}
+
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
