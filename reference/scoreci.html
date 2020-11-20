@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Round and Format p-Values — roundp • khsmisc</title>
+<title>Wilson Score Confidence Intervals — scoreci • khsmisc</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="Round and Format p-Values — roundp" />
-<meta property="og:description" content="Following conventions of many medical journals, this function
-rounds a p-value to two digits (if p &amp;gt; 0.05) or three digits (if 0.001 &amp;lt;= p &amp;lt; 0.05),
-or returns an inequality of &quot;&amp;lt; 0.001&quot; (if p &amp;lt; 0.001)." />
+<meta property="og:title" content="Wilson Score Confidence Intervals — scoreci" />
+<meta property="og:description" content="&quot;This function computes a confidence interval for a proportion.
+It is based on inverting the large-sample normal score test for the
+proportion.&quot; (Alan Agresti, who wrote the original R code)
+Inputs for success, total, and level
+are vectorized." />
 
 
 
@@ -116,44 +118,75 @@ or returns an inequality of &quot;&amp;lt; 0.001&quot; (if p &amp;lt; 0.001)." /
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Round and Format p-Values</h1>
+    <h1>Wilson Score Confidence Intervals</h1>
     <small class="dont-index">Source: <a href='https://github.com/stopsack/khsmisc/blob/master/R/vectors.R'><code>R/vectors.R</code></a></small>
-    <div class="hidden name"><code>roundp.Rd</code></div>
+    <div class="hidden name"><code>scoreci.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Following conventions of many medical journals, this function
-rounds a p-value to two digits (if p &gt; 0.05) or three digits (if 0.001 &lt;= p &lt; 0.05),
-or returns an inequality of "&lt; 0.001" (if p &lt; 0.001).</p>
+    <p>"This function computes a confidence interval for a proportion.
+It is based on inverting the large-sample normal score test for the
+proportion." (Alan Agresti, who wrote the original R code)</p>
+<p>Inputs for <code>success</code>, <code>total</code>, and <code>level</code>
+are vectorized.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roundp</span><span class='op'>(</span><span class='va'>pee</span>, equal <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>scoreci</span><span class='op'>(</span><span class='va'>success</span>, <span class='va'>total</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, return_midpoint <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pee</th>
-      <td><p>Numeric p-vale</p></td>
+      <th>success</th>
+      <td><p>Success count.</p></td>
     </tr>
     <tr>
-      <th>equal</th>
-      <td><p>Show equal sign if p &gt; 0.001? Defaults to TRUE.</p></td>
+      <th>total</th>
+      <td><p>Total count.</p></td>
+    </tr>
+    <tr>
+      <th>level</th>
+      <td><p>Optional. Confidence level. Defaults to 0.95.</p></td>
+    </tr>
+    <tr>
+      <th>return_midpoint</th>
+      <td><p>Optional. Return midpoint of confidence
+interval? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>String: rounded number, preceded by equal sign (unless <code>equal = FALSE</code>)
-or less-than sign.</p>
+    <p>Data frame:</p><ul>
+<li><p><code>success</code> Success count</p></li>
+<li><p><code>total</code> Total count</p></li>
+<li><p><code>estimate</code> Proportion</p></li>
+<li><p><code>conf.low</code> Lower bound of the confidence interval.</p></li>
+<li><p><code>conf.high</code> Upper bound of the confidence interval.</p></li>
+<li><p><code>midpoint</code> Mid-point of the confidence interval
+(for <code>return_midpoint = TRUE</code>).</p></li>
+<li><p><code>level</code> Confidence level.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='http://users.stat.ufl.edu/~aa/cda/R/one-sample/R1/index.html'>http://users.stat.ufl.edu/~aa/cda/R/one-sample/R1/index.html</a></p>
+<p>Agresti A, Coull BA. Approximate is better than "exact" for
+interval estimation of binomial proportions, Am Stat 1998;52:119-126.</p>
+<p>Brown LD, Cai TT, DasGupta A. Interval estimation for a
+binomial proportion (with discussion), Stat Sci 2001;16:101-133.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>roundp</span><span class='op'>(</span><span class='fl'>0.1138</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "= 0.11"</div><div class='input'><span class='fu'>roundp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.01138</span>, <span class='fl'>0.0000138</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "= 0.011" "&lt; 0.001"</div><div class='input'>
-<span class='co'># Omit equal sign</span>
-<span class='fu'>roundp</span><span class='op'>(</span><span class='fl'>0.01138</span>, equal <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "0.011"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>scoreci</span><span class='op'>(</span>success <span class='op'>=</span> <span class='fl'>5</span>, total <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   success total estimate  conf.low conf.high level
+#&gt; 1       5    10      0.5 0.2365931 0.7634069  0.95</div><div class='input'><span class='fu'>scoreci</span><span class='op'>(</span>success <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>, total <span class='op'>=</span> <span class='fl'>10</span>, level <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   success total estimate  conf.low conf.high level
+#&gt; 1       5    10      0.5 0.2692718 0.7307282   0.9
+#&gt; 2       6    10      0.6 0.3516386 0.8057730   0.9
+#&gt; 3       7    10      0.7 0.4416998 0.8731234   0.9
+#&gt; 4       8    10      0.8 0.5407928 0.9314420   0.9
+#&gt; 5       9    10      0.9 0.6522813 0.9773651   0.9
+#&gt; 6      10    10      1.0 0.7870580 1.0000000   0.9</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

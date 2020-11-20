@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -117,11 +117,22 @@
       <small>Source: <a href='https://github.com/stopsack/khsmisc/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="khsmisc-022" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2">
+<a href="#khsmisc-022" class="anchor"></a>khsmisc 0.2.2</h1>
+<ul>
+<li>
+<code><a href="../reference/table2.html">table2()</a></code>: include estimates from risk ratio and risk difference models; input checks; allow for missing effect modifier, confounders; more descriptive statistics; more examples.</li>
+<li>
+<code><a href="../reference/scoreci.html">scoreci()</a></code>: new function for Wilson score confidence intervals for proportions.</li>
+</ul>
+</div>
     <div id="khsmisc-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
 <a href="#khsmisc-021" class="anchor"></a>khsmisc 0.2.1</h1>
 <ul>
-<li>Add alpha version of <code><a href="../reference/table2.html">table2()</a></code>.</li>
+<li>
+<code><a href="../reference/table2.html">table2()</a></code>: add alpha version.</li>
 </ul>
 </div>
     <div id="khsmisc-020" class="section level1">
@@ -129,11 +140,11 @@
 <a href="#khsmisc-020" class="anchor"></a>khsmisc 0.2.0</h1>
 <ul>
 <li>
-<code><a href="../reference/tabulate_rowcol.html">tabulate_rowcol()</a></code> is the replacement for <code><a href="../reference/mytab.html">mytab()</a></code> (which remains available); it supports tidy evaluation.</li>
+<code><a href="../reference/tabulate_rowcol.html">tabulate_rowcol()</a></code>: replacement for <code><a href="../reference/mytab.html">mytab()</a></code> (which remains available); it supports tidy evaluation.</li>
 <li>All other functions allow variable name arguments with tidy evaluation without introducing no breaking changes. <code><a href="../reference/corrmat.html">corrmat()</a></code>, <code><a href="../reference/tsummary.html">tsummary()</a></code>, and <code><a href="../reference/table1.html">table1()</a></code> still use all variables in a dataset if none are selected but can now take variable names as an argument.</li>
 <li>Breaking change: <code><a href="../reference/corrmat.html">corrmat()</a></code> argument <code>missing</code> renamed to <code>use</code> to be consistent with the underlying <code><a href="https://rdrr.io/r/stats/cor.html">stats::cor()</a></code>.</li>
 <li>
-<code><a href="../reference/rates.html">rates()</a></code> has new parameters <code>risk_time</code> to specify the time point at which cumulative incidence should be calculated, and <code>by</code> for stratification variables. If a dataset has already been grouped using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">dplyr::group_by()</a></code>, grouping will be retained.</li>
+<code><a href="../reference/rates.html">rates()</a></code>: new parameters <code>risk_time</code> to specify the time point at which cumulative incidence should be calculated, and <code>by</code> for stratification variables. If a dataset has already been grouped using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">dplyr::group_by()</a></code>, grouping will be retained.</li>
 </ul>
 </div>
     <div id="khsmisc-010" class="section level1">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Table 2: Counts and Cox regression results — table2 • khsmisc</title>
+<title>Table 2: Stratified Result Tables — table2 • khsmisc</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Table 2: Counts and Cox regression results — table2" />
+<meta property="og:title" content="Table 2: Stratified Result Tables — table2" />
 <meta property="og:description" content="This function obtains descriptive
-and inferential results for survival analyses in the format
+and inferential results for binary and survival data in the format
 of a table stratified by exposure and, if requested, by
 effect modifiers." />
 
@@ -75,7 +75,7 @@ effect modifiers." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -117,26 +117,35 @@ effect modifiers." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Table 2: Counts and Cox regression results</h1>
+    <h1>Table 2: Stratified Result Tables</h1>
     <small class="dont-index">Source: <a href='https://github.com/stopsack/khsmisc/blob/master/R/table2.R'><code>R/table2.R</code></a></small>
     <div class="hidden name"><code>table2.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>This function obtains descriptive
-and inferential results for survival analyses in the format
+and inferential results for binary and survival data in the format
 of a table stratified by exposure and, if requested, by
 effect modifiers.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>table2</span><span class='op'>(</span><span class='va'>design</span>, <span class='va'>data</span>, layout <span class='op'>=</span> <span class='st'>"rows"</span>, factor <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>table2</span><span class='op'>(</span>
+  <span class='va'>design</span>,
+  <span class='va'>data</span>,
+  layout <span class='op'>=</span> <span class='st'>"rows"</span>,
+  factor <span class='op'>=</span> <span class='fl'>1000</span>,
+  risk_percent <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  risk_digits <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>risk_percent</span> <span class='op'>==</span> <span class='cn'>TRUE</span>, true <span class='op'>=</span> <span class='fl'>0</span>, false <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+  rate_digits <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>design</th>
-      <td><p>Data frame that sets up the table. See Details.</p></td>
+      <td><p>Design matrix (data frame) that sets up the table.
+See Details.</p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -144,14 +153,33 @@ effect modifiers.</p>
     </tr>
     <tr>
       <th>layout</th>
-      <td><p><code>"rows"</code> uses the design as rows and
+      <td><p>Optional. <code>"rows"</code> uses the <code>design</code> as rows and
 exposure categories as columns. <code>"cols"</code> is the
-opposite: design as columns and exposure categories as rows.</p></td>
+opposite: <code>design</code> as columns and exposure categories as rows.
+Defaults to <code>"rows"</code>.</p></td>
     </tr>
     <tr>
       <th>factor</th>
-      <td><p>Used for <code>type = "rates"</code>: Factor to multiply
-events per person-time by. Defaults to 1000.</p></td>
+      <td><p>Optional. Used for <code>type = "rates"</code>: Factor to multiply
+events per person-time by. Defaults to <code>1000</code>.</p></td>
+    </tr>
+    <tr>
+      <th>risk_percent</th>
+      <td><p>Optional. Show risk and risk difference estimates in
+percentage points instead of proportions. Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>risk_digits</th>
+      <td><p>Optional. Number of decimal digits to show for
+rounding of risk and risk difference estimates. Defaults to <code>2</code>
+for <code>risk_percent = FALSE</code> and to <code>0</code> for
+<code>risk_percent = TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>rate_digits</th>
+      <td><p>Optional. Number of decimal digits to show for rates.
+Defaults to <code>1</code>. (Ratios, i.e., hazard ratios and risk ratios are
+always shown with 2 decimal digits.)</p></td>
     </tr>
     </table>
 
@@ -161,44 +189,76 @@ events per person-time by. Defaults to 1000.</p></td>
 <code><a href='mygt.html'>mygt</a></code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The main input parameter is the dataset <code>design</code>,
-which must consist of the following variables:</p><ul>
+    <p>The main input parameter is the dataset <code>design</code>.
+Always required are the columns <code>label</code>, <code>type</code>, and
+<code>exposure</code>, as well as <code>outcome</code> for binary outcomes
+or <code>time</code> and <code>event</code> for survival outcomes:</p><ul>
 <li><p><code>label</code> A label for each row (or column).</p></li>
-<li><p><code>time</code> The time variable of the survival model.</p></li>
-<li><p><code>event</code> The event variable of the survival model.
-Events must be <code>1</code>, censored observations <code>0</code>.</p></li>
+<li><p><code>time</code> The time variable for survival data. Needed for,
+e.g., <code>type = "hr"</code> and <code>type = "rate"</code>
+(i.e., whenever <code>outcome</code> is not used).</p></li>
+<li><p><code>event</code> The event variable for survival data.
+Events are typically <code>1</code>, censored observations <code>0</code>.
+Needed for, e.g., <code>type = "hr"</code> and <code>type = "rate"</code>
+(i.e., whenever <code>outcome</code> is not used).</p></li>
+<li><p><code>outcome</code> The binary outcome variable for risk/prevalence
+data. Must be <code>0</code>/<code>1</code> or <code>FALSE</code>/<code>TRUE</code>.
+Needed for, e.g., <code>type = "rr"</code> and <code>type = "risk"</code>
+(i.e., whenever <code>event</code> and <code>time</code> are not used).</p></li>
 <li><p><code>exposure</code> The exposure variable. Must be categorical
 (factor or logical).</p></li>
-<li><p><code>effect_modifier</code> An effect modifier variable.
+<li><p><code>effect_modifier</code> Optional. An effect modifier variable.
 Use <code>NULL</code> or <code>NA</code> to leave blank.</p></li>
-<li><p><code>stratum</code> A stratum of the effect modifier.
-Use <code>NULL</code> to leave blank. (<code>NA</code> will evaluate
-observations with missing effect modifier.)</p></li>
-<li><p><code>confounders</code> A string in the format
-<code>"+ confounder1 + confounder2"</code> that will be substituted into
-into <code>coxph(formula = exposure + confounders)</code>.
-Use <code>""</code> (empty string) to leave blank. Can add <code>"+ strata(site)"</code>
-to obtain Cox models with stratification by, e.g., <code>site</code>.</p></li>
-<li><p><code>type</code> The statistic requested:</p><ul>
-<li><p><code>"cox"</code> Hazard ratio and 95% confidence interval.
-Models will be fit separately for each stratum of
-the <code>effect_modifier</code>.</p></li>
-<li><p><code>"cox_joint"</code> Hazard ratio and 95% confidence interval.
-A 'joint' model for exposure and effect modifier with a
-single reference category will be fit.</p></li>
-<li><p><code>"events"</code> Event count</p></li>
-<li><p><code>"time"</code> Person-time</p></li>
-<li><p><code>"total"</code> Number of observations</p></li>
-<li><p><code>"events/time"</code> Events slash person-time</p></li>
-<li><p><code>"events/total"</code> Events slash number of observations</p></li>
-<li><p><code>"rate"</code> Event rate: event count divided by person-time</p></li>
-<li><p><code>"blank"</code> An empty line</p></li>
-</ul></li>
+<li><p><code>stratum</code> Optional. A stratum of the effect modifier.
+Use <code>NULL</code> to leave blank. <code>NA</code> will evaluate
+observations with missing data for the <code>effect_modifier</code>.</p></li>
+<li><p><code>confounders</code> Optional. A string in the format
+<code>"+ var1 + var2"</code> that will be substituted into
+into <code>formula = exposure + confounders</code>.
+Use <code>""</code> (empty string) to leave blank; the default.
+For Cox models, can add <code>"+ strata(site)"</code>
+to obtain models with stratification by, e.g., <code>site</code>.</p></li>
+<li><p><code>type</code> The statistic requested (case-insensitive):</p><ul>
+<li><p><code>"hr"</code> Hazard ratio and 95% confidence interval
+from Cox proportional hazards regression.</p></li>
+<li><p><code>"rr"</code> Risk ratio (or prevalence ratio) with
+95% confidence interval from <code><a href='https://rdrr.io/pkg/risks/man/riskratio.html'>riskratio</a></code>.</p></li>
+<li><p><code>"rd"</code> Risk difference (or prevalence difference)
+with 95% confidence interval from <code><a href='https://rdrr.io/pkg/risks/man/riskratio.html'>riskdiff</a></code>.</p></li>
+<li><p><code>"events"</code> Event count.</p></li>
+<li><p><code>"time"</code> Person-time.</p></li>
+<li><p><code>"outcomes"</code> Outcome count.</p></li>
+<li><p><code>"total"</code> Number of observations.</p></li>
+<li><p><code>"events/time"</code> Events slash person-time.</p></li>
+<li><p><code>"events/total"</code> Events slash number of observations.</p></li>
+<li><p><code>"risk"</code> Risk (or prevalence), i.e., events divided
+by number of observations. Change between display as proportion
+or percent using the parameter <code>risk_percent</code>.</p></li>
+<li><p><code>"risk (ci)"</code> Risk with 95% confidence interval
+(Wilson score interval for binomial proportions, see
+<code><a href='scoreci.html'>scoreci</a></code>).</p></li>
+<li><p><code>"rate"</code> Event rate: event count divided by person-time,
+multiplied by <code>factor</code>.</p></li>
+<li><p><code>"rate (ci)"</code> Event rate with 95% confidence interval
+(Poisson-type interval, see <code><a href='rates.html'>rates</a></code>).</p></li>
+<li><p><code>"outcomes/total (risk)"</code> A combination: Outcomes slah total
+followed by risk in parentheses.</p></li>
+<li><p><code>"events/time (rate)"</code> A combination: Events slash time
+followed by rate in parentheses.</p></li>
+<li><p><code>"blank"</code> An empty line.</p></li>
+</ul>
+
+<p>By default, regression models will be fit separately for each
+stratum of the <code>effect_modifier</code>. Append <code>"_joint"</code>
+to <code>"hr"</code>, <code>"rr"</code>, or <code>"rd"</code> to obtain
+"joint" models for exposure and effect modifier that have
+a single reference category. Example: <code>type = "hr_joint"</code>.</p></li>
 </ul>
 
 <p>Hint: Use <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code>, and
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code> to construct the <code>design</code> dataset, especially
-variables that are used repeatedly (e.g., <code>time, event</code>). See examples.</p>
+variables that are used repeatedly (e.g., <code>exposure, time, event</code>,
+or <code>outcome</code>). See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load 'ovarian' dataset from survival package</span>
@@ -207,55 +267,97 @@ variables that are used repeatedly (e.g., <code>time, event</code>). See example
 <span class='co'># The exposure (here, 'rx') must be categorical</span>
 <span class='va'>ovarian</span> <span class='op'>&lt;-</span> <span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
   <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>rx <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>rx</span><span class='op'>)</span>,
+  <span class='fu'>mutate</span><span class='op'>(</span>rx <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>rx</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>,
+                     labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Control (CP)"</span>, <span class='st'>"Treatment (CP+DXR)"</span><span class='op'>)</span><span class='op'>)</span>,
          futime <span class='op'>=</span> <span class='va'>futime</span> <span class='op'>/</span> <span class='fl'>365.25</span><span class='op'>)</span>  <span class='co'># presumably years</span>
 
-<span class='co'># Set design elements that vary by row</span>
-<span class='fu'>tribble</span><span class='op'>(</span>
-   <span class='op'>~</span><span class='va'>label</span>,                      <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>confounders</span>, <span class='op'>~</span><span class='va'>type</span>,
+<span class='co'># Example 1: Binary outcomes (use 'outcome' variable)</span>
+<span class='co'># Set table design</span>
+<span class='va'>design1</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Outcomes"</span>,
+                            <span class='st'>"Total"</span>,
+                            <span class='st'>"Outcomes/Total"</span>,
+                            <span class='st'>"Risk"</span>,
+                            <span class='st'>"Risk (CI)"</span>,
+                            <span class='st'>"Outcomes/Total (Risk)"</span>,
+                            <span class='st'>"RR"</span>,
+                            <span class='st'>"RD"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>type <span class='op'>=</span> <span class='va'>label</span>, exposure <span class='op'>=</span> <span class='st'>"rx"</span>, outcome <span class='op'>=</span> <span class='st'>"fustat"</span><span class='op'>)</span>
+
+<span class='co'># Generate table2</span>
+<span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design1</span>, data <span class='op'>=</span> <span class='va'>ovarian</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 8 x 3</span><span>
+#&gt;   rx                    `Control (CP)`   `Treatment (CP+DXR)` 
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                
+#&gt; </span><span style='color: #555555;'>1</span><span> Outcomes              7                5                    
+#&gt; </span><span style='color: #555555;'>2</span><span> Total                 13               13                   
+#&gt; </span><span style='color: #555555;'>3</span><span> Outcomes/Total        7/13             5/13                 
+#&gt; </span><span style='color: #555555;'>4</span><span> Risk                  0.54             0.38                 
+#&gt; </span><span style='color: #555555;'>5</span><span> Risk (CI)             0.54 (0.29-0.77) 0.38 (0.18-0.64)     
+#&gt; </span><span style='color: #555555;'>6</span><span> Outcomes/Total (Risk) 7/13 (0.54)      5/13 (0.38)          
+#&gt; </span><span style='color: #555555;'>7</span><span> RR                    1 (reference)    0.71 (0.30-1.67)     
+#&gt; </span><span style='color: #555555;'>8</span><span> RD                    0 (reference)    -0.15 (-0.53 to 0.22)</div><div class='input'>
+<span class='co'># Use 'design' as columns (selecting RR and RD only)</span>
+<span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design1</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>label</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"RR"</span>, <span class='st'>"RD"</span><span class='op'>)</span><span class='op'>)</span>,
+       data <span class='op'>=</span> <span class='va'>ovarian</span>, layout <span class='op'>=</span> <span class='st'>"cols"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
+#&gt;   rx                 RR               RD                   
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                
+#&gt; </span><span style='color: #555555;'>1</span><span> Control (CP)       1 (reference)    0 (reference)        
+#&gt; </span><span style='color: #555555;'>2</span><span> Treatment (CP+DXR) 0.71 (0.30-1.67) -0.15 (-0.53 to 0.22)</div><div class='input'>
+<span class='co'># Example 2: Survival outcomes (use 'time' and 'event'),</span>
+<span class='co'>#   with an effect modifier and a confounder</span>
+<span class='co'># Set table design</span>
+<span class='va'>design2</span> <span class='op'>&lt;-</span> <span class='fu'>tribble</span><span class='op'>(</span>
+  <span class='co'># Elements that vary by row:</span>
+  <span class='op'>~</span><span class='va'>label</span>,                       <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>confounders</span>, <span class='op'>~</span><span class='va'>type</span>,
   <span class='st'>"Overall: Events"</span>,            <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"events"</span>,
-  <span class='st'>"Overall: Person-years"</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"time"</span>,
-  <span class='st'>"Overall: Rate/1000 years"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"rate"</span>,
-  <span class='st'>"  Unadjusted HR (95% CI)"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"cox"</span>,
-  <span class='st'>"  Age-adjusted HR (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"+ age"</span>,      <span class='st'>"cox"</span>,
+  <span class='st'>"  Person-years"</span>,             <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"time"</span>,
+  <span class='st'>"  Rate/1000 py (95% CI)"</span>,    <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"rate (ci)"</span>,
+  <span class='st'>"  Unadjusted HR (95% CI)"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"hr"</span>,
+  <span class='st'>"  Age-adjusted HR (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
   <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
   <span class='st'>"Stratified models"</span>,          <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
   <span class='st'>"ECOG PS1 (events/N)"</span>,        <span class='fl'>1</span>,        <span class='st'>""</span>,           <span class='st'>"events/total"</span>,
-  <span class='st'>"  Unadjusted"</span>,               <span class='fl'>1</span>,        <span class='st'>""</span>,           <span class='st'>"cox"</span>,
-  <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"cox"</span>,
+  <span class='st'>"  Unadjusted"</span>,               <span class='fl'>1</span>,        <span class='st'>""</span>,           <span class='st'>"hr"</span>,
+  <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
   <span class='st'>"ECOG PS2 (events/N)"</span>,        <span class='fl'>2</span>,        <span class='st'>""</span>,           <span class='st'>"events/total"</span>,
-  <span class='st'>"  Unadjusted"</span>,               <span class='fl'>2</span>,        <span class='st'>""</span>,           <span class='st'>"cox"</span>,
-  <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"cox"</span>,
+  <span class='st'>"  Unadjusted"</span>,               <span class='fl'>2</span>,        <span class='st'>""</span>,           <span class='st'>"hr"</span>,
+  <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
   <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
   <span class='st'>"Joint model, age-adj."</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
-  <span class='st'>"  ECOG PS1"</span>,                 <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"cox_joint"</span>,
-  <span class='st'>"  ECOG PS2"</span>,                 <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"cox_joint"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-<span class='co'># Set design elements that are the same for all rows</span>
+  <span class='st'>"  ECOG PS1"</span>,                 <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr_joint"</span>,
+  <span class='st'>"  ECOG PS2"</span>,                 <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr_joint"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># Elements that are the same for all rows:</span>
   <span class='fu'>mutate</span><span class='op'>(</span>exposure <span class='op'>=</span> <span class='st'>"rx"</span>, event <span class='op'>=</span> <span class='st'>"fustat"</span>, time <span class='op'>=</span> <span class='st'>"futime"</span>,
-        effect_modifier <span class='op'>=</span> <span class='st'>"ecog.ps"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+         effect_modifier <span class='op'>=</span> <span class='st'>"ecog.ps"</span><span class='op'>)</span>
+
 <span class='co'># Generate table2</span>
-  <span class='fu'>table2</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ovarian</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 17 x 3</span><span>
-#&gt;    rx                           `1`                `2`               
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             
-#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>"</span><span>Overall: Events</span><span style='color: #555555;'>"</span><span>            </span><span style='color: #555555;'>"</span><span>7</span><span style='color: #555555;'>"</span><span>                </span><span style='color: #555555;'>"</span><span>5</span><span style='color: #555555;'>"</span><span>               
-#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>"</span><span>Overall: Person-years</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>"</span><span>18</span><span style='color: #555555;'>"</span><span>               </span><span style='color: #555555;'>"</span><span>24</span><span style='color: #555555;'>"</span><span>              
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>"</span><span>Overall: Rate/1000 years</span><span style='color: #555555;'>"</span><span>   </span><span style='color: #555555;'>"</span><span>538.5</span><span style='color: #555555;'>"</span><span>            </span><span style='color: #555555;'>"</span><span>384.6</span><span style='color: #555555;'>"</span><span>           
-#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted HR (95% CI)</span><span style='color: #555555;'>"</span><span>   </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.55 (0.17-1.74)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted HR (95% CI)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.45 (0.13-1.54)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>""</span><span>                           </span><span style='color: #555555;'>""</span><span>                 </span><span style='color: #555555;'>""</span><span>                
-#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>"</span><span>Stratified models</span><span style='color: #555555;'>"</span><span>          </span><span style='color: #555555;'>""</span><span>                 </span><span style='color: #555555;'>""</span><span>                
-#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>"</span><span>ECOG PS1 (events/N)</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>4/7</span><span style='color: #555555;'>"</span><span>              </span><span style='color: #555555;'>"</span><span>1/7</span><span style='color: #555555;'>"</span><span>             
-#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted</span><span style='color: #555555;'>"</span><span>               </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.20 (0.02-1.80)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted</span><span style='color: #555555;'>"</span><span>             </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.21 (0.02-2.02)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'>11</span><span> </span><span style='color: #555555;'>"</span><span>ECOG PS2 (events/N)</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>3/6</span><span style='color: #555555;'>"</span><span>              </span><span style='color: #555555;'>"</span><span>4/6</span><span style='color: #555555;'>"</span><span>             
-#&gt; </span><span style='color: #555555;'>12</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted</span><span style='color: #555555;'>"</span><span>               </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>1.16 (0.26-5.28)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'>13</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted</span><span style='color: #555555;'>"</span><span>             </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.62 (0.10-3.64)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'>14</span><span> </span><span style='color: #555555;'>""</span><span>                           </span><span style='color: #555555;'>""</span><span>                 </span><span style='color: #555555;'>""</span><span>                
-#&gt; </span><span style='color: #555555;'>15</span><span> </span><span style='color: #555555;'>"</span><span>Joint model, age-adj.</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>""</span><span>                 </span><span style='color: #555555;'>""</span><span>                
-#&gt; </span><span style='color: #555555;'>16</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS1</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.18 (0.02-1.72)</span><span style='color: #555555;'>"</span><span>
-#&gt; </span><span style='color: #555555;'>17</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS2</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>0.63 (0.13-3.09)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>0.48 (0.11-2.06)</span><span style='color: #555555;'>"</span><span></div><div class='input'>
-<span class='co'># Use '%&gt;% mygt()' to get formatted version (not shown)</span>
+<span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design2</span>, data <span class='op'>=</span> <span class='va'>ovarian</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 17 x 3</span><span>
+#&gt;    rx                           `Control (CP)`        `Treatment (CP+DXR)`
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>               
+#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>"</span><span>Overall: Events</span><span style='color: #555555;'>"</span><span>            </span><span style='color: #555555;'>"</span><span>7</span><span style='color: #555555;'>"</span><span>                   </span><span style='color: #555555;'>"</span><span>5</span><span style='color: #555555;'>"</span><span>                 
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>"</span><span>  Person-years</span><span style='color: #555555;'>"</span><span>             </span><span style='color: #555555;'>"</span><span>18</span><span style='color: #555555;'>"</span><span>                  </span><span style='color: #555555;'>"</span><span>24</span><span style='color: #555555;'>"</span><span>                
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>"</span><span>  Rate/1000 py (95% CI)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>380.2 (181.2-797.5)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>206.1 (85.8-495.0)</span><span style='color: #555555;'>"</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted HR (95% CI)</span><span style='color: #555555;'>"</span><span>   </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.55 (0.17-1.74)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted HR (95% CI)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.45 (0.13-1.54)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>""</span><span>                           </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                  
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>"</span><span>Stratified models</span><span style='color: #555555;'>"</span><span>          </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                  
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>"</span><span>ECOG PS1 (events/N)</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>4/7</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>1/7</span><span style='color: #555555;'>"</span><span>               
+#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted</span><span style='color: #555555;'>"</span><span>               </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.20 (0.02-1.80)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted</span><span style='color: #555555;'>"</span><span>             </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.21 (0.02-2.02)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'>11</span><span> </span><span style='color: #555555;'>"</span><span>ECOG PS2 (events/N)</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>3/6</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>4/6</span><span style='color: #555555;'>"</span><span>               
+#&gt; </span><span style='color: #555555;'>12</span><span> </span><span style='color: #555555;'>"</span><span>  Unadjusted</span><span style='color: #555555;'>"</span><span>               </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>1.16 (0.26-5.28)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'>13</span><span> </span><span style='color: #555555;'>"</span><span>  Age-adjusted</span><span style='color: #555555;'>"</span><span>             </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.62 (0.10-3.64)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'>14</span><span> </span><span style='color: #555555;'>""</span><span>                           </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                  
+#&gt; </span><span style='color: #555555;'>15</span><span> </span><span style='color: #555555;'>"</span><span>Joint model, age-adj.</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                  
+#&gt; </span><span style='color: #555555;'>16</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS1</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.18 (0.02-1.72)</span><span style='color: #555555;'>"</span><span>  
+#&gt; </span><span style='color: #555555;'>17</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS2</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>0.63 (0.13-3.09)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.48 (0.11-2.06)</span><span style='color: #555555;'>"</span><span>  </div><div class='input'>
+<span class='co'># Get formatted output:</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design2</span>, data <span class='op'>=</span> <span class='va'>ovarian</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='mygt.html'>mygt</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
