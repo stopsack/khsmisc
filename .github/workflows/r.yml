@@ -44,7 +44,7 @@ jobs:
 
       - name: Install remotes, GH dependency risks
         run: |
-          install.packages("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_github("stopsack/risks")
         shell: Rscript {0}
 
