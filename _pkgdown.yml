@@ -7,15 +7,15 @@ reference:
   - varlist
   - contains("_safely")
 - title: "Functions for Vectors"
-  desc: "Manipulate a single variable"
 - contents:
   - scale_to_range
   - Mode
   - roundp
-- title: "Functions for Descriptive Tables"
+  - scoreci
+- title: "Functions for Tables"
   desc: "Tabulate data"
 - contents:
-  - mytab
+  - tabulate_rowcol
   - tsummary
   - mygt
   - table1

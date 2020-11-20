@@ -2,7 +2,7 @@
 % Please edit documentation in R/tables.R
 \name{table1}
 \alias{table1}
-\title{Stratified Descriptive Tables Using gtsummary}
+\title{Table 1: Stratified Descriptive Tables}
 \usage{
 table1(
   data,

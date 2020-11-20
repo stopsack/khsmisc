@@ -282,7 +282,7 @@ mygt <- function(df) {
     mytabstyle()
 }
 
-#' Stratified Descriptive Tables Using gtsummary
+#' Table 1: Stratified Descriptive Tables
 #'
 #' @import gtsummary gt dplyr
 #'

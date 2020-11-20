@@ -46,14 +46,15 @@ will be made available:
     overwriting existing files.
   - **Functions for vectors:** `scale_to_range()` to scale a vector to a
     given range; `Mode()` to obtain the most common value; `roundp()` to
-    round and format *p*-values
+    round and format *p*-values; `scoreci()` for Wilson confidence
+    intervals for proportions.
   - **Functions for descriptive tables:** `tabulate_rowcol()` for
-    categorical variables (replaces `mytab()`); `tsummary()` for
-    continuous variables; `mygt()` for formatting and printing any
-    tibble as a ‘gt’ table; `table1()` for formatted stratified
-    descriptive tables using `gtsummary`; `table2()` for stratified
-    survival analysis and Cox regression; `rates()` for event counts,
-    person-time, incidence rates, and cumulative incidence.
+    categorical variables; `tsummary()` for continuous variables;
+    `mygt()` for formatting and printing any tibble as a ‘gt’ table;
+    `table1()` for formatted stratified descriptive tables using
+    `gtsummary`; `table2()` for stratified result tables; `rates()` for
+    event counts, person-time, incidence rates, and cumulative
+    incidence.
   - **Functions for figures:** `stripplot()` for box/whiskers plots
     overlaid with a dot plot of all data points; `corrmat()` for
     correlation matrices
