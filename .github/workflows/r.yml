@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout V2
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Set up R ${{ matrix.r-version }}
         uses: r-lib/actions/setup-r@main #ffe45a39586f073cc2e9af79c4ba563b657dc6e3
