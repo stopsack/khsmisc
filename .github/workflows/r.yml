@@ -42,14 +42,14 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
 
-      - name: Install GH dependency risks
+      - name: Install remotes, GH dependency risks
         run: |
+          install.packages("remotes", "rcmdcheck"))
           remotes::install_github("stopsack/risks")
         shell: Rscript {0}
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
