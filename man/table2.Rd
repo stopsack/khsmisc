@@ -2,21 +2,43 @@
 % Please edit documentation in R/table2.R
 \name{table2}
 \alias{table2}
-\title{Table 2: Counts and Cox regression results}
+\title{Table 2: Stratified Result Tables}
 \usage{
-table2(design, data, layout = "rows", factor = 1000)
+table2(
+  design,
+  data,
+  layout = "rows",
+  factor = 1000,
+  risk_percent = FALSE,
+  risk_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+  rate_digits = 1
+)
 }
 \arguments{
-\item{design}{Data frame that sets up the table. See Details.}
+\item{design}{Design matrix (data frame) that sets up the table.
+See Details.}
 
 \item{data}{Dataset to be used for all analyses.}
 
-\item{layout}{\code{"rows"} uses the design as rows and
+\item{layout}{Optional. \code{"rows"} uses the \code{design} as rows and
 exposure categories as columns. \code{"cols"} is the
-opposite: design as columns and exposure categories as rows.}
+opposite: \code{design} as columns and exposure categories as rows.
+Defaults to \code{"rows"}.}
 
-\item{factor}{Used for \code{type = "rates"}: Factor to multiply
-events per person-time by. Defaults to 1000.}
+\item{factor}{Optional. Used for \code{type = "rates"}: Factor to multiply
+events per person-time by. Defaults to \code{1000}.}
+
+\item{risk_percent}{Optional. Show risk and risk difference estimates in
+percentage points instead of proportions. Defaults to \code{FALSE}.}
+
+\item{risk_digits}{Optional. Number of decimal digits to show for
+rounding of risk and risk difference estimates. Defaults to \code{2}
+for \code{risk_percent = FALSE} and to \code{0} for
+\code{risk_percent = TRUE}.}
+
+\item{rate_digits}{Optional. Number of decimal digits to show for rates.
+Defaults to \code{1}. (Ratios, i.e., hazard ratios and risk ratios are
+always shown with 2 decimal digits.)}
 }
 \value{
 Tibble. Get formatted output by passing on to
@@ -24,51 +46,83 @@ Tibble. Get formatted output by passing on to
 }
 \description{
 This function obtains descriptive
-and inferential results for survival analyses in the format
+and inferential results for binary and survival data in the format
 of a table stratified by exposure and, if requested, by
 effect modifiers.
 }
 \details{
-The main input parameter is the dataset \code{design},
-which must consist of the following variables:
+The main input parameter is the dataset \code{design}.
+Always required are the columns \code{label}, \code{type}, and
+\code{exposure}, as well as \code{outcome} for binary outcomes
+or \code{time} and \code{event} for survival outcomes:
 \itemize{
 \item \code{label} A label for each row (or column).
-\item \code{time} The time variable of the survival model.
-\item \code{event} The event variable of the survival model.
-Events must be \code{1}, censored observations \code{0}.
+\item \code{time} The time variable for survival data. Needed for,
+e.g., \code{type = "hr"} and \code{type = "rate"}
+(i.e., whenever \code{outcome} is not used).
+\item \code{event} The event variable for survival data.
+Events are typically \code{1}, censored observations \code{0}.
+Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
+(i.e., whenever \code{outcome} is not used).
+\item \code{outcome} The binary outcome variable for risk/prevalence
+data. Must be \code{0}/\code{1} or \code{FALSE}/\code{TRUE}.
+Needed for, e.g., \code{type = "rr"} and \code{type = "risk"}
+(i.e., whenever \code{event} and \code{time} are not used).
 \item \code{exposure} The exposure variable. Must be categorical
 (factor or logical).
-\item \code{effect_modifier} An effect modifier variable.
+\item \code{effect_modifier} Optional. An effect modifier variable.
 Use \code{NULL} or \code{NA} to leave blank.
-\item \code{stratum} A stratum of the effect modifier.
-Use \code{NULL} to leave blank. (\code{NA} will evaluate
-observations with missing effect modifier.)
-\item \code{confounders} A string in the format
-\code{"+ confounder1 + confounder2"} that will be substituted into
-into \code{coxph(formula = exposure + confounders)}.
-Use \code{""} (empty string) to leave blank. Can add \code{"+ strata(site)"}
-to obtain Cox models with stratification by, e.g., \code{site}.
-\item \code{type} The statistic requested:
+\item \code{stratum} Optional. A stratum of the effect modifier.
+Use \code{NULL} to leave blank. \code{NA} will evaluate
+observations with missing data for the \code{effect_modifier}.
+\item \code{confounders} Optional. A string in the format
+\code{"+ var1 + var2"} that will be substituted into
+into \code{formula = exposure + confounders}.
+Use \code{""} (empty string) to leave blank; the default.
+For Cox models, can add \code{"+ strata(site)"}
+to obtain models with stratification by, e.g., \code{site}.
+\item \code{type} The statistic requested (case-insensitive):
 \itemize{
-\item \code{"cox"} Hazard ratio and 95\% confidence interval.
-Models will be fit separately for each stratum of
-the \code{effect_modifier}.
-\item \code{"cox_joint"} Hazard ratio and 95\% confidence interval.
-A 'joint' model for exposure and effect modifier with a
-single reference category will be fit.
-\item \code{"events"} Event count
-\item \code{"time"} Person-time
-\item \code{"total"} Number of observations
-\item \code{"events/time"} Events slash person-time
-\item \code{"events/total"} Events slash number of observations
-\item \code{"rate"} Event rate: event count divided by person-time
-\item \code{"blank"} An empty line
+\item \code{"hr"} Hazard ratio and 95\% confidence interval
+from Cox proportional hazards regression.
+\item \code{"rr"} Risk ratio (or prevalence ratio) with
+95\% confidence interval from \code{\link[risks]{riskratio}}.
+\item \code{"rd"} Risk difference (or prevalence difference)
+with 95\% confidence interval from \code{\link[risks]{riskdiff}}.
+\item \code{"events"} Event count.
+\item \code{"time"} Person-time.
+\item \code{"outcomes"} Outcome count.
+\item \code{"total"} Number of observations.
+\item \code{"events/time"} Events slash person-time.
+\item \code{"events/total"} Events slash number of observations.
+\item \code{"risk"} Risk (or prevalence), i.e., events divided
+by number of observations. Change between display as proportion
+or percent using the parameter \code{risk_percent}.
+\item \code{"risk (ci)"} Risk with 95\% confidence interval
+(Wilson score interval for binomial proportions, see
+\code{\link[khsmisc]{scoreci}}).
+\item \code{"rate"} Event rate: event count divided by person-time,
+multiplied by \code{factor}.
+\item \code{"rate (ci)"} Event rate with 95\% confidence interval
+(Poisson-type interval, see \code{\link[khsmisc]{rates}}).
+\item \code{"outcomes/total (risk)"} A combination: Outcomes slah total
+followed by risk in parentheses.
+\item \code{"events/time (rate)"} A combination: Events slash time
+followed by rate in parentheses.
+\item \code{"blank"} An empty line.
 }
+
+By default, regression models will be fit separately for each
+stratum of the \code{effect_modifier}. Append \code{"_joint"}
+to \code{"hr"}, \code{"rr"}, or \code{"rd"} to obtain
+"joint" models for exposure and effect modifier that have
+a single reference category. Example: \code{type = "hr_joint"}.
 }
 
 Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
 \code{\link[dplyr]{mutate}} to construct the \code{design} dataset, especially
-variables that are used repeatedly (e.g., \code{time, event}). See examples.
+variables that are used repeatedly (e.g., \code{exposure, time, event},
+or \code{outcome}). See examples.
 }
 \examples{
 # Load 'ovarian' dataset from survival package
@@ -77,34 +131,62 @@ data(ovarian)
 # The exposure (here, 'rx') must be categorical
 ovarian <- ovarian \%>\%
   as_tibble() \%>\%
-  mutate(rx = factor(rx),
+  mutate(rx = factor(rx, levels = 1:2,
+                     labels = c("Control (CP)", "Treatment (CP+DXR)")),
          futime = futime / 365.25)  # presumably years
 
-# Set design elements that vary by row
-tribble(
-   ~label,                      ~stratum, ~confounders, ~type,
+# Example 1: Binary outcomes (use 'outcome' variable)
+# Set table design
+design1 <- tibble(label = c("Outcomes",
+                            "Total",
+                            "Outcomes/Total",
+                            "Risk",
+                            "Risk (CI)",
+                            "Outcomes/Total (Risk)",
+                            "RR",
+                            "RD")) \%>\%
+  mutate(type = label, exposure = "rx", outcome = "fustat")
+
+# Generate table2
+table2(design = design1, data = ovarian)
+
+# Use 'design' as columns (selecting RR and RD only)
+table2(design = design1 \%>\% filter(label \%in\% c("RR", "RD")),
+       data = ovarian, layout = "cols")
+
+# Example 2: Survival outcomes (use 'time' and 'event'),
+#   with an effect modifier and a confounder
+# Set table design
+design2 <- tribble(
+  # Elements that vary by row:
+  ~label,                       ~stratum, ~confounders, ~type,
   "Overall: Events",            NULL,     "",           "events",
-  "Overall: Person-years",      NULL,     "",           "time",
-  "Overall: Rate/1000 years",   NULL,     "",           "rate",
-  "  Unadjusted HR (95\% CI)",   NULL,     "",           "cox",
-  "  Age-adjusted HR (95\% CI)", NULL,     "+ age",      "cox",
+  "  Person-years",             NULL,     "",           "time",
+  "  Rate/1000 py (95\% CI)",    NULL,     "",           "rate (ci)",
+  "  Unadjusted HR (95\% CI)",   NULL,     "",           "hr",
+  "  Age-adjusted HR (95\% CI)", NULL,     "+ age",      "hr",
   "",                           NULL,     "",           "blank",
   "Stratified models",          NULL,     "",           "blank",
   "ECOG PS1 (events/N)",        1,        "",           "events/total",
-  "  Unadjusted",               1,        "",           "cox",
-  "  Age-adjusted",             1,        "+ age",      "cox",
+  "  Unadjusted",               1,        "",           "hr",
+  "  Age-adjusted",             1,        "+ age",      "hr",
   "ECOG PS2 (events/N)",        2,        "",           "events/total",
-  "  Unadjusted",               2,        "",           "cox",
-  "  Age-adjusted",             2,        "+ age",      "cox",
+  "  Unadjusted",               2,        "",           "hr",
+  "  Age-adjusted",             2,        "+ age",      "hr",
   "",                           NULL,     "",           "blank",
   "Joint model, age-adj.",      NULL,     "",           "blank",
-  "  ECOG PS1",                 1,        "+ age",      "cox_joint",
-  "  ECOG PS2",                 2,        "+ age",      "cox_joint") \%>\%
-# Set design elements that are the same for all rows
+  "  ECOG PS1",                 1,        "+ age",      "hr_joint",
+  "  ECOG PS2",                 2,        "+ age",      "hr_joint") \%>\%
+  # Elements that are the same for all rows:
   mutate(exposure = "rx", event = "fustat", time = "futime",
-        effect_modifier = "ecog.ps") \%>\%
-# Generate table2
-  table2(data = ovarian)
+         effect_modifier = "ecog.ps")
 
-# Use '\%>\% mygt()' to get formatted version (not shown)
+# Generate table2
+table2(design = design2, data = ovarian)
+
+# Get formatted output:
+\dontrun{
+table2(design = design2, data = ovarian) \%>\%
+  mygt()
+}
 }
