@@ -105,7 +105,9 @@ or percent using the parameter \code{risk_percent}.
 multiplied by \code{factor}.
 \item \code{"rate (ci)"} Event rate with 95\% confidence interval
 (Poisson-type interval, see \code{\link[khsmisc]{rates}}).
-\item \code{"outcomes/total (risk)"} A combination: Outcomes slah total
+\item \code{"outcomes (risk)"} A combination: Outcomes
+followed by risk in parentheses.
+\item \code{"outcomes/total (risk)"} A combination: Outcomes slash total
 followed by risk in parentheses.
 \item \code{"events/time (rate)"} A combination: Events slash time
 followed by rate in parentheses.
@@ -142,6 +144,7 @@ design1 <- tibble(label = c("Outcomes",
                             "Outcomes/Total",
                             "Risk",
                             "Risk (CI)",
+                            "Outcomes (Risk)",
                             "Outcomes/Total (Risk)",
                             "RR",
                             "RD")) \%>\%

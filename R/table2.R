@@ -21,7 +21,7 @@ table_counts <- function(data, event, time, outcome,
       if(!is.na(effectmodifier)) {
         data <- data %>%
           dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-          dplyr::filter(.data$.effectmod == effectmodifier_level)
+          dplyr::filter(.data$.effectmod %in% effectmodifier_level)
       }
     }
   }
@@ -50,49 +50,63 @@ table_counts <- function(data, event, time, outcome,
     dplyr::summarize(res = dplyr::case_when(
       type == "outcomes"              ~ paste(sum(.data$outcome)),
       type == "events"                ~ paste(sum(.data$event)),
-      type == "time"                  ~ paste(format(round(sum(.data$time), digits = 0), nsmall = 0)),
+      type == "time"                  ~
+        paste(trimws(format(round(sum(.data$time), digits = 0), nsmall = 0))),
       type == "total"                 ~ paste(n()),
       type == "outcomes/total"        ~ paste(sum(.data$outcome), n(), sep = "/"),
-      type == "events/time"           ~ paste(sum(.data$event),
-                                              format(round(sum(.data$time), digits = 0), nsmall = 0),
-                                              sep = "/"),
+      type == "events/time"           ~
+        paste(sum(.data$event),
+              trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)),
+              sep = "/"),
       type == "events/total"          ~ paste(sum(.data$event), n(), sep = "/"),
-      type == "risk"                  ~ paste0(format(round(sum(.data$outcome) / n() *
-                                                              if_else(risk_percent == TRUE, true = 100, false = 1),
-                                                            digits = risk_digits), nsmall = risk_digits),
-                                               if_else(risk_percent == TRUE, true = "%", false = "")),
-      type == "risk (ci)"             ~ paste0(format(round(sum(.data$outcome) / n() *
-                                                              if_else(risk_percent == TRUE, true = 100, false = 1),
-                                                            digits = risk_digits), nsmall = risk_digits),
-                                               if_else(risk_percent == TRUE, true = "%", false = ""), " (",
-                                               format(round(scoreci(success = sum(.data$outcome),
-                                                                    total = n())$conf.low *
-                                                              if_else(risk_percent == TRUE, true = 100, false = 1),
-                                                            digits = risk_digits), nsmall = risk_digits), "-",
-                                               format(round(scoreci(success = sum(.data$outcome),
-                                                                    total = n())$conf.high *
-                                                              if_else(risk_percent == TRUE, true = 100, false = 1),
-                                                            digits = risk_digits), nsmall = risk_digits), ")"),
-      type == "rate"                  ~ format(round(sum(.data$event) * factor / sum(.data$time),
-                                                     digits = rate_digits), nsmall = rate_digits),
-      type == "rate (ci)"             ~ paste0(format(round(sum(.data$event) * factor / sum(.data$time),
-                                                            digits = rate_digits), nsmall = rate_digits), " (",
-                                               format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
-                                                                         - stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
-                                                            digits = rate_digits), nsmall = rate_digits),
-                                               "-",
-                                               format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
-                                                                         + stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
-                                                            digits = rate_digits), nsmall = rate_digits), ")"),
-      type == "outcomes/total (risk)" ~ paste0(sum(.data$outcome), "/", n(), " (",
-                                               format(round(sum(.data$outcome) / n() *
-                                                              if_else(risk_percent == TRUE, true = 100, false = 1),
-                                                            digits = risk_digits), nsmall = risk_digits),
-                                               if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
-      type == "events/time (rate)"    ~ paste0(sum(.data$event), "/",
-                                               format(round(sum(.data$time), digits = 0), nsmall = 0), " (",
-                                               format(round(sum(.data$event) * factor / sum(.data$time),
-                                                            digits = rate_digits), nsmall = rate_digits), ")")),
+      type == "risk"                  ~
+        paste0(trimws(format(round(sum(.data$outcome) / n() *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)),
+               if_else(risk_percent == TRUE, true = "%", false = "")),
+      type == "risk (ci)"             ~
+        paste0(trimws(format(round(sum(.data$outcome) / n() *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)),
+               if_else(risk_percent == TRUE, true = "%", false = ""), " (",
+               trimws(format(round(scoreci(success = sum(.data$outcome),
+                                           total = n())$conf.low *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)), "-",
+               trimws(format(round(scoreci(success = sum(.data$outcome),
+                                           total = n())$conf.high *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)), ")"),
+      type == "rate"                  ~
+        trimws(format(round(sum(.data$event) * factor / sum(.data$time),
+                            digits = rate_digits), nsmall = rate_digits)),
+      type == "rate (ci)"             ~
+        paste0(trimws(format(round(sum(.data$event) * factor / sum(.data$time),
+                                   digits = rate_digits), nsmall = rate_digits)), " (",
+               trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
+                                                - stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
+                                   digits = rate_digits), nsmall = rate_digits)),
+               "-",
+               trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
+                                                + stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
+                                   digits = rate_digits), nsmall = rate_digits)), ")"),
+      type == "outcomes (risk)" ~
+        paste0(sum(.data$outcome), " (",
+               trimws(format(round(sum(.data$outcome) / n() *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)),
+               if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
+      type == "outcomes/total (risk)" ~
+        paste0(sum(.data$outcome), "/", n(), " (",
+               trimws(format(round(sum(.data$outcome) / n() *
+                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                   digits = risk_digits), nsmall = risk_digits)),
+               if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
+      type == "events/time (rate)"    ~
+        paste0(sum(.data$event), "/",
+               trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)), " (",
+               trimws(format(round(sum(.data$event) * factor / sum(.data$time),
+                                   digits = rate_digits), nsmall = rate_digits)), ")")),
       .groups = "drop")
 }
 
@@ -115,7 +129,7 @@ table_cox <- function(data, event, time,
   if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
     if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
       data <- data %>% dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-        dplyr::filter(.data$.effectmod == effectmodifier_level)
+        dplyr::filter(.data$.effectmod %in% effectmodifier_level)
     }
   }
 
@@ -125,7 +139,7 @@ table_cox <- function(data, event, time,
     broom::tidy(conf.int = TRUE, exponentiate = TRUE) %>%
     dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
     dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~format(round(., digits = 2), nsmall = 2)) %>%
+                     .funs = ~trimws(format(round(., digits = 2), nsmall = 2))) %>%
     dplyr::filter(stringr::str_detect(string = .data$term, pattern = ".exposure")) %>%
     dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = ".exposure")) %>%
     dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
@@ -167,7 +181,7 @@ table_cox_joint <- function(data, event, time,
     broom::tidy(conf.int = TRUE, exponentiate = TRUE) %>%
     dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
     dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~format(round(., digits = 2), nsmall = 2)) %>%
+                     .funs = ~trimws(format(round(., digits = 2), nsmall = 2))) %>%
     dplyr::filter(stringr::str_detect(string = .data$term,
                                       pattern = paste0(".joint", effectmodifier_level, "__"))) %>%
     dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
@@ -203,7 +217,7 @@ table_rdrr <- function(data, outcome,
     if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
       data <- data %>%
         dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-        dplyr::filter(.data$.effectmod == effectmodifier_level)
+        dplyr::filter(.data$.effectmod %in% effectmodifier_level)
     }
   }
 
@@ -443,7 +457,9 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'        multiplied by \code{factor}.
 #'      * \code{"rate (ci)"} Event rate with 95% confidence interval
 #'        (Poisson-type interval, see \code{\link[khsmisc]{rates}}).
-#'      * \code{"outcomes/total (risk)"} A combination: Outcomes slah total
+#'      * \code{"outcomes (risk)"} A combination: Outcomes
+#'        followed by risk in parentheses.
+#'      * \code{"outcomes/total (risk)"} A combination: Outcomes slash total
 #'        followed by risk in parentheses.
 #'      * \code{"events/time (rate)"} A combination: Events slash time
 #'        followed by rate in parentheses.
@@ -483,6 +499,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'                             "Outcomes/Total",
 #'                             "Risk",
 #'                             "Risk (CI)",
+#'                             "Outcomes (Risk)",
 #'                             "Outcomes/Total (Risk)",
 #'                             "RR",
 #'                             "RD")) %>%
