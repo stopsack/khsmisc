@@ -140,14 +140,14 @@ clinical <- clinical %>%
 Additional exposure data on tumors of the same study participants comes in the form of derived tumor aneuploidy scores as per Taylor, ..., Meyerson ([Cancer Cell 2018;33:676–689](https://doi.org/10.1016/j.ccell.2018.03.007)).
 
     
-Load the Excel file provided as their [Supplementary Table 2 via a HTTPS URL](https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/1bed73fe-bc7e-438a-a632-ddc92d466773/mmc2.xlsx"), show dataset inventory, and select/rename variables:
+Load the Excel file provided as their [Supplementary Table 2 via a HTTPS URL](https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx), show dataset inventory, and select/rename variables:
     
 ```{r}
 # --Workaround: read_xlsx() is currently not supporting reading URLs directly--
 # Generate temporary path
 temporary_path <- tempfile(fileext = ".xlsx")
 # Download Taylor suppl. table 2 to that temporary path
-download.file(url = "https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/1bed73fe-bc7e-438a-a632-ddc92d466773/mmc2.xlsx", 
+download.file(url = "https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx", 
               destfile = temporary_path)
 # Print temporary file location
 print(paste("Taylor et al. suppl. table 2 is temporarily available locally at",
