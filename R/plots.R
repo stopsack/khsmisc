@@ -70,10 +70,14 @@ stripplot <- function(data, x, y,
       dplyr::filter(!is.na(get(x)))
   }
 
-  myplot <- ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = get(x), y = get(y))) +
+  myplot <- ggplot2::ggplot(data = data,
+                            mapping = ggplot2::aes(x = factor(get(x)),
+                                                   y = get(y))) +
     ggplot2::geom_boxplot(outlier.shape = NA) +
     labs(x = xlbl, y = ylbl) +
-    cowplot::theme_minimal_hgrid()
+    cowplot::theme_minimal_hgrid() +
+    theme(axis.line.x = element_blank(),
+          axis.ticks.x = element_blank())
   if (jitter == TRUE) {
     set.seed(3457)
     if(length(color) == 0)

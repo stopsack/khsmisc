@@ -1,3 +1,9 @@
+# khsmisc 0.2.3
+
+* `table1()`, `table2()`, `tsummary()`: improve input error handling
+* `table2()`: allow grouping multiple strata of the effect modifier; add `type = "outcomes (risk)"`
+
+
 # khsmisc 0.2.2
 
 * `table2()`: include estimates from risk ratio and risk difference models; input checks; allow for missing effect modifier, confounders; more descriptive statistics; more examples.
