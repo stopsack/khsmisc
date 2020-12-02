@@ -210,6 +210,10 @@ tsummary <- function(data,
   data <- newdata
 
   if(is.null(by)) {
+    if(data %>%
+       dplyr::select_if(is.numeric) %>%
+       ncol() == 0)
+      stop("No numeric variables in the dataset as requested.")
     data <- data %>%
       dplyr::select_if(is.numeric) %>%
       tidyr::pivot_longer(cols = dplyr::everything(),
@@ -219,6 +223,11 @@ tsummary <- function(data,
   } else {
     to_keep <- c(data %>% dplyr::select_if(is.numeric) %>% names(),
                  dplyr::all_of(by))
+    if(data %>%
+       dplyr::select(-dplyr::all_of(by)) %>%
+       dplyr::select_if(is.numeric) %>%
+       ncol() == 0)
+      stop("No numeric variables in the dataset as requested.")
     data <- data %>%
       dplyr::select(dplyr::all_of(to_keep)) %>%
       tidyr::pivot_longer(cols = c(-dplyr::all_of(by)),
@@ -343,7 +352,7 @@ table1 <- function(data,
   mystats <- list(N ~ "{n}")
   if(!is.null(statistic))
     mystats <- append(mystats, statistic)
-  if(is.null(by)) {
+  if(length(by) == 0) {
     data %>%
       dplyr::mutate(N = 1) %>%
       dplyr::select(.data$N, dplyr::everything()) %>%
