@@ -41,8 +41,8 @@
 
 <meta property="og:title" content="Table 2: Stratified Result Tables — table2" />
 <meta property="og:description" content="This function obtains descriptive
-and inferential results for binary and survival data in the format
-of a table stratified by exposure and, if requested, by
+and inferential results for binary, continuous, and survival data
+in the format of a table stratified by exposure and, if requested, by
 effect modifiers." />
 
 
@@ -75,7 +75,7 @@ effect modifiers." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -124,8 +124,8 @@ effect modifiers." />
 
     <div class="ref-description">
     <p>This function obtains descriptive
-and inferential results for binary and survival data in the format
-of a table stratified by exposure and, if requested, by
+and inferential results for binary, continuous, and survival data
+in the format of a table stratified by exposure and, if requested, by
 effect modifiers.</p>
     </div>
 
@@ -136,7 +136,8 @@ effect modifiers.</p>
   factor <span class='op'>=</span> <span class='fl'>1000</span>,
   risk_percent <span class='op'>=</span> <span class='cn'>FALSE</span>,
   risk_digits <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>risk_percent</span> <span class='op'>==</span> <span class='cn'>TRUE</span>, true <span class='op'>=</span> <span class='fl'>0</span>, false <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
-  rate_digits <span class='op'>=</span> <span class='fl'>1</span>
+  rate_digits <span class='op'>=</span> <span class='fl'>1</span>,
+  diff_to <span class='op'>=</span> <span class='st'>" to "</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -180,6 +181,12 @@ for <code>risk_percent = FALSE</code> and to <code>0</code> for
       <td><p>Optional. Number of decimal digits to show for rates.
 Defaults to <code>1</code>. (Ratios, i.e., hazard ratios and risk ratios are
 always shown with 2 decimal digits.)</p></td>
+    </tr>
+    <tr>
+      <th>diff_to</th>
+      <td><p>Optional. Separator between the lower and the upper bound
+of the 95% confidence interval for differences and means. Defaults to
+<code>" to "</code>.</p></td>
     </tr>
     </table>
 
@@ -225,6 +232,9 @@ from Cox proportional hazards regression.</p></li>
 95% confidence interval from <code><a href='https://rdrr.io/pkg/risks/man/riskratio.html'>riskratio</a></code>.</p></li>
 <li><p><code>"rd"</code> Risk difference (or prevalence difference)
 with 95% confidence interval from <code><a href='https://rdrr.io/pkg/risks/man/riskratio.html'>riskdiff</a></code>.</p></li>
+<li><p><code>"diff"</code> Mean difference with 95% confidence interval
+from linear model. Use <code>"diff 3"</code> to round result to
+3 decimal digits (defaults to 2 digits).</p></li>
 <li><p><code>"events"</code> Event count.</p></li>
 <li><p><code>"time"</code> Person-time.</p></li>
 <li><p><code>"outcomes"</code> Outcome count.</p></li>
@@ -247,12 +257,15 @@ followed by risk in parentheses.</p></li>
 followed by risk in parentheses.</p></li>
 <li><p><code>"events/time (rate)"</code> A combination: Events slash time
 followed by rate in parentheses.</p></li>
-<li><p><code>"blank"</code> An empty line.</p></li>
+<li><p><code>"mean"</code> Mean. Use <code>"mean 3"</code> to round result to
+3 decimal digits (defaults to 2 digits).</p></li>
+<li><p><code>"mean (ci)"</code> Mean and 95% CI.</p></li>
+<li><p><code>"blank"</code> or <code>""</code> An empty line.</p></li>
 </ul>
 
 <p>By default, regression models will be fit separately for each
 stratum of the <code>effect_modifier</code>. Append <code>"_joint"</code>
-to <code>"hr"</code>, <code>"rr"</code>, or <code>"rd"</code> to obtain
+to <code>"hr"</code>, <code>"rr"</code>, <code>"rd"</code>, or  <code>"diff"</code> to obtain
 "joint" models for exposure and effect modifier that have
 a single reference category. Example: <code>type = "hr_joint"</code>.</p></li>
 </ul>
@@ -327,8 +340,8 @@ or <code>outcome</code>). See examples.</p>
   <span class='st'>"ECOG PS2 (events/N)"</span>,        <span class='fl'>2</span>,        <span class='st'>""</span>,           <span class='st'>"events/total"</span>,
   <span class='st'>"  Unadjusted"</span>,               <span class='fl'>2</span>,        <span class='st'>""</span>,           <span class='st'>"hr"</span>,
   <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
-  <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
-  <span class='st'>"Joint model, age-adj."</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
+  <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>""</span>,
+  <span class='st'>"Joint model, age-adj."</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>""</span>,
   <span class='st'>"  ECOG PS1"</span>,                 <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr_joint"</span>,
   <span class='st'>"  ECOG PS2"</span>,                 <span class='fl'>2</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr_joint"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='co'># Elements that are the same for all rows:</span>
@@ -357,6 +370,36 @@ or <code>outcome</code>). See examples.</p>
 #&gt; </span><span style='color: #555555;'>15</span><span> </span><span style='color: #555555;'>"</span><span>Joint model, age-adj.</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                  
 #&gt; </span><span style='color: #555555;'>16</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS1</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>1 (reference)</span><span style='color: #555555;'>"</span><span>       </span><span style='color: #555555;'>"</span><span>0.18 (0.02-1.72)</span><span style='color: #555555;'>"</span><span>  
 #&gt; </span><span style='color: #555555;'>17</span><span> </span><span style='color: #555555;'>"</span><span>  ECOG PS2</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>0.63 (0.13-3.09)</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>"</span><span>0.48 (0.11-2.06)</span><span style='color: #555555;'>"</span><span>  </div><div class='input'>
+<span class='co'># Example 3: Continuous outcomes (use 'outcome' variable)</span>
+<span class='fu'>tribble</span><span class='op'>(</span><span class='op'>~</span><span class='va'>label</span>,                <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>type</span>,
+        <span class='st'>"Grand mean (95% CI)"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>,      <span class='st'>"mean (ci) 1"</span>,
+        <span class='st'>"resid.ds = 1"</span>,        <span class='fl'>1</span>,        <span class='st'>"mean"</span>,
+        <span class='st'>"resid.ds = 2"</span>,        <span class='fl'>2</span>,        <span class='st'>"mean"</span>,
+        <span class='st'>""</span>,                    <span class='cn'>NULL</span>,     <span class='st'>""</span>,
+        <span class='st'>"Stratified model"</span>,    <span class='cn'>NULL</span>,     <span class='st'>""</span>,
+        <span class='st'>"  resid.ds = 1"</span>,      <span class='fl'>1</span>,        <span class='st'>"diff 1"</span>,
+        <span class='st'>"  resid.ds = 2"</span>,      <span class='fl'>2</span>,        <span class='st'>"diff 1"</span>,
+        <span class='st'>""</span>,                    <span class='cn'>NULL</span>,     <span class='st'>""</span>,
+        <span class='st'>"Joint model"</span>,         <span class='cn'>NULL</span>,     <span class='st'>""</span>,
+        <span class='st'>"  resid.ds = 1"</span>,      <span class='fl'>1</span>,        <span class='st'>"diff_joint"</span>,
+        <span class='st'>"  resid.ds = 2"</span>,      <span class='fl'>2</span>,        <span class='st'>"diff_joint"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>exposure <span class='op'>=</span> <span class='st'>"ecog.ps"</span>, outcome <span class='op'>=</span> <span class='st'>"age"</span>,
+         effect_modifier <span class='op'>=</span> <span class='st'>"resid.ds"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>table2</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ovarian</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>ecog.ps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>ecog.ps</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 11 x 3</span><span>
+#&gt;    ecog.ps               `1`                     `2`                     
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   
+#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>"</span><span>Grand mean (95% CI)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>55.0 (49.3 to 60.7)</span><span style='color: #555555;'>"</span><span>   </span><span style='color: #555555;'>"</span><span>57.5 (52.2 to 62.9)</span><span style='color: #555555;'>"</span><span>   
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>"</span><span>resid.ds = 1</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>49.24</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>55.72</span><span style='color: #555555;'>"</span><span>                 
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>"</span><span>resid.ds = 2</span><span style='color: #555555;'>"</span><span>        </span><span style='color: #555555;'>"</span><span>58.17</span><span style='color: #555555;'>"</span><span>                 </span><span style='color: #555555;'>"</span><span>59.38</span><span style='color: #555555;'>"</span><span>                 
+#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                      </span><span style='color: #555555;'>""</span><span>                      
+#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>"</span><span>Stratified model</span><span style='color: #555555;'>"</span><span>    </span><span style='color: #555555;'>""</span><span>                      </span><span style='color: #555555;'>""</span><span>                      
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>"</span><span>  resid.ds = 1</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>"</span><span>0 (reference)</span><span style='color: #555555;'>"</span><span>         </span><span style='color: #555555;'>"</span><span>6.5 (-3.3 to 16.2)</span><span style='color: #555555;'>"</span><span>    
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>"</span><span>  resid.ds = 2</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>"</span><span>0 (reference)</span><span style='color: #555555;'>"</span><span>         </span><span style='color: #555555;'>"</span><span>1.2 (-12.0 to 14.4)</span><span style='color: #555555;'>"</span><span>   
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>""</span><span>                    </span><span style='color: #555555;'>""</span><span>                      </span><span style='color: #555555;'>""</span><span>                      
+#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>"</span><span>Joint model</span><span style='color: #555555;'>"</span><span>         </span><span style='color: #555555;'>""</span><span>                      </span><span style='color: #555555;'>""</span><span>                      
+#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>"</span><span>  resid.ds = 1</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>"</span><span>0 (reference)</span><span style='color: #555555;'>"</span><span>         </span><span style='color: #555555;'>"</span><span>6.48 (-6.11 to 19.07)</span><span style='color: #555555;'>"</span><span> 
+#&gt; </span><span style='color: #555555;'>11</span><span> </span><span style='color: #555555;'>"</span><span>  resid.ds = 2</span><span style='color: #555555;'>"</span><span>      </span><span style='color: #555555;'>"</span><span>8.93 (-2.67 to 20.53)</span><span style='color: #555555;'>"</span><span> </span><span style='color: #555555;'>"</span><span>10.14 (-2.45 to 22.73)</span><span style='color: #555555;'>"</span><span></div><div class='input'>
 <span class='co'># Get formatted output:</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design2</span>, data <span class='op'>=</span> <span class='va'>ovarian</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
