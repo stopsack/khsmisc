@@ -57,7 +57,8 @@ will be made available:
     incidence.
   - **Functions for figures:** `stripplot()` for box/whiskers plots
     overlaid with a dot plot of all data points; `corrmat()` for
-    correlation matrices
+    correlation matrices; `exclusion_flowchart()` for a flowchart with
+    consequences of exclusion criteria.
 
 # An analysis example: TCGA `BLCA`
 

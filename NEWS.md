@@ -1,3 +1,10 @@
+# khsmisc 0.2.4
+
+* `exclusion_flowchart()`: visualize exclusions from study with a flowchart via `DiagrammeR::grViz()`
+* `table2()`: for vectors that are not categorical, force `exposure` to be a factor and issue a warning, but do not abort; allow for blank lines
+* `table2()`: handle continuous outcomes variables with `type = "diff"` and `type = "mean"`
+
+
 # khsmisc 0.2.3
 
 * `table1()`, `table2()`, `tsummary()`: improve input error handling

@@ -55,10 +55,14 @@ count (column percent).
 data(mtcars)
 
 # Stratify by "gear":
+\dontrun{
 mtcars \%>\%
   table1(by = gear)
+}
 
 # Show only selected variables in rows:
+\dontrun{
 mtcars \%>\%
   table1(cyl, mpg, disp, by = gear)
+}
 }

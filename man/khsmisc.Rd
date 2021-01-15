@@ -60,6 +60,8 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 
 \code{\link[khsmisc]{table1}}: Formatted stratified descriptive tables using gtsummary
 
+\code{\link[khsmisc]{table2}}: Stratified result tables
+
 \code{\link[khsmisc]{rates}}: Event counts, person-time, incidence rates, and cumulative incidence
 }
 
@@ -69,6 +71,8 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 \code{\link[khsmisc]{stripplot}}: Box-whiskers/dot plot
 
 \code{\link[khsmisc]{corrmat}}: Correlation matrix
+
+\code{\link[khsmisc]{exclusion_flowchart}}: Flowcharts of exclusions from study
 }
 
 \seealso{

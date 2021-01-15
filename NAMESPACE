@@ -3,6 +3,7 @@
 export("%>%")
 export(Mode)
 export(corrmat)
+export(exclusion_flowchart)
 export(mygt)
 export(mytab)
 export(pdf_safely)

@@ -11,7 +11,8 @@ table2(
   factor = 1000,
   risk_percent = FALSE,
   risk_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
-  rate_digits = 1
+  rate_digits = 1,
+  diff_to = " to "
 )
 }
 \arguments{
@@ -39,6 +40,10 @@ for \code{risk_percent = FALSE} and to \code{0} for
 \item{rate_digits}{Optional. Number of decimal digits to show for rates.
 Defaults to \code{1}. (Ratios, i.e., hazard ratios and risk ratios are
 always shown with 2 decimal digits.)}
+
+\item{diff_to}{Optional. Separator between the lower and the upper bound
+of the 95\% confidence interval for differences and means. Defaults to
+\code{" to "}.}
 }
 \value{
 Tibble. Get formatted output by passing on to
@@ -46,8 +51,8 @@ Tibble. Get formatted output by passing on to
 }
 \description{
 This function obtains descriptive
-and inferential results for binary and survival data in the format
-of a table stratified by exposure and, if requested, by
+and inferential results for binary, continuous, and survival data
+in the format of a table stratified by exposure and, if requested, by
 effect modifiers.
 }
 \details{
@@ -89,6 +94,9 @@ from Cox proportional hazards regression.
 95\% confidence interval from \code{\link[risks]{riskratio}}.
 \item \code{"rd"} Risk difference (or prevalence difference)
 with 95\% confidence interval from \code{\link[risks]{riskdiff}}.
+\item \code{"diff"} Mean difference with 95\% confidence interval
+from linear model. Use \code{"diff 3"} to round result to
+3 decimal digits (defaults to 2 digits).
 \item \code{"events"} Event count.
 \item \code{"time"} Person-time.
 \item \code{"outcomes"} Outcome count.
@@ -111,12 +119,15 @@ followed by risk in parentheses.
 followed by risk in parentheses.
 \item \code{"events/time (rate)"} A combination: Events slash time
 followed by rate in parentheses.
-\item \code{"blank"} An empty line.
+\item \code{"mean"} Mean. Use \code{"mean 3"} to round result to
+3 decimal digits (defaults to 2 digits).
+\item \code{"mean (ci)"} Mean and 95\% CI.
+\item \code{"blank"} or \code{""} An empty line.
 }
 
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
-to \code{"hr"}, \code{"rr"}, or \code{"rd"} to obtain
+to \code{"hr"}, \code{"rr"}, \code{"rd"}, or  \code{"diff"} to obtain
 "joint" models for exposure and effect modifier that have
 a single reference category. Example: \code{type = "hr_joint"}.
 }
@@ -176,8 +187,8 @@ design2 <- tribble(
   "ECOG PS2 (events/N)",        2,        "",           "events/total",
   "  Unadjusted",               2,        "",           "hr",
   "  Age-adjusted",             2,        "+ age",      "hr",
-  "",                           NULL,     "",           "blank",
-  "Joint model, age-adj.",      NULL,     "",           "blank",
+  "",                           NULL,     "",           "",
+  "Joint model, age-adj.",      NULL,     "",           "",
   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
   "  ECOG PS2",                 2,        "+ age",      "hr_joint") \%>\%
   # Elements that are the same for all rows:
@@ -186,6 +197,23 @@ design2 <- tribble(
 
 # Generate table2
 table2(design = design2, data = ovarian)
+
+# Example 3: Continuous outcomes (use 'outcome' variable)
+tribble(~label,                ~stratum, ~type,
+        "Grand mean (95\% CI)", 1:2,      "mean (ci) 1",
+        "resid.ds = 1",        1,        "mean",
+        "resid.ds = 2",        2,        "mean",
+        "",                    NULL,     "",
+        "Stratified model",    NULL,     "",
+        "  resid.ds = 1",      1,        "diff 1",
+        "  resid.ds = 2",      2,        "diff 1",
+        "",                    NULL,     "",
+        "Joint model",         NULL,     "",
+        "  resid.ds = 1",      1,        "diff_joint",
+        "  resid.ds = 2",      2,        "diff_joint") \%>\%
+  mutate(exposure = "ecog.ps", outcome = "age",
+         effect_modifier = "resid.ds") \%>\%
+  table2(data = ovarian \%>\% mutate(ecog.ps = factor(ecog.ps)))
 
 # Get formatted output:
 \dontrun{
