@@ -8,17 +8,15 @@
 #' @param type Type of statistic quested
 #' @param factor Factor for rates. Defaults to 1000.
 #' @param risk_percent Display risks as percentage?
-#' @param risk_digits Number of digits to round risk estimates to
-#' @param rate_digits Number of digits to round rate estimates to
-#' @param mean_digits Number of digits to mean estimates to
-#' @param diff_to Separator for mean/difference confidence intervals
+#' @param digits Number of digits to round estimates to
+#' @param to Separator for mean/difference confidence intervals
 #'
 #' @return Tibble
 #' @noRd
 table_counts <- function(data, event, time, outcome,
                          effectmodifier = NULL, effectmodifier_level = NULL,
                          type, factor, risk_percent,
-                         risk_digits, rate_digits, mean_digits, diff_to) {
+                         digits, to) {
   if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
     if(!is.null(effectmodifier_level) & !is.null(effectmodifier)) {
       if(!is.na(effectmodifier)) {
@@ -29,14 +27,11 @@ table_counts <- function(data, event, time, outcome,
     }
   }
 
-  if(stringr::str_detect(string = type, pattern = "outcomes") |
-     stringr::str_detect(string = type, pattern = "risk") |
-     stringr::str_detect(string = type, pattern = "mean")) {
+  if(stringr::str_detect(string = type, pattern = "outcomes|risk|mean|median")) {
     data <- data %>% dplyr::select(.data$.exposure, outcome = dplyr::one_of(outcome)) %>%
       dplyr::mutate(event = NA, time = NA)
   } else {
-    if(stringr::str_detect(string = type, pattern = "events") |
-       stringr::str_detect(string = type, pattern = "rate") |
+    if(stringr::str_detect(string = type, pattern = "events|rate") |
        type == "time") {
       data <- data %>% dplyr::select(.data$.exposure,
                                      event     = dplyr::one_of(event),
@@ -48,6 +43,13 @@ table_counts <- function(data, event, time, outcome,
         dplyr::mutate(event = NA, time = NA, outcome = NA)
     }
   }
+  if(is.null(to)) {
+    if(stringr::str_detect(string = type, pattern = "mean|median"))
+      to <- " to "
+    else
+      to <- "-"
+  }
+
 
   data %>%
     dplyr::group_by(.data$.exposure) %>%
@@ -66,359 +68,205 @@ table_counts <- function(data, event, time, outcome,
       type == "risk"                  ~
         paste0(trimws(format(round(sum(.data$outcome) / n() *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)),
+                                   digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = "")),
       type == "risk (ci)"             ~
         paste0(trimws(format(round(sum(.data$outcome) / n() *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)),
+                                   digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), " (",
                trimws(format(round(scoreci(success = sum(.data$outcome),
                                            total = n())$conf.low *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)), "-",
+                                   digits = digits), nsmall = digits)), to,
                trimws(format(round(scoreci(success = sum(.data$outcome),
                                            total = n())$conf.high *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)), ")"),
+                                   digits = digits), nsmall = digits)), ")"),
       type == "rate"                  ~
         trimws(format(round(sum(.data$event) * factor / sum(.data$time),
-                            digits = rate_digits), nsmall = rate_digits)),
+                            digits = digits), nsmall = digits)),
       type == "rate (ci)"             ~
         paste0(trimws(format(round(sum(.data$event) * factor / sum(.data$time),
-                                   digits = rate_digits), nsmall = rate_digits)), " (",
+                                   digits = digits), nsmall = digits)), " (",
                trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
                                                 - stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
-                                   digits = rate_digits), nsmall = rate_digits)),
-               "-",
+                                   digits = digits), nsmall = digits)),
+               to,
                trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
                                                 + stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
-                                   digits = rate_digits), nsmall = rate_digits)), ")"),
+                                   digits = digits), nsmall = digits)), ")"),
       type == "outcomes (risk)" ~
         paste0(sum(.data$outcome), " (",
                trimws(format(round(sum(.data$outcome) / n() *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)),
+                                   digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
       type == "outcomes/total (risk)" ~
         paste0(sum(.data$outcome), "/", n(), " (",
                trimws(format(round(sum(.data$outcome) / n() *
                                      if_else(risk_percent == TRUE, true = 100, false = 1),
-                                   digits = risk_digits), nsmall = risk_digits)),
+                                   digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
       type == "events/time (rate)"    ~
         paste0(sum(.data$event), "/",
                trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)), " (",
                trimws(format(round(sum(.data$event) * factor / sum(.data$time),
-                                   digits = rate_digits), nsmall = rate_digits)), ")"),
+                                   digits = digits), nsmall = digits)), ")"),
       type == "mean" ~
-        trimws(format(round(mean(.data$outcome), digits = mean_digits), nsmall = mean_digits)),
+        trimws(format(round(mean(.data$outcome), digits = digits), nsmall = digits)),
       type == "mean (ci)" ~
-        paste0(trimws(format(round(mean(.data$outcome), digits = mean_digits),
-                             nsmall = mean_digits)), " (",
+        paste0(trimws(format(round(mean(.data$outcome), digits = digits),
+                             nsmall = digits)), " (",
                trimws(format(round(mean(.data$outcome) - stats::qnorm(0.975) *
                                      sqrt(var(.data$outcome) / sum(!is.na(.data$outcome))),
-                                   digits = mean_digits),
-                             nsmall = mean_digits)),
-               diff_to,
+                                   digits = digits),
+                             nsmall = digits)),
+               to,
                trimws(format(round(mean(.data$outcome) + stats::qnorm(0.975) *
                                      sqrt(var(.data$outcome) / sum(!is.na(.data$outcome))),
-                                   digits = mean_digits),
-                             nsmall = mean_digits)), ")"
-      )),
+                                   digits = digits),
+                             nsmall = digits)), ")"),
+      type == "median" ~
+        trimws(format(round(median(.data$outcome), digits = digits), nsmall = digits)),
+      type == "median (iqr)" ~
+        paste0(trimws(format(round(median(.data$outcome, na.rm = TRUE),
+                                   digits = digits), nsmall = digits)),
+               " (",
+               trimws(format(round(stats::quantile(.data$outcome, probs = 0.25, na.rm = TRUE),
+                                   digits = digits), nsmall = digits)),
+               to,
+               trimws(format(round(stats::quantile(.data$outcome, probs = 0.75, na.rm = TRUE),
+                                   digits = digits), nsmall = digits)), ")")),
       .groups = "drop")
 }
 
-#' Get hazard ratio and CI from Cox model
+#' Get point estimate and CI from regression models
 #'
 #' @param data Dataset
 #' @param event Event variable
 #' @param time Time variable
+#' @param outcome Outcome variable
 #' @param effectmodifier Effect modifier variable
 #' @param effectmodifier_level Effect modifier level
 #' @param confounders String of covariates
-#'
-#' @return Tibble
-#' @noRd
-table_cox <- function(data, event, time,
-                      effectmodifier = NULL, effectmodifier_level = NULL,
-                      confounders = "") {
-  xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
-
-  if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
-    if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
-      data <- data %>% dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-        dplyr::filter(.data$.effectmod %in% effectmodifier_level)
-    }
-  }
-
-  survival::coxph(formula = stats::as.formula(paste0("Surv(", time, ", ", event,
-                                                     ") ~ .exposure", confounders)),
-        data = data) %>%
-    broom::tidy(conf.int = TRUE, exponentiate = TRUE) %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(., digits = 2), nsmall = 2))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term, pattern = ".exposure")) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = ".exposure")) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, "-", .data$conf.high, ")"),
-                  res = dplyr::if_else(is.na(.data$estimate),
-                                       true = "1 (reference)", false = .data$res)) %>%
-    dplyr::select(.data$.exposure, .data$res)
-}
-
-#' Get hazard ratio and CI from Cox model (joint)
-#'
-#' @description
-#' For 'joint' coding of exposure and effect modifier.
-#'
-#' @param data Dataset
-#' @param event Event variable
-#' @param time Time variable
-#' @param effectmodifier Effect modifier variable
-#' @param effectmodifier_level Effect modifier level
-#' @param confounders String of covariates
-#'
-#' @return Tibble
-#' @noRd
-table_cox_joint <- function(data, event, time,
-                            effectmodifier, effectmodifier_level,
-                            confounders = "") {
-  if(missing(effectmodifier) | missing(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint model ('hr_joint').")
-  if(is.na(effectmodifier) | is.null(effectmodifier) | is.null(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint model ('hr_joint').")
-  data <- data %>%
-    dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-    dplyr::mutate(.joint = paste(.data$.effectmod, .data$.exposure, sep = "__"))
-  xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
-
-  survival::coxph(formula = stats::as.formula(paste0("Surv(", time, ", ",
-                                                     event, ") ~ .joint", confounders)),
-        data = data) %>%
-    broom::tidy(conf.int = TRUE, exponentiate = TRUE) %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(., digits = 2), nsmall = 2))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term,
-                                      pattern = paste0(".joint", effectmodifier_level, "__"))) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
-                                                  pattern = paste0(".joint",
-                                                                   effectmodifier_level, "__"))) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, "-", .data$conf.high, ")"),
-                  res = dplyr::if_else(is.na(.data$estimate),
-                                       true = "1 (reference)", false = .data$res)) %>%
-    dplyr::select(.data$.exposure, .data$res)
-}
-
-
-#' Get RR or RD from 'risks' model
-#'
-#' @param data Dataset
-#' @param outcome Binary outcome variable
-#' @param effectmodifier Effect modifier variable
-#' @param effectmodifier_level Effect modifier level
-#' @param confounders String of covariates
-#' @param type "rr" or "rd"
-#' @param risk_percent Display risks as percentage?
+#' @param risk_percent Display risk differences as percentage?
 #' @param digits Number of digits to round estimates to
+#' @param to Separator character(s) for confidence interval bounds
 #'
 #' @return Tibble
 #' @noRd
-table_rdrr <- function(data, outcome,
-                       effectmodifier = NULL, effectmodifier_level = NULL,
-                       confounders = "", type, risk_percent, digits) {
+table_regress <- function(data, estimand, event, time, outcome,
+                          effectmodifier = NULL, effectmodifier_level = NULL,
+                          confounders = "", risk_percent = FALSE, digits = 2,
+                          to = "-") {
   xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
 
-  if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
-    if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
-      data <- data %>%
-        dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-        dplyr::filter(.data$.effectmod %in% effectmodifier_level)
+  if(stringr::str_detect(string = estimand, pattern = "_joint")) {
+    if(missing(effectmodifier) | missing(effectmodifier_level))
+      stop(paste0("Effect modifier and stratum must be specified for joint model ('",
+                  estimand, "')."))
+    if(is.na(effectmodifier) | is.null(effectmodifier) | is.null(effectmodifier_level))
+      stop(paste0("Effect modifier and stratum must be specified for joint model ('",
+                  estimand, "')."))
+    pattern <- paste0(".exposure[:digit:]{1,2}__", effectmodifier_level,
+                      "__[:digit:]{1,2}__")
+    data <- data %>%
+      dplyr::rename(.effectmod = dplyr::one_of(effectmodifier))
+    xlevels_indices <- 1:length(xlevels)
+    names(xlevels_indices) <- xlevels
+    emlevels <- data %>% dplyr::pull(.data$.effectmod) %>% factor() %>% levels()
+    emlevels_indices <- 1:length(emlevels)
+    names(emlevels_indices) <- emlevels
+    data <- data %>%
+      dplyr::mutate(.exposure = paste(emlevels_indices[.data$.effectmod],
+                                      .data$.effectmod,
+                                      xlevels_indices[.data$.exposure],
+                                      .data$.exposure,
+                                      sep = "__"))
+  } else {
+    pattern <- ".exposure"
+    if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
+      if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
+        data <- data %>% dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
+          dplyr::filter(.data$.effectmod %in% effectmodifier_level)
+      }
     }
   }
 
-  if(stringr::str_detect(string = type, pattern = "rr")) {
-    res <- risks::riskratio(formula = stats::as.formula(paste(outcome, "~ .exposure", confounders)),
-                            data = data) %>%
-      broom::tidy(conf.int = TRUE, exponentiate = TRUE)
-    reference <- "1 (reference)"
-    multiply <- 1
-  } else {
-    res <- risks::riskdiff(formula = stats::as.formula(paste(outcome, "~ .exposure", confounders)),
-                           data = data) %>%
-      broom::tidy(conf.int = TRUE)
-    reference <- "0 (reference)"
-    multiply <- if_else(risk_percent == TRUE, true = 100, false = 1)
-  }
-  res %>%
+  multiply <- 1
+  fit <- switch(EXPR = estimand,
+                hr_joint =,
+                hr = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  survival::coxph(formula = stats::as.formula(
+                    paste0("Surv(", time, ", ", event, ") ~ .exposure", confounders)),
+                    data = data)
+                },
+                rr_joint =,
+                rr = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  risks::riskratio(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    data = data)
+                },
+                rd_joint =,
+                rd = {
+                  reference <- 0
+                  exponent <- FALSE
+                  multiply <- if_else(risk_percent == TRUE, true = 100, false = 1)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  risks::riskdiff(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    data = data)
+                },
+                diff_joint =,
+                diff = {
+                  reference <- 0
+                  exponent <- FALSE
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  stats::lm(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    data = data)
+                },
+                irr_joint =,
+                irr = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  stats::glm(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    family = stats::poisson(link = "log"),
+                    data = data)
+                },
+                fold_joint =,
+                fold = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  stats::glm(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    family = stats::gaussian(link = "log"),
+                    data = data)
+                },
+                stop(paste0("Estimand '", estimand, "' is not implemented.")))
+
+  fit %>%
+    broom::tidy(conf.int = TRUE, exponentiate = exponent) %>%
     dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
     dplyr::mutate_if(.predicate = is.numeric,
                      .funs = ~trimws(format(round(. * multiply, digits = digits),
                                             nsmall = digits))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term, pattern = ".exposure")) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = ".exposure")) %>%
+    dplyr::filter(stringr::str_detect(string = .data$term, pattern = pattern)) %>%
+    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = pattern)) %>%
     dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low,
-                               dplyr::if_else(stringr::str_detect(string = type, pattern = "rr"),
-                                       true = "-",
-                                       false = " to "),
-                               .data$conf.high, ")"),
+    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, to, .data$conf.high, ")"),
                   res = dplyr::if_else(is.na(.data$estimate),
-                                       true = reference, false = .data$res)) %>%
-    dplyr::select(.data$.exposure, .data$res)
-}
-
-#' Get RR or RD from 'risks' model (joint)
-#'
-#' @description
-#' For 'joint' coding of exposure and effect modifier.
-#'
-#' @param data Dataset
-#' @param outcome Binary outcome variable
-#' @param effectmodifier Effect modifier variable
-#' @param effectmodifier_level Effect modifier level
-#' @param confounders String of covariates
-#' @param type "rr" or "rd"
-#' @param risk_percent Display risks as percentage?
-#' @param digits Number of digits to round estimates to
-#'
-#' @return Tibble
-#' @noRd
-table_rdrr_joint <- function(data, outcome,
-                             effectmodifier, effectmodifier_level,
-                             confounders = "", type, risk_percent, digits) {
-  if(missing(effectmodifier) | missing(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint RR or RD model ('_joint').")
-  if(is.na(effectmodifier) | is.null(effectmodifier) | is.null(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint RR or RD model ('_joint').")
-  data <- data %>%
-    dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-    dplyr::mutate(.joint = paste(.data$.effectmod, .data$.exposure, sep = "__"))
-  xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
-
-  if(stringr::str_detect(string = type, pattern = "rr")) {
-    res <- risks::riskratio(formula = stats::as.formula(paste(outcome, "~ .joint", confounders)),
-                            data = data) %>%
-      broom::tidy(conf.int = TRUE, exponentiate = TRUE)
-    reference <- "1 (reference)"
-    multiply <- 1
-  } else {
-    res <- risks::riskdiff(formula = stats::as.formula(paste(outcome, "~ .joint", confounders)),
-                           data = data) %>%
-      broom::tidy(conf.int = TRUE)
-    reference <- "0 (reference)"
-    multiply <- if_else(risk_percent == TRUE, true = 100, false = 1)
-  }
-  res %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(. * multiply, digits = digits),
-                                            nsmall = digits))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term,
-                                      pattern = paste0(".joint", effectmodifier_level, "__"))) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
-                                                  pattern = paste0(".joint",
-                                                                   effectmodifier_level, "__"))) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low,
-                               dplyr::if_else(stringr::str_detect(string = type, pattern = "rr"),
-                                              true = "-",
-                                              false = " to "),
-                               .data$conf.high, ")"),
-                  res = dplyr::if_else(is.na(.data$estimate),
-                                       true = reference, false = .data$res)) %>%
-    dplyr::select(.data$.exposure, .data$res)
-}
-
-
-#' Get difference from linear model
-#'
-#' @param data Dataset
-#' @param outcome Continuous outcome variable
-#' @param effectmodifier Effect modifier variable
-#' @param effectmodifier_level Effect modifier level
-#' @param confounders String of covariates
-#' @param digits Number of digits to round estimates to
-#' @param diff_to Separator for mean/difference confidence intervals.
-#'
-#' @return Tibble
-#' @noRd
-table_diff <- function(data, outcome,
-                       effectmodifier = NULL, effectmodifier_level = NULL,
-                       confounders = "", digits, diff_to) {
-  xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
-
-  if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
-    if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
-      data <- data %>%
-        dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-        dplyr::filter(.data$.effectmod %in% effectmodifier_level)
-    }
-  }
-
-  stats::lm(formula = stats::as.formula(paste(outcome, "~ .exposure", confounders)),
-            data = data) %>%
-    broom::tidy(conf.int = TRUE) %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(., digits = digits),
-                                            nsmall = digits))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term, pattern = ".exposure")) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = ".exposure")) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, diff_to,
-                               .data$conf.high, ")"),
-                  res = dplyr::if_else(is.na(.data$estimate),
-                                       true = "0 (reference)",
-                                       false = .data$res)) %>%
-    dplyr::select(.data$.exposure, .data$res)
-}
-
-#' Get difference from linear model (joint)
-#'
-#' @param data Dataset
-#' @param outcome Continuous outcome variable
-#' @param effectmodifier Effect modifier variable
-#' @param effectmodifier_level Effect modifier level
-#' @param confounders String of covariates
-#' @param digits Number of digits to round estimates to
-#' @param diff_to Separator for mean/difference confidence intervals.
-#'
-#' @return Tibble
-#' @noRd
-table_diff_joint <- function(data, outcome,
-                             effectmodifier, effectmodifier_level,
-                             confounders = "", digits, diff_to) {
-  if(missing(effectmodifier) | missing(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint difference model ('diff_joint').")
-  if(is.na(effectmodifier) | is.null(effectmodifier) | is.null(effectmodifier_level))
-    stop("Effect modifier and level must be specified for joint difference model ('diff_joint').")
-  data <- data %>%
-    dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-    dplyr::mutate(.joint = paste(.data$.effectmod, .data$.exposure, sep = "__"))
-  xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
-
-  stats::lm(formula = stats::as.formula(paste(outcome, "~ .joint", confounders)),
-            data = data) %>%
-    broom::tidy(conf.int = TRUE) %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(., digits = digits),
-                                            nsmall = digits))) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term,
-                                      pattern = paste0(".joint", effectmodifier_level, "__"))) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
-                                                  pattern = paste0(".joint",
-                                                                   effectmodifier_level, "__"))) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low,
-                               diff_to,
-                               .data$conf.high, ")"),
-                  res = dplyr::if_else(is.na(.data$estimate),
-                                       true = "0 (reference)",
+                                       true = paste(reference, "(reference)"),
                                        false = .data$res)) %>%
     dplyr::select(.data$.exposure, .data$res)
 }
@@ -435,15 +283,17 @@ table_diff_joint <- function(data, outcome,
 #' @param confounders String of covariates
 #' @param type Type of statistic quested from table_count
 #' @param factor Factor for rates. Defaults to 1000.
-#' @param diff_to Separator for mean/difference confidence intervals.
+#' @param risk_percent Show risks and risk differences as percentages?
+#' @param diff_digits Number of digits to round difference estimates to
+#' @param ratio_digits Number of digits to round ratio estimates to
+#' @param rate_digits Number of digits to round rate estimates to
+#' @param to Separator for mean/difference confidence intervals.
 #'
 #' @return Tibble
 #' @noRd
 fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, stratum, confounders,
-                       type, factor, risk_percent, risk_digits, rate_digits, diff_to) {
+                       type, factor, risk_percent, diff_digits, ratio_digits, rate_digits, to) {
   data <- data %>% dplyr::rename(.exposure = dplyr::one_of(exposure))
-
-  if(type == "") type <- "blank"
 
   # Check that exposure is categorical
   if(!(class(data %>% pull(.data$.exposure))[1] %in% c("factor", "character", "logical")))
@@ -453,10 +303,11 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
                    "if the variable is actually continuous and thus has many levels."))
   data$.exposure <- factor(data$.exposure)
 
+  if(type == "" | type == "blank")
+    return(data %>% distinct(.data$.exposure) %>% dplyr::mutate(res = ""))
+
   # Check that time and event variable exist, if needed
-  if(stringr::str_detect(string = type, pattern = "events") |
-     stringr::str_detect(string = type, pattern = "hr") |
-     type %in% c("rate", "rate (ci)", "time")) {
+  if(stringr::str_detect(string = type, pattern = "events|hr|rate|time")) {
     if(!(event %in% names(data)))
       stop(paste0("Survival data using type = '", type, "' requested, but event variable '",
                   event, "' is not valid for the dataset."))
@@ -466,9 +317,8 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
   }
 
   # Check that outcome variable exists, if needed
-  if(stringr::str_detect(string = type, pattern = "outcomes") |
-     stringr::str_detect(string = type, pattern = "diff") |
-     type %in% c("risk", "risk (ci)", "rr", "rd")) {
+  if(stringr::str_detect(string = type,
+                         pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold")) {
     if(!(outcome %in% names(data)))
       stop(paste0("Using type = '", type, "' requires an outcome variable, but the variable '",
                   outcome, "' is not valid for the dataset."))
@@ -476,62 +326,77 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
     outcomevar <- data %>%
       dplyr::select(outcome = dplyr::one_of(outcome)) %>%
       dplyr::pull(outcome)
-    if(!stringr::str_detect(string = type, pattern = "diff"))
+    if(!(stringr::str_detect(string = type, pattern = "diff|mean|median|irr|fold")))
       if(!(all(sort(unique(outcomevar)) == c(0, 1)) |
            all(sort(unique(outcomevar)) == c(FALSE, TRUE))))
         stop(paste0("Outcome variable '", outcome,
                     "' must be binary with levels c(0, 1) or c(FALSE, TRUE)."))
   }
 
-  # extract digits form type "diff"
-  diff_digits <- 2
-  if(stringr::str_detect(string = type, pattern = "diff") |
-     stringr::str_detect(string = type, pattern = "mean")) {
-    if(stringr::str_detect(string = type, pattern = "(ci)")) {
-      splitted <- stringr::str_split(string = type, pattern = " ",
-                                        n = 3, simplify = TRUE)
-      type <- paste(splitted[1], splitted[2], collapse = " ", sep = " ")
-      diff_dig <- splitted[3]
-    } else {
-      splitted <- stringr::str_split(string = type, pattern = " ",
-                                        n = 2, simplify = TRUE)
-      type <- splitted[1]
-      diff_dig <- splitted[2]
-    }
-    if(diff_dig != "" & !is.na(diff_dig)) {
-      diff_digits <- as.numeric(diff_dig)
-    }
+  # extract desired digits from individual "type" fields
+  if(stringr::str_detect(string = type, pattern = "(ci)") |
+     stringr::str_detect(string = type, pattern = "(iqr)")) {
+    splitted <- stringr::str_split(string = type, pattern = " ",
+                                   n = 3, simplify = TRUE)
+    type <- paste(splitted[1], splitted[2], collapse = " ", sep = " ")
+    indiv_dig <- splitted[3]
+  } else {
+    splitted <- stringr::str_split(string = type, pattern = " ",
+                                   n = 2, simplify = TRUE)
+    type <- splitted[1]
+    indiv_dig <- splitted[2]
+  }
+  if(indiv_dig != "" & !is.na(indiv_dig) &
+     !is.na(suppressWarnings(as.numeric(indiv_dig)))) {
+    digits <- as.numeric(indiv_dig)
+  } else {
+    digits <- dplyr::case_when(stringr::str_detect(string = type,
+                                                   pattern = "hr|rr|irr|fold") ~
+                                 ratio_digits,
+                               stringr::str_detect(string = type,
+                                                   pattern = "rd|diff|mean|risk|outcomes|median") ~
+                                 diff_digits,
+                               stringr::str_detect(string = type,
+                                                   pattern = "rate") ~
+                                 rate_digits,
+                               TRUE ~ 4)
   }
 
-  switch(EXPR = type,
-         hr         = table_cox(event, time, effect_modifier,
-                                stratum, confounders, data = data),
-         hr_joint   = table_cox_joint(event, time, effect_modifier,
-                                      stratum, confounders, data = data),
-         rr         = table_rdrr(data, outcome, effect_modifier, stratum, confounders, type,
-                                 risk_percent = FALSE, digits = 2),
-         rd         = table_rdrr(data, outcome, effect_modifier, stratum, confounders, type,
-                                 risk_percent, digits = risk_digits),
-         rr_joint   = table_rdrr_joint(data, outcome, effect_modifier, stratum, confounders, type,
-                                       risk_percent = FALSE, digits = 2),
-         rd_joint   = table_rdrr_joint(data, outcome, effect_modifier, stratum, confounders, type,
-                                       risk_percent, digits = risk_digits),
-         diff       = table_diff(data, outcome, effect_modifier, stratum, confounders,
-                                 digits = diff_digits, diff_to = diff_to),
-         diff_joint = table_diff_joint(data, outcome, effect_modifier, stratum, confounders,
-                                       digits = diff_digits, diff_to = diff_to),
-         blank      = data %>% distinct(.data$.exposure) %>% dplyr::mutate(res = ""),
-         table_counts(data, event, time, outcome, effect_modifier, stratum, type, factor,
-                      risk_percent, risk_digits, rate_digits, mean_digits = diff_digits,
-                      diff_to = diff_to))
+  if(stringr::str_detect(string = type, pattern = "hr|rr|rd|irr|fold|diff"))
+    table_regress(data = data,
+                  estimand = type,
+                  event = event,
+                  time = time,
+                  outcome = outcome,
+                  effectmodifier = effect_modifier,
+                  effectmodifier_level = stratum,
+                  confounders = confounders,
+                  digits = digits,
+                  risk_percent = risk_percent,
+                  to = to)
+  else
+    table_counts(data = data,
+                 event = event,
+                 time = time,
+                 outcome = outcome,
+                 effectmodifier = effect_modifier,
+                 effectmodifier_level = stratum,
+                 type = type,
+                 factor = factor,
+                 digits = digits,
+                 risk_percent = risk_percent,
+                 to = to)
 }
 
 #' Table 2: Stratified Result Tables
 #'
-#' @description This function obtains descriptive
+#' @description This function displays descriptive
 #' and inferential results for binary, continuous, and survival data
 #' in the format of a table stratified by exposure and, if requested, by
 #' effect modifiers.
+#'
+#' This function is intended only for tabulations of final results.
+#' Models diagnostics for regression models need to be conducted separately.
 #'
 #' @param design Design matrix (data frame) that sets up the table.
 #'   See Details.
@@ -544,16 +409,18 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'   events per person-time by. Defaults to \code{1000}.
 #' @param risk_percent Optional. Show risk and risk difference estimates in
 #'   percentage points instead of proportions. Defaults to \code{FALSE}.
-#' @param risk_digits Optional. Number of decimal digits to show for
-#'   rounding of risk and risk difference estimates. Defaults to \code{2}
+#' @param diff_digits Optional. Number of decimal digits to show for
+#'   rounding of means, risks, and risk difference estimates. Defaults to \code{2}
 #'   for \code{risk_percent = FALSE} and to \code{0} for
-#'   \code{risk_percent = TRUE}.
+#'   \code{risk_percent = TRUE}. Can override for each line in \code{type}.
+#' @param ratio_digits Optional. Number of decimal digits to show for ratio
+#'   estimates. Defaults to \code{2}. Can override for each line in \code{type}.
 #' @param rate_digits Optional. Number of decimal digits to show for rates.
-#'   Defaults to \code{1}. (Ratios, i.e., hazard ratios and risk ratios are
-#'   always shown with 2 decimal digits.)
-#' @param diff_to Optional. Separator between the lower and the upper bound
-#'   of the 95% confidence interval for differences and means. Defaults to
-#'   \code{" to "}.
+#'   Defaults to \code{1}. Can override for each line in \code{type}.
+#' @param to Optional. Separator between the lower and the upper bound
+#'   of the 95% confidence interval (and interquartile range for medians).
+#'   Defaults to \code{" to "} for means, medians, and mean differences;
+#'   defaults to \code{"-"} otherwise.
 #'
 #' @details The main input parameter is the dataset \code{design}.
 #'   Always required are the columns \code{label}, \code{type}, and
@@ -568,13 +435,13 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'        Events are typically \code{1}, censored observations \code{0}.
 #'        Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
 #'        (i.e., whenever \code{outcome} is not used).
-#'   *  \code{outcome} The binary outcome variable for risk/prevalence
-#'        data. Must be \code{0}/\code{1} or \code{FALSE}/\code{TRUE}.
-#'        Needed for, e.g., \code{type = "rr"} and \code{type = "risk"}
+#'   *  \code{outcome} The outcome variable for non-survival data
 #'        (i.e., whenever \code{event} and \code{time} are not used).
+#'        For risk/prevalence data, this variable must be \code{0}/\code{1}
+#'        or \code{FALSE}/\code{TRUE}.
 #'   *  \code{exposure} The exposure variable. Must be categorical
 #'        (factor or logical).
-#'   *  \code{effect_modifier} Optional. An effect modifier variable.
+#'   *  \code{effect_modifier} Optional. A categorical effect modifier variable.
 #'        Use \code{NULL} or \code{NA} to leave blank.
 #'   *  \code{stratum} Optional. A stratum of the effect modifier.
 #'        Use \code{NULL} to leave blank. \code{NA} will evaluate
@@ -585,17 +452,27 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'        Use \code{""} (empty string) to leave blank; the default.
 #'        For Cox models, can add \code{"+ strata(site)"}
 #'        to obtain models with stratification by, e.g., \code{site}.
+#'        For Poisson models, can add \code{"+ offset(log(variable))"}
+#'        to define the offset.
 #'   *  \code{type} The statistic requested (case-insensitive):
 #'
-#'      * \code{"hr"} Hazard ratio and 95% confidence interval
-#'        from Cox proportional hazards regression.
-#'      * \code{"rr"} Risk ratio (or prevalence ratio) with
-#'        95% confidence interval from \code{\link[risks]{riskratio}}.
+#'      Comparative estimates from regression models
+#'      (all with 95% confidence intervals):
+#'
+#'      * \code{"hr"} Hazard ratio from Cox proportional
+#'        hazards regression.
+#'      * \code{"rr"} Risk ratio (or prevalence ratio)
+#'        from \code{\link[risks]{riskratio}}.
 #'      * \code{"rd"} Risk difference (or prevalence difference)
-#'        with 95% confidence interval from \code{\link[risks]{riskdiff}}.
-#'      * \code{"diff"} Mean difference with 95% confidence interval
-#'        from linear model. Use \code{"diff 3"} to round result to
-#'        3 decimal digits (defaults to 2 digits).
+#'        from \code{\link[risks]{riskdiff}}.
+#'      * \code{"irr"} Incidence rate ratio for count outcomes
+#'        from Poisson regression model.
+#'      * \code{"diff"} Mean difference from linear model.
+#'      * \code{"fold"} Fold change from generalized linear
+#'        model with log link.
+#'
+#'      Absolute estimates per exposure category:
+#'
 #'      * \code{"events"} Event count.
 #'      * \code{"time"} Person-time.
 #'      * \code{"outcomes"} Outcome count.
@@ -618,17 +495,24 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'        followed by risk in parentheses.
 #'      * \code{"events/time (rate)"} A combination: Events slash time
 #'        followed by rate in parentheses.
-#'      * \code{"mean"} Mean. Use \code{"mean 3"} to round result to
-#'        3 decimal digits (defaults to 2 digits).
+#'      * \code{"mean"} Mean.
 #'      * \code{"mean (ci)"} Mean and 95% CI.
+#'      * \code{"median"} Median.
+#'      * \code{"median (iqr)"} Median and interquartile range.
 #'      * \code{"blank"} or \code{""} An empty line.
 #'
 #'      By default, regression models will be fit separately for each
 #'      stratum of the \code{effect_modifier}. Append \code{"_joint"}
-#'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, or  \code{"diff"} to obtain
-#'      "joint" models for exposure and effect modifier that have
-#'      a single reference category. Example: \code{type = "hr_joint"}.
-
+#'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
+#'      or \code{"fold"} to obtain "joint" models for exposure and
+#'      effect modifier that have a single reference category.
+#'      Example: \code{type = "hr_joint"}. The reference categories for
+#'      exposure and effect modifier are their first factor levels, which
+#'      can be changed using \code{\link[forcats]{fct_relevel}}.
+#'
+#'      Digits for rounding estimates can be specified for each line separately.
+#'      Example: \code{type = "diff (ci) 3"} to request a mean difference
+#'      and its 95% CI rounded to 3 decimal digits.
 #'
 #' Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
 #'   \code{\link[dplyr]{mutate}} to construct the \code{design} dataset, especially
@@ -700,19 +584,20 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #' # Generate table2
 #' table2(design = design2, data = ovarian)
 #'
-#' # Example 3: Continuous outcomes (use 'outcome' variable)
-#' tribble(~label,                ~stratum, ~type,
-#'         "Grand mean (95% CI)", 1:2,      "mean (ci) 1",
-#'         "resid.ds = 1",        1,        "mean",
-#'         "resid.ds = 2",        2,        "mean",
-#'         "",                    NULL,     "",
-#'         "Stratified model",    NULL,     "",
-#'         "  resid.ds = 1",      1,        "diff 1",
-#'         "  resid.ds = 2",      2,        "diff 1",
-#'         "",                    NULL,     "",
-#'         "Joint model",         NULL,     "",
-#'         "  resid.ds = 1",      1,        "diff_joint",
-#'         "  resid.ds = 2",      2,        "diff_joint") %>%
+#' # Example 3: Continuous outcomes (use 'outcome' variable);
+#' # request rounding to 1 decimal digit in some cases.
+#' tribble(~label,                   ~stratum, ~type,
+#'         "Marginal mean (95% CI)", 1:2,      "mean (ci) 1",
+#'         "resid.ds = 1",           1,        "mean",
+#'         "resid.ds = 2",           2,        "mean",
+#'         "",                       NULL,     "",
+#'         "Stratified model",       NULL,     "",
+#'         "  resid.ds = 1",         1,        "diff 1",
+#'         "  resid.ds = 2",         2,        "diff 1",
+#'         "",                       NULL,     "",
+#'         "Joint model",            NULL,     "",
+#'         "  resid.ds = 1",         1,        "diff_joint",
+#'         "  resid.ds = 2",         2,        "diff_joint") %>%
 #'   mutate(exposure = "ecog.ps", outcome = "age",
 #'          effect_modifier = "resid.ds") %>%
 #'   table2(data = ovarian %>% mutate(ecog.ps = factor(ecog.ps)))
@@ -724,8 +609,8 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #' }
 table2 <- function(design, data, layout = "rows", factor = 1000,
                    risk_percent = FALSE,
-                   risk_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
-                   rate_digits = 1, diff_to = " to ") {
+                   diff_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+                   ratio_digits = 2, rate_digits = 1, to = NULL) {
   name <- labelled::var_label(dplyr::pull(data, design$exposure[1]))
   if(is.null(name))
     name <- design$exposure[1]
@@ -735,7 +620,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   if(!("outcome"     %in% names(design))) design$outcome     <- NA
   if(!("confounders" %in% names(design))) design$confounders <- ""
   if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design)))
-    design <- design %>% mutate(effect_modifier = NA, stratum = NA)
+    design <- design %>% dplyr::mutate(effect_modifier = NA, stratum = NA)
 
   res <- design %>%
     dplyr::mutate(type   = stringr::str_to_lower(string = .data$type),
@@ -746,8 +631,10 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                                  .data$confounders, .data$type),
                                        .f = fill_cells, data = data, factor = factor,
                                        risk_percent = risk_percent,
-                                       risk_digits = risk_digits, rate_digits = rate_digits,
-                                       diff_to = diff_to)) %>%
+                                       diff_digits = diff_digits,
+                                       ratio_digits = ratio_digits,
+                                       rate_digits = rate_digits,
+                                       to = to)) %>%
     dplyr::select(.data$index, .data$label, .data$result) %>%
     tidyr::unnest(cols = .data$result)
   if(layout == "rows")

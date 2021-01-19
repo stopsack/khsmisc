@@ -10,9 +10,10 @@ table2(
   layout = "rows",
   factor = 1000,
   risk_percent = FALSE,
-  risk_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+  diff_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+  ratio_digits = 2,
   rate_digits = 1,
-  diff_to = " to "
+  to = NULL
 )
 }
 \arguments{
@@ -32,28 +33,34 @@ events per person-time by. Defaults to \code{1000}.}
 \item{risk_percent}{Optional. Show risk and risk difference estimates in
 percentage points instead of proportions. Defaults to \code{FALSE}.}
 
-\item{risk_digits}{Optional. Number of decimal digits to show for
-rounding of risk and risk difference estimates. Defaults to \code{2}
+\item{diff_digits}{Optional. Number of decimal digits to show for
+rounding of means, risks, and risk difference estimates. Defaults to \code{2}
 for \code{risk_percent = FALSE} and to \code{0} for
-\code{risk_percent = TRUE}.}
+\code{risk_percent = TRUE}. Can override for each line in \code{type}.}
+
+\item{ratio_digits}{Optional. Number of decimal digits to show for ratio
+estimates. Defaults to \code{2}. Can override for each line in \code{type}.}
 
 \item{rate_digits}{Optional. Number of decimal digits to show for rates.
-Defaults to \code{1}. (Ratios, i.e., hazard ratios and risk ratios are
-always shown with 2 decimal digits.)}
+Defaults to \code{1}. Can override for each line in \code{type}.}
 
-\item{diff_to}{Optional. Separator between the lower and the upper bound
-of the 95\% confidence interval for differences and means. Defaults to
-\code{" to "}.}
+\item{to}{Optional. Separator between the lower and the upper bound
+of the 95\% confidence interval (and interquartile range for medians).
+Defaults to \code{" to "} for means, medians, and mean differences;
+defaults to \code{"-"} otherwise.}
 }
 \value{
 Tibble. Get formatted output by passing on to
 \code{\link[khsmisc]{mygt}}.
 }
 \description{
-This function obtains descriptive
+This function displays descriptive
 and inferential results for binary, continuous, and survival data
 in the format of a table stratified by exposure and, if requested, by
 effect modifiers.
+
+This function is intended only for tabulations of final results.
+Models diagnostics for regression models need to be conducted separately.
 }
 \details{
 The main input parameter is the dataset \code{design}.
@@ -69,13 +76,13 @@ e.g., \code{type = "hr"} and \code{type = "rate"}
 Events are typically \code{1}, censored observations \code{0}.
 Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
 (i.e., whenever \code{outcome} is not used).
-\item \code{outcome} The binary outcome variable for risk/prevalence
-data. Must be \code{0}/\code{1} or \code{FALSE}/\code{TRUE}.
-Needed for, e.g., \code{type = "rr"} and \code{type = "risk"}
+\item \code{outcome} The outcome variable for non-survival data
 (i.e., whenever \code{event} and \code{time} are not used).
+For risk/prevalence data, this variable must be \code{0}/\code{1}
+or \code{FALSE}/\code{TRUE}.
 \item \code{exposure} The exposure variable. Must be categorical
 (factor or logical).
-\item \code{effect_modifier} Optional. An effect modifier variable.
+\item \code{effect_modifier} Optional. A categorical effect modifier variable.
 Use \code{NULL} or \code{NA} to leave blank.
 \item \code{stratum} Optional. A stratum of the effect modifier.
 Use \code{NULL} to leave blank. \code{NA} will evaluate
@@ -86,17 +93,28 @@ into \code{formula = exposure + confounders}.
 Use \code{""} (empty string) to leave blank; the default.
 For Cox models, can add \code{"+ strata(site)"}
 to obtain models with stratification by, e.g., \code{site}.
+For Poisson models, can add \code{"+ offset(log(variable))"}
+to define the offset.
 \item \code{type} The statistic requested (case-insensitive):
+
+Comparative estimates from regression models
+(all with 95\% confidence intervals):
 \itemize{
-\item \code{"hr"} Hazard ratio and 95\% confidence interval
-from Cox proportional hazards regression.
-\item \code{"rr"} Risk ratio (or prevalence ratio) with
-95\% confidence interval from \code{\link[risks]{riskratio}}.
+\item \code{"hr"} Hazard ratio from Cox proportional
+hazards regression.
+\item \code{"rr"} Risk ratio (or prevalence ratio)
+from \code{\link[risks]{riskratio}}.
 \item \code{"rd"} Risk difference (or prevalence difference)
-with 95\% confidence interval from \code{\link[risks]{riskdiff}}.
-\item \code{"diff"} Mean difference with 95\% confidence interval
-from linear model. Use \code{"diff 3"} to round result to
-3 decimal digits (defaults to 2 digits).
+from \code{\link[risks]{riskdiff}}.
+\item \code{"irr"} Incidence rate ratio for count outcomes
+from Poisson regression model.
+\item \code{"diff"} Mean difference from linear model.
+\item \code{"fold"} Fold change from generalized linear
+model with log link.
+}
+
+Absolute estimates per exposure category:
+\itemize{
 \item \code{"events"} Event count.
 \item \code{"time"} Person-time.
 \item \code{"outcomes"} Outcome count.
@@ -119,17 +137,25 @@ followed by risk in parentheses.
 followed by risk in parentheses.
 \item \code{"events/time (rate)"} A combination: Events slash time
 followed by rate in parentheses.
-\item \code{"mean"} Mean. Use \code{"mean 3"} to round result to
-3 decimal digits (defaults to 2 digits).
+\item \code{"mean"} Mean.
 \item \code{"mean (ci)"} Mean and 95\% CI.
+\item \code{"median"} Median.
+\item \code{"median (iqr)"} Median and interquartile range.
 \item \code{"blank"} or \code{""} An empty line.
 }
 
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
-to \code{"hr"}, \code{"rr"}, \code{"rd"}, or  \code{"diff"} to obtain
-"joint" models for exposure and effect modifier that have
-a single reference category. Example: \code{type = "hr_joint"}.
+to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
+or \code{"fold"} to obtain "joint" models for exposure and
+effect modifier that have a single reference category.
+Example: \code{type = "hr_joint"}. The reference categories for
+exposure and effect modifier are their first factor levels, which
+can be changed using \code{\link[forcats]{fct_relevel}}.
+
+Digits for rounding estimates can be specified for each line separately.
+Example: \code{type = "diff (ci) 3"} to request a mean difference
+and its 95\% CI rounded to 3 decimal digits.
 }
 
 Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
@@ -198,19 +224,20 @@ design2 <- tribble(
 # Generate table2
 table2(design = design2, data = ovarian)
 
-# Example 3: Continuous outcomes (use 'outcome' variable)
-tribble(~label,                ~stratum, ~type,
-        "Grand mean (95\% CI)", 1:2,      "mean (ci) 1",
-        "resid.ds = 1",        1,        "mean",
-        "resid.ds = 2",        2,        "mean",
-        "",                    NULL,     "",
-        "Stratified model",    NULL,     "",
-        "  resid.ds = 1",      1,        "diff 1",
-        "  resid.ds = 2",      2,        "diff 1",
-        "",                    NULL,     "",
-        "Joint model",         NULL,     "",
-        "  resid.ds = 1",      1,        "diff_joint",
-        "  resid.ds = 2",      2,        "diff_joint") \%>\%
+# Example 3: Continuous outcomes (use 'outcome' variable);
+# request rounding to 1 decimal digit in some cases.
+tribble(~label,                   ~stratum, ~type,
+        "Marginal mean (95\% CI)", 1:2,      "mean (ci) 1",
+        "resid.ds = 1",           1,        "mean",
+        "resid.ds = 2",           2,        "mean",
+        "",                       NULL,     "",
+        "Stratified model",       NULL,     "",
+        "  resid.ds = 1",         1,        "diff 1",
+        "  resid.ds = 2",         2,        "diff 1",
+        "",                       NULL,     "",
+        "Joint model",            NULL,     "",
+        "  resid.ds = 1",         1,        "diff_joint",
+        "  resid.ds = 2",         2,        "diff_joint") \%>\%
   mutate(exposure = "ecog.ps", outcome = "age",
          effect_modifier = "resid.ds") \%>\%
   table2(data = ovarian \%>\% mutate(ecog.ps = factor(ecog.ps)))

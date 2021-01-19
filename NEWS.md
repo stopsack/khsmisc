@@ -1,8 +1,22 @@
+# khsmisc 0.2.5
+
+* `table2()`: 
+   + Generalize regression model fitting framework in one function.
+   + Add Poisson models and Gaussian models with log link.
+   + Add median/IQR to descriptive statistics.
+   + Reshape requesting digits for rounding: `diff_digits`, `ratio_digits`, and `rate_digits` 
+     are global parameters of `table2()` that can be overridden using `type = "(estimand) (digits)"` 
+     in each line.
+   + In joint models, use the reference categories of the exposure and effect modifier factors.
+
+
 # khsmisc 0.2.4
 
-* `exclusion_flowchart()`: visualize exclusions from study with a flowchart via `DiagrammeR::grViz()`
-* `table2()`: for vectors that are not categorical, force `exposure` to be a factor and issue a warning, but do not abort; allow for blank lines
-* `table2()`: handle continuous outcomes variables with `type = "diff"` and `type = "mean"`
+* `exclusion_flowchart()`: visualize exclusions from study with a flowchart via `DiagrammeR::grViz()`.
+* `table2()`: 
+   + For vectors that are not categorical, force `exposure` to be a factor and issue a warning, but do not abort.
+   + Allow for blank lines.
+   + Handle continuous outcomes variables with `type = "diff"` and `type = "mean"`.
 
 
 # khsmisc 0.2.3
