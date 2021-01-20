@@ -426,63 +426,40 @@ analytical %>%
   stripplot(x = race, y = ascore)
 ```
 
+**Restricted to high grade, non-missing aneuploidy scores and histology, and then color code by histology**
+```{r}
+analytical %>%
+  filter(grade == "High Grade") %>%
+  filter(!is.na(ascore) & !is.na(histology)) %>%
+  stripplot(x = race, y = ascore, color = histology) +
+  # change color palette:
+  scale_color_viridis_d(option = "cividis", end = 0.8, direction = -1) +
+  # add label:
+  labs(color = "Histology")
+```
 
 ### Table 2: Stratified and regression analyses
 
 ```{r}
 # Part 1: Stratified
 analytical %>%
-  table1(ascore_cat, by = "race")
+  table1(ascore_cat, by = race)
+```
 
-# Function to run linear regression model and return "tidy" results
-run_lm <- function(data, outcome, exposure, covariates = "") {
-  # Fit linear model
-  fit <- lm(formula = as.formula(paste(outcome, "~", exposure, covariates)),
-            data = data)
-  
-  fit %>%
-    # Obtain coefficients and confidence intervals
-    tidy(conf.int = TRUE) %>%
-    # restrict to exposure variable only
-    filter(str_detect(string = term, pattern = paste0("^", exposure))) %>%
-    # Round estimates
-    mutate_at(.vars = vars(estimate, conf.low, conf.high),
-              .funs = ~trimws(format(round(., digits = 1), nsmall = 1))) %>%
-    # Concatenate point estimate and confidence interval into one string
-    transmute(exp = str_remove(string = term, pattern = exposure),
-              res = paste0(estimate, " (", conf.low, " to ", conf.high, ")")) %>%
-    # Add reference category in front
-    bind_rows(tibble(exp = data %>% 
-                       select(exp = one_of(exposure)) %>% 
-                       pull(exp) %>% 
-                       levels(.) %>%
-                       pluck(1), 
-                     res = "0 (reference)"), 
-              .) %>%
-    # Make result table horizontal
-    pivot_wider(names_from = exp, values_from = res) %>%
-    # Add a column with the numnber of observations in model
-    # to detect inadvertent exclusions due to missing data
-    mutate(Observations = fit %>% glance() %>% pull(nobs))
-}
 
-# Run different outcome regression models:
-  # (1) Define covariate sets
-tribble(~Model,                         ~confounders,
-       "Model (1) Age/sex-adjusted",    "+ agedx + sex",
-       "Model (2) Model 1 + smoking",   "+ agedx + sex + smoke3",
-       "Model (3) Model 2 + histology", "+ agedx + sex + smoke3 + histology",
-       "Model (4) Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade") %>%
-  # (2) Execute run_lm() for each row of the above tibble
-  mutate(res = map(.x = confounders,
-                   .f = run_lm,
-                   # data, outcome, and exposure are the same each time:
-                   data = analytical, outcome = "ascore", exposure = "race")) %>%
-  # (3) Unnest the list column with the results
-  unnest(cols = res) %>%
-  # (4) Remove the cryptic and duplicative "confounders" column
-  select(-confounders) %>%
-  # Format the table
+```{r}
+tribble(~label,                             ~confounders,                                 ~type,
+        "N",                                "",                                           "total",
+        "Mean altered chromosome arms",     "",                                           "mean",
+        "Difference (95% CI):",             "",                                           "", 
+        "-- Model (1) Age/sex-adjusted",    "+ agedx + sex",                              "diff",
+        "-- Model (2) Model 1 + smoking",   "+ agedx + sex + smoke3",                     "diff",
+        "-- Model (3) Model 2 + histology", "+ agedx + sex + smoke3 + histology",         "diff",
+        "-- Model (4) Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade", "diff") %>%
+  mutate(exposure = "race", outcome = "ascore", diff_digits = 1) %>%
+  table2(data = analytical %>% 
+           # evaluate all models in the same complete-case subset:
+           filter(!is.na(ascore) & !is.na(smoke3) & !is.na(histology) & !is.na(grade))) %>%
   mygt()
 ```
 
@@ -492,18 +469,16 @@ tribble(~Model,                         ~confounders,
 Models are adjusted for age (and sex, unless sex is an effect modifier).
 
 ```{r}
-tribble(
-  ~effectm,    ~Stratum,        ~subset,                                                     ~confounders,
-  "Sex",       "Female",        analytical %>% filter(sex == "Female"),              "+ agedx",
-  "Sex",       "Male",          analytical %>% filter(sex == "Male"),                "+ agedx",
-  "Histology", "Papillary",     analytical %>% filter(histology == "Papillary"),     "+ agedx + sex",
-  "Histology", "Non-Papillary", analytical %>% filter(histology == "Non-Papillary"), "+ agedx + sex") %>%
-  mutate(res = map2(.x = subset, .y = confounders,
-                    .f = run_lm,
-                    outcome = "ascore", exposure = "race")) %>%
-  unnest(cols = res) %>%
-  group_by(effectm) %>%
-  select(-subset, -confounders) %>%
+tribble(~label,             ~effect_modifier, ~stratum,        ~confounders,    ~type,
+        "By sex",           NULL,             NULL,            "",              "",
+        "-- Female",        "sex",            "Female",        "+ agedx",       "diff",
+        "-- Male",          "sex",            "Male",          "+ agedx",       "diff",
+        "By histology",     NULL,             NULL,            "",              "",
+        "-- Papillary",     "histology",      "Papillary",     "+ agedx + sex", "diff",
+        "-- Non-Papillary", "histology",      "Non-Papillary", "+ agedx + sex", "diff") %>%
+  mutate(exposure = "race", outcome = "ascore", diff_digits = 1) %>%
+  table2(data = analytical %>% 
+           filter(!is.na(ascore) & !is.na(smoke3) & !is.na(histology) & !is.na(grade))) %>%
   mygt()
 ````
 

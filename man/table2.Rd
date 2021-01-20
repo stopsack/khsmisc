@@ -98,7 +98,7 @@ to define the offset.
 \item \code{type} The statistic requested (case-insensitive):
 
 Comparative estimates from regression models
-(all with 95\% confidence intervals):
+with 95\% confidence intervals:
 \itemize{
 \item \code{"hr"} Hazard ratio from Cox proportional
 hazards regression.
@@ -111,6 +111,7 @@ from Poisson regression model.
 \item \code{"diff"} Mean difference from linear model.
 \item \code{"fold"} Fold change from generalized linear
 model with log link.
+\item \code{"or"} Odds ratio from logistic regression.
 }
 
 Absolute estimates per exposure category:
@@ -147,7 +148,7 @@ followed by rate in parentheses.
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
 to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-or \code{"fold"} to obtain "joint" models for exposure and
+\code{"fold"}, or \code{"or"} to obtain "joint" models for exposure and
 effect modifier that have a single reference category.
 Example: \code{type = "hr_joint"}. The reference categories for
 exposure and effect modifier are their first factor levels, which

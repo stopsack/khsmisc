@@ -1,3 +1,12 @@
+# khsmisc 0.2.6
+
+* `table2()`: 
+   + Add `type = "or"` for logistic models.
+   + Fix "fold" (non-binary).
+   + Fix vector issue in use of `digits_...`.
+* Update vignette to make use of `table2()`.
+
+
 # khsmisc 0.2.5
 
 * `table2()`: 

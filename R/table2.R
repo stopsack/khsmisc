@@ -50,7 +50,6 @@ table_counts <- function(data, event, time, outcome,
       to <- "-"
   }
 
-
   data %>%
     dplyr::group_by(.data$.exposure) %>%
     dplyr::summarize(res = dplyr::case_when(
@@ -253,6 +252,16 @@ table_regress <- function(data, estimand, event, time, outcome,
                     family = stats::gaussian(link = "log"),
                     data = data)
                 },
+                or_joint =,
+                or = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  stats::glm(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    family = stats::binomial(link = "logit"),
+                    data = data)
+                },
                 stop(paste0("Estimand '", estimand, "' is not implemented.")))
 
   fit %>%
@@ -318,7 +327,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 
   # Check that outcome variable exists, if needed
   if(stringr::str_detect(string = type,
-                         pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold")) {
+                         pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold|or")) {
     if(!(outcome %in% names(data)))
       stop(paste0("Using type = '", type, "' requires an outcome variable, but the variable '",
                   outcome, "' is not valid for the dataset."))
@@ -326,7 +335,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
     outcomevar <- data %>%
       dplyr::select(outcome = dplyr::one_of(outcome)) %>%
       dplyr::pull(outcome)
-    if(!(stringr::str_detect(string = type, pattern = "diff|mean|median|irr|fold")))
+    if(!(stringr::str_detect(string = type, pattern = "diff|mean|median|irr|or")))
       if(!(all(sort(unique(outcomevar)) == c(0, 1)) |
            all(sort(unique(outcomevar)) == c(FALSE, TRUE))))
         stop(paste0("Outcome variable '", outcome,
@@ -334,8 +343,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
   }
 
   # extract desired digits from individual "type" fields
-  if(stringr::str_detect(string = type, pattern = "(ci)") |
-     stringr::str_detect(string = type, pattern = "(iqr)")) {
+  if(stringr::str_detect(string = type, pattern = "(ci)|(iqr)|(risk)|(rate)")) {
     splitted <- stringr::str_split(string = type, pattern = " ",
                                    n = 3, simplify = TRUE)
     type <- paste(splitted[1], splitted[2], collapse = " ", sep = " ")
@@ -351,18 +359,19 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
     digits <- as.numeric(indiv_dig)
   } else {
     digits <- dplyr::case_when(stringr::str_detect(string = type,
-                                                   pattern = "hr|rr|irr|fold") ~
-                                 ratio_digits,
+                                                   pattern = "hr|rr|irr|fold|or") ~
+                                 ratio_digits[1],
                                stringr::str_detect(string = type,
                                                    pattern = "rd|diff|mean|risk|outcomes|median") ~
-                                 diff_digits,
+                                 diff_digits[1],
                                stringr::str_detect(string = type,
                                                    pattern = "rate") ~
-                                 rate_digits,
+                                 rate_digits[1],
                                TRUE ~ 4)
   }
 
-  if(stringr::str_detect(string = type, pattern = "hr|rr|rd|irr|fold|diff"))
+
+  if(stringr::str_detect(string = type, pattern = "hr|rr|rd|irr|fold|diff|or"))
     table_regress(data = data,
                   estimand = type,
                   event = event,
@@ -457,7 +466,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'   *  \code{type} The statistic requested (case-insensitive):
 #'
 #'      Comparative estimates from regression models
-#'      (all with 95% confidence intervals):
+#'      with 95% confidence intervals:
 #'
 #'      * \code{"hr"} Hazard ratio from Cox proportional
 #'        hazards regression.
@@ -470,6 +479,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'      * \code{"diff"} Mean difference from linear model.
 #'      * \code{"fold"} Fold change from generalized linear
 #'        model with log link.
+#'      * \code{"or"} Odds ratio from logistic regression.
 #'
 #'      Absolute estimates per exposure category:
 #'
@@ -504,7 +514,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'      By default, regression models will be fit separately for each
 #'      stratum of the \code{effect_modifier}. Append \code{"_joint"}
 #'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-#'      or \code{"fold"} to obtain "joint" models for exposure and
+#'      \code{"fold"}, or \code{"or"} to obtain "joint" models for exposure and
 #'      effect modifier that have a single reference category.
 #'      Example: \code{type = "hr_joint"}. The reference categories for
 #'      exposure and effect modifier are their first factor levels, which
