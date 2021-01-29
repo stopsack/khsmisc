@@ -56,7 +56,7 @@ supply line breaks using \code{\\n}. See example.
 }
 \examples{
 # Generate a flow chart for two steps of exclusions:
-design <- tribble(
+design <- tibble::tribble(
   ~left,               ~n_left, ~right,              ~n_right,
   "Study base",        1000,    "Not sampled",       250,
   "Study population",  750,     "Participants with\nmissing exposure data", 100,

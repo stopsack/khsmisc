@@ -71,7 +71,8 @@ mtcars \%>\%
 # all using standard ggplot syntax.
 mtcars \%>\%
   stripplot(x = gear, y = mpg,
-  contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = wt) +
-  scale_color_viridis(option = "cividis") +
-  labs(y = "Miles per gallon", color = "Weight")
+            contrast = "5 vs. 3 gears", unit = "mpg\n",
+            digits = 1, color = wt) +
+  viridis::scale_color_viridis(option = "cividis") +
+  ggplot2::labs(y = "Miles per gallon", color = "Weight")
 }

@@ -2,7 +2,7 @@
 
 #' Variable List, Stata-style
 #'
-#' @import tidyverse labelled broom cowplot readxl tibble viridis stringr
+#' @import tidyverse labelled broom cowplot tibble viridis stringr
 #'
 #' @description This function prints an inventory of a dataset, similar to Stata's
 #'   \code{varlist} function.
@@ -21,11 +21,11 @@
 #' # label it, and create missing values
 #' data(mtcars)
 #' df <- mtcars %>%
-#'   set_variable_labels(mpg = "Miles per Gallon",
-#'                       gear = "Number of Gears") %>%
-#'   mutate(qsec = if_else(am == 1,
-#'                         true = NA_real_,
-#'                         false = qsec))
+#'   labelled::set_variable_labels(mpg = "Miles per Gallon",
+#'                                 gear = "Number of Gears") %>%
+#'   dplyr::mutate(qsec = dplyr::if_else(am == 1,
+#'                                       true = NA_real_,
+#'                                       false = qsec))
 #'
 #' # Show varlist. Note missing values in "qsec".
 #' varlist(df)
@@ -47,7 +47,7 @@ varlist <- function(data) {
 #'
 #' @param ... Data frame and other arguments,
 #'   passed on to \code{\link[readr]{write_csv}}. Required.
-#' @param path Path/file name to for output. Required.
+#' @param file Path/file name to for output. Required.
 #'
 #' @return None.
 #' @export
@@ -56,15 +56,15 @@ varlist <- function(data) {
 #' \dontrun{
 #' data(mtcars)
 #' mtcars %>%
-#'   select(gear, mpg, am) %>%
-#'   write_csv_safely(path = "mtcars.csv")
+#'   dplyr::select(gear, mpg, am) %>%
+#'   write_csv_safely(file = "mtcars.csv")
 #' }
-write_csv_safely <- function(..., path = stop("'path' must be specified")) {
-  if(!file.exists(path)) {
-    readr::write_csv(..., path = path)
-    print(paste("File written:", path))
+write_csv_safely <- function(..., file = stop("'file' must be specified")) {
+  if(!file.exists(file)) {
+    readr::write_csv(..., file = file)
+    print(paste("File written:", file))
   } else
-    print(paste("Output CSV file", path, "already exists. Not overwritten."))
+    print(paste("Output CSV file", file, "already exists. Not overwritten."))
 }
 
 #' Safely Save R Object Without Overwriting the File

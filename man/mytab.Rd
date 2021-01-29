@@ -32,11 +32,11 @@ This function has been deprecated. Use
 \examples{
 data(mtcars)
 mtcars \%>\%
-  select(gear, carb) \%>\%
+  dplyr::select(gear, carb) \%>\%
   mytab()
 
 # Swap rows and columns, turn off totals:
 mtcars \%>\%
-  select(carb, gear) \%>\%
+  dplyr::select(carb, gear) \%>\%
   mytab(rowsum = FALSE, colsum = FALSE)
 }

@@ -13,8 +13,8 @@ corrmat(
   digits = 2,
   legendpos = c(0.15, 0.35),
   cutpoints = c(-1, 0, 1),
-  colors = c(viridis_pal(option = "cividis")(10)[1], "white", viridis_pal(option =
-    "cividis")(10)[8])
+  colors = c((viridis::viridis_pal(option = "cividis"))(10)[1], "white",
+    (viridis::viridis_pal(option = "cividis"))(10)[8])
 )
 }
 \arguments{
@@ -64,25 +64,20 @@ data(mtcars)
 mtcars \%>\%
   corrmat(mpg, cyl, hp, wt, qsec)
 
-# Equivalent:
-mtcars \%>\%
-  select(mpg, cyl, hp, wt, qsec) \%>\%
-  corrmat()
-
 # Can use tidy evaluation to select variables:
 mtcars \%>\%
   corrmat(contains("a"), starts_with("c"))
 
 # If "cyl" was a character, it would be excluded:
 mtcars \%>\%
-  mutate(cyl_chr = as.character(cyl)) \%>\%
+  dplyr::mutate(cyl_chr = as.character(cyl)) \%>\%
   corrmat(mpg, cyl_chr, hp, wt, qsec)
 
 # To retain the character variable "cyl",
 # convert to factor and then make numeric:
 mtcars \%>\%
-  mutate(cyl_chr = as.character(cyl),
-         cyl_chr = as.numeric(factor(cyl_chr))) \%>\%
+  dplyr::mutate(cyl_chr = as.character(cyl),
+                cyl_chr = as.numeric(factor(cyl_chr))) \%>\%
   corrmat(mpg, cyl_chr, hp, wt, qsec)
 }
 \seealso{

@@ -102,12 +102,12 @@ tabulate_rowcol <- function(data,
 #' @examples
 #' data(mtcars)
 #' mtcars %>%
-#'   select(gear, carb) %>%
+#'   dplyr::select(gear, carb) %>%
 #'   mytab()
 #'
 #' # Swap rows and columns, turn off totals:
 #' mtcars %>%
-#'   select(carb, gear) %>%
+#'   dplyr::select(carb, gear) %>%
 #'   mytab(rowsum = FALSE, colsum = FALSE)
 mytab <- function(data,
                   maxlevels = 30,
@@ -189,7 +189,7 @@ mytab <- function(data,
 #' # remove some summary statistics:
 #' mtcars %>%
 #'   tsummary(mpg, cyl, hp, am, gear, carb) %>%
-#'   select(-mean, -sd, -sum)
+#'   dplyr::select(-mean, -sd, -sum)
 #'
 #' # Stratify by 'gear':
 #' mtcars %>%
@@ -283,7 +283,7 @@ mytabstyle <- function(mytab) {
 #' @examples
 #' data(mtcars)
 #' mtcars %>%
-#'   slice(1:5) %>%
+#'   dplyr::slice(1:5) %>%
 #'   mygt()
 mygt <- function(df) {
   df %>%
@@ -450,7 +450,7 @@ table1 <- function(data,
 #' approximation for variance of incidence rates)
 #'
 #' @examples
-#' data(ovarian)  # from survival package
+#' data(ovarian, package = "survival")
 #'
 #' # Unstratified
 #' ovarian %>%

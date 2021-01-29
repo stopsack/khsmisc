@@ -63,7 +63,7 @@ Summary table of overall or stratified incidence rates
 and cumulative incidence.
 }
 \examples{
-data(ovarian)  # from survival package
+data(ovarian, package = "survival")
 
 # Unstratified
 ovarian \%>\%

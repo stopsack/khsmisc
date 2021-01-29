@@ -3,6 +3,7 @@
 #' @param data Dataset
 #' @param event Event variable
 #' @param time Time variable
+#' @param time2 Optional second time variable
 #' @param effectmodifier Effect modifier variable
 #' @param effectmodifier_level Effect modifier level
 #' @param type Type of statistic quested
@@ -13,7 +14,7 @@
 #'
 #' @return Tibble
 #' @noRd
-table_counts <- function(data, event, time, outcome,
+table_counts <- function(data, event, time, time2, outcome,
                          effectmodifier = NULL, effectmodifier_level = NULL,
                          type, factor, risk_percent,
                          digits, to) {
@@ -33,22 +34,29 @@ table_counts <- function(data, event, time, outcome,
   } else {
     if(stringr::str_detect(string = type, pattern = "events|rate") |
        type == "time") {
-      data <- data %>% dplyr::select(.data$.exposure,
-                                     event     = dplyr::one_of(event),
-                                     time      = dplyr::one_of(time)) %>%
-        dplyr::mutate(outcome = NA)
+      # with 'time' and 'time2', the first is enter and the second is exit
+      if(!is.na(time2)) {
+        data <- data %>%
+          dplyr::select(.data$.exposure,
+                        event     = dplyr::one_of(event),
+                        time      = dplyr::one_of(time),
+                        time2     = dplyr::one_of(time2)) %>%
+          dplyr::mutate(time = time2 - time, outcome = NA)
+      } else {
+        data <- data %>% dplyr::select(.data$.exposure,
+                                       event     = dplyr::one_of(event),
+                                       time      = dplyr::one_of(time)) %>%
+          dplyr::mutate(outcome = NA)
+      }
     } else {
       data <- data %>%
         dplyr::select(.data$.exposure) %>%
         dplyr::mutate(event = NA, time = NA, outcome = NA)
     }
   }
-  if(is.null(to)) {
-    if(stringr::str_detect(string = type, pattern = "mean|median"))
-      to <- " to "
-    else
-      to <- "-"
-  }
+  if(is.null(to))
+    to <- dplyr::if_else(stringr::str_detect(string = type, pattern = "mean|median"),
+                         true = " to ", false = "-")
 
   data %>%
     dplyr::group_by(.data$.exposure) %>%
@@ -145,6 +153,7 @@ table_counts <- function(data, event, time, outcome,
 #' @param data Dataset
 #' @param event Event variable
 #' @param time Time variable
+#' @param time2 Second time variable
 #' @param outcome Outcome variable
 #' @param effectmodifier Effect modifier variable
 #' @param effectmodifier_level Effect modifier level
@@ -155,7 +164,7 @@ table_counts <- function(data, event, time, outcome,
 #'
 #' @return Tibble
 #' @noRd
-table_regress <- function(data, estimand, event, time, outcome,
+table_regress <- function(data, estimand, event, time, time2, outcome,
                           effectmodifier = NULL, effectmodifier_level = NULL,
                           confounders = "", risk_percent = FALSE, digits = 2,
                           to = "-") {
@@ -200,9 +209,16 @@ table_regress <- function(data, estimand, event, time, outcome,
                   reference <- 1
                   exponent <- TRUE
                   to <- dplyr::if_else(is.null(to), true = "-", false = to)
-                  survival::coxph(formula = stats::as.formula(
-                    paste0("Surv(", time, ", ", event, ") ~ .exposure", confounders)),
-                    data = data)
+                  if(is.na(time2))
+                    survival::coxph(formula = stats::as.formula(
+                      paste0("survival::Surv(time = ", time, ",
+                             event = ", event, ") ~ .exposure", confounders)),
+                      data = data)
+                  else
+                    survival::coxph(formula = stats::as.formula(
+                      paste0("survival::Surv(time = ", time, ", time2 =", time2,
+                             ", event = ", event, ") ~ .exposure", confounders)),
+                      data = data)
                 },
                 rr_joint =,
                 rr = {
@@ -286,6 +302,7 @@ table_regress <- function(data, estimand, event, time, outcome,
 #' @param data Dataset
 #' @param event Event variable
 #' @param time Time variable
+#' @param time2 Second time variable
 #' @param exposure Exposure variable
 #' @param effectmodifier Effect modifier variable
 #' @param stratum Effect modifier level
@@ -300,8 +317,10 @@ table_regress <- function(data, estimand, event, time, outcome,
 #'
 #' @return Tibble
 #' @noRd
-fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, stratum, confounders,
-                       type, factor, risk_percent, diff_digits, ratio_digits, rate_digits, to) {
+fill_cells <- function(data, event, time, time2, outcome,
+                       exposure, effect_modifier, stratum, confounders,
+                       type, factor, risk_percent,
+                       diff_digits, ratio_digits, rate_digits, to) {
   data <- data %>% dplyr::rename(.exposure = dplyr::one_of(exposure))
 
   # Check that exposure is categorical
@@ -323,6 +342,11 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
     if(!(time %in% names(data)))
       stop(paste0("Survival data using type = '", type, "' requested, but time variable '",
                   time, "' is not valid for the dataset."))
+    if(!is.na(time2))
+      if(!(time2 %in% names(data)))
+        stop(paste0("Survival data using type = '", type, "' with enter and exit times",
+                    "was requested, but the second time variable '",
+                    time2, "' is not valid for the dataset."))
   }
 
   # Check that outcome variable exists, if needed
@@ -376,6 +400,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
                   estimand = type,
                   event = event,
                   time = time,
+                  time2 = time2,
                   outcome = outcome,
                   effectmodifier = effect_modifier,
                   effectmodifier_level = stratum,
@@ -387,6 +412,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
     table_counts(data = data,
                  event = event,
                  time = time,
+                 time2 = time2,
                  outcome = outcome,
                  effectmodifier = effect_modifier,
                  effectmodifier_level = stratum,
@@ -405,7 +431,7 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #' effect modifiers.
 #'
 #' This function is intended only for tabulations of final results.
-#' Models diagnostics for regression models need to be conducted separately.
+#' Model diagnostics for regression models need to be conducted separately.
 #'
 #' @param design Design matrix (data frame) that sets up the table.
 #'   See Details.
@@ -440,6 +466,11 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'   *  \code{time} The time variable for survival data. Needed for,
 #'        e.g., \code{type = "hr"} and \code{type = "rate"}
 #'        (i.e., whenever \code{outcome} is not used).
+#'   *  \code{time2} The second time variable for late entry models.
+#'        Only used in conjunction with \code{time}. If provided,
+#'        \code{time} will become the entry time and \code{time2}
+#'        the exit time, following conventions of
+#'        \code{\link[survival]{Surv}}.
 #'   *  \code{event} The event variable for survival data.
 #'        Events are typically \code{1}, censored observations \code{0}.
 #'        Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
@@ -461,8 +492,8 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'        Use \code{""} (empty string) to leave blank; the default.
 #'        For Cox models, can add \code{"+ strata(site)"}
 #'        to obtain models with stratification by, e.g., \code{site}.
-#'        For Poisson models, can add \code{"+ offset(log(variable))"}
-#'        to define the offset.
+#'        For Poisson models, can add \code{"+ offset(log(persontime))"}
+#'        to define, e.g., \code{persontime} as the offset.
 #'   *  \code{type} The statistic requested (case-insensitive):
 #'
 #'      Comparative estimates from regression models
@@ -535,39 +566,42 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'
 #' @examples
 #' # Load 'ovarian' dataset from survival package
-#' data(ovarian)
+#' data(ovarian, package = "survival")
 #'
 #' # The exposure (here, 'rx') must be categorical
 #' ovarian <- ovarian %>%
-#'   as_tibble() %>%
-#'   mutate(rx = factor(rx, levels = 1:2,
+#'   tibble::as_tibble() %>%
+#'   dplyr::mutate(rx = factor(rx, levels = 1:2,
 #'                      labels = c("Control (CP)", "Treatment (CP+DXR)")),
 #'          futime = futime / 365.25)  # presumably years
 #'
 #' # Example 1: Binary outcomes (use 'outcome' variable)
 #' # Set table design
-#' design1 <- tibble(label = c("Outcomes",
-#'                             "Total",
-#'                             "Outcomes/Total",
-#'                             "Risk",
-#'                             "Risk (CI)",
-#'                             "Outcomes (Risk)",
-#'                             "Outcomes/Total (Risk)",
-#'                             "RR",
-#'                             "RD")) %>%
-#'   mutate(type = label, exposure = "rx", outcome = "fustat")
+#' design1 <- tibble::tibble(
+#'   label = c("Outcomes",
+#'             "Total",
+#'             "Outcomes/Total",
+#'             "Risk",
+#'             "Risk (CI)",
+#'             "Outcomes (Risk)",
+#'             "Outcomes/Total (Risk)",
+#'             "RR",
+#'             "RD")) %>%
+#'   dplyr::mutate(type = label,
+#'                 exposure = "rx",
+#'                 outcome = "fustat")
 #'
 #' # Generate table2
 #' table2(design = design1, data = ovarian)
 #'
 #' # Use 'design' as columns (selecting RR and RD only)
-#' table2(design = design1 %>% filter(label %in% c("RR", "RD")),
+#' table2(design = design1 %>% dplyr::filter(label %in% c("RR", "RD")),
 #'        data = ovarian, layout = "cols")
 #'
 #' # Example 2: Survival outcomes (use 'time' and 'event'),
 #' #   with an effect modifier and a confounder
 #' # Set table design
-#' design2 <- tribble(
+#' design2 <- tibble::tribble(
 #'   # Elements that vary by row:
 #'   ~label,                       ~stratum, ~confounders, ~type,
 #'   "Overall: Events",            NULL,     "",           "events",
@@ -588,29 +622,30 @@ fill_cells <- function(data, event, time, outcome, exposure, effect_modifier, st
 #'   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
 #'   "  ECOG PS2",                 2,        "+ age",      "hr_joint") %>%
 #'   # Elements that are the same for all rows:
-#'   mutate(exposure = "rx", event = "fustat", time = "futime",
-#'          effect_modifier = "ecog.ps")
+#'   dplyr::mutate(exposure = "rx", event = "fustat", time = "futime",
+#'                 effect_modifier = "ecog.ps")
 #'
 #' # Generate table2
 #' table2(design = design2, data = ovarian)
 #'
 #' # Example 3: Continuous outcomes (use 'outcome' variable);
 #' # request rounding to 1 decimal digit in some cases.
-#' tribble(~label,                   ~stratum, ~type,
-#'         "Marginal mean (95% CI)", 1:2,      "mean (ci) 1",
-#'         "resid.ds = 1",           1,        "mean",
-#'         "resid.ds = 2",           2,        "mean",
-#'         "",                       NULL,     "",
-#'         "Stratified model",       NULL,     "",
-#'         "  resid.ds = 1",         1,        "diff 1",
-#'         "  resid.ds = 2",         2,        "diff 1",
-#'         "",                       NULL,     "",
-#'         "Joint model",            NULL,     "",
-#'         "  resid.ds = 1",         1,        "diff_joint",
-#'         "  resid.ds = 2",         2,        "diff_joint") %>%
-#'   mutate(exposure = "ecog.ps", outcome = "age",
-#'          effect_modifier = "resid.ds") %>%
-#'   table2(data = ovarian %>% mutate(ecog.ps = factor(ecog.ps)))
+#' tibble::tribble(
+#'   ~label,                   ~stratum, ~type,
+#'   "Marginal mean (95% CI)", 1:2,      "mean (ci) 1",
+#'   "resid.ds = 1",           1,        "mean",
+#'   "resid.ds = 2",           2,        "mean",
+#'   "",                       NULL,     "",
+#'   "Stratified model",       NULL,     "",
+#'   "  resid.ds = 1",         1,        "diff 1",
+#'   "  resid.ds = 2",         2,        "diff 1",
+#'   "",                       NULL,     "",
+#'   "Joint model",            NULL,     "",
+#'   "  resid.ds = 1",         1,        "diff_joint",
+#'   "  resid.ds = 2",         2,        "diff_joint") %>%
+#'   dplyr::mutate(exposure = "ecog.ps", outcome = "age",
+#'                 effect_modifier = "resid.ds") %>%
+#'   table2(data = ovarian %>% dplyr::mutate(ecog.ps = factor(ecog.ps)))
 #'
 #' # Get formatted output:
 #' \dontrun{
@@ -627,6 +662,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
 
   if(!("event"       %in% names(design))) design$event       <- NA
   if(!("time"        %in% names(design))) design$time        <- NA
+  if(!("time2"       %in% names(design))) design$time2       <- NA
   if(!("outcome"     %in% names(design))) design$outcome     <- NA
   if(!("confounders" %in% names(design))) design$confounders <- ""
   if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design)))
@@ -635,7 +671,9 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   res <- design %>%
     dplyr::mutate(type   = stringr::str_to_lower(string = .data$type),
                   index  = dplyr::row_number(),
-                  result = purrr::pmap(.l = list(.data$event, .data$time, .data$outcome,
+                  result = purrr::pmap(.l = list(.data$event,
+                                                 .data$time, .data$time2,
+                                                 .data$outcome,
                                                  .data$exposure,
                                                  .data$effect_modifier, .data$stratum,
                                                  .data$confounders, .data$type),

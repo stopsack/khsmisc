@@ -88,6 +88,10 @@ library(khsmisc)
 
 ```{r quietload, include = FALSE, message = FALSE}
 library(khsmisc)
+library(tidyverse)  # Data handling
+library(readxl)     # Reading Excel files
+library(labelled)   # Variable labels
+library(cowplot)    # Plotting theme
 ```
 
 ## Data handling

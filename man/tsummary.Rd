@@ -49,7 +49,7 @@ mtcars \%>\%
 # remove some summary statistics:
 mtcars \%>\%
   tsummary(mpg, cyl, hp, am, gear, carb) \%>\%
-  select(-mean, -sd, -sum)
+  dplyr::select(-mean, -sd, -sum)
 
 # Stratify by 'gear':
 mtcars \%>\%

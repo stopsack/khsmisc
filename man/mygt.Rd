@@ -24,6 +24,6 @@ Formatting includes:
 \examples{
 data(mtcars)
 mtcars \%>\%
-  slice(1:5) \%>\%
+  dplyr::slice(1:5) \%>\%
   mygt()
 }

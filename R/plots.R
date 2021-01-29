@@ -45,9 +45,10 @@
 #' # all using standard ggplot syntax.
 #' mtcars %>%
 #'   stripplot(x = gear, y = mpg,
-#'   contrast = "5 vs. 3 gears", unit = "mpg\n", digits = 1, color = wt) +
-#'   scale_color_viridis(option = "cividis") +
-#'   labs(y = "Miles per gallon", color = "Weight")
+#'             contrast = "5 vs. 3 gears", unit = "mpg\n",
+#'             digits = 1, color = wt) +
+#'   viridis::scale_color_viridis(option = "cividis") +
+#'   ggplot2::labs(y = "Miles per gallon", color = "Weight")
 stripplot <- function(data, x, y,
                       contrast  = NULL,
                       unit      = NULL,
@@ -162,25 +163,20 @@ stripplot <- function(data, x, y,
 #' mtcars %>%
 #'   corrmat(mpg, cyl, hp, wt, qsec)
 #'
-#' # Equivalent:
-#' mtcars %>%
-#'   select(mpg, cyl, hp, wt, qsec) %>%
-#'   corrmat()
-#'
 #' # Can use tidy evaluation to select variables:
 #' mtcars %>%
 #'   corrmat(contains("a"), starts_with("c"))
 #'
 #' # If "cyl" was a character, it would be excluded:
 #' mtcars %>%
-#'   mutate(cyl_chr = as.character(cyl)) %>%
+#'   dplyr::mutate(cyl_chr = as.character(cyl)) %>%
 #'   corrmat(mpg, cyl_chr, hp, wt, qsec)
 #'
 #' # To retain the character variable "cyl",
 #' # convert to factor and then make numeric:
 #' mtcars %>%
-#'   mutate(cyl_chr = as.character(cyl),
-#'          cyl_chr = as.numeric(factor(cyl_chr))) %>%
+#'   dplyr::mutate(cyl_chr = as.character(cyl),
+#'                 cyl_chr = as.numeric(factor(cyl_chr))) %>%
 #'   corrmat(mpg, cyl_chr, hp, wt, qsec)
 corrmat <- function(
   data,
@@ -191,9 +187,10 @@ corrmat <- function(
   digits    = 2,
   legendpos = c(0.15, 0.35),
   cutpoints = c(-1, 0, 1),
-  colors    = c(viridis_pal(option = "cividis")(10)[1],     # for lowest value of scale
-                "white",                                    # middle
-                viridis_pal(option = "cividis")(10)[8])) {  # highest
+                # for lowest value of scale:
+  colors    = c(viridis::viridis_pal(option = "cividis")(10)[1],
+                "white",  # middle
+                viridis::viridis_pal(option = "cividis")(10)[8])) {  # highest
 
   # matrix reorder by hierarchical clustering (optional)
   reorder_cormat <- function(cormat) {
@@ -318,7 +315,7 @@ corrmat <- function(
 #'
 #' @examples
 #' # Generate a flow chart for two steps of exclusions:
-#' design <- tribble(
+#' design <- tibble::tribble(
 #'   ~left,               ~n_left, ~right,              ~n_right,
 #'   "Study base",        1000,    "Not sampled",       250,
 #'   "Study population",  750,     "Participants with\nmissing exposure data", 100,

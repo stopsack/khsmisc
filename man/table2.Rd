@@ -60,7 +60,7 @@ in the format of a table stratified by exposure and, if requested, by
 effect modifiers.
 
 This function is intended only for tabulations of final results.
-Models diagnostics for regression models need to be conducted separately.
+Model diagnostics for regression models need to be conducted separately.
 }
 \details{
 The main input parameter is the dataset \code{design}.
@@ -72,6 +72,11 @@ or \code{time} and \code{event} for survival outcomes:
 \item \code{time} The time variable for survival data. Needed for,
 e.g., \code{type = "hr"} and \code{type = "rate"}
 (i.e., whenever \code{outcome} is not used).
+\item \code{time2} The second time variable for late entry models.
+Only used in conjunction with \code{time}. If provided,
+\code{time} will become the entry time and \code{time2}
+the exit time, following conventions of
+\code{\link[survival]{Surv}}.
 \item \code{event} The event variable for survival data.
 Events are typically \code{1}, censored observations \code{0}.
 Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
@@ -93,8 +98,8 @@ into \code{formula = exposure + confounders}.
 Use \code{""} (empty string) to leave blank; the default.
 For Cox models, can add \code{"+ strata(site)"}
 to obtain models with stratification by, e.g., \code{site}.
-For Poisson models, can add \code{"+ offset(log(variable))"}
-to define the offset.
+For Poisson models, can add \code{"+ offset(log(persontime))"}
+to define, e.g., \code{persontime} as the offset.
 \item \code{type} The statistic requested (case-insensitive):
 
 Comparative estimates from regression models
@@ -166,39 +171,42 @@ or \code{outcome}). See examples.
 }
 \examples{
 # Load 'ovarian' dataset from survival package
-data(ovarian)
+data(ovarian, package = "survival")
 
 # The exposure (here, 'rx') must be categorical
 ovarian <- ovarian \%>\%
-  as_tibble() \%>\%
-  mutate(rx = factor(rx, levels = 1:2,
+  tibble::as_tibble() \%>\%
+  dplyr::mutate(rx = factor(rx, levels = 1:2,
                      labels = c("Control (CP)", "Treatment (CP+DXR)")),
          futime = futime / 365.25)  # presumably years
 
 # Example 1: Binary outcomes (use 'outcome' variable)
 # Set table design
-design1 <- tibble(label = c("Outcomes",
-                            "Total",
-                            "Outcomes/Total",
-                            "Risk",
-                            "Risk (CI)",
-                            "Outcomes (Risk)",
-                            "Outcomes/Total (Risk)",
-                            "RR",
-                            "RD")) \%>\%
-  mutate(type = label, exposure = "rx", outcome = "fustat")
+design1 <- tibble::tibble(
+  label = c("Outcomes",
+            "Total",
+            "Outcomes/Total",
+            "Risk",
+            "Risk (CI)",
+            "Outcomes (Risk)",
+            "Outcomes/Total (Risk)",
+            "RR",
+            "RD")) \%>\%
+  dplyr::mutate(type = label,
+                exposure = "rx",
+                outcome = "fustat")
 
 # Generate table2
 table2(design = design1, data = ovarian)
 
 # Use 'design' as columns (selecting RR and RD only)
-table2(design = design1 \%>\% filter(label \%in\% c("RR", "RD")),
+table2(design = design1 \%>\% dplyr::filter(label \%in\% c("RR", "RD")),
        data = ovarian, layout = "cols")
 
 # Example 2: Survival outcomes (use 'time' and 'event'),
 #   with an effect modifier and a confounder
 # Set table design
-design2 <- tribble(
+design2 <- tibble::tribble(
   # Elements that vary by row:
   ~label,                       ~stratum, ~confounders, ~type,
   "Overall: Events",            NULL,     "",           "events",
@@ -219,29 +227,30 @@ design2 <- tribble(
   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
   "  ECOG PS2",                 2,        "+ age",      "hr_joint") \%>\%
   # Elements that are the same for all rows:
-  mutate(exposure = "rx", event = "fustat", time = "futime",
-         effect_modifier = "ecog.ps")
+  dplyr::mutate(exposure = "rx", event = "fustat", time = "futime",
+                effect_modifier = "ecog.ps")
 
 # Generate table2
 table2(design = design2, data = ovarian)
 
 # Example 3: Continuous outcomes (use 'outcome' variable);
 # request rounding to 1 decimal digit in some cases.
-tribble(~label,                   ~stratum, ~type,
-        "Marginal mean (95\% CI)", 1:2,      "mean (ci) 1",
-        "resid.ds = 1",           1,        "mean",
-        "resid.ds = 2",           2,        "mean",
-        "",                       NULL,     "",
-        "Stratified model",       NULL,     "",
-        "  resid.ds = 1",         1,        "diff 1",
-        "  resid.ds = 2",         2,        "diff 1",
-        "",                       NULL,     "",
-        "Joint model",            NULL,     "",
-        "  resid.ds = 1",         1,        "diff_joint",
-        "  resid.ds = 2",         2,        "diff_joint") \%>\%
-  mutate(exposure = "ecog.ps", outcome = "age",
-         effect_modifier = "resid.ds") \%>\%
-  table2(data = ovarian \%>\% mutate(ecog.ps = factor(ecog.ps)))
+tibble::tribble(
+  ~label,                   ~stratum, ~type,
+  "Marginal mean (95\% CI)", 1:2,      "mean (ci) 1",
+  "resid.ds = 1",           1,        "mean",
+  "resid.ds = 2",           2,        "mean",
+  "",                       NULL,     "",
+  "Stratified model",       NULL,     "",
+  "  resid.ds = 1",         1,        "diff 1",
+  "  resid.ds = 2",         2,        "diff 1",
+  "",                       NULL,     "",
+  "Joint model",            NULL,     "",
+  "  resid.ds = 1",         1,        "diff_joint",
+  "  resid.ds = 2",         2,        "diff_joint") \%>\%
+  dplyr::mutate(exposure = "ecog.ps", outcome = "age",
+                effect_modifier = "resid.ds") \%>\%
+  table2(data = ovarian \%>\% dplyr::mutate(ecog.ps = factor(ecog.ps)))
 
 # Get formatted output:
 \dontrun{

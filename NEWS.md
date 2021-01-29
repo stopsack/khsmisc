@@ -1,3 +1,11 @@
+# khsmisc 0.3.0
+
+* Remove all packages loaded via `Depends:`. Instead, provide the khsverse package as an alternative package loader if desired. Remove readxl and magrittr dependencies altogether.
+* `DESCRIPTION`: Add `Remotes:` to install [risks package from Github](https://stopsack.github.io/risks)
+* `table2()`: Add left-truncated survival models, using `time` and `time2` elements in the `design` matrix.
+* Require readr >= 1.4.0 and change `path =` argument of `write_csv_safely()` to `file =`, as in `save_safely()` and `pdf_savely()`.
+
+
 # khsmisc 0.2.6
 
 * `table2()`: 

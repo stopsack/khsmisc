@@ -27,11 +27,11 @@ This function prints an inventory of a dataset, similar to Stata's
 # label it, and create missing values
 data(mtcars)
 df <- mtcars \%>\%
-  set_variable_labels(mpg = "Miles per Gallon",
-                      gear = "Number of Gears") \%>\%
-  mutate(qsec = if_else(am == 1,
-                        true = NA_real_,
-                        false = qsec))
+  labelled::set_variable_labels(mpg = "Miles per Gallon",
+                                gear = "Number of Gears") \%>\%
+  dplyr::mutate(qsec = dplyr::if_else(am == 1,
+                                      true = NA_real_,
+                                      false = qsec))
 
 # Show varlist. Note missing values in "qsec".
 varlist(df)

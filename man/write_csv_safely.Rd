@@ -4,13 +4,13 @@
 \alias{write_csv_safely}
 \title{Safely Save CSV File Without Overwriting the File}
 \usage{
-write_csv_safely(..., path = stop("'path' must be specified"))
+write_csv_safely(..., file = stop("'file' must be specified"))
 }
 \arguments{
 \item{...}{Data frame and other arguments,
 passed on to \code{\link[readr]{write_csv}}. Required.}
 
-\item{path}{Path/file name to for output. Required.}
+\item{file}{Path/file name to for output. Required.}
 }
 \value{
 None.
@@ -24,7 +24,7 @@ was successfully written or if it already existed.
 \dontrun{
 data(mtcars)
 mtcars \%>\%
-  select(gear, mpg, am) \%>\%
-  write_csv_safely(path = "mtcars.csv")
+  dplyr::select(gear, mpg, am) \%>\%
+  write_csv_safely(file = "mtcars.csv")
 }
 }
