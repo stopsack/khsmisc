@@ -74,7 +74,7 @@ can be stratified by one or more categorical variable(s)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@ missing values. Defaults to <code>TRUE</code>.</p></td>
 <span class='co'># remove some summary statistics:</span>
 <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'>tsummary</span><span class='op'>(</span><span class='va'>mpg</span>, <span class='va'>cyl</span>, <span class='va'>hp</span>, <span class='va'>am</span>, <span class='va'>gear</span>, <span class='va'>carb</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>mean</span>, <span class='op'>-</span><span class='va'>sd</span>, <span class='op'>-</span><span class='va'>sum</span><span class='op'>)</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>mean</span>, <span class='op'>-</span><span class='va'>sd</span>, <span class='op'>-</span><span class='va'>sum</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 9</span><span>
 #&gt;   variable  rows   obs distin   min   q25 median   q75   max
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -117,6 +117,19 @@
       <small>Source: <a href='https://github.com/stopsack/khsmisc/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="khsmisc-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#khsmisc-030" class="anchor"></a>khsmisc 0.3.0</h1>
+<ul>
+<li>Remove all packages loaded via <code>Depends:</code>. Instead, provide the khsverse package as an alternative package loader if desired. Remove readxl and magrittr dependencies altogether.</li>
+<li>
+<code>DESCRIPTION</code>: Add <code>Remotes:</code> to install <a href="https://stopsack.github.io/risks">risks package from Github</a>
+</li>
+<li>
+<code><a href="../reference/table2.html">table2()</a></code>: Add left-truncated survival models, using <code>time</code> and <code>time2</code> elements in the <code>design</code> matrix.</li>
+<li>Require readr &gt;= 1.4.0 and change <code>path =</code> argument of <code><a href="../reference/write_csv_safely.html">write_csv_safely()</a></code> to <code>file =</code>, as in <code><a href="../reference/save_safely.html">save_safely()</a></code> and <code>pdf_savely()</code>.</li>
+</ul>
+</div>
     <div id="khsmisc-026" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.6">
 <a href="#khsmisc-026" class="anchor"></a>khsmisc 0.2.6</h1>
