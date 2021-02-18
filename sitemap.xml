@@ -13,6 +13,9 @@
     <loc>https://stopsack.github.io/khsmisc/reference/exclusion_flowchart.html</loc>
   </url>
   <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/geom_stepribbon.html</loc>
+  </url>
+  <url>
     <loc>https://stopsack.github.io/khsmisc/reference/khsmisc.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/roundp.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/saveRDS_safely.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/save_safely.html</loc>
