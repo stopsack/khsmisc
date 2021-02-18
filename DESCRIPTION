@@ -1,6 +1,6 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",
@@ -40,7 +40,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    readxl
+    readxl,
+    svglite,
+    survminer
 Remotes:
     stopsack/risks
 VignetteBuilder: knitr

@@ -332,7 +332,8 @@ fill_cells <- function(data, event, time, time2, outcome,
   data$.exposure <- factor(data$.exposure)
 
   if(type == "" | type == "blank")
-    return(data %>% distinct(.data$.exposure) %>% dplyr::mutate(res = ""))
+    return(tibble::tibble(.exposure = data %>% dplyr::pull(.data$.exposure) %>% levels(),
+                          res = ""))
 
   # Check that time and event variable exist, if needed
   if(stringr::str_detect(string = type, pattern = "events|hr|rate|time")) {
@@ -685,11 +686,12 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                        to = to)) %>%
     dplyr::select(.data$index, .data$label, .data$result) %>%
     tidyr::unnest(cols = .data$result)
-  if(layout == "rows")
-    res %>% tidyr::pivot_wider(names_from = .data$.exposure, values_from = .data$res) %>%
-    dplyr::rename(!!name := .data$label) %>%
-    dplyr::select(-.data$index)
-  else {
+  if(layout == "rows") {
+    res %>%
+      tidyr::pivot_wider(names_from = .data$.exposure, values_from = .data$res) %>%
+      dplyr::rename(!!name := .data$label) %>%
+      dplyr::select(-.data$index)
+  } else {
     if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
       res %>%
         tidyr::pivot_wider(names_from = c(.data$index, .data$label), values_from = .data$res)

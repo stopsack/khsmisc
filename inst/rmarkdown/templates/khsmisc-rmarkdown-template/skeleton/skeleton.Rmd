@@ -1,0 +1,41 @@
+---
+title: "--BLANK TITLE--"
+author: "Konrad H. Stopsack <stopsack@mskcc.org>"
+date: "`r format(Sys.time(), '%a %b %d, %Y %X')`"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: cosmo
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+---
+
+```{r setup, include = FALSE}
+rm(list = ls())
+knitr::opts_chunk$set(echo = TRUE)
+
+# Embed figures in SVG format, not as PNG
+library(svglite)
+knitr::opts_chunk$set(dev = "svglite")
+
+library(khsverse)
+```
+
+```{r load}
+
+```
+
+# Tables
+
+# Figures
+
+# Data in Text
+
+
+```{r cleanup, echo = FALSE}
+rm(list = ls())
+```

@@ -67,13 +67,13 @@ write_csv_safely <- function(..., file = stop("'file' must be specified")) {
     print(paste("Output CSV file", file, "already exists. Not overwritten."))
 }
 
-#' Safely Save R Object Without Overwriting the File
+#' Safely Save R Objects Without Overwriting the File
 #'
 #' @description Wraps \code{\link[base]{save}}. If the file already exists,
-#'   it will not be overwritten. A message will be printed indicating whether the file
-#'   was successfully written or if it already existed.
+#'   it will not be overwritten. A message will be printed indicating whether
+#'   the file was successfully written or if it already existed.
 #'
-#' @param ... Data frame, other objects, and further arguments,
+#' @param ... Data frame(s), other object(s), and further arguments,
 #'   passed on to \code{\link[base]{save}}. Required.
 #' @param file Path/file name to for output. Required.
 #'
@@ -89,6 +89,33 @@ write_csv_safely <- function(..., file = stop("'file' must be specified")) {
 save_safely <- function(..., file = stop("'file' must be specified")) {
   if(!file.exists(file)) {
     save(..., file = file)
+    print(paste("File written:", file))
+  } else
+    print(paste("Output file", file, "already exists. Not overwritten."))
+}
+
+#' Safely Save Single Object Without Overwriting the RDS File
+#'
+#' @description Wraps \code{\link[base]{saveRDS}}. If the file already exists,
+#'   it will not be overwritten. A message will be printed indicating whether
+#'   the file was successfully written or if it already existed.
+#'
+#' @param ... Data frame or other object, and further arguments,
+#'   passed on to \code{\link[base]{saveRDS}}. Required.
+#' @param file Path/file name to for output. Required.
+#'
+#' @return None.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' data(mtcars)
+#' mtcars %>%
+#'   saveRDS_safely(file = "dataset.rds")
+#' }
+saveRDS_safely <- function(..., file = stop("'file' must be specified")) {
+  if(!file.exists(file)) {
+    saveRDS(..., file = file)
     print(paste("File written:", file))
   } else
     print(paste("Output file", file, "already exists. Not overwritten."))

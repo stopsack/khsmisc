@@ -2,12 +2,12 @@
 % Please edit documentation in R/datahandling.R
 \name{save_safely}
 \alias{save_safely}
-\title{Safely Save R Object Without Overwriting the File}
+\title{Safely Save R Objects Without Overwriting the File}
 \usage{
 save_safely(..., file = stop("'file' must be specified"))
 }
 \arguments{
-\item{...}{Data frame, other objects, and further arguments,
+\item{...}{Data frame(s), other object(s), and further arguments,
 passed on to \code{\link[base]{save}}. Required.}
 
 \item{file}{Path/file name to for output. Required.}
@@ -17,8 +17,8 @@ None.
 }
 \description{
 Wraps \code{\link[base]{save}}. If the file already exists,
-it will not be overwritten. A message will be printed indicating whether the file
-was successfully written or if it already existed.
+it will not be overwritten. A message will be printed indicating whether
+the file was successfully written or if it already existed.
 }
 \examples{
 \dontrun{
