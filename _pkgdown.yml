@@ -27,3 +27,4 @@ reference:
   - stripplot
   - corrmat
   - exclusion_flowchart
+  - geom_stepribbon
