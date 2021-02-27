@@ -2,7 +2,7 @@ name: pkgdown
 
 on:
   push:
-    branches: master
+    branches: main
 
 jobs:
   pkgdown:
@@ -30,7 +30,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install GH dependencies
+      - name: Install system dependencies
+        run: brew install harfbuzz fribidi
+
+      - name: Install GH dependency risks
         run: |
           remotes::install_github("stopsack/risks")
         shell: Rscript {0}
