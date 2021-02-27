@@ -21,7 +21,6 @@ The `khsmisc` package can be installed from [GitHub](https://github.com/stopsack
 ```r
 # if "remotes" library is missing, install it first:
 #   install.packages("remotes")
-library(remotes)
 remotes::install_github("stopsack/khsmisc", build_vignettes = TRUE)
 ```
 
@@ -43,50 +42,36 @@ After successfully installing `khsmisc`:
 
 (@) **Create an RMarkdown file**
 
-    RStudio: *File* > *New File* > *R Markdown...* > *Create Empty Document*
+    RStudio: *File* > *New File* > *R Markdown...* > *From Template* > *khsmisc RMarkdown template*
 
-(@) **Add a header for the RMarkdown**
-
-    Copy the following so-called "YAML" header into the empty document, including the three dashes (`---`) at the beginning and end:
-    
-```{yaml, eval = FALSE}
----
-title: "A test project: Aneuploidy in TCGA-BLCA"
-author: "Konrad H. Stopsack <stopsack@mskcc.org>"
-date: "`r format(Sys.time(), '%b %d, %Y %X')`"
-output: 
-  html_document:
-    code_folding: show
-    toc: true
-    toc_depth: 2
-    number_sections: true
-    theme: cosmo
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
----
-```
+(@) **Customize the YAML header**
 
    + Change the `title:` and `author:` fields. 
    + The date will automatically be updated when compiling the document. 
    + Note that this type of code, "YAML," is sensitive to exact identation. Every indentation is done by exactly two spaces.
 
-(@) **Load `khsmisc` library**
+(@) **Load the package**
     
-    Click *Insert* > *R* in the toolbar. Write into the new piece of code ("chunk"):
+    The template provides code that will load a number of packages via the [khsverse meta-package](https://stopsack.github.io/khsverse):
 
-```r
-library(khsmisc)
+```{r, eval = FALSE}
+library(khsverse)
 ```
+
+   + To just load the khsmisc package by itself, replace `library(khsverse)` by `library(khsmisc)`. 
+   + The template also includes code to set graphics output to SVG format. If PNG output is preferred or the svglite package is not installed, that part can be deleted.
+
 
 (@) **Knit the RMarkdown a first time**
 
-    You are ready to compile the RMarkdown using the *Knit* button. An HTML document should open that has nothing but a title and the startup messages of `khsmisc` about all the packages it loads. If an an error message is shown instead, perhaps `khsmisc` was not installed properly? 
+    The RMarkdown is ready to be compiled using the *Knit* button. An HTML document should open that has nothing but a title and the startup messages of `khsverse` about all the packages it loads. If an an error message is shown instead, perhaps one of the packages was not installed properly? 
     
     Learn more about the syntax of RMarkdown in the [RStudio cheatsheets](http://www.rstudio.com/resources/cheatsheets/).
 
 
 ```{r quietload, include = FALSE, message = FALSE}
+# all of these are usually loaded via khsverse, which, however, is not a
+# dependency of khsmisc and thus not actually used in the vignette
 library(khsmisc)
 library(tidyverse)  # Data handling
 library(readxl)     # Reading Excel files
