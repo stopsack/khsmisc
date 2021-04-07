@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -84,10 +84,10 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The khsmisc package can be installed from <a href="https://github.com/stopsack/khsmisc">GitHub</a>. A CRAN submission is not planned.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># if "remotes" library is missing, install it first:</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># if "remotes" library is missing, install it first:</span>
 <span class="co">#   install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="functions-for-epidemiology-research" class="section level2">
 <h2 class="hasAnchor">
@@ -100,7 +100,7 @@
 <li>
 <strong>Functions for descriptive tables:</strong> <code><a href="reference/tabulate_rowcol.html">tabulate_rowcol()</a></code> for categorical variables; <code><a href="reference/tsummary.html">tsummary()</a></code> for continuous variables; <code><a href="reference/mygt.html">mygt()</a></code> for formatting and printing any tibble as a ‘gt’ table; <code><a href="reference/table1.html">table1()</a></code> for formatted stratified descriptive tables using <code>gtsummary</code>; <code><a href="reference/table2.html">table2()</a></code> for stratified result tables; <code><a href="reference/rates.html">rates()</a></code> for event counts, person-time, incidence rates, and cumulative incidence.</li>
 <li>
-<strong>Functions for figures:</strong> <code><a href="reference/stripplot.html">stripplot()</a></code> for box/whiskers plots overlaid with a dot plot of all data points; <code><a href="reference/corrmat.html">corrmat()</a></code> for correlation matrices; <code><a href="reference/exclusion_flowchart.html">exclusion_flowchart()</a></code> for a flowchart with consequences of exclusion criteria; <code><a href="reference/geom_stepribbon.html">geom_stepribbon()</a></code> for visualizing RMST differences</li>
+<strong>Functions for figures:</strong> <code><a href="reference/stripplot.html">stripplot()</a></code> for box/whiskers plots overlaid with a dot plot of all data points; <code><a href="reference/corrmat.html">corrmat()</a></code> for correlation matrices; <code><a href="reference/exclusion_flowchart.html">exclusion_flowchart()</a></code> for a flowchart with consequences of exclusion criteria; <code><a href="reference/geom_stepribbon.html">geom_stepribbon()</a></code> for visualizing RMST differences; <code><a href="reference/brickchart.html">brickchart()</a></code> for plotting proportions while showing individual observations.</li>
 <li>
 <strong>Others:</strong> R Markdown template, available via File &gt; New File &gt; R Markdown &gt; From Template.</li>
 </ul>
