@@ -28,8 +28,10 @@ table_counts <- function(data, event, time, time2, outcome,
     }
   }
 
-  if(stringr::str_detect(string = type, pattern = "outcomes|risk|mean|median")) {
-    data <- data %>% dplyr::select(.data$.exposure, outcome = dplyr::one_of(outcome)) %>%
+  if(stringr::str_detect(string = type,
+                         pattern = "outcomes|risk|mean|median|cases")) {
+    data <- data %>%
+      dplyr::select(.data$.exposure, outcome = dplyr::one_of(outcome)) %>%
       dplyr::mutate(event = NA, time = NA)
   } else {
     if(stringr::str_detect(string = type, pattern = "events|rate") |
@@ -55,7 +57,8 @@ table_counts <- function(data, event, time, time2, outcome,
     }
   }
   if(is.null(to))
-    to <- dplyr::if_else(stringr::str_detect(string = type, pattern = "mean|median"),
+    to <- dplyr::if_else(stringr::str_detect(string = type,
+                                             pattern = "mean|median"),
                          true = " to ", false = "-")
 
   data %>%
@@ -72,23 +75,30 @@ table_counts <- function(data, event, time, time2, outcome,
               trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)),
               sep = "/"),
       type == "events/total"          ~ paste(sum(.data$event), n(), sep = "/"),
+      type == "cases/controls"        ~ paste(sum(.data$outcome),
+                                              sum(!.data$outcome),
+                                              sep = "/"),
       type == "risk"                  ~
         paste0(trimws(format(round(sum(.data$outcome) / n() *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = "")),
       type == "risk (ci)"             ~
         paste0(trimws(format(round(sum(.data$outcome) / n() *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), " (",
                trimws(format(round(scoreci(success = sum(.data$outcome),
                                            total = n())$conf.low *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)), to,
                trimws(format(round(scoreci(success = sum(.data$outcome),
                                            total = n())$conf.high *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)), ")"),
       type == "rate"                  ~
         trimws(format(round(sum(.data$event) * factor / sum(.data$time),
@@ -96,54 +106,67 @@ table_counts <- function(data, event, time, time2, outcome,
       type == "rate (ci)"             ~
         paste0(trimws(format(round(sum(.data$event) * factor / sum(.data$time),
                                    digits = digits), nsmall = digits)), " (",
-               trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
-                                                - stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
+               trimws(format(round(factor * exp(log(sum(.data$event) /
+                                                      sum(.data$time))
+                                                - stats::qnorm(0.975) *
+                                                  1/sqrt(sum(.data$event))),
                                    digits = digits), nsmall = digits)),
                to,
-               trimws(format(round(factor * exp(log(sum(.data$event) / sum(.data$time))
-                                                + stats::qnorm(0.975) * 1/sqrt(sum(.data$event))),
+               trimws(format(round(factor * exp(log(sum(.data$event) /
+                                                      sum(.data$time))
+                                                + stats::qnorm(0.975) *
+                                                  1/sqrt(sum(.data$event))),
                                    digits = digits), nsmall = digits)), ")"),
       type == "outcomes (risk)" ~
         paste0(sum(.data$outcome), " (",
                trimws(format(round(sum(.data$outcome) / n() *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
       type == "outcomes/total (risk)" ~
         paste0(sum(.data$outcome), "/", n(), " (",
                trimws(format(round(sum(.data$outcome) / n() *
-                                     if_else(risk_percent == TRUE, true = 100, false = 1),
+                                     if_else(risk_percent == TRUE,
+                                             true = 100, false = 1),
                                    digits = digits), nsmall = digits)),
                if_else(risk_percent == TRUE, true = "%", false = ""), ")"),
       type == "events/time (rate)"    ~
         paste0(sum(.data$event), "/",
-               trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)), " (",
+               trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)),
+               " (",
                trimws(format(round(sum(.data$event) * factor / sum(.data$time),
                                    digits = digits), nsmall = digits)), ")"),
       type == "mean" ~
-        trimws(format(round(mean(.data$outcome), digits = digits), nsmall = digits)),
+        trimws(format(round(mean(.data$outcome), digits = digits),
+                      nsmall = digits)),
       type == "mean (ci)" ~
         paste0(trimws(format(round(mean(.data$outcome), digits = digits),
                              nsmall = digits)), " (",
                trimws(format(round(mean(.data$outcome) - stats::qnorm(0.975) *
-                                     sqrt(var(.data$outcome) / sum(!is.na(.data$outcome))),
+                                     sqrt(var(.data$outcome) /
+                                            sum(!is.na(.data$outcome))),
                                    digits = digits),
                              nsmall = digits)),
                to,
                trimws(format(round(mean(.data$outcome) + stats::qnorm(0.975) *
-                                     sqrt(var(.data$outcome) / sum(!is.na(.data$outcome))),
+                                     sqrt(var(.data$outcome) /
+                                            sum(!is.na(.data$outcome))),
                                    digits = digits),
                              nsmall = digits)), ")"),
       type == "median" ~
-        trimws(format(round(median(.data$outcome), digits = digits), nsmall = digits)),
+        trimws(format(round(median(.data$outcome), digits = digits),
+                      nsmall = digits)),
       type == "median (iqr)" ~
         paste0(trimws(format(round(median(.data$outcome, na.rm = TRUE),
                                    digits = digits), nsmall = digits)),
                " (",
-               trimws(format(round(stats::quantile(.data$outcome, probs = 0.25, na.rm = TRUE),
+               trimws(format(round(stats::quantile(.data$outcome,
+                                                   probs = 0.25, na.rm = TRUE),
                                    digits = digits), nsmall = digits)),
                to,
-               trimws(format(round(stats::quantile(.data$outcome, probs = 0.75, na.rm = TRUE),
+               trimws(format(round(stats::quantile(.data$outcome,
+                                                   probs = 0.75, na.rm = TRUE),
                                    digits = digits), nsmall = digits)), ")")),
       .groups = "drop")
 }
@@ -174,7 +197,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     if(missing(effectmodifier) | missing(effectmodifier_level))
       stop(paste0("Effect modifier and stratum must be specified for joint model ('",
                   estimand, "')."))
-    if(is.na(effectmodifier) | is.null(effectmodifier) | is.null(effectmodifier_level))
+    if(is.na(effectmodifier) | is.null(effectmodifier) |
+       is.null(effectmodifier_level))
       stop(paste0("Effect modifier and stratum must be specified for joint model ('",
                   estimand, "')."))
     pattern <- paste0(".exposure[:digit:]{1,2}__", effectmodifier_level,
@@ -195,11 +219,29 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   } else {
     pattern <- ".exposure"
     if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
-      if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) | is.na(effectmodifier))) {
-        data <- data %>% dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
+      if(!is.null(effectmodifier_level) & !(is.null(effectmodifier) |
+                                            is.na(effectmodifier))) {
+        data <- data %>%
+          dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
           dplyr::filter(.data$.effectmod %in% effectmodifier_level)
       }
     }
+  }
+
+  if(stringr::str_detect(string = estimand, pattern = "quantreg")) {
+    tau <- stringr::str_remove_all(string = estimand,
+                                   pattern = "quantreg|_joint|\\h")
+    if(stringr::str_length(string = tau) > 0)
+      tau <- as.numeric(tau)
+    else
+      tau <- 0.5
+    if(is.na(tau))
+      stop(paste0("The supplied quantile is not a valid numeric value: '",
+                  estimand, "'."))
+    if(stringr::str_detect(string = estimand, pattern = "_joint"))
+      estimand <- "quantreg_joint"
+    else
+      estimand <- "quantreg"
   }
 
   multiply <- 1
@@ -233,7 +275,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 rd = {
                   reference <- 0
                   exponent <- FALSE
-                  multiply <- if_else(risk_percent == TRUE, true = 100, false = 1)
+                  multiply <- if_else(risk_percent == TRUE,
+                                      true = 100, false = 1)
                   to <- dplyr::if_else(is.null(to), true = " to ", false = to)
                   risks::riskdiff(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
@@ -268,6 +311,15 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                     family = stats::gaussian(link = "log"),
                     data = data)
                 },
+                foldlog_joint =,
+                foldlog = {
+                  reference <- 1
+                  exponent <- TRUE
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  stats::lm(formula = stats::as.formula(
+                    paste0("log(", outcome, ") ~ .exposure ", confounders)),
+                    data = data)
+                },
                 or_joint =,
                 or = {
                   reference <- 1
@@ -278,18 +330,46 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                     family = stats::binomial(link = "logit"),
                     data = data)
                 },
+                quantreg_joint =,
+                quantreg = {
+                  reference <- 0
+                  exponent <- FALSE
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  quantreg::rq(formula = stats::as.formula(
+                    paste(outcome, "~ .exposure", confounders)),
+                    tau = tau, method = "fn",
+                    data = data)
+                },
                 stop(paste0("Estimand '", estimand, "' is not implemented.")))
 
+  fit <- switch(EXPR = estimand,
+                # tidy.rq does not like "exponentiate" argument:
+                quantreg =,
+                quantreg_joint = broom::tidy(fit, conf.int = TRUE),
+                # tidy.lm ignores "exponentiate":
+                foldlog =,
+                foldlog_joint = {
+                  broom::tidy(fit, conf.int = TRUE) %>%
+                    dplyr::mutate_at(.vars = dplyr::vars(.data$estimate,
+                                                         .data$conf.low,
+                                                         .data$conf.high),
+                                     .funs = exp) },
+                broom::tidy(fit, conf.int = TRUE,
+                            exponentiate = exponent))
+
   fit %>%
-    broom::tidy(conf.int = TRUE, exponentiate = exponent) %>%
-    dplyr::select(.data$term, .data$estimate, .data$conf.low, .data$conf.high) %>%
+    dplyr::select(.data$term, .data$estimate,
+                  .data$conf.low, .data$conf.high) %>%
     dplyr::mutate_if(.predicate = is.numeric,
-                     .funs = ~trimws(format(round(. * multiply, digits = digits),
-                                            nsmall = digits))) %>%
+                     .funs = ~format(round(. * multiply, digits = digits),
+                                     nsmall = digits,
+                                     trim = TRUE, scientific = FALSE)) %>%
     dplyr::filter(stringr::str_detect(string = .data$term, pattern = pattern)) %>%
-    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term, pattern = pattern)) %>%
+    dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
+                                                  pattern = pattern)) %>%
     dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
-    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, to, .data$conf.high, ")"),
+    dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, to,
+                               .data$conf.high, ")"),
                   res = dplyr::if_else(is.na(.data$estimate),
                                        true = paste(reference, "(reference)"),
                                        false = .data$res)) %>%
@@ -324,43 +404,50 @@ fill_cells <- function(data, event, time, time2, outcome,
   data <- data %>% dplyr::rename(.exposure = dplyr::one_of(exposure))
 
   # Check that exposure is categorical
-  if(!(class(data %>% pull(.data$.exposure))[1] %in% c("factor", "character", "logical")))
+  if(!(class(data %>% pull(.data$.exposure))[1] %in% c("factor", "character",
+                                                       "logical")))
     warning(paste0("Exposure variable '", exposure,
                    "' is not categorical (factor, character, or logical). ",
-                   "Its type was changed to 'factor' but the result may be undesirable, e.g., ",
-                   "if the variable is actually continuous and thus has many levels."))
+                   "Its type was changed to 'factor' but the result may be ",
+                   "undesirable, e.g., if the variable is actually continuous ",
+                   "and thus has many levels."))
   data$.exposure <- factor(data$.exposure)
 
   if(type == "" | type == "blank")
-    return(tibble::tibble(.exposure = data %>% dplyr::pull(.data$.exposure) %>% levels(),
+    return(tibble::tibble(.exposure = data %>% dplyr::pull(.data$.exposure) %>%
+                            levels(),
                           res = ""))
 
   # Check that time and event variable exist, if needed
   if(stringr::str_detect(string = type, pattern = "events|hr|rate|time")) {
     if(!(event %in% names(data)))
-      stop(paste0("Survival data using type = '", type, "' requested, but event variable '",
-                  event, "' is not valid for the dataset."))
+      stop(paste0("Survival data using type = '", type, "' requested, but ",
+                  "event variable '", event, "' is not valid for the dataset."))
     if(!(time %in% names(data)))
-      stop(paste0("Survival data using type = '", type, "' requested, but time variable '",
-                  time, "' is not valid for the dataset."))
+      stop(paste0("Survival data using type = '", type, "' requested, but ",
+                  "time variable '", time, "' is not valid for the dataset."))
     if(!is.na(time2))
       if(!(time2 %in% names(data)))
-        stop(paste0("Survival data using type = '", type, "' with enter and exit times",
-                    "was requested, but the second time variable '",
+        stop(paste0("Survival data using type = '", type, "' with enter and ",
+                    "exit times was requested, but the second time variable '",
                     time2, "' is not valid for the dataset."))
   }
 
   # Check that outcome variable exists, if needed
-  if(stringr::str_detect(string = type,
-                         pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold|or")) {
+  if(stringr::str_detect(
+    string = type,
+    pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold|foldlog|or|cases|quantreg")) {
     if(!(outcome %in% names(data)))
-      stop(paste0("Using type = '", type, "' requires an outcome variable, but the variable '",
-                  outcome, "' is not valid for the dataset."))
+      stop(paste0("Using type = '", type, "' requires an outcome variable, ",
+                  "but the variable '", outcome,
+                  "' is not valid for the dataset."))
     # Check that outcome is binary
     outcomevar <- data %>%
       dplyr::select(outcome = dplyr::one_of(outcome)) %>%
       dplyr::pull(outcome)
-    if(!(stringr::str_detect(string = type, pattern = "diff|mean|median|irr|or")))
+    if(!(stringr::str_detect(
+      string = type,
+      pattern = "diff|mean|median|irr|fold|foldlog|quantreg")))
       if(!(all(sort(unique(outcomevar)) == c(0, 1)) |
            all(sort(unique(outcomevar)) == c(FALSE, TRUE))))
         stop(paste0("Outcome variable '", outcome,
@@ -368,7 +455,8 @@ fill_cells <- function(data, event, time, time2, outcome,
   }
 
   # extract desired digits from individual "type" fields
-  if(stringr::str_detect(string = type, pattern = "(ci)|(iqr)|(risk)|(rate)")) {
+  if(stringr::str_detect(string = type,
+                         pattern = "\\(ci\\)|\\(iqr\\)|\\(risk\\)|\\(rate\\)")) {
     splitted <- stringr::str_split(string = type, pattern = " ",
                                    n = 3, simplify = TRUE)
     type <- paste(splitted[1], splitted[2], collapse = " ", sep = " ")
@@ -383,20 +471,21 @@ fill_cells <- function(data, event, time, time2, outcome,
      !is.na(suppressWarnings(as.numeric(indiv_dig)))) {
     digits <- as.numeric(indiv_dig)
   } else {
-    digits <- dplyr::case_when(stringr::str_detect(string = type,
-                                                   pattern = "hr|rr|irr|fold|or") ~
-                                 ratio_digits[1],
-                               stringr::str_detect(string = type,
-                                                   pattern = "rd|diff|mean|risk|outcomes|median") ~
-                                 diff_digits[1],
-                               stringr::str_detect(string = type,
-                                                   pattern = "rate") ~
-                                 rate_digits[1],
-                               TRUE ~ 4)
+    digits <- dplyr::case_when(
+      stringr::str_detect(string = type,
+                          pattern = "hr|rr|irr|fold|foldlog|or") ~
+        ratio_digits[1],
+      stringr::str_detect(string = type,
+                          pattern = "rd|diff|mean|risk|outcomes|median|quantreg") ~
+        diff_digits[1],
+      stringr::str_detect(string = type,
+                          pattern = "rate") ~
+        rate_digits[1],
+      TRUE ~ 4)
   }
 
-
-  if(stringr::str_detect(string = type, pattern = "hr|rr|rd|irr|fold|diff|or"))
+  if(stringr::str_detect(string = type,
+                         pattern = "hr|rr|rd|irr|fold|foldlog|diff|or|quantreg"))
     table_regress(data = data,
                   estimand = type,
                   event = event,
@@ -509,8 +598,16 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      * \code{"irr"} Incidence rate ratio for count outcomes
 #'        from Poisson regression model.
 #'      * \code{"diff"} Mean difference from linear model.
+#'      * \code{"quantreg"} Quantile difference from quantile regression using
+#'        \code{\link[quantreg]{rq}} with \code{method = "fn"}.
+#'        By default, this is the difference in medians. For a different
+#'        quantile, e.g., the 75th percentile, use \code{"quantreg0.75"}.
+#'        Note absence of white space before the quantile.
 #'      * \code{"fold"} Fold change from generalized linear
-#'        model with log link.
+#'        model with log link (i.e., ratio of arithmetic means).
+#'      * \code{"foldlog"} Fold change from linear
+#'        model after log transformation of the outcome
+#'        (i.e., ratio of geometric means).
 #'      * \code{"or"} Odds ratio from logistic regression.
 #'
 #'      Absolute estimates per exposure category:
@@ -521,6 +618,8 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      * \code{"total"} Number of observations.
 #'      * \code{"events/time"} Events slash person-time.
 #'      * \code{"events/total"} Events slash number of observations.
+#'      * \code{"cases/controls"} Cases and non-cases;
+#'        for case-control studies.
 #'      * \code{"risk"} Risk (or prevalence), i.e., events divided
 #'        by number of observations. Change between display as proportion
 #'        or percent using the parameter \code{risk_percent}.
@@ -546,20 +645,22 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      By default, regression models will be fit separately for each
 #'      stratum of the \code{effect_modifier}. Append \code{"_joint"}
 #'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-#'      \code{"fold"}, or \code{"or"} to obtain "joint" models for exposure and
-#'      effect modifier that have a single reference category.
-#'      Example: \code{type = "hr_joint"}. The reference categories for
-#'      exposure and effect modifier are their first factor levels, which
+#'      \code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, or \code{"or"} to
+#'      obtain "joint" models for exposure and effect modifier that have a
+#'      single reference category.
+#'      Example: \code{type = "hr_joint"}. The reference categories
+#'      for exposure and effect modifier are their first factor levels, which
 #'      can be changed using \code{\link[forcats]{fct_relevel}}.
 #'
 #'      Digits for rounding estimates can be specified for each line separately.
 #'      Example: \code{type = "diff (ci) 3"} to request a mean difference
-#'      and its 95% CI rounded to 3 decimal digits.
+#'      and its 95% CI rounded to 3 decimal digits (note the space before
+#'      \code{3}).
 #'
 #' Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
-#'   \code{\link[dplyr]{mutate}} to construct the \code{design} dataset, especially
-#'   variables that are used repeatedly (e.g., \code{exposure, time, event},
-#'   or \code{outcome}). See examples.
+#'   \code{\link[dplyr]{mutate}} to construct the \code{design} dataset,
+#'   especially variables that are used repeatedly (e.g., \code{exposure, time,
+#'   event}, or \code{outcome}). See examples.
 #'
 #' @return Tibble. Get formatted output by passing on to
 #'   \code{\link[khsmisc]{mygt}}.
@@ -655,7 +756,8 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' }
 table2 <- function(design, data, layout = "rows", factor = 1000,
                    risk_percent = FALSE,
-                   diff_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+                   diff_digits = dplyr::if_else(risk_percent == TRUE,
+                                                true = 0, false = 2),
                    ratio_digits = 2, rate_digits = 1, to = NULL) {
   name <- labelled::var_label(dplyr::pull(data, design$exposure[1]))
   if(is.null(name))
@@ -676,9 +778,13 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                                  .data$time, .data$time2,
                                                  .data$outcome,
                                                  .data$exposure,
-                                                 .data$effect_modifier, .data$stratum,
-                                                 .data$confounders, .data$type),
-                                       .f = fill_cells, data = data, factor = factor,
+                                                 .data$effect_modifier,
+                                                 .data$stratum,
+                                                 .data$confounders,
+                                                 .data$type),
+                                       .f = fill_cells,
+                                       data = data,
+                                       factor = factor,
                                        risk_percent = risk_percent,
                                        diff_digits = diff_digits,
                                        ratio_digits = ratio_digits,
@@ -688,17 +794,20 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
     tidyr::unnest(cols = .data$result)
   if(layout == "rows") {
     res %>%
-      tidyr::pivot_wider(names_from = .data$.exposure, values_from = .data$res) %>%
+      tidyr::pivot_wider(names_from = .data$.exposure,
+                         values_from = .data$res) %>%
       dplyr::rename(!!name := .data$label) %>%
       dplyr::select(-.data$index)
   } else {
     if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
       res %>%
-        tidyr::pivot_wider(names_from = c(.data$index, .data$label), values_from = .data$res)
+        tidyr::pivot_wider(names_from = c(.data$index, .data$label),
+                           values_from = .data$res)
     } else {
       res %>%
         dplyr::select(-.data$index) %>%
-        tidyr::pivot_wider(names_from = .data$label, values_from = .data$res) %>%
+        tidyr::pivot_wider(names_from = .data$label,
+                           values_from = .data$res) %>%
         dplyr::rename(!!name := .data$.exposure)
     }
   }

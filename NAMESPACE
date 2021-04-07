@@ -3,6 +3,7 @@
 export("%>%")
 export(GeomStepribbon)
 export(Mode)
+export(brickchart)
 export(corrmat)
 export(exclusion_flowchart)
 export(geom_stepribbon)

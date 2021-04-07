@@ -114,8 +114,16 @@ from \code{\link[risks]{riskdiff}}.
 \item \code{"irr"} Incidence rate ratio for count outcomes
 from Poisson regression model.
 \item \code{"diff"} Mean difference from linear model.
+\item \code{"quantreg"} Quantile difference from quantile regression using
+\code{\link[quantreg]{rq}} with \code{method = "fn"}.
+By default, this is the difference in medians. For a different
+quantile, e.g., the 75th percentile, use \code{"quantreg0.75"}.
+Note absence of white space before the quantile.
 \item \code{"fold"} Fold change from generalized linear
-model with log link.
+model with log link (i.e., ratio of arithmetic means).
+\item \code{"foldlog"} Fold change from linear
+model after log transformation of the outcome
+(i.e., ratio of geometric means).
 \item \code{"or"} Odds ratio from logistic regression.
 }
 
@@ -127,6 +135,8 @@ Absolute estimates per exposure category:
 \item \code{"total"} Number of observations.
 \item \code{"events/time"} Events slash person-time.
 \item \code{"events/total"} Events slash number of observations.
+\item \code{"cases/controls"} Cases and non-cases;
+for case-control studies.
 \item \code{"risk"} Risk (or prevalence), i.e., events divided
 by number of observations. Change between display as proportion
 or percent using the parameter \code{risk_percent}.
@@ -153,21 +163,23 @@ followed by rate in parentheses.
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
 to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-\code{"fold"}, or \code{"or"} to obtain "joint" models for exposure and
-effect modifier that have a single reference category.
-Example: \code{type = "hr_joint"}. The reference categories for
-exposure and effect modifier are their first factor levels, which
+\code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, or \code{"or"} to
+obtain "joint" models for exposure and effect modifier that have a
+single reference category.
+Example: \code{type = "hr_joint"}. The reference categories
+for exposure and effect modifier are their first factor levels, which
 can be changed using \code{\link[forcats]{fct_relevel}}.
 
 Digits for rounding estimates can be specified for each line separately.
 Example: \code{type = "diff (ci) 3"} to request a mean difference
-and its 95\% CI rounded to 3 decimal digits.
+and its 95\% CI rounded to 3 decimal digits (note the space before
+\code{3}).
 }
 
 Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
-\code{\link[dplyr]{mutate}} to construct the \code{design} dataset, especially
-variables that are used repeatedly (e.g., \code{exposure, time, event},
-or \code{outcome}). See examples.
+\code{\link[dplyr]{mutate}} to construct the \code{design} dataset,
+especially variables that are used repeatedly (e.g., \code{exposure, time,
+  event}, or \code{outcome}). See examples.
 }
 \examples{
 # Load 'ovarian' dataset from survival package

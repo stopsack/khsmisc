@@ -1,3 +1,16 @@
+# khsmisc 0.3.2
+
+* `table2()`: 
+   + Fix input check for `outcome` variable for `type %in% c("fold", "or")`.
+   + Digits for rounding: Fix regular expression for parentheses.
+   + Add `type = "cases/controls"`.
+   + Add `type = "foldlog"` for models of geometric means.
+   + Add `type = "quantreg"` for differences from quantile regression.
+   + Line breaks.
+* `brickchart()`: New function for "brick charts"--proportions by category,
+   where "bricks" display individual observations.
+
+
 # khsmisc 0.3.1
 
 * `table2()`: Fix exposure category order if starting table with `"blank"` row.
@@ -5,7 +18,7 @@
 * `saveRDS_safely()`: equivalent to `save_safely()` for single objects and 
   `.rds` files
 * `geom_stepribbon()`: ggplot aesthetic to highlight the difference between
-  two Kaplan-Meier curves, corresponding to the different in RMST
+  two Kaplan-Meier curves, corresponding to the difference in RMST
 
 
 # khsmisc 0.3.0

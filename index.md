@@ -43,7 +43,8 @@ remotes::install_github("stopsack/khsmisc")
     overlaid with a dot plot of all data points; `corrmat()` for
     correlation matrices; `exclusion_flowchart()` for a flowchart with
     consequences of exclusion criteria; `geom_stepribbon()` for
-    visualizing RMST differences
+    visualizing RMST differences; `brickchart()` for plotting proportions while
+    showing individual observations.
 -   **Others:** R Markdown template, available via File &gt; New
     File &gt; R Markdown &gt; From Template.
 
