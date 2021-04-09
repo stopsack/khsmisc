@@ -17,14 +17,22 @@
 #' @export
 #'
 #' @examples
-#' data(ovarian, package = "survival")
-#' ovarian %>%
-#'   brickchart(outcome = fustat == 1,
-#'              by = ecog.ps)
-#' ovarian %>%
-#'   brickchart(outcome = fustat == 1,
-#'              by = ecog.ps,
-#'              group = rx)
+#' data(cancer, package = "survival")
+#' cancer <- cancer %>%
+#'   tibble::as_tibble() %>%
+#'   dplyr::mutate(sex = factor(sex, levels = 1:2,
+#'                              labels = c("Men", "Women")))
+#'
+#' cancer %>%
+#'   dplyr::filter(ph.ecog < 3) %>%  # drop missing/near-empty categories
+#'   brickchart(outcome = status == 2,
+#'              by = ph.ecog)
+#'
+#' cancer %>%
+#'   dplyr::filter(ph.ecog < 3) %>%
+#'   brickchart(outcome = status == 2,
+#'              by = ph.ecog,
+#'              group = sex)
 brickchart <- function(
   data, outcome, by, group,
   colors = list(

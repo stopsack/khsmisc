@@ -450,23 +450,26 @@ table1 <- function(data,
 #' approximation for variance of incidence rates)
 #'
 #' @examples
-#' data(ovarian, package = "survival")
+#' data(cancer, package = "survival")
+#' cancer <- cancer %>%
+#'   dplyr::mutate(status = status - 1) %>%
+#'   dplyr::filter(ph.ecog < 3)
 #'
 #' # Unstratified
-#' ovarian %>%
-#'   rates(time = futime, event = fustat)
+#' cancer %>%
+#'   rates(time = time, event = status)
 #'
-#' # Show risk (cumulative incidence) at 25 years,
+#' # Show risk (cumulative incidence) at 1 year,
 #' # show follow-up time to person-years
-#' ovarian %>%
-#'   rates(time = futime, event = fustat,
-#'         risk_time = 25 * 12, conversion = 12)
+#' cancer %>%
+#'   rates(time = time, event = status,
+#'         risk_time = 1 * 365.25, conversion = 365.25)
 #'
-#' # Stratified by "ecog.ps" and "resid.ds":
-#' ovarian %>%
-#'   rates(time = futime, event = fustat,
-#'         by = c(ecog.ps, resid.ds),
-#'         risk_time = 25 * 12, conversion = 12)
+#' # Stratified by "ph.ecog" and "sex":
+#' cancer %>%
+#'   rates(time = time, event = status,
+#'         by = c(ph.ecog, sex),
+#'         risk_time = 1 * 365.25, conversion = 365.25)
 rates <- function(data, time, event, by, risk_time = NULL, conversion = 1,
                   rate_digits = 1, risk_digits = 1, factor = 1000) {
   # The helper function is needed because survfit() does not retain grouping of data

@@ -667,15 +667,16 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' @export
 #'
 #' @examples
-#' # Load 'ovarian' dataset from survival package
-#' data(ovarian, package = "survival")
+#' # Load 'cancer' dataset from survival package
+#' data(cancer, package = "survival")
 #'
 #' # The exposure (here, 'rx') must be categorical
-#' ovarian <- ovarian %>%
+#' cancer <- cancer %>%
 #'   tibble::as_tibble() %>%
-#'   dplyr::mutate(rx = factor(rx, levels = 1:2,
-#'                      labels = c("Control (CP)", "Treatment (CP+DXR)")),
-#'          futime = futime / 365.25)  # presumably years
+#'   dplyr::mutate(sex = factor(sex, levels = 1:2,
+#'                              labels = c("Men", "Women")),
+#'                 time = time / 365.25,
+#'                 status = status - 1)
 #'
 #' # Example 1: Binary outcomes (use 'outcome' variable)
 #' # Set table design
@@ -690,15 +691,17 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'             "RR",
 #'             "RD")) %>%
 #'   dplyr::mutate(type = label,
-#'                 exposure = "rx",
-#'                 outcome = "fustat")
+#'                 exposure = "sex",
+#'                 outcome = "status")
 #'
 #' # Generate table2
-#' table2(design = design1, data = ovarian)
+#' table2(design = design1, data = cancer)
 #'
 #' # Use 'design' as columns (selecting RR and RD only)
-#' table2(design = design1 %>% dplyr::filter(label %in% c("RR", "RD")),
-#'        data = ovarian, layout = "cols")
+#' table2(design = design1 %>%
+#'                   dplyr::filter(label %in% c("RR", "RD")),
+#'        data = cancer,
+#'        layout = "cols")
 #'
 #' # Example 2: Survival outcomes (use 'time' and 'event'),
 #' #   with an effect modifier and a confounder
@@ -724,34 +727,40 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
 #'   "  ECOG PS2",                 2,        "+ age",      "hr_joint") %>%
 #'   # Elements that are the same for all rows:
-#'   dplyr::mutate(exposure = "rx", event = "fustat", time = "futime",
-#'                 effect_modifier = "ecog.ps")
+#'   dplyr::mutate(exposure = "sex",
+#'                 event = "status",
+#'                 time = "time",
+#'                 effect_modifier = "ph.ecog")
 #'
 #' # Generate table2
-#' table2(design = design2, data = ovarian)
+#' table2(design = design2,
+#'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2))
 #'
 #' # Example 3: Continuous outcomes (use 'outcome' variable);
 #' # request rounding to 1 decimal digit in some cases.
 #' tibble::tribble(
 #'   ~label,                   ~stratum, ~type,
 #'   "Marginal mean (95% CI)", 1:2,      "mean (ci) 1",
-#'   "resid.ds = 1",           1,        "mean",
-#'   "resid.ds = 2",           2,        "mean",
+#'   "  Men",                  "Men",    "mean",
+#'   "  Women",                "Women",  "mean",
 #'   "",                       NULL,     "",
 #'   "Stratified model",       NULL,     "",
-#'   "  resid.ds = 1",         1,        "diff 1",
-#'   "  resid.ds = 2",         2,        "diff 1",
+#'   "  Men",                  "Men",    "diff 1",
+#'   "  Women",                "Women",  "diff 1",
 #'   "",                       NULL,     "",
 #'   "Joint model",            NULL,     "",
-#'   "  resid.ds = 1",         1,        "diff_joint",
-#'   "  resid.ds = 2",         2,        "diff_joint") %>%
-#'   dplyr::mutate(exposure = "ecog.ps", outcome = "age",
-#'                 effect_modifier = "resid.ds") %>%
-#'   table2(data = ovarian %>% dplyr::mutate(ecog.ps = factor(ecog.ps)))
+#'   "  Men",                  "Men",    "diff_joint",
+#'   "  Women",                "Women",  "diff_joint") %>%
+#'   dplyr::mutate(exposure = "ph.ecog",
+#'                 outcome = "age",
+#'                 effect_modifier = "sex") %>%
+#'   table2(data = cancer %>%
+#'                   dplyr::filter(ph.ecog < 3) %>%
+#'                   dplyr::mutate(ph.ecog = factor(ph.ecog)))
 #'
 #' # Get formatted output:
 #' \dontrun{
-#' table2(design = design2, data = ovarian) %>%
+#' table2(design = design2, data = cancer) %>%
 #'   mygt()
 #' }
 table2 <- function(design, data, layout = "rows", factor = 1000,

@@ -63,23 +63,26 @@ Summary table of overall or stratified incidence rates
 and cumulative incidence.
 }
 \examples{
-data(ovarian, package = "survival")
+data(cancer, package = "survival")
+cancer <- cancer \%>\%
+  dplyr::mutate(status = status - 1) \%>\%
+  dplyr::filter(ph.ecog < 3)
 
 # Unstratified
-ovarian \%>\%
-  rates(time = futime, event = fustat)
+cancer \%>\%
+  rates(time = time, event = status)
 
-# Show risk (cumulative incidence) at 25 years,
+# Show risk (cumulative incidence) at 1 year,
 # show follow-up time to person-years
-ovarian \%>\%
-  rates(time = futime, event = fustat,
-        risk_time = 25 * 12, conversion = 12)
+cancer \%>\%
+  rates(time = time, event = status,
+        risk_time = 1 * 365.25, conversion = 365.25)
 
-# Stratified by "ecog.ps" and "resid.ds":
-ovarian \%>\%
-  rates(time = futime, event = fustat,
-        by = c(ecog.ps, resid.ds),
-        risk_time = 25 * 12, conversion = 12)
+# Stratified by "ph.ecog" and "sex":
+cancer \%>\%
+  rates(time = time, event = status,
+        by = c(ph.ecog, sex),
+        risk_time = 1 * 365.25, conversion = 365.25)
 }
 \references{
 Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:

@@ -1,3 +1,9 @@
+# khsmisc 0.3.3
+
+* Change many examples after the `ovarian` dataset was removed from the survival
+  package; use (lung) `cancer` instead.
+  
+
 # khsmisc 0.3.2
 
 * `table2()`: 
