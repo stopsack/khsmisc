@@ -73,7 +73,7 @@ and cumulative incidence." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -209,24 +209,42 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242. (Poisson/large-sam
 approximation for variance of incidence rates)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ovarian</span>, package <span class='op'>=</span> <span class='st'>"survival"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘ovarian’ not found</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>cancer</span>, package <span class='op'>=</span> <span class='st'>"survival"</span><span class='op'>)</span>
+<span class='va'>cancer</span> <span class='op'>&lt;-</span> <span class='va'>cancer</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>status <span class='op'>=</span> <span class='va'>status</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ph.ecog</span> <span class='op'>&lt;</span> <span class='fl'>3</span><span class='op'>)</span>
+
 <span class='co'># Unstratified</span>
-<span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in dplyr::select(., {    {        by    }}): object 'ovarian' not found</span></div><div class='input'>
-<span class='co'># Show risk (cumulative incidence) at 25 years,</span>
+<span class='va'>cancer</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>time</span>, event <span class='op'>=</span> <span class='va'>status</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span><span>
+#&gt;       n Events `Person-time` `Rate per person-time` `Risk (%)`      
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>   226    163         </span><span style='text-decoration: underline;'>69</span><span>404 2.3 (2.0-2.7)          94.9 (89.0-98.2)</div><div class='input'>
+<span class='co'># Show risk (cumulative incidence) at 1 year,</span>
 <span class='co'># show follow-up time to person-years</span>
-<span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span>,
-        risk_time <span class='op'>=</span> <span class='fl'>25</span> <span class='op'>*</span> <span class='fl'>12</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in dplyr::select(., {    {        by    }}): object 'ovarian' not found</span></div><div class='input'>
-<span class='co'># Stratified by "ecog.ps" and "resid.ds":</span>
-<span class='va'>ovarian</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>futime</span>, event <span class='op'>=</span> <span class='va'>fustat</span>,
-        by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ecog.ps</span>, <span class='va'>resid.ds</span><span class='op'>)</span>,
-        risk_time <span class='op'>=</span> <span class='fl'>25</span> <span class='op'>*</span> <span class='fl'>12</span>, conversion <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in dplyr::select(., {    {        by    }}): object 'ovarian' not found</span></div></pre>
+<span class='va'>cancer</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>time</span>, event <span class='op'>=</span> <span class='va'>status</span>,
+        risk_time <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>*</span> <span class='fl'>365.25</span>, conversion <span class='op'>=</span> <span class='fl'>365.25</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 5</span><span>
+#&gt;       n Events `Person-time` `Rate per person-time` `Risk (%)`      
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>   226    163           190 857.8 (735.7-1000.1)   58.7 (51.8-65.8)</div><div class='input'>
+<span class='co'># Stratified by "ph.ecog" and "sex":</span>
+<span class='va'>cancer</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rates</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>time</span>, event <span class='op'>=</span> <span class='va'>status</span>,
+        by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ph.ecog</span>, <span class='va'>sex</span><span class='op'>)</span>,
+        risk_time <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>*</span> <span class='fl'>365.25</span>, conversion <span class='op'>=</span> <span class='fl'>365.25</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 7</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   sex [2]</span><span>
+#&gt;     sex ph.ecog     n Events `Person-time` `Rate per person-tim… `Risk (%)`     
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1       0    36     28            36 775.7 (535.6-1123.5)  52.0 (36.0-70.…
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1       1    71     54            53 1015.9 (778.1-1326.5) 67.4 (55.2-79.…
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1       2    29     28            17 1623.6 (1121.0-2351.… 79.9 (63.7-92.…
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     2       0    27      9            25 365.9 (190.4-703.2)   38.2 (19.0-66.…
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     2       1    42     28            44 634.5 (438.1-919.0)   39.9 (26.1-57.…
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     2       2    21     16            15 1081.2 (662.4-1764.9) 76.4 (55.3-92.…</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
