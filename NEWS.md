@@ -1,3 +1,12 @@
+# khsmisc 0.3.4
+
+* `brickchart()`: Auto-generate color palette for an unlimited number of
+  exposure categories. Expand examples.
+* `DESCRIPTION`: Add `Suggests: markdown` to fix github-actions.
+* `table2()`: For risk ratios and risk differences, allow passing on model
+  fitting approach and number of bootstrap repeats.
+
+
 # khsmisc 0.3.3
 
 * Change many examples after the `ovarian` dataset was removed from the survival

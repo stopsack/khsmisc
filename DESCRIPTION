@@ -1,6 +1,6 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.3.3
+Version: 0.3.4
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",
@@ -40,6 +40,7 @@ Imports:
     quantreg
 Suggests: 
     knitr,
+    markdown,
     rmarkdown,
     readxl,
     svglite,

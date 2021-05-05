@@ -228,6 +228,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     }
   }
 
+  # Select specific quantiles for quantreg, if provided:
   if(stringr::str_detect(string = estimand, pattern = "quantreg")) {
     tau <- stringr::str_remove_all(string = estimand,
                                    pattern = "quantreg|_joint|\\h")
@@ -242,6 +243,46 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
       estimand <- "quantreg_joint"
     else
       estimand <- "quantreg"
+  }
+
+  if(stringr::str_detect(string = estimand, pattern = "rd|rr")) {
+    # Select bootstrap repeats, if provided:
+    bootrepeats <- as.numeric(stringr::str_extract(string = estimand,
+                                                   pattern = "[:digit:]+"))
+    if(!is.na(bootrepeats))
+      bootrepeats <- max(bootrepeats, 50)
+    # Select model fitting approach for riskdiff or riskratio, if provided:
+    approach <- stringr::str_remove_all(string = estimand,
+                                        pattern = "rd|rr|_joint|\\h|[:digit:]")
+    if(stringr::str_length(string = approach) == 0)
+      approach <- "auto"
+    if(stringr::str_detect(string = estimand, pattern = "rd")) {
+      possible_approaches <- as.character(as.list(args(risks::riskdiff))$approach)
+    } else {
+      possible_approaches <- as.character(as.list(args(risks::riskratio))$approach)
+    }
+    possible_approaches <- possible_approaches[!(possible_approaches %in%
+                                                   c("c", "all"))]
+    if(!(approach %in% possible_approaches)) {
+      warning(paste0("Fitting a risks model via approach '",
+                     approach,
+                     "' is not implemented. Possible approaches are: ",
+                     paste(possible_approaches, sep = ", ", collapse = ", "),
+                     ". Defaulting to 'auto'."))
+      approach <- "auto"
+    }
+    if(stringr::str_detect(string = estimand, pattern = "_joint")) {
+      estimand <- paste0(stringr::str_extract(string = estimand,
+                                              pattern = "rd|rr"), "_joint")
+    } else {
+      estimand <- stringr::str_extract(string = estimand, pattern = "rd|rr")
+    }
+  }
+  if(exists("bootrepeats")) {
+    if(is.na(bootrepeats))
+      bootrepeats <- 1000  # default if not provided. only used for risks models
+  } else {
+    bootrepeats <- 1000
   }
 
   multiply <- 1
@@ -269,7 +310,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                   to <- dplyr::if_else(is.null(to), true = "-", false = to)
                   risks::riskratio(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
-                    data = data)
+                    data = data, approach = approach)
                 },
                 rd_joint =,
                 rd = {
@@ -280,7 +321,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                   to <- dplyr::if_else(is.null(to), true = " to ", false = to)
                   risks::riskdiff(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
-                    data = data)
+                    data = data, approach = approach)
                 },
                 diff_joint =,
                 diff = {
@@ -354,8 +395,11 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                                                          .data$conf.low,
                                                          .data$conf.high),
                                      .funs = exp) },
+                # otherwise:
                 broom::tidy(fit, conf.int = TRUE,
-                            exponentiate = exponent))
+                            exponentiate = exponent,
+                            # only used for rr or rd with margstd:
+                            bootrepeats = bootrepeats))
 
   fit %>%
     dplyr::select(.data$term, .data$estimate,
@@ -364,10 +408,12 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                      .funs = ~format(round(. * multiply, digits = digits),
                                      nsmall = digits,
                                      trim = TRUE, scientific = FALSE)) %>%
-    dplyr::filter(stringr::str_detect(string = .data$term, pattern = pattern)) %>%
+    dplyr::filter(stringr::str_detect(string = .data$term,
+                                      pattern = pattern)) %>%
     dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
                                                   pattern = pattern)) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels), by = ".exposure") %>%
+    dplyr::left_join(x = tibble::tibble(.exposure = xlevels),
+                     by = ".exposure") %>%
     dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, to,
                                .data$conf.high, ")"),
                   res = dplyr::if_else(is.na(.data$estimate),
@@ -591,12 +637,17 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'
 #'      * \code{"hr"} Hazard ratio from Cox proportional
 #'        hazards regression.
-#'      * \code{"rr"} Risk ratio (or prevalence ratio)
-#'        from \code{\link[risks]{riskratio}}.
-#'      * \code{"rd"} Risk difference (or prevalence difference)
-#'        from \code{\link[risks]{riskdiff}}.
 #'      * \code{"irr"} Incidence rate ratio for count outcomes
 #'        from Poisson regression model.
+#'      * \code{"rr"} Risk ratio (or prevalence ratio)
+#'        from \code{\link[risks]{riskratio}}. Can request specific model
+#'        fitting  approach and, for marginal
+#'        standardization only, the number of bootstrap repeats.
+#'        Examples: \code{"rrglm_start"} or \code{"rrmargstd2000"}.
+#'        (Note absence of white space.)
+#'      * \code{"rd"} Risk difference (or prevalence difference)
+#'        from \code{\link[risks]{riskdiff}}. Can request model fitting approach
+#'        and bootstrap repeats as for \code{"rr"}.
 #'      * \code{"diff"} Mean difference from linear model.
 #'      * \code{"quantreg"} Quantile difference from quantile regression using
 #'        \code{\link[quantreg]{rq}} with \code{method = "fn"}.
@@ -670,7 +721,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' # Load 'cancer' dataset from survival package
 #' data(cancer, package = "survival")
 #'
-#' # The exposure (here, 'rx') must be categorical
+#' # The exposure (here, 'sex') must be categorical
 #' cancer <- cancer %>%
 #'   tibble::as_tibble() %>%
 #'   dplyr::mutate(sex = factor(sex, levels = 1:2,

@@ -81,7 +81,7 @@ h + geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
 # an RMST difference, having drawn the plot via
 #   figure <- survminer::ggsurvplot(...)
 \dontrun{
-df_ribbon <- figure$plot$data \%>\%  # acces plot data
+df_ribbon <- figure$plot$data \%>\%  # access plot data
   select(time, surv, strata) \%>\%
   pivot_wider(names_from = strata,
               values_from = surv,

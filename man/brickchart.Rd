@@ -4,33 +4,23 @@
 \alias{brickchart}
 \title{Brick Chart}
 \usage{
-brickchart(
-  data,
-  outcome,
-  by,
-  group,
-  colors = list(c((viridis::viridis_pal(end = 0.9, option = "cividis", alpha =
-    1))(3)[1], (viridis::viridis_pal(end = 0.9, option = "cividis", alpha = 0.8))(3)[1]),
-    c((viridis::viridis_pal(end = 0.9, option = "cividis", alpha = 1))(3)[2],
-    (viridis::viridis_pal(end = 0.9, option = "cividis", alpha = 0.8))(3)[2]),
-    c((viridis::viridis_pal(end = 0.9, option = "cividis", alpha = 1))(3)[3],
-    (viridis::viridis_pal(end = 0.9, option = "cividis", alpha = 0.8))(3)[3])),
-  guide = FALSE
-)
+brickchart(data, outcome, by, group, colors = NULL, guide = FALSE)
 }
 \arguments{
-\item{data}{Data set}
+\item{data}{Data set.}
 
-\item{outcome}{Outcome expression, e.g., \code{event == TRUE}}
+\item{outcome}{Outcome expression, e.g., \code{event == TRUE}.}
 
-\item{by}{Exposure variable}
+\item{by}{Exposure variable.}
 
-\item{group}{Optional: Grouping variable, e.g. an effect modifier.}
+\item{group}{Optional: Grouping variable, e.g., an effect modifier.}
 
-\item{colors}{Color list. Must be a \code{list} consisting of two-element
-color code vectors with the dark and bright colors. The default
-provides colors for three exposure groups; additions may be necessary.
-Example: \code{list(c("darkred", "red"), c("darkblue", "lightblue"))}.}
+\item{colors}{Optional: Color list. Must be a \code{list} consisting of
+two-element color code vectors with the dark and bright colors for each
+level of the exposure variable (\code{by}).
+Example: \code{list(c("darkred", "red"), c("darkblue", "lightblue"))}.
+If not provided, colors will be generated from the
+\code{\link[viridis]{viridis_pal}} palette.}
 
 \item{guide}{Optional: Show legend? Defaults to \code{FALSE}.}
 }
@@ -57,5 +47,13 @@ cancer \%>\%
   dplyr::filter(ph.ecog < 3) \%>\%
   brickchart(outcome = status == 2,
              by = ph.ecog,
-             group = sex)
+             group = sex,
+             guide = TRUE) +  # show color legend
+  # Modify graph with standard ggplot functions
+  # Refer to axes before flipping x <-> y. Here, y is horizontal:
+  ggplot2::labs(y = "Risk (cumulative incidence)",
+                fill = "ECOG status",  # Color label
+                title = "Mortality by ECOG performance status") +
+  # Themes refer to axes as shown--'y' is now vertical
+  ggplot2::theme(axis.title.y = ggplot2::element_blank())
 }

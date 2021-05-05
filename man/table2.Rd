@@ -107,12 +107,17 @@ with 95\% confidence intervals:
 \itemize{
 \item \code{"hr"} Hazard ratio from Cox proportional
 hazards regression.
-\item \code{"rr"} Risk ratio (or prevalence ratio)
-from \code{\link[risks]{riskratio}}.
-\item \code{"rd"} Risk difference (or prevalence difference)
-from \code{\link[risks]{riskdiff}}.
 \item \code{"irr"} Incidence rate ratio for count outcomes
 from Poisson regression model.
+\item \code{"rr"} Risk ratio (or prevalence ratio)
+from \code{\link[risks]{riskratio}}. Can request specific model
+fitting  approach and, for marginal
+standardization only, the number of bootstrap repeats.
+Examples: \code{"rrglm_start"} or \code{"rrmargstd2000"}.
+(Note absence of white space.)
+\item \code{"rd"} Risk difference (or prevalence difference)
+from \code{\link[risks]{riskdiff}}. Can request model fitting approach
+and bootstrap repeats as for \code{"rr"}.
 \item \code{"diff"} Mean difference from linear model.
 \item \code{"quantreg"} Quantile difference from quantile regression using
 \code{\link[quantreg]{rq}} with \code{method = "fn"}.
@@ -185,7 +190,7 @@ especially variables that are used repeatedly (e.g., \code{exposure, time,
 # Load 'cancer' dataset from survival package
 data(cancer, package = "survival")
 
-# The exposure (here, 'rx') must be categorical
+# The exposure (here, 'sex') must be categorical
 cancer <- cancer \%>\%
   tibble::as_tibble() \%>\%
   dplyr::mutate(sex = factor(sex, levels = 1:2,
