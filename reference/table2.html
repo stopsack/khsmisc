@@ -77,7 +77,7 @@ Model diagnostics for regression models need to be conducted separately." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -247,12 +247,17 @@ to define, e.g., <code>persontime</code> as the offset.</p></li>
 with 95% confidence intervals:</p><ul>
 <li><p><code>"hr"</code> Hazard ratio from Cox proportional
 hazards regression.</p></li>
-<li><p><code>"rr"</code> Risk ratio (or prevalence ratio)
-from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskratio</a></code>.</p></li>
-<li><p><code>"rd"</code> Risk difference (or prevalence difference)
-from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskdiff</a></code>.</p></li>
 <li><p><code>"irr"</code> Incidence rate ratio for count outcomes
 from Poisson regression model.</p></li>
+<li><p><code>"rr"</code> Risk ratio (or prevalence ratio)
+from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskratio</a></code>. Can request specific model
+fitting  approach and, for marginal
+standardization only, the number of bootstrap repeats.
+Examples: <code>"rrglm_start"</code> or <code>"rrmargstd2000"</code>.
+(Note absence of white space.)</p></li>
+<li><p><code>"rd"</code> Risk difference (or prevalence difference)
+from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskdiff</a></code>. Can request model fitting approach
+and bootstrap repeats as for <code>"rr"</code>.</p></li>
 <li><p><code>"diff"</code> Mean difference from linear model.</p></li>
 <li><p><code>"quantreg"</code> Quantile difference from quantile regression using
 <code><a href='https://rdrr.io/pkg/quantreg/man/rq.html'>rq</a></code> with <code>method = "fn"</code>.
@@ -323,7 +328,7 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
     <pre class="examples"><div class='input'><span class='co'># Load 'cancer' dataset from survival package</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>cancer</span>, package <span class='op'>=</span> <span class='st'>"survival"</span><span class='op'>)</span>
 
-<span class='co'># The exposure (here, 'rx') must be categorical</span>
+<span class='co'># The exposure (here, 'sex') must be categorical</span>
 <span class='va'>cancer</span> <span class='op'>&lt;-</span> <span class='va'>cancer</span> <span class='op'>%&gt;%</span>
   <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>sex <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>sex</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>,

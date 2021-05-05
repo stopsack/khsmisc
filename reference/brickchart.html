@@ -73,7 +73,7 @@ observations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -125,45 +125,35 @@ observations." />
 observations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>brickchart</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  <span class='va'>outcome</span>,
-  <span class='va'>by</span>,
-  <span class='va'>group</span>,
-  colors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span>
-    <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, <span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>,
-    <span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>,
-    <span class='op'>(</span><span class='fu'>viridis</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/viridis/man/viridis_pal.html'>viridis_pal</a></span><span class='op'>(</span>end <span class='op'>=</span> <span class='fl'>0.9</span>, option <span class='op'>=</span> <span class='st'>"cividis"</span>, alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>,
-  guide <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>brickchart</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>outcome</span>, <span class='va'>by</span>, <span class='va'>group</span>, colors <span class='op'>=</span> <span class='cn'>NULL</span>, guide <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Data set</p></td>
+      <td><p>Data set.</p></td>
     </tr>
     <tr>
       <th>outcome</th>
-      <td><p>Outcome expression, e.g., <code>event == TRUE</code></p></td>
+      <td><p>Outcome expression, e.g., <code>event == TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>by</th>
-      <td><p>Exposure variable</p></td>
+      <td><p>Exposure variable.</p></td>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>Optional: Grouping variable, e.g. an effect modifier.</p></td>
+      <td><p>Optional: Grouping variable, e.g., an effect modifier.</p></td>
     </tr>
     <tr>
       <th>colors</th>
-      <td><p>Color list. Must be a <code>list</code> consisting of two-element
-color code vectors with the dark and bright colors. The default
-provides colors for three exposure groups; additions may be necessary.
-Example: <code><a href='https://rdrr.io/r/base/list.html'>list(c("darkred", "red"), c("darkblue", "lightblue"))</a></code>.</p></td>
+      <td><p>Optional: Color list. Must be a <code>list</code> consisting of
+two-element color code vectors with the dark and bright colors for each
+level of the exposure variable (<code>by</code>).
+Example: <code><a href='https://rdrr.io/r/base/list.html'>list(c("darkred", "red"), c("darkblue", "lightblue"))</a></code>.
+If not provided, colors will be generated from the
+<code><a href='https://sjmgarnier.github.io/viridis/reference/viridis_pal.html'>viridis_pal</a></code> palette.</p></td>
     </tr>
     <tr>
       <th>guide</th>
@@ -191,7 +181,15 @@ Example: <code><a href='https://rdrr.io/r/base/list.html'>list(c("darkred", "red
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ph.ecog</span> <span class='op'>&lt;</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>brickchart</span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>status</span> <span class='op'>==</span> <span class='fl'>2</span>,
              by <span class='op'>=</span> <span class='va'>ph.ecog</span>,
-             group <span class='op'>=</span> <span class='va'>sex</span><span class='op'>)</span>
+             group <span class='op'>=</span> <span class='va'>sex</span>,
+             guide <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>  <span class='co'># show color legend</span>
+  <span class='co'># Modify graph with standard ggplot functions</span>
+  <span class='co'># Refer to axes before flipping x &lt;-&gt; y. Here, y is horizontal:</span>
+  <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Risk (cumulative incidence)"</span>,
+                fill <span class='op'>=</span> <span class='st'>"ECOG status"</span>,  <span class='co'># Color label</span>
+                title <span class='op'>=</span> <span class='st'>"Mortality by ECOG performance status"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='co'># Themes refer to axes as shown--'y' is now vertical</span>
+  <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title.y <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='brickchart-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

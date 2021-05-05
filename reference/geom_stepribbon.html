@@ -74,7 +74,7 @@ or a confidence band." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -223,7 +223,7 @@ to the paired geom/stat.</p></td>
 <span class='co'># an RMST difference, having drawn the plot via</span>
 <span class='co'>#   figure &lt;- survminer::ggsurvplot(...)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df_ribbon</span> <span class='op'>&lt;-</span> <span class='va'>figure</span><span class='op'>$</span><span class='va'>plot</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>%&gt;%</span>  <span class='co'># acces plot data</span>
+<span class='va'>df_ribbon</span> <span class='op'>&lt;-</span> <span class='va'>figure</span><span class='op'>$</span><span class='va'>plot</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>%&gt;%</span>  <span class='co'># access plot data</span>
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>surv</span>, <span class='va'>strata</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>pivot_wider</span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>strata</span>,
               values_from <span class='op'>=</span> <span class='va'>surv</span>,
