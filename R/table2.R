@@ -184,16 +184,19 @@ table_counts <- function(data, event, time, time2, outcome,
 #' @param risk_percent Display risk differences as percentage?
 #' @param digits Number of digits to round estimates to
 #' @param to Separator character(s) for confidence interval bounds
+#' @param is_trend If called on a continous (trend) variable
 #'
 #' @return Tibble
 #' @noRd
 table_regress <- function(data, estimand, event, time, time2, outcome,
                           effectmodifier = NULL, effectmodifier_level = NULL,
                           confounders = "", risk_percent = FALSE, digits = 2,
+                          is_trend = FALSE,
                           to = "-") {
   xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
 
-  if(stringr::str_detect(string = estimand, pattern = "_joint")) {
+  if(stringr::str_detect(string = estimand, pattern = "_joint") &
+     is_trend == FALSE) {  # trends must be stratum-specific
     if(missing(effectmodifier) | missing(effectmodifier_level))
       stop(paste0("Effect modifier and stratum must be specified for joint model ('",
                   estimand, "')."))
@@ -245,7 +248,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
       estimand <- "quantreg"
   }
 
-  if(stringr::str_detect(string = estimand, pattern = "rd|rr")) {
+  if(stringr::str_detect(string = estimand, pattern = "^rd|^rr")) {
     # Select bootstrap repeats, if provided:
     bootrepeats <- as.numeric(stringr::str_extract(string = estimand,
                                                    pattern = "[:digit:]+"))
@@ -284,6 +287,9 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   } else {
     bootrepeats <- 1000
   }
+
+  if(is.na(confounders))
+    confounders <- ""
 
   multiply <- 1
   fit <- switch(EXPR = estimand,
@@ -401,7 +407,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                             # only used for rr or rd with margstd:
                             bootrepeats = bootrepeats))
 
-  fit %>%
+  fit <- fit %>%
     dplyr::select(.data$term, .data$estimate,
                   .data$conf.low, .data$conf.high) %>%
     dplyr::mutate_if(.predicate = is.numeric,
@@ -411,9 +417,17 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     dplyr::filter(stringr::str_detect(string = .data$term,
                                       pattern = pattern)) %>%
     dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
-                                                  pattern = pattern)) %>%
-    dplyr::left_join(x = tibble::tibble(.exposure = xlevels),
-                     by = ".exposure") %>%
+                                                  pattern = pattern))
+  if(is_trend == TRUE) {
+    fit <- fit %>%
+      dplyr::slice(1) %>%
+      dplyr::mutate(.exposure = "Trend")
+  } else {
+    fit <- fit %>%
+      dplyr::left_join(x = tibble::tibble(.exposure = xlevels),
+                       by = ".exposure")
+  }
+  fit %>%
     dplyr::mutate(res = paste0(.data$estimate, " (", .data$conf.low, to,
                                .data$conf.high, ")"),
                   res = dplyr::if_else(is.na(.data$estimate),
@@ -434,6 +448,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
 #' @param stratum Effect modifier level
 #' @param confounders String of covariates
 #' @param type Type of statistic quested from table_count
+#' @param trend Continuous (trend) exposure variable
 #' @param factor Factor for rates. Defaults to 1000.
 #' @param risk_percent Show risks and risk differences as percentages?
 #' @param diff_digits Number of digits to round difference estimates to
@@ -445,7 +460,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
 #' @noRd
 fill_cells <- function(data, event, time, time2, outcome,
                        exposure, effect_modifier, stratum, confounders,
-                       type, factor, risk_percent,
+                       type, trend, factor, risk_percent,
                        diff_digits, ratio_digits, rate_digits, to) {
   data <- data %>% dplyr::rename(.exposure = dplyr::one_of(exposure))
 
@@ -458,6 +473,16 @@ fill_cells <- function(data, event, time, time2, outcome,
                    "undesirable, e.g., if the variable is actually continuous ",
                    "and thus has many levels."))
   data$.exposure <- factor(data$.exposure)
+
+  # Check that trend variable, if given, is continuous
+  if(!is.na(trend)) {
+    if(!(trend %in% names(data)))
+      stop(paste0("Trend variable '", trend, "' is not valid for the dataset."))
+    data <- data %>% dplyr::rename(.trend = dplyr::one_of(trend))
+    if(class(data %>% pull(.data$.trend))[1] != "numeric")
+      stop(paste0("Trend variable '", trend,
+                     "' is not continuous (numeric)."))
+  }
 
   if(type == "" | type == "blank")
     return(tibble::tibble(.exposure = data %>% dplyr::pull(.data$.exposure) %>%
@@ -482,7 +507,7 @@ fill_cells <- function(data, event, time, time2, outcome,
   # Check that outcome variable exists, if needed
   if(stringr::str_detect(
     string = type,
-    pattern = "outcomes|diff|mean|median|risk|rr|rd|irr|fold|foldlog|or|cases|quantreg")) {
+    pattern = "outcomes|diff|mean|median|risk|^rr|rd|irr|fold|foldlog|or|cases|quantreg")) {
     if(!(outcome %in% names(data)))
       stop(paste0("Using type = '", type, "' requires an outcome variable, ",
                   "but the variable '", outcome,
@@ -531,20 +556,39 @@ fill_cells <- function(data, event, time, time2, outcome,
   }
 
   if(stringr::str_detect(string = type,
-                         pattern = "hr|rr|rd|irr|fold|foldlog|diff|or|quantreg"))
-    table_regress(data = data,
-                  estimand = type,
-                  event = event,
-                  time = time,
-                  time2 = time2,
-                  outcome = outcome,
-                  effectmodifier = effect_modifier,
-                  effectmodifier_level = stratum,
-                  confounders = confounders,
-                  digits = digits,
-                  risk_percent = risk_percent,
-                  to = to)
-  else
+                         pattern = "hr|^rr|rd|irr|fold|foldlog|diff|or|quantreg")) {
+    res_cat <- table_regress(data = data,
+                             estimand = type,
+                             event = event,
+                             time = time,
+                             time2 = time2,
+                             outcome = outcome,
+                             effectmodifier = effect_modifier,
+                             effectmodifier_level = stratum,
+                             confounders = confounders,
+                             digits = digits,
+                             risk_percent = risk_percent,
+                             to = to)
+    if(!is.na(trend)) {
+      dplyr::bind_rows(res_cat,
+                       table_regress(data = data %>%
+                                       dplyr::mutate(.exposure = .data$.trend),
+                                     estimand = type,
+                                     event = event,
+                                     time = time,
+                                     time2 = time2,
+                                     outcome = outcome,
+                                     effectmodifier = effect_modifier,
+                                     effectmodifier_level = stratum,
+                                     confounders = confounders,
+                                     digits = digits,
+                                     risk_percent = risk_percent,
+                                     to = to,
+                                     is_trend = TRUE))
+    } else {
+      res_cat
+    }
+  } else {
     table_counts(data = data,
                  event = event,
                  time = time,
@@ -557,6 +601,7 @@ fill_cells <- function(data, event, time, time2, outcome,
                  digits = digits,
                  risk_percent = risk_percent,
                  to = to)
+  }
 }
 
 #' Table 2: Stratified Result Tables
@@ -617,15 +662,21 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        or \code{FALSE}/\code{TRUE}.
 #'   *  \code{exposure} The exposure variable. Must be categorical
 #'        (factor or logical).
+#'   *  \code{trend} Optional. A continuous representation of the
+#'        exposure, for which a slope per one unit increase ("trend") will be
+#'        estimated. Must be a numeric variable. If joint models for
+#'        \code{exposure} and \code{effect_modifier} are requested,
+#'        trends are still reported within each stratum of the
+#'        \code{effect_modifier}. Use \code{NA} to leave blank.
 #'   *  \code{effect_modifier} Optional. A categorical effect modifier variable.
-#'        Use \code{NULL} or \code{NA} to leave blank.
+#'        Use \code{NA} to leave blank.
 #'   *  \code{stratum} Optional. A stratum of the effect modifier.
 #'        Use \code{NULL} to leave blank. \code{NA} will evaluate
 #'        observations with missing data for the \code{effect_modifier}.
 #'   *  \code{confounders} Optional. A string in the format
 #'        \code{"+ var1 + var2"} that will be substituted into
 #'        into \code{formula = exposure + confounders}.
-#'        Use \code{""} (empty string) to leave blank; the default.
+#'        Use \code{NA} or \code{""} (empty string) to leave blank; the default.
 #'        For Cox models, can add \code{"+ strata(site)"}
 #'        to obtain models with stratification by, e.g., \code{site}.
 #'        For Poisson models, can add \code{"+ offset(log(persontime))"}
@@ -788,10 +839,11 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2))
 #'
 #' # Example 3: Continuous outcomes (use 'outcome' variable);
-#' # request rounding to 1 decimal digit in some cases.
+#' # request rounding to 1 decimal digit in some cases;
+#' # add continuous trend (slope per one unit of the 'trend' variable)
 #' tibble::tribble(
 #'   ~label,                   ~stratum, ~type,
-#'   "Marginal mean (95% CI)", 1:2,      "mean (ci) 1",
+#'   "Marginal mean (95% CI)", NULL,     "mean (ci) 1",
 #'   "  Men",                  "Men",    "mean",
 #'   "  Women",                "Women",  "mean",
 #'   "",                       NULL,     "",
@@ -802,12 +854,13 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'   "Joint model",            NULL,     "",
 #'   "  Men",                  "Men",    "diff_joint",
 #'   "  Women",                "Women",  "diff_joint") %>%
-#'   dplyr::mutate(exposure = "ph.ecog",
+#'   dplyr::mutate(exposure = "ph.ecog_factor",
+#'                 trend = "ph.ecog",
 #'                 outcome = "age",
 #'                 effect_modifier = "sex") %>%
 #'   table2(data = cancer %>%
 #'                   dplyr::filter(ph.ecog < 3) %>%
-#'                   dplyr::mutate(ph.ecog = factor(ph.ecog)))
+#'                   dplyr::mutate(ph.ecog_factor = factor(ph.ecog)))
 #'
 #' # Get formatted output:
 #' \dontrun{
@@ -827,6 +880,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   if(!("time"        %in% names(design))) design$time        <- NA
   if(!("time2"       %in% names(design))) design$time2       <- NA
   if(!("outcome"     %in% names(design))) design$outcome     <- NA
+  if(!("trend"       %in% names(design))) design$trend       <- NA
   if(!("confounders" %in% names(design))) design$confounders <- ""
   if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design)))
     design <- design %>% dplyr::mutate(effect_modifier = NA, stratum = NA)
@@ -841,7 +895,8 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                                  .data$effect_modifier,
                                                  .data$stratum,
                                                  .data$confounders,
-                                                 .data$type),
+                                                 .data$type,
+                                                 .data$trend),
                                        .f = fill_cells,
                                        data = data,
                                        factor = factor,
@@ -855,19 +910,22 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   if(layout == "rows") {
     res %>%
       tidyr::pivot_wider(names_from = .data$.exposure,
-                         values_from = .data$res) %>%
+                         values_from = .data$res,
+                         values_fill = "") %>%
       dplyr::rename(!!name := .data$label) %>%
       dplyr::select(-.data$index)
   } else {
     if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
       res %>%
         tidyr::pivot_wider(names_from = c(.data$index, .data$label),
-                           values_from = .data$res)
+                           values_from = .data$res,
+                           values_fill = "")
     } else {
       res %>%
         dplyr::select(-.data$index) %>%
         tidyr::pivot_wider(names_from = .data$label,
-                           values_from = .data$res) %>%
+                           values_from = .data$res,
+                           values_fill = "") %>%
         dplyr::rename(!!name := .data$.exposure)
     }
   }

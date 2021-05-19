@@ -1,3 +1,12 @@
+# khsmisc 0.3.5
+
+* `table2()`: 
+   + Add `trend` to the `design` matrix to allow for estimating linear slopes
+     for a continuously-coded exposure.
+   + Fix accidental handling of `type = "irr"` as an RR model with
+     approach "i".
+
+
 # khsmisc 0.3.4
 
 * `brickchart()`: Auto-generate color palette for an unlimited number of

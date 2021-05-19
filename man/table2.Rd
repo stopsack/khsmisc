@@ -87,15 +87,21 @@ For risk/prevalence data, this variable must be \code{0}/\code{1}
 or \code{FALSE}/\code{TRUE}.
 \item \code{exposure} The exposure variable. Must be categorical
 (factor or logical).
+\item \code{trend} Optional. A continuous representation of the
+exposure, for which a slope per one unit increase ("trend") will be
+estimated. Must be a numeric variable. If joint models for
+\code{exposure} and \code{effect_modifier} are requested,
+trends are still reported within each stratum of the
+\code{effect_modifier}. Use \code{NA} to leave blank.
 \item \code{effect_modifier} Optional. A categorical effect modifier variable.
-Use \code{NULL} or \code{NA} to leave blank.
+Use \code{NA} to leave blank.
 \item \code{stratum} Optional. A stratum of the effect modifier.
 Use \code{NULL} to leave blank. \code{NA} will evaluate
 observations with missing data for the \code{effect_modifier}.
 \item \code{confounders} Optional. A string in the format
 \code{"+ var1 + var2"} that will be substituted into
 into \code{formula = exposure + confounders}.
-Use \code{""} (empty string) to leave blank; the default.
+Use \code{NA} or \code{""} (empty string) to leave blank; the default.
 For Cox models, can add \code{"+ strata(site)"}
 to obtain models with stratification by, e.g., \code{site}.
 For Poisson models, can add \code{"+ offset(log(persontime))"}
@@ -257,10 +263,11 @@ table2(design = design2,
        data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2))
 
 # Example 3: Continuous outcomes (use 'outcome' variable);
-# request rounding to 1 decimal digit in some cases.
+# request rounding to 1 decimal digit in some cases;
+# add continuous trend (slope per one unit of the 'trend' variable)
 tibble::tribble(
   ~label,                   ~stratum, ~type,
-  "Marginal mean (95\% CI)", 1:2,      "mean (ci) 1",
+  "Marginal mean (95\% CI)", NULL,     "mean (ci) 1",
   "  Men",                  "Men",    "mean",
   "  Women",                "Women",  "mean",
   "",                       NULL,     "",
@@ -271,12 +278,13 @@ tibble::tribble(
   "Joint model",            NULL,     "",
   "  Men",                  "Men",    "diff_joint",
   "  Women",                "Women",  "diff_joint") \%>\%
-  dplyr::mutate(exposure = "ph.ecog",
+  dplyr::mutate(exposure = "ph.ecog_factor",
+                trend = "ph.ecog",
                 outcome = "age",
                 effect_modifier = "sex") \%>\%
   table2(data = cancer \%>\%
                   dplyr::filter(ph.ecog < 3) \%>\%
-                  dplyr::mutate(ph.ecog = factor(ph.ecog)))
+                  dplyr::mutate(ph.ecog_factor = factor(ph.ecog)))
 
 # Get formatted output:
 \dontrun{
