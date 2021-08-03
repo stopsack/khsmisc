@@ -10,8 +10,9 @@ table1(
   by = NULL,
   overall = TRUE,
   label = "",
-  digits = list(all_continuous() ~ c(1, 1)),
-  statistic = NULL
+  digits = list(all_continuous() ~ c(1, 1), all_categorical() ~ c(0, 0)),
+  statistic = NULL,
+  type = NULL
 )
 }
 \arguments{
@@ -29,13 +30,23 @@ variable name of the \code{by} variable will be used.}
 
 \item{digits}{Optional: Level of precision (decimal digits) for statistics.
 By default, all continuous variables are shown with one decimal digits
-for each statistic: \code{all_continuous() ~ c(1, 1)}.
+for both statistics, and all categorical variables are shown with integer-
+rounded column percentages:  \code{all_continuous() ~ c(1, 1),
+  all_categorical()   ~ c(0, 0)}.
 Precision can also be changed for individual variables, e.g.:
-\code{all_continuous() ~ c(1, 1), a_specific_variable ~ c(2, 2)}}
+\code{all_continuous()    ~ c(1, 1),  # median, IQR limits
+        all_categorical()   ~ c(0, 0),  # count, percent
+        a_specific_variable ~ c(2, 2)}  # first, second statistic}
 
-\item{statistic}{Optional: Summary statistic to the shown for specific variables, e.g.:
+\item{statistic}{Optional: Summary statistic to the shown for
+specific variables, e.g.:
 \code{list(a_specific_variable ~ "{min}, {max}")}.
 Passed on to \code{\link[gtsummary]{tbl_summary}(statistic = ...)}.}
+
+\item{type}{Optional: List with types per variable, which, at least by
+default, will trigger which \code{statistic} is shown. For example:
+\code{type = list(gear ~ "continuous", vs ~ "dichotomous")}.
+Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.}
 }
 \value{
 Formatted table. Continuous variables are

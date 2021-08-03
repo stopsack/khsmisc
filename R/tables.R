@@ -236,17 +236,18 @@ tsummary <- function(data,
       dplyr::group_by_at(dplyr::vars(dplyr::one_of("variable"),
                                      dplyr::all_of(by)))
   }
-  data %>% dplyr::summarize(rows   = dplyr::n(),
-                            obs    = sum(!is.na(.data$value)),
-                            distin = dplyr::n_distinct(.data$value),
-                            min    = min(.data$value,                   na.rm = na.rm),
-                            q25    = stats::quantile(.data$value, 0.25, na.rm = na.rm),
-                            median = stats::median(.data$value,         na.rm = na.rm),
-                            q75    = stats::quantile(.data$value, 0.75, na.rm = na.rm),
-                            max    = max(.data$value,                   na.rm = na.rm),
-                            mean   = mean(.data$value,                  na.rm = na.rm),
-                            sd     = stats::sd(.data$value,             na.rm = na.rm),
-                            sum    = sum(.data$value,                   na.rm = na.rm))
+  data %>% dplyr::summarize(
+    rows   = dplyr::n(),
+    obs    = sum(!is.na(.data$value)),
+    distin = dplyr::n_distinct(.data$value),
+    min    = min(.data$value,                   na.rm = na.rm),
+    q25    = stats::quantile(.data$value, 0.25, na.rm = na.rm),
+    median = stats::median(.data$value,         na.rm = na.rm),
+    q75    = stats::quantile(.data$value, 0.75, na.rm = na.rm),
+    max    = max(.data$value,                   na.rm = na.rm),
+    mean   = mean(.data$value,                  na.rm = na.rm),
+    sd     = stats::sd(.data$value,             na.rm = na.rm),
+    sum    = sum(.data$value,                   na.rm = na.rm))
 }
 
 #' Custom formatting for gt Tables
@@ -276,6 +277,9 @@ mytabstyle <- function(mytab) {
 #' @import gt
 #'
 #' @param df Data frame/tibble
+#' @param md Optional. If not \code{NULL}, then the given
+#'   columns will be printed with markdown formatting, e.g., \code{md = c(1, 3)}
+#'   for columns 1 and 3.
 #'
 #' @return Formatted gt table
 #' @export
@@ -285,10 +289,15 @@ mytabstyle <- function(mytab) {
 #' mtcars %>%
 #'   dplyr::slice(1:5) %>%
 #'   mygt()
-mygt <- function(df) {
-  df %>%
+mygt <- function(df, md = NULL) {
+  df <- df %>%
     gt::gt() %>%
     mytabstyle()
+  if(!is.null(md)) {
+      df <- df %>%
+        gt::fmt_markdown(columns = md)
+    }
+  return(df)
 }
 
 #' Table 1: Stratified Descriptive Tables
@@ -310,12 +319,21 @@ mygt <- function(df) {
 #'   variable name of the \code{by} variable will be used.
 #' @param digits Optional: Level of precision (decimal digits) for statistics.
 #'   By default, all continuous variables are shown with one decimal digits
-#'   for each statistic: \code{all_continuous() ~ c(1, 1)}.
+#'   for both statistics, and all categorical variables are shown with integer-
+#'   rounded column percentages:  \code{all_continuous() ~ c(1, 1),
+#'   all_categorical()   ~ c(0, 0)}.
 #'   Precision can also be changed for individual variables, e.g.:
-#'   \code{all_continuous() ~ c(1, 1), a_specific_variable ~ c(2, 2)}
-#' @param statistic Optional: Summary statistic to the shown for specific variables, e.g.:
+#'   \code{all_continuous()    ~ c(1, 1),  # median, IQR limits
+#'         all_categorical()   ~ c(0, 0),  # count, percent
+#'         a_specific_variable ~ c(2, 2)}  # first, second statistic
+#' @param statistic Optional: Summary statistic to the shown for
+#'   specific variables, e.g.:
 #'   \code{list(a_specific_variable ~ "{min}, {max}")}.
 #'   Passed on to \code{\link[gtsummary]{tbl_summary}(statistic = ...)}.
+#' @param type Optional: List with types per variable, which, at least by
+#'  default, will trigger which \code{statistic} is shown. For example:
+#'  \code{type = list(gear ~ "continuous", vs ~ "dichotomous")}.
+#'  Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.
 #'
 #' @return Formatted table. Continuous variables are
 #'   median (quartile 1, quartile 3); categorical variables are
@@ -341,8 +359,10 @@ table1 <- function(data,
                    by        = NULL,
                    overall   = TRUE,
                    label     = "",
-                   digits    = list(all_continuous() ~ c(1, 1)),
-                   statistic = NULL) {
+                   digits    = list(all_continuous() ~ c(1, 1),
+                                    all_categorical() ~ c(0, 0)),
+                   statistic = NULL,
+                   type      = NULL) {
   by <- data %>% dplyr::select({{ by }}) %>% names()
   if(length(by) > 1)
     stop(paste0("Only one stratification (column) variable is supported. Input was: by = '",
@@ -352,7 +372,8 @@ table1 <- function(data,
     newdata <- data
   data <- newdata
 
-  options(gtsummary.tbl_summary.percent_fun = function(x) sprintf("%.0f", 100 * x))
+  options(gtsummary.tbl_summary.percent_fun = function(x)
+    sprintf("%.0f", 100 * x))
   mystats <- list(N ~ "{n}")
   if(!is.null(statistic))
     mystats <- append(mystats, statistic)
@@ -360,7 +381,8 @@ table1 <- function(data,
     data %>%
       dplyr::mutate(N = 1) %>%
       dplyr::select(.data$N, dplyr::everything()) %>%
-      gtsummary::tbl_summary(statistic = mystats, digits = digits) %>%
+      gtsummary::tbl_summary(statistic = mystats, digits = digits,
+                             type = type) %>%
       gtsummary::bold_labels() %>%
       gtsummary::as_gt(include = -tab_footnote) %>%
       mytabstyle()
@@ -377,17 +399,22 @@ table1 <- function(data,
         dplyr::rename(by = dplyr::one_of(by)) %>%
         dplyr::filter(!is.na(by)) %>%
         labelled::copy_labels_from(from = data) %>%
-        gtsummary::tbl_summary(by = by, statistic = mystats, digits = digits) %>%
+        gtsummary::tbl_summary(by = by, statistic = mystats, digits = digits,
+                               type = type) %>%
         gtsummary::add_overall() %>%
-        gtsummary::modify_header(stat_0 = "**Overall**", stat_by = "**{level}**") %>%
+        gtsummary::modify_header(update = all_stat_cols(stat_0 = FALSE) ~
+                                   "**{level}**") %>%
+        gtsummary::modify_header(update = stat_0 ~ "**Overall**") %>%
         gtsummary::bold_labels()
     } else {
       res <- data %>%
         dplyr::mutate(N = 1) %>%
         dplyr::select(.data$N, dplyr::everything()) %>%
         dplyr::rename(by = dplyr::one_of(by)) %>%
-        gtsummary::tbl_summary(by = by, statistic = mystats, digits = digits) %>%
-        gtsummary::modify_header(stat_by = "**{level}**") %>%
+        gtsummary::tbl_summary(by = by, statistic = mystats, digits = digits,
+                               type = type) %>%
+        gtsummary::modify_header(update = all_stat_cols(stat_0 = FALSE) ~
+                                   "**{level}**") %>%
         gtsummary::bold_labels()
     }
     if(label == "")
@@ -396,8 +423,8 @@ table1 <- function(data,
       label <- paste("By", by)
     res %>%
       gtsummary::as_gt(include = -tab_footnote) %>%
-      gt::tab_spanner(label   = gt::md(paste0("**", label, "**")),
-                             columns = gt::matches("stat_[123456789]")) %>%
+      gt::tab_spanner(label = gt::md(paste0("**", label, "**")),
+                      columns = gt::matches("stat_[123456789]")) %>%
       mytabstyle()
   }
 }

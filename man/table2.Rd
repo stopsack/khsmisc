@@ -13,7 +13,9 @@ table2(
   diff_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
   ratio_digits = 2,
   rate_digits = 1,
-  to = NULL
+  to = NULL,
+  type2_layout = "rows",
+  prepare_md = TRUE
 )
 }
 \arguments{
@@ -34,8 +36,8 @@ events per person-time by. Defaults to \code{1000}.}
 percentage points instead of proportions. Defaults to \code{FALSE}.}
 
 \item{diff_digits}{Optional. Number of decimal digits to show for
-rounding of means, risks, and risk difference estimates. Defaults to \code{2}
-for \code{risk_percent = FALSE} and to \code{0} for
+rounding of means, risks, and risk difference estimates. Defaults to
+\code{2} for \code{risk_percent = FALSE} and to \code{0} for
 \code{risk_percent = TRUE}. Can override for each line in \code{type}.}
 
 \item{ratio_digits}{Optional. Number of decimal digits to show for ratio
@@ -46,8 +48,19 @@ Defaults to \code{1}. Can override for each line in \code{type}.}
 
 \item{to}{Optional. Separator between the lower and the upper bound
 of the 95\% confidence interval (and interquartile range for medians).
-Defaults to \code{" to "} for means, medians, and mean differences;
-defaults to \code{"-"} otherwise.}
+Defaults to \code{" to "} for means, medians, and differences in means or
+quantiles; defaults to \code{"-"} otherwise.}
+
+\item{type2_layout}{Optional. If a second estimate is requested via
+\code{type2} in the \code{design} matrix, display it as in rows below
+(\code{"rows"}) or columns (\code{"columns"}) to the right. Defaults to
+\code{"rows"}.}
+
+\item{prepare_md}{Optional. Defaults to \code{TRUE}. Prepare labels for
+printing with markdown (\code{%>% gt:gt() %>%
+  gt::fmt_markdown(columns = 1)}).
+This step will replace two spaces or a tab at the beginning of a
+\code{label} with HTML code for an indentation (\code{&ensp;}).}
 }
 \value{
 Tibble. Get formatted output by passing on to
@@ -87,11 +100,11 @@ For risk/prevalence data, this variable must be \code{0}/\code{1}
 or \code{FALSE}/\code{TRUE}.
 \item \code{exposure} The exposure variable. Must be categorical
 (factor or logical).
-\item \code{trend} Optional. A continuous representation of the
-exposure, for which a slope per one unit increase ("trend") will be
-estimated. Must be a numeric variable. If joint models for
-\code{exposure} and \code{effect_modifier} are requested,
-trends are still reported within each stratum of the
+\item \code{trend} Optional. For regression models, a continuous
+representation of the exposure, for which a slope per one unit
+increase ("trend") will be estimated. Must be a numeric variable.
+If joint models for \code{exposure} and \code{effect_modifier} are
+requested, trends are still reported within each stratum of the
 \code{effect_modifier}. Use \code{NA} to leave blank.
 \item \code{effect_modifier} Optional. A categorical effect modifier variable.
 Use \code{NA} to leave blank.
@@ -235,21 +248,21 @@ table2(design = design1 \%>\%
 design2 <- tibble::tribble(
   # Elements that vary by row:
   ~label,                       ~stratum, ~confounders, ~type,
-  "Overall: Events",            NULL,     "",           "events",
+  "**Overall: Events**",        NULL,     "",           "events",
   "  Person-years",             NULL,     "",           "time",
   "  Rate/1000 py (95\% CI)",    NULL,     "",           "rate (ci)",
   "  Unadjusted HR (95\% CI)",   NULL,     "",           "hr",
   "  Age-adjusted HR (95\% CI)", NULL,     "+ age",      "hr",
   "",                           NULL,     "",           "blank",
-  "Stratified models",          NULL,     "",           "blank",
-  "ECOG PS1 (events/N)",        1,        "",           "events/total",
+  "**Stratified models**",      NULL,     "",           "blank",
+  "*ECOG PS1* (events/N)",      1,        "",           "events/total",
   "  Unadjusted",               1,        "",           "hr",
   "  Age-adjusted",             1,        "+ age",      "hr",
-  "ECOG PS2 (events/N)",        2,        "",           "events/total",
+  "*ECOG PS2* (events/N)",      2,        "",           "events/total",
   "  Unadjusted",               2,        "",           "hr",
   "  Age-adjusted",             2,        "+ age",      "hr",
   "",                           NULL,     "",           "",
-  "Joint model, age-adj.",      NULL,     "",           "",
+  "**Joint model**, age-adj.",  NULL,     "",           "",
   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
   "  ECOG PS2",                 2,        "+ age",      "hr_joint") \%>\%
   # Elements that are the same for all rows:
@@ -262,7 +275,26 @@ design2 <- tibble::tribble(
 table2(design = design2,
        data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2))
 
-# Example 3: Continuous outcomes (use 'outcome' variable);
+# Example 3: Get two estimates using 'type' and 'type2'
+design3 <- tibble::tribble(
+  ~label,     ~stratum, ~type,          ~type2,
+  "ECOG PS1", 1,        "events/total", "hr",
+  "ECOG PS2", 2,        "events/total", "hr") \%>\%
+  dplyr::mutate(exposure = "sex",
+                event = "status",
+                time = "time",
+                confounders = "+ age",
+                effect_modifier = "ph.ecog")
+
+table2(design = design3,
+       data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2))
+
+table2(design = design3,
+       data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2),
+       layout = "cols", type2_layout = "cols")
+
+
+# Example 4: Continuous outcomes (use 'outcome' variable);
 # request rounding to 1 decimal digit in some cases;
 # add continuous trend (slope per one unit of the 'trend' variable)
 tibble::tribble(
@@ -286,9 +318,10 @@ tibble::tribble(
                   dplyr::filter(ph.ecog < 3) \%>\%
                   dplyr::mutate(ph.ecog_factor = factor(ph.ecog)))
 
-# Get formatted output:
+# Example 5: Get formatted output for Example 2 (see above)
 \dontrun{
-table2(design = design2, data = cancer) \%>\%
-  mygt()
+table2(design = design2,
+       data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2)) \%>\%
+  mygt(md = 1)  # get markdown formatting in first column ('label')
 }
 }

@@ -1,3 +1,19 @@
+# khsmisc 0.3.6
+
+* `table1()`: 
+   + Set rounding of column percentages for categorical (and binary) 
+     variables to 0 decimal digits by default.
+   + Add optional `type` parameter, passed along to `gtsummary::tbl_summary()`.
+   + Update internal syntax and require gtsummary version >= 1.3.6.
+* `table2()`: 
+   + Add optional `type2` column to the `design` matrix to allow adding a 
+     second estimate per cell.
+   + Add `prepare_md` parameter and example for how to obtain a 
+     markdown-formatted `label` column (e.g., `**bold**` for a **bold** label).
+* `mygt()`: add `md` option to get markdown formatting on selected columns
+   through `gt::fmt_markdown(columns = md)`
+
+
 # khsmisc 0.3.5
 
 * `table2()`: 

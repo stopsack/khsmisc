@@ -626,8 +626,8 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' @param risk_percent Optional. Show risk and risk difference estimates in
 #'   percentage points instead of proportions. Defaults to \code{FALSE}.
 #' @param diff_digits Optional. Number of decimal digits to show for
-#'   rounding of means, risks, and risk difference estimates. Defaults to \code{2}
-#'   for \code{risk_percent = FALSE} and to \code{0} for
+#'   rounding of means, risks, and risk difference estimates. Defaults to
+#'   \code{2} for \code{risk_percent = FALSE} and to \code{0} for
 #'   \code{risk_percent = TRUE}. Can override for each line in \code{type}.
 #' @param ratio_digits Optional. Number of decimal digits to show for ratio
 #'   estimates. Defaults to \code{2}. Can override for each line in \code{type}.
@@ -635,8 +635,17 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'   Defaults to \code{1}. Can override for each line in \code{type}.
 #' @param to Optional. Separator between the lower and the upper bound
 #'   of the 95% confidence interval (and interquartile range for medians).
-#'   Defaults to \code{" to "} for means, medians, and mean differences;
-#'   defaults to \code{"-"} otherwise.
+#'   Defaults to \code{" to "} for means, medians, and differences in means or
+#'   quantiles; defaults to \code{"-"} otherwise.
+#' @param type2_layout Optional. If a second estimate is requested via
+#'   \code{type2} in the \code{design} matrix, display it as in rows below
+#'   (\code{"rows"}) or columns (\code{"columns"}) to the right. Defaults to
+#'   \code{"rows"}.
+#' @param prepare_md Optional. Defaults to \code{TRUE}. Prepare labels for
+#'   printing with markdown (\code{%>% gt:gt() %>%
+#'   gt::fmt_markdown(columns = 1)}).
+#'   This step will replace two spaces or a tab at the beginning of a
+#'   \code{label} with HTML code for an indentation (\code{&ensp;}).
 #'
 #' @details The main input parameter is the dataset \code{design}.
 #'   Always required are the columns \code{label}, \code{type}, and
@@ -662,11 +671,11 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        or \code{FALSE}/\code{TRUE}.
 #'   *  \code{exposure} The exposure variable. Must be categorical
 #'        (factor or logical).
-#'   *  \code{trend} Optional. A continuous representation of the
-#'        exposure, for which a slope per one unit increase ("trend") will be
-#'        estimated. Must be a numeric variable. If joint models for
-#'        \code{exposure} and \code{effect_modifier} are requested,
-#'        trends are still reported within each stratum of the
+#'   *  \code{trend} Optional. For regression models, a continuous
+#'        representation of the exposure, for which a slope per one unit
+#'        increase ("trend") will be estimated. Must be a numeric variable.
+#'        If joint models for \code{exposure} and \code{effect_modifier} are
+#'        requested, trends are still reported within each stratum of the
 #'        \code{effect_modifier}. Use \code{NA} to leave blank.
 #'   *  \code{effect_modifier} Optional. A categorical effect modifier variable.
 #'        Use \code{NA} to leave blank.
@@ -811,21 +820,21 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' design2 <- tibble::tribble(
 #'   # Elements that vary by row:
 #'   ~label,                       ~stratum, ~confounders, ~type,
-#'   "Overall: Events",            NULL,     "",           "events",
+#'   "**Overall: Events**",        NULL,     "",           "events",
 #'   "  Person-years",             NULL,     "",           "time",
 #'   "  Rate/1000 py (95% CI)",    NULL,     "",           "rate (ci)",
 #'   "  Unadjusted HR (95% CI)",   NULL,     "",           "hr",
 #'   "  Age-adjusted HR (95% CI)", NULL,     "+ age",      "hr",
 #'   "",                           NULL,     "",           "blank",
-#'   "Stratified models",          NULL,     "",           "blank",
-#'   "ECOG PS1 (events/N)",        1,        "",           "events/total",
+#'   "**Stratified models**",      NULL,     "",           "blank",
+#'   "*ECOG PS1* (events/N)",      1,        "",           "events/total",
 #'   "  Unadjusted",               1,        "",           "hr",
 #'   "  Age-adjusted",             1,        "+ age",      "hr",
-#'   "ECOG PS2 (events/N)",        2,        "",           "events/total",
+#'   "*ECOG PS2* (events/N)",      2,        "",           "events/total",
 #'   "  Unadjusted",               2,        "",           "hr",
 #'   "  Age-adjusted",             2,        "+ age",      "hr",
 #'   "",                           NULL,     "",           "",
-#'   "Joint model, age-adj.",      NULL,     "",           "",
+#'   "**Joint model**, age-adj.",  NULL,     "",           "",
 #'   "  ECOG PS1",                 1,        "+ age",      "hr_joint",
 #'   "  ECOG PS2",                 2,        "+ age",      "hr_joint") %>%
 #'   # Elements that are the same for all rows:
@@ -838,7 +847,26 @@ fill_cells <- function(data, event, time, time2, outcome,
 #' table2(design = design2,
 #'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2))
 #'
-#' # Example 3: Continuous outcomes (use 'outcome' variable);
+#' # Example 3: Get two estimates using 'type' and 'type2'
+#' design3 <- tibble::tribble(
+#'   ~label,     ~stratum, ~type,          ~type2,
+#'   "ECOG PS1", 1,        "events/total", "hr",
+#'   "ECOG PS2", 2,        "events/total", "hr") %>%
+#'   dplyr::mutate(exposure = "sex",
+#'                 event = "status",
+#'                 time = "time",
+#'                 confounders = "+ age",
+#'                 effect_modifier = "ph.ecog")
+#'
+#' table2(design = design3,
+#'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2))
+#'
+#' table2(design = design3,
+#'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2),
+#'        layout = "cols", type2_layout = "cols")
+#'
+#'
+#' # Example 4: Continuous outcomes (use 'outcome' variable);
 #' # request rounding to 1 decimal digit in some cases;
 #' # add continuous trend (slope per one unit of the 'trend' variable)
 #' tibble::tribble(
@@ -862,16 +890,21 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'                   dplyr::filter(ph.ecog < 3) %>%
 #'                   dplyr::mutate(ph.ecog_factor = factor(ph.ecog)))
 #'
-#' # Get formatted output:
+#' # Example 5: Get formatted output for Example 2 (see above)
 #' \dontrun{
-#' table2(design = design2, data = cancer) %>%
-#'   mygt()
+#' table2(design = design2,
+#'        data = cancer %>% dplyr::filter(ph.ecog %in% 1:2)) %>%
+#'   mygt(md = 1)  # get markdown formatting in first column ('label')
 #' }
 table2 <- function(design, data, layout = "rows", factor = 1000,
                    risk_percent = FALSE,
                    diff_digits = dplyr::if_else(risk_percent == TRUE,
                                                 true = 0, false = 2),
-                   ratio_digits = 2, rate_digits = 1, to = NULL) {
+                   ratio_digits = 2, rate_digits = 1, to = NULL,
+                   type2_layout = "rows",
+                   prepare_md = TRUE) {
+  if(!is.data.frame(design))
+    stop("No 'design' data frame/tibble was provided.")
   name <- labelled::var_label(dplyr::pull(data, design$exposure[1]))
   if(is.null(name))
     name <- design$exposure[1]
@@ -882,11 +915,28 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   if(!("outcome"     %in% names(design))) design$outcome     <- NA
   if(!("trend"       %in% names(design))) design$trend       <- NA
   if(!("confounders" %in% names(design))) design$confounders <- ""
-  if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design)))
-    design <- design %>% dplyr::mutate(effect_modifier = NA, stratum = NA)
+  if(!("type2"       %in% names(design))) design$type2       <- ""
+  if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design))) {
+    design <- design %>%
+      dplyr::mutate(effect_modifier = NA, stratum = NA)
+  }
+  design <- design %>%
+    dplyr::mutate(type2 = dplyr::if_else(is.na(.data$type2),
+                                         true = "", false = .data$type2))
+
+  if(prepare_md == TRUE) {
+    design <- design %>%
+      dplyr::mutate(label = stringr::str_replace_all(string = .data$label,
+                                                     pattern = "^\\h\\h",
+                                                     replacement = "&ensp;"),
+                    label = stringr::str_replace_all(string = .data$label,
+                                                     pattern = "^&ensp;\\h\\h",
+                                                     replacement = "&ensp;&ensp;"))
+  }
 
   res <- design %>%
     dplyr::mutate(type   = stringr::str_to_lower(string = .data$type),
+                  type2  = stringr::str_to_lower(string = .data$type2),
                   index  = dplyr::row_number(),
                   result = purrr::pmap(.l = list(.data$event,
                                                  .data$time, .data$time2,
@@ -904,29 +954,141 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                        diff_digits = diff_digits,
                                        ratio_digits = ratio_digits,
                                        rate_digits = rate_digits,
-                                       to = to)) %>%
-    dplyr::select(.data$index, .data$label, .data$result) %>%
-    tidyr::unnest(cols = .data$result)
-  if(layout == "rows") {
-    res %>%
-      tidyr::pivot_wider(names_from = .data$.exposure,
-                         values_from = .data$res,
-                         values_fill = "") %>%
-      dplyr::rename(!!name := .data$label) %>%
-      dplyr::select(-.data$index)
-  } else {
-    if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
+                                       to = to))
+
+  # simple reshaping if only "type" alone
+  if(all(design$type2 == "")) {
+    res <- res %>%
+      dplyr::select(.data$index, .data$label, .data$result) %>%
+      tidyr::unnest(cols = .data$result)
+    if(layout == "rows") {
       res %>%
-        tidyr::pivot_wider(names_from = c(.data$index, .data$label),
-                           values_from = .data$res,
-                           values_fill = "")
-    } else {
-      res %>%
-        dplyr::select(-.data$index) %>%
-        tidyr::pivot_wider(names_from = .data$label,
+        tidyr::pivot_wider(names_from = .data$.exposure,
                            values_from = .data$res,
                            values_fill = "") %>%
-        dplyr::rename(!!name := .data$.exposure)
+        dplyr::rename(!!name := .data$label) %>%
+        dplyr::select(-.data$index)
+    } else {
+      if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
+        res %>%
+          tidyr::pivot_wider(names_from = c(.data$index, .data$label),
+                             values_from = .data$res,
+                             values_fill = "")
+      } else {
+        res %>%
+          dplyr::select(-.data$index) %>%
+          tidyr::pivot_wider(names_from = .data$label,
+                             values_from = .data$res,
+                             values_fill = "") %>%
+          dplyr::rename(!!name := .data$.exposure)
+      }
+    }
+
+  # handle "type" and "type2" together
+  } else {
+    res <- res %>%
+      dplyr::mutate(result2 = purrr::pmap(.l = list(.data$event,
+                                                    .data$time, .data$time2,
+                                                    .data$outcome,
+                                                    .data$exposure,
+                                                    .data$effect_modifier,
+                                                    .data$stratum,
+                                                    .data$confounders,
+                                                    .data$type2,  # !
+                                                    .data$trend),
+                                          .f = fill_cells,
+                                          data = data,
+                                          factor = factor,
+                                          risk_percent = risk_percent,
+                                          diff_digits = diff_digits,
+                                          ratio_digits = ratio_digits,
+                                          rate_digits = rate_digits,
+                                          to = to)) %>%
+      dplyr::mutate(result = purrr::map2(.x = .data$result,
+                                         .y = .data$result2,
+                                         .f = ~full_join(.x, .y,
+                                                         by = ".exposure",
+                                                         suffix = c(".1",
+                                                                    ".2")))) %>%
+      dplyr::select(.data$index, .data$label, .data$result) %>%
+      tidyr::unnest(cols = .data$result) %>%
+      tidyr::pivot_longer(cols = c(.data$res.1, .data$res.2),
+                          names_to = "whichres", values_to = "value") %>%
+      dplyr::mutate(value = dplyr::if_else(is.na(.data$value),
+                                           true = "", false = .data$value))
+    if(layout == "rows") {
+      if(type2_layout == "rows") {
+        res %>%
+          tidyr::pivot_wider(names_from = .data$.exposure,
+                             values_from = .data$value,
+                             values_fill = "") %>%
+          dplyr::group_by(.data$index) %>%
+          dplyr::mutate(label = dplyr::if_else(dplyr::row_number() == 1,
+                                               true = .data$label,
+                                               false = "")) %>%
+          dplyr::ungroup() %>%
+          dplyr::rename(!!name := .data$label) %>%
+          dplyr::select(-.data$index, -.data$whichres)
+      } else {
+        res %>%
+          dplyr::mutate(.exposure = dplyr::if_else(.data$whichres == "res.1",
+                                                   true = .data$.exposure,
+                                                   false = paste0(.data$.exposure,
+                                                                  " "))) %>%
+          dplyr::select(-.data$whichres) %>%
+          tidyr::pivot_wider(names_from = .data$.exposure,
+                             values_from = .data$value,
+                             values_fill = "") %>%
+          dplyr::rename(!!name := .data$label) %>%
+          dplyr::select(-.data$index)
+      }
+    } else {
+      if(type2_layout == "rows") {
+        if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
+          res <- res %>%
+            tidyr::pivot_wider(names_from = c(.data$index, .data$label),
+                               values_from = .data$value,
+                               values_fill = "")
+        } else {
+          res <- res %>%
+            dplyr::select(-.data$index) %>%
+            tidyr::pivot_wider(names_from = .data$label,
+                               values_from = .data$value,
+                               values_fill = "")
+        }
+        res %>%
+          dplyr::group_by(.data$.exposure) %>%
+          dplyr::mutate(.exposure = if_else(.data$whichres == "res.1",
+                                            true = .data$.exposure,
+                                            false = "")) %>%
+          dplyr::ungroup() %>%
+          dplyr::select(-.data$whichres) %>%
+          dplyr::rename(!!name := .data$.exposure)
+      } else {
+        if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
+          res %>%
+            dplyr::mutate(label = dplyr::if_else(.data$whichres == "res.1",
+                                                 true = .data$label,
+                                                 false = paste0(.data$label,
+                                                                " "))) %>%
+            dplyr::select(-.data$whichres) %>%
+            tidyr::pivot_wider(names_from = c(.data$index, .data$label),
+                               values_from = .data$value,
+                               values_fill = "") %>%
+            dplyr::rename(!!name := .data$.exposure)
+        } else {
+          res %>%
+            dplyr::mutate(label = dplyr::if_else(.data$whichres == "res.1",
+                                                 true = .data$label,
+                                                 false = paste0(.data$label,
+                                                                " "))) %>%
+            dplyr::select(-.data$whichres, -.data$index) %>%
+            tidyr::pivot_wider(names_from = .data$label,
+                               values_from = .data$value,
+                               values_fill = "") %>%
+            dplyr::rename(!!name := .data$.exposure)
+        }
+      }
     }
   }
 }

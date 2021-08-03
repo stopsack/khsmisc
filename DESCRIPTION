@@ -1,6 +1,6 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",
@@ -36,7 +36,7 @@ Imports:
     broom (>= 0.7.0),
     cowplot (>= 1.0.0),
     gt,
-    gtsummary (>= 1.3.4),
+    gtsummary (>= 1.3.6),
     quantreg
 Suggests: 
     knitr,

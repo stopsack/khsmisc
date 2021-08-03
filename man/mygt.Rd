@@ -4,10 +4,14 @@
 \alias{mygt}
 \title{Turn tibble into gt Table with Custom Formatting}
 \usage{
-mygt(df)
+mygt(df, md = NULL)
 }
 \arguments{
 \item{df}{Data frame/tibble}
+
+\item{md}{Optional. If not \code{NULL}, then the given
+columns will be printed with markdown formatting, e.g., \code{md = c(1, 3)}
+for columns 1 and 3.}
 }
 \value{
 Formatted gt table
