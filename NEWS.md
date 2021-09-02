@@ -1,3 +1,32 @@
+# khsmisc 0.4.0
+
+* `make_exclusions()`: New function for sequential exclusions to derive an 
+  analytical data set and prepare a flow chart for `exclusion_flowchart()`.
+* `estimate_rmtl()`: New function, reshaping code by Conner and Trinquart, that
+  estimates restricted mean time lost, handling competing risks and weighting.
+* `survdiff_ci()`: New function for differences in *x*-year survival/cumulative
+  incidence.
+* `table2()`:
+   + **Breaking change**: In the `design` matrix, digits for rounding can no 
+     longer be provided as part of `type`. Use separate column `digits` if
+     needed.
+   + Add unstratified, descriptive tables without an `exposure` variable, as
+     well as showing overall and stratified estimates in one table.
+   + Allow for custom estimation functions
+     (`table2(custom = list(fun_a, fun_b)))` that can be called via, *e.g.*, 
+     `type = "custom1"`.
+   + Add more predefined `type` options: `medsurv` median survival, 
+     `medfu`/`maxfu` median/maximum follow-up, `surv`/`cuminc` survival and 
+     cumulative incidence  from Kaplan-Meier, `rmtl` restricted mean time lost, 
+     `rmtdiff`/`survdiff`/`cumincdiff` difference in RMTL/survival/cumulative 
+     incidence, `mean (sd)`/`sd` mean and standard deviation.
+   + If a regression model cannot provide estimates for a stratum, print `--`.
+   + Add argument `risk_digits` for rounding of risk/cumulative incidence.
+   + Fix `type = "median (iqr)"`: do not remove missing values, like elsewhere.
+* Add screenshots of formatted output to `man/figures/`.
+* Require up-to-date gt, gtsummary dependencies.
+
+
 # khsmisc 0.3.6
 
 * `table1()`: 

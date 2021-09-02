@@ -12,13 +12,13 @@ package](https://stopsack.github.io/khsverse).
 
 ## Installation
 
-The khsmisc package can be installed from
+The khsmisc package can be installed or updated from
 [GitHub](https://github.com/stopsack/khsmisc). A CRAN submission is not
-planned.
+planned. If the remotes library is missing, install it first 
+(`install.packages("remotes")`).
 
+Install or update the khsmisc package:
 ``` r
-# if "remotes" library is missing, install it first:
-#   install.packages("remotes")
 remotes::install_github("stopsack/khsmisc")
 ```
 
@@ -27,11 +27,14 @@ remotes::install_github("stopsack/khsmisc")
 -   **Data handling:** `varlist()` for variable list/dataset inventory,
     Stata style; `write_csv_safely()`, `save_safely()`,
     `saveRDS_safely()`, and `pdf_safely()` to export CSV files, R
-    objects, or PDFs without overwriting existing files.
+    objects, or PDFs without overwriting existing files; and `make_exclusions()` 
+    to perform sequential exclusions when generating an analytical dataset.
 -   **Functions for vectors:** `scale_to_range()` to scale a vector to a
-    given range; `Mode()` to obtain the most common value; `roundp()` to
-    round and format *p*-values; `scoreci()` for Wilson confidence
-    intervals for proportions.
+    given range; `Mode()` to obtain the most common value; and `roundp()` to
+    round and format *p*-values. 
+-   **Estimation functions:** `scoreci()` for Wilson confidence
+    intervals for proportions; `estimate_rmtl()` for restricted mean time lost
+    and its difference; `survdiff_ci()` for *x*-year survival differences.
 -   **Functions for descriptive tables:** `tabulate_rowcol()` for
     categorical variables; `tsummary()` for continuous variables;
     `mygt()` for formatting and printing any tibble as a ‘gt’ table;

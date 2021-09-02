@@ -34,11 +34,12 @@ observations with all variables. See parameter \code{use} of
 \code{\link[stats]{cor}} for alternatives.}
 
 \item{reorder}{Perform hierarchical clustering in the correlation matrix?
-This will order variables by their correlation patterns with other variables.
-If turned off to \code{FALSE}, the order of variables in the dataset will be retained.
-Defaults to \code{TRUE}.}
+This will order variables by their correlation patterns with other
+variables. If turned off to \code{FALSE}, the order of variables in the
+dataset will be retained. Defaults to \code{TRUE}.}
 
-\item{digits}{Decimal digits for displayed correlation coefficients. Defaults to \code{2}.}
+\item{digits}{Decimal digits for displayed correlation coefficients.
+Defaults to \code{2}.}
 
 \item{legendpos}{(x, y) coordinates of color legend. Use
 \code{legendpos = "none"} to turn off the legend.
@@ -47,8 +48,8 @@ Defaults to \code{c(0.15, 0.35)}.}
 \item{cutpoints}{Correlation coefficient values that have a distinct
 color. Defaults to \code{c(-1, 0, 1)}.}
 
-\item{colors}{Colors for the \code{cutpoints}. Defaults to blue (for negative),
-white (no correlation), and yellow (positive correlation) on the
+\item{colors}{Colors for the \code{cutpoints}. Defaults to blue (for
+negative), white (no correlation), and yellow (positive correlation) on the
 \code{cividis} color scale.}
 }
 \value{

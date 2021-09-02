@@ -1,8 +1,8 @@
 #' Estimate Restricted Mean Time Lost (RMTL) and its Difference
 #'
 #' The method of Connor and Trinquart (Stat Med 2021) estimates the RMTL in the
-#' presence of competing risks. This function a modification of their R code.
-#' Estimation functions are identical; input and output handling have been
+#' presence of competing risks. This function is a modification of their R code.
+#' Estimation functions are identical; input handling and output have been
 #' adapted.
 #'
 #' @param data Data frame (tibble).
@@ -27,17 +27,32 @@
 #'   survey weights. The default (\code{NULL}) uses equal weights for all
 #'   observations.
 #' @param tau Optional. Time horizon to restrict event times. By default, the
-#'   the latest time in the group with the shortest follow-up. Prefer a
+#'   latest time in the group with the shortest follow-up. Prefer a
 #'   user-defined, interpretable time horizon.
+#' @param reach_tau Optional. How to handle provided
+#'   \code{tau} values that are not reached in one of the exposure categories.
+#'
+#'   * \code{"warn"} Default. Display a warning and estimate RMTL and its
+#'     difference in those exposure categories where \code{tau} is reached.
+#'   * \code{"stop"} Stop with an error if \code{tau} not reached in one or more
+#'     of the exposure categories.
+#'   * \code{"ignore"} Ignore exposure categories where \code{tau} is not
+#'     reached; estimate RMTL and its difference in those exposure categories
+#'     where \code{tau} is reached.
+#'
+#'   If \code{tau} is not reached in any of the exposure categories, the
+#'   function always stops with an error.
 #' @param conf.level Optional. Confidence level. Defaults to \code{0.95}.
 #'
 #' @details
 #' Differences to the original function rmtl::rmtl():
-#' * Convert print() to stop() for errors.
-#' * Pass data as a data frame/tibble, select variables from it.
+#' * Convert \code{\link{print}} for errors to \code{\link{stop}} or
+#'   \code{\link{warning}}.
+#' * Pass data as a data frame/tibble and select variables from it.
 #' * Allow for different variable types in the \code{event} variable.
 #' * Use \code{\link[survival]{Surv}} conventions for entry/exit times
 #'   (\code{time}, \code{time2}).
+#' * Allow for exposure groups where \code{tau} is not reached.
 #' * Return contrasts in restricted mean time lost as comparisons to the
 #'   reference level instead of all pairwise comparisons.
 #' * Add origin (time 0, cumulative incidence 0) to the returned cumulative
@@ -55,12 +70,12 @@
 #'   interest:
 #'   * \code{exposure} Exposure group.
 #'   * \code{time} Event time.
-#'   * \code{estimate} Nelsen-Aalen estimate of cumulative incidence function
+#'   * \code{estimate} Aalen-Johansen estimate of cumulative incidence function
 #'     with \code{se}, \code{conf.low}, and \code{conf.high}.
 #'
 #' @references Conner SC, Trinquart L. Estimation and modeling of the restricted
 #' mean time lost in the presence of competing risks. Stat Med 2021;40:2177–96.
-#' https://doi.org/10.1002/sim.8896.
+#' [https://doi.org/10.1002/sim.8896](https://doi.org/10.1002/sim.8896).
 #' @export
 #'
 #' @examples
@@ -77,14 +92,40 @@
 #'   tau = 365.25)  # time horizon: one year
 #' result
 #'
-#' # Make (simple) plot
+#' # Make simple plot
 #' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#'
 #' result$cif %>%
 #'   ggplot(mapping = aes(x = time, y = estimate, color = exposure)) +
 #'   geom_step() +
 #'   scale_x_continuous(breaks = seq(from = 0, to = 365, by = 60)) +
-#'   labs(x = "Time since start of follow-up in days", y = "Cumulative incidence")
-
+#'   labs(x = "Time since start of follow-up in days",
+#'        y = "Cumulative incidence")
+#'
+#' # Make fancier plot with a shaded area for the RMTL difference
+#' df_ribbon <- result$cif %>%
+#'   select(exposure, time, estimate) %>%
+#'   pivot_wider(names_from = exposure,
+#'               values_from = estimate,
+#'               names_repair = ~c("time", "surv", "surv2")) %>%
+#'   filter(time < 365.25) %>%  # tau for RMST
+#'   arrange(time) %>%  # carry forward survival values per stratum
+#'   fill(surv) %>%
+#'   fill(surv2)
+#'
+#' result$cif %>%
+#'   ggplot() +
+#'   geom_step(mapping = aes(x = time, y = estimate, color = exposure)) +
+#'   scale_x_continuous(breaks = seq(from = 0, to = 365, by = 60)) +
+#'   scale_y_continuous(expand = expansion()) +
+#'   labs(x = "Time since start of follow-up in days",
+#'        y = "Cumulative incidence") +
+#'   cowplot::theme_minimal_hgrid() +
+#'   geom_stepribbon(data = df_ribbon,
+#'                   mapping = aes(x = time, ymin = surv, ymax = surv2),
+#'                   fill = "gray80", alpha = 0.5)
 estimate_rmtl <- function(data,
                           exposure = NULL,
                           time,
@@ -93,6 +134,7 @@ estimate_rmtl <- function(data,
                           event_of_interest = 1,
                           weight = NULL,
                           tau = NULL,
+                          reach_tau = c("warn", "stop", "ignore"),
                           conf.level = 0.95) {
   alldat <- data %>%
     tibble::as_tibble() %>%
@@ -104,7 +146,8 @@ estimate_rmtl <- function(data,
   # set to default values if missing in data
   added_cols <- tibble(time2 = NA_real_, group = "Overall", weight = 1)
   alldat <- alldat %>%
-    tibble::add_column(added_cols %>% select(-dplyr::any_of(names(alldat)))) %>%
+    tibble::add_column(added_cols %>%
+                         select(-dplyr::any_of(names(alldat)))) %>%
     filter(!is.na(.data$group) & !is.na(.data$time)) %>%
     arrange(.data$group) %>%
     dplyr::mutate(
@@ -136,10 +179,22 @@ estimate_rmtl <- function(data,
       dat_group <- alldat[which(alldat$group == (groupval)), ]
       tau.error[i] <- ifelse(max(dat_group$times) < tau, 1, 0)
     }
+    if(all(tau.error == 1)) {
+      stop("Observed event/censoring times do not reach tau in ANY ",
+           "exposure group. Choose a different tau or leave ",
+           "NULL for automatic selection of latest possible time.")
+    }
     if (sum(tau.error) > 0) {
-      stop(paste("Observed event/censoring times do not reach tau in each",
-                 "exposure group. Choose a different tau or leave unspecified",
-                 "for default value of tau."))
+      tau_message <- paste0("Observed event/censoring times do not reach tau ",
+                            "in these exposure groups: ",
+                            paste(levels(alldat$group)[tau.error == 1],
+                                  sep = ", ", collapse = ", "),
+                            ". Choose a different tau or leave NULL for ",
+                            "automatic selection of latest possible time.")
+      if(reach_tau[1] == "stop")
+        stop(tau_message)
+      if(reach_tau[1] == "warn")
+        warning(tau_message)
     }
   }
 
@@ -151,75 +206,83 @@ estimate_rmtl <- function(data,
   res.cif <- list()
 
   for (g in 1:gg) {
-    groupval[g] <- (levels(alldat$group)[g])
-    data <- alldat[which(alldat$group == (groupval[g])), ]
-    tj <- data$times[data$event != 0]
-    tj <- unique(tj[order(tj)])
-    num.tj <- length(tj)
-    num.atrisk <-
-      sapply(tj, function(x)
-        sum(data$weight[data$entry < x & data$times >= x]))
-    num.ev1 <-
-      sapply(tj, function(x)
-        sum(data$weight[data$event == event_of_interest &
-                          data$times == x]))
-    num.ev2 <-
-      sapply(tj, function(x)
-        sum(data$weight[data$event != event_of_interest &
-                          data$event != 0 & data$times == x]))
-    num.ev <- num.ev1 + num.ev2
-    m <- sapply(tj, function(x) {
-      sum((data$weight[data$entry < x & data$times >= x]) ^ 2)
-    })
-    mg <- ((num.atrisk ^ 2) / m)
-    h1 <- num.ev1 / num.atrisk
-    h <- num.ev / num.atrisk
-    s <- cumprod(c(1, 1 - h))
-    s <- s[1:length(s) - 1]
-    theta <- s * h1
-    cif1 <- cumsum(theta)
-    a <- c(0, cumsum(num.ev / (mg * (num.atrisk - num.ev))))
-    a <- a[1:num.tj]
+    groupval1 <- (levels(alldat$group)[g])
+    dat_group1 <- alldat[which(alldat$group == (groupval1)), ]
+    if(max(dat_group1$times) >= tau) {
+      groupval[g] <- levels(alldat$group)[g]
+      data <- alldat[which(alldat$group == (groupval[g])), ]
+      tj <- data$times[data$event != 0]
+      tj <- unique(tj[order(tj)])
+      num.tj <- length(tj)
+      num.atrisk <-
+        sapply(tj, function(x)
+          sum(data$weight[data$entry < x & data$times >= x]))
+      num.ev1 <-
+        sapply(tj, function(x)
+          sum(data$weight[data$event == event_of_interest &
+                            data$times == x]))
+      num.ev2 <-
+        sapply(tj, function(x)
+          sum(data$weight[data$event != event_of_interest &
+                            data$event != 0 & data$times == x]))
+      num.ev <- num.ev1 + num.ev2
+      m <- sapply(tj, function(x) {
+        sum((data$weight[data$entry < x & data$times >= x]) ^ 2)
+      })
+      mg <- ((num.atrisk ^ 2) / m)
+      h1 <- num.ev1 / num.atrisk
+      h <- num.ev / num.atrisk
+      s <- cumprod(c(1, 1 - h))
+      s <- s[1:length(s) - 1]
+      theta <- s * h1
+      cif1 <- cumsum(theta)
+      a <- c(0, cumsum(num.ev / (mg * (num.atrisk - num.ev))))
+      a <- a[1:num.tj]
 
-    var.theta <- ((theta) ^ 2) *
-      (((num.atrisk - num.ev1) / (mg * num.ev1)) + a)
-    var.theta[is.nan(var.theta)] <- 0
-    cov.theta <- matrix(NA, nrow = num.tj, ncol = num.tj)
-    b <- c(0, cumsum(num.ev / (mg * (num.atrisk - num.ev))))
-    for (j in 1:(num.tj - 1)) {
-      for (k in (j + 1):num.tj) {
-        cov.theta[k, j] <- cov.theta[j, k] <- (theta[j]) *
-          (theta[k]) * (-1 / mg[j] + b[j])
+      var.theta <- ((theta) ^ 2) *
+        (((num.atrisk - num.ev1) / (mg * num.ev1)) + a)
+      var.theta[is.nan(var.theta)] <- 0
+      cov.theta <- matrix(NA, nrow = num.tj, ncol = num.tj)
+      b <- c(0, cumsum(num.ev / (mg * (num.atrisk - num.ev))))
+      for (j in 1:(num.tj - 1)) {
+        for (k in (j + 1):num.tj) {
+          cov.theta[k, j] <- cov.theta[j, k] <- (theta[j]) *
+            (theta[k]) * (-1 / mg[j] + b[j])
+        }
       }
+      diag(cov.theta) <- var.theta
+      cov.f10 <- apply(cov.theta, 2, function(x) {
+        x[is.na(x)] <- 0
+        cumsum(x)
+      })
+      cov.f1 <- apply(cov.f10, 1, function(x) {
+        x[is.na(x)] <- 0
+        cumsum(x)
+      })
+      var.f1 <- diag(cov.f1)
+      areas <- c(tj[2:num.tj], tau) - tj
+      rmtl[g] <- sum(areas * cif1)
+      cov.weights <- outer(areas, areas)
+      cov.f1.weight <- cov.weights * cov.f1
+      rmtl.var <- sum(cov.f1.weight)
+      rmtl.se[g] <- sqrt(rmtl.var)
+      res.cif.g <- list()
+      res.cif.g[[length(res.cif.g) + 1]] <- c(cif1, cif1[num.tj])
+      res.cif.g[[length(res.cif.g) + 1]] <- c(sqrt(var.f1), sqrt(var.f1[num.tj]))
+      res.cif.g[[length(res.cif.g) + 1]] <- c(tj, tau)
+      res.cif.g[[length(res.cif.g) + 1]] <- c(
+        cif1 - z * sqrt(var.f1),
+        cif1[num.tj] - z * sqrt(var.f1[num.tj]))
+      res.cif.g[[length(res.cif.g) + 1]] <- c(
+        cif1 + z * sqrt(var.f1),
+        cif1[num.tj] + z * sqrt(var.f1[num.tj]))
+      names(res.cif.g) <- c("cif", "se.cif", "tj", "cif.cil", "cif.ciu")
+    } else {
+      res.cif.g <- list(cif = NA, se.cif = NA, tj = NA,
+                        cif.cil = NA, cif.ciu = NA)
     }
-    diag(cov.theta) <- var.theta
-    cov.f10 <- apply(cov.theta, 2, function(x) {
-      x[is.na(x)] <- 0
-      cumsum(x)
-    })
-    cov.f1 <- apply(cov.f10, 1, function(x) {
-      x[is.na(x)] <- 0
-      cumsum(x)
-    })
-    var.f1 <- diag(cov.f1)
-    areas <- c(tj[2:num.tj], tau) - tj
-    rmtl[g] <- sum(areas * cif1)
-    cov.weights <- outer(areas, areas)
-    cov.f1.weight <- cov.weights * cov.f1
-    rmtl.var <- sum(cov.f1.weight)
-    rmtl.se[g] <- sqrt(rmtl.var)
-    res.cif.g <- list()
-    res.cif.g[[length(res.cif.g) + 1]] <- c(cif1, cif1[num.tj])
-    res.cif.g[[length(res.cif.g) + 1]] <- c(sqrt(var.f1), sqrt(var.f1[num.tj]))
-    res.cif.g[[length(res.cif.g) + 1]] <- c(tj, tau)
-    res.cif.g[[length(res.cif.g) + 1]] <- c(
-      cif1 - z * sqrt(var.f1),
-      cif1[num.tj] - z * sqrt(var.f1[num.tj]))
-    res.cif.g[[length(res.cif.g) + 1]] <- c(
-      cif1 + z * sqrt(var.f1),
-      cif1[num.tj] + z * sqrt(var.f1[num.tj]))
-    names(res.cif.g) <- c("cif", "se.cif", "tj", "cif.cil", "cif.ciu")
     res.cif[[length(res.cif) + 1]] <- res.cif.g
+    names(res.cif)[g] <- groupval[g]  # assign name here
   }
 
   # if(gg > 1) {  # moved from here
@@ -229,8 +292,8 @@ estimate_rmtl <- function(data,
     rmtl.se,
     cil = rmtl - (z * rmtl.se),
     ciu = rmtl + (z * rmtl.se))
-  names(res.cif) <- groupval
-  pwc <- gg  #((gg ^ 2) - gg) / 2
+  #names(res.cif) <- groupval  # assign name above to allow for missing groups
+  pwc <- gg  # all pairwise: ((gg ^ 2) - gg) / 2
   # to here
   if (gg > 1) {
     if (pwc > 0) {
@@ -263,10 +326,8 @@ estimate_rmtl <- function(data,
           abs(res.diff[l, ]$rmtl.diff) / res.diff[l, ]$rmtl.diff.se))
         l <- l + 1
       }
-      res.diff[1, ]$rmtl.diff.se <- NA
-      res.diff[1, ]$rmtl.diff.cil <- NA
-      res.diff[1, ]$rmtl.diff.ciu <- NA
-      res.diff[1, ]$rmtl.diff.p <- NA
+      res.diff[1, c("rmtl.diff.se", "rmtl.diff.cil", "rmtl.diff.ciu",
+                    "rmtl.diff.p")] <- NA
 
       res.diff <- tibble::as_tibble(res.diff) %>%
         dplyr::rename(exposure = .data$label.diff,
@@ -288,6 +349,7 @@ estimate_rmtl <- function(data,
                        conf.high = .data$ciu),
        rmtdiff = res.diff,
        # add origin at (time = 0, cuminc = 0) for each exposure group
+       # (even if no estimation was possible there because tau was not reached)
        cif = dplyr::bind_rows(tibble::tibble(exposure =
                                                levels(alldat$group)) %>%
                                 dplyr::mutate(tj = 0, cif = 0,
@@ -304,4 +366,85 @@ estimate_rmtl <- function(data,
                        se        = .data$se.cif,
                        conf.low  = .data$cif.cil,
                        conf.high = .data$cif.ciu))
+}
+
+
+#' Estimate Difference in Survival or Cumulative Incidence and Confidence Interval
+#'
+#' @description
+#' This function estimates the unadjusted difference in survival at a given time
+#' point based on the difference between per-group Kaplan-Meier estimates.
+#'
+#' @param formula Formula of a survival object using
+#'   \code{\link[survival]{Surv}} of the form, \code{Surv(time, event) ~ group}.
+#'   The exposure variable (here, \code{group}) must be categorical with at
+#'   least 2 categories.
+#' @param data Data set.
+#' @param time Time point to estimate survival difference at.
+#' @param estimand Optional. Estimate difference in survival (\code{"survival"})
+#'   or cumulative incidence (\code{"cuminc"})? This parameter affects the
+#'   sign of the differences. Defaults to \code{"survival"}.
+#' @param conf.level Optional. Confidence level. Defaults to \code{0.95}.
+#'
+#' @references
+#' Com-Nougue C, Rodary C, Patte C. How to establish equivalence when data are
+#' censored: a randomized trial of treatments for B non-Hodgkin lymphoma.
+#' Stat Med 1993;12:1353–64. \url{https://doi.org/10.1002/sim.4780121407}.
+#'
+#' Altman DG, Andersen PK. Calculating the number needed to treat for trials
+#' where the outcome is time to an event. BMJ 1999;319:1492–5.
+#' \url{https://doi.org/10.1136/bmj.319.7223.14929}.
+#'
+#' @return
+#' Tibble in \code{\link[broom]{tidy}} format:
+#'
+#' * \code{term} Name of the exposure stratum.
+#' * \code{estimate} Difference in survival at \code{time}.
+#' * \code{std.error} Large-sample standard error of the difference in survival
+#'    functions (see References). For each survival function, Greenwood
+#'    standard errors with log transformation are used, the default of the
+#'    survival package/\code{\link[survival]{survfit}}).
+#' * \code{statistic} z statistic.
+#' * \code{p.value}
+#' * \code{conf.low} Lower confidence limit
+#' * \code{conf.high} Upper confidence limit
+#'
+#' @export
+#'
+#' @examples
+#' # Load 'cancer' dataset from survival package (Used in all examples)
+#' data(cancer, package = "survival")
+#'
+#' cancer <- cancer %>%
+#'   dplyr::mutate(sex = factor(sex, levels = 1:2,
+#'                              labels = c("Men", "Women")),
+#'                 status = status - 1)
+#'
+#' survdiff_ci(formula = survival::Surv(time = time, event = status) ~ sex,
+#'             data = cancer,
+#'             time = 365.25)
+#' # Women have 19 percentage points higher one-year survival than men
+#' # (95% CI, 5 to 34 percentage points).
+survdiff_ci <- function(formula, data, time,
+                        estimand = c("survival", "cuminc"),
+                        conf.level = 0.95) {
+  zval <- stats::qnorm(1 - (1 - conf.level) / 2)
+  estimand <- match.arg(estimand)
+  res <- summary(survival::survfit(formula = formula, data = data), time = time)
+  res <- tibble::tibble(term = res$strata,
+                 surv = res$surv,
+                 se = res$std.err)
+  if(estimand == "cuminc")
+    res$surv <- 1 - res$surv
+  res %>%
+    dplyr::transmute(
+      term = stringr::str_remove_all(string = .data$term,
+                                     pattern = "([:alnum:]|\\.|_)+="),
+      estimate = .data$surv - .data$surv[1],
+      std.error = sqrt(.data$se^2 + .data$se[1]^2),
+      statistic = .data$estimate / .data$std.error,
+      p.value = 1 - stats::pnorm(.data$statistic),
+      conf.low = .data$estimate - zval * .data$std.error,
+      conf.high = .data$estimate + zval * .data$std.error) %>%
+    dplyr::slice(-1)
 }

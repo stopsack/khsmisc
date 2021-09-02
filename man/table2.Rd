@@ -10,12 +10,15 @@ table2(
   layout = "rows",
   factor = 1000,
   risk_percent = FALSE,
-  diff_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+  risk_digits = dplyr::if_else(risk_percent == TRUE, true = 0, false = 2),
+  diff_digits = 2,
   ratio_digits = 2,
   rate_digits = 1,
   to = NULL,
   type2_layout = "rows",
-  prepare_md = TRUE
+  prepare_md = TRUE,
+  custom = NULL,
+  overall = FALSE
 )
 }
 \arguments{
@@ -35,10 +38,13 @@ events per person-time by. Defaults to \code{1000}.}
 \item{risk_percent}{Optional. Show risk and risk difference estimates in
 percentage points instead of proportions. Defaults to \code{FALSE}.}
 
+\item{risk_digits}{Optional. Number of decimal digits to show for risks/
+cumulative incidence. Defaults to \code{2} for \code{risk_percent = FALSE}
+and to \code{0} for \code{risk_percent = TRUE}. Can override for each line
+in \code{type}.}
+
 \item{diff_digits}{Optional. Number of decimal digits to show for
-rounding of means, risks, and risk difference estimates. Defaults to
-\code{2} for \code{risk_percent = FALSE} and to \code{0} for
-\code{risk_percent = TRUE}. Can override for each line in \code{type}.}
+rounding of means and mean difference estimates. Defaults to \code{2}.}
 
 \item{ratio_digits}{Optional. Number of decimal digits to show for ratio
 estimates. Defaults to \code{2}. Can override for each line in \code{type}.}
@@ -61,6 +67,28 @@ printing with markdown (\code{%>% gt:gt() %>%
   gt::fmt_markdown(columns = 1)}).
 This step will replace two spaces or a tab at the beginning of a
 \code{label} with HTML code for an indentation (\code{&ensp;}).}
+
+\item{custom}{Optional. Defaults to \code{NULL}. A custom function (or a
+\code{\link{list}} of such functions), that can be called via
+\code{type = "custom"} (or \code{type = "custom2"}, for example).
+Must have at minimum the arguments \code{data} and
+\code{...}, i.e., be defined as \code{function(data, ...)}.
+Custom functions receive \code{table2}'s dataset \code{data}, where
+the exposure variable has been renamed to \code{.exposure}. All other
+variables are unchanged. All arguments of \code{table2} and the elements of
+the  \code{design} dataset are passed along as arguments to the custom
+function. Functions must return a data frame or tibble with as many rows as
+exposure levels and two columns: an exposure column, \code{.exposure}, and
+a result column per exposure level, \code{res}, of type \code{character}.
+All estimation steps need to be done by the custom function, such as
+subsetting to the \code{stratum} of the \code{effect_modifier} or rounding of
+numeric estimates, as applicable. See examples.}
+
+\item{overall}{Optional. Defaults to \code{FALSE}. Add a first column with
+unstratified estimates to an exposure-stratified table? Elements will be
+shown only for absolute estimates (e.g., \code{type = "mean"}) and blank
+for comparatible estimates (e.g., mean difference via
+\code{type = "diff"}).}
 }
 \value{
 Tibble. Get formatted output by passing on to
@@ -77,11 +105,19 @@ Model diagnostics for regression models need to be conducted separately.
 }
 \details{
 The main input parameter is the dataset \code{design}.
-Always required are the columns \code{label}, \code{type}, and
-\code{exposure}, as well as \code{outcome} for binary outcomes
-or \code{time} and \code{event} for survival outcomes:
+Always required are the column \code{type} (the type of requested
+statistic, see below), as well as \code{outcome} for binary outcomes or
+\code{time} and \code{event} for survival outcomes:
 \itemize{
-\item \code{label} A label for each row (or column).
+\item \code{label} A label for each row (or column). If missing, \code{type}
+will be used as the label.
+\item \code{exposure} Optional. The exposure variable. Must be categorical
+(factor or logical). If missing (\code{NA}), then an unstratified
+table with absolute estimates only will be returned.
+\item \code{outcome} The outcome variable for non-survival data
+(i.e., whenever \code{event} and \code{time} are not used).
+For risk/prevalence data, this variable must be \code{0}/\code{1}
+or \code{FALSE}/\code{TRUE}.
 \item \code{time} The time variable for survival data. Needed for,
 e.g., \code{type = "hr"} and \code{type = "rate"}
 (i.e., whenever \code{outcome} is not used).
@@ -94,12 +130,6 @@ the exit time, following conventions of
 Events are typically \code{1}, censored observations \code{0}.
 Needed for, e.g., \code{type = "hr"} and \code{type = "rate"}
 (i.e., whenever \code{outcome} is not used).
-\item \code{outcome} The outcome variable for non-survival data
-(i.e., whenever \code{event} and \code{time} are not used).
-For risk/prevalence data, this variable must be \code{0}/\code{1}
-or \code{FALSE}/\code{TRUE}.
-\item \code{exposure} The exposure variable. Must be categorical
-(factor or logical).
 \item \code{trend} Optional. For regression models, a continuous
 representation of the exposure, for which a slope per one unit
 increase ("trend") will be estimated. Must be a numeric variable.
@@ -119,10 +149,11 @@ For Cox models, can add \code{"+ strata(site)"}
 to obtain models with stratification by, e.g., \code{site}.
 For Poisson models, can add \code{"+ offset(log(persontime))"}
 to define, e.g., \code{persontime} as the offset.
+For differences in restricted mean time lost (\code{rmtdiff}) with
+weighting, provide a single variable name with user-defined weights.
 \item \code{type} The statistic requested (case-insensitive):
 
-Comparative estimates from regression models
-with 95\% confidence intervals:
+Comparative estimates with 95\% confidence intervals:
 \itemize{
 \item \code{"hr"} Hazard ratio from Cox proportional
 hazards regression.
@@ -132,23 +163,36 @@ from Poisson regression model.
 from \code{\link[risks]{riskratio}}. Can request specific model
 fitting  approach and, for marginal
 standardization only, the number of bootstrap repeats.
-Examples: \code{"rrglm_start"} or \code{"rrmargstd2000"}.
-(Note absence of white space.)
+Examples: \code{"rrglm_start"} or \code{"rrmargstd 2000"}.
 \item \code{"rd"} Risk difference (or prevalence difference)
-from \code{\link[risks]{riskdiff}}. Can request model fitting approach
-and bootstrap repeats as for \code{"rr"}.
+from \code{\link[risks]{riskdiff}}. Can request model fitting
+approach and bootstrap repeats as for \code{"rr"}.
 \item \code{"diff"} Mean difference from linear model.
 \item \code{"quantreg"} Quantile difference from quantile regression using
 \code{\link[quantreg]{rq}} with \code{method = "fn"}.
 By default, this is the difference in medians. For a different
-quantile, e.g., the 75th percentile, use \code{"quantreg0.75"}.
-Note absence of white space before the quantile.
+quantile, e.g., the 75th percentile, use \code{"quantreg 0.75"}.
 \item \code{"fold"} Fold change from generalized linear
 model with log link (i.e., ratio of arithmetic means).
 \item \code{"foldlog"} Fold change from linear
 model after log transformation of the outcome
 (i.e., ratio of geometric means).
 \item \code{"or"} Odds ratio from logistic regression.
+\item \code{"rmtdiff"} Difference in restricted mean time lost. Provide
+time horizon, e.g., \code{"rmtdiff 2.5"} to evaluate differences in
+restricted mean time lost over the first 2.5 years of follow up.
+The first non-censoring event will be taken as the outcome.
+See \code{confounders} for how to provide weights. Uses
+\code{\link[khsmisc]{estimate_rmtl}}.
+\item \code{"survdiff"} Difference in survival from Kaplan-Meier estimator.
+Provide time horizon, e.g., \code{"survdiff 2.5"} to evaluate
+differences in survival at 2.5 years. Cannot not handle confounders.
+Uses \code{\link[khsmisc]{survdiff_ci}}.
+\item \code{"survdiff"} Difference in cumulative incidence from
+Kaplan-Meier estimator. Provide time horizon, e.g.,
+\code{"cumincdiff 2.5"} to evaluate differences in cumulative
+incidence at 2.5 years. Cannot not handle confounders.
+Uses \code{\link[khsmisc]{survdiff_ci}}.
 }
 
 Absolute estimates per exposure category:
@@ -159,14 +203,35 @@ Absolute estimates per exposure category:
 \item \code{"total"} Number of observations.
 \item \code{"events/time"} Events slash person-time.
 \item \code{"events/total"} Events slash number of observations.
-\item \code{"cases/controls"} Cases and non-cases;
-for case-control studies.
-\item \code{"risk"} Risk (or prevalence), i.e., events divided
-by number of observations. Change between display as proportion
-or percent using the parameter \code{risk_percent}.
+\item \code{"cases/controls"} Cases and non-cases (events and non-events);
+useful for case-control studies.
+\item \code{"risk"} Risk (or prevalence), calculated as a proportion,
+i.e., outcomes divided by number of observations. Change between
+display as proportion or percent using the parameter
+\code{risk_percent}.
 \item \code{"risk (ci)"} Risk with 95\% confidence interval
 (Wilson score interval for binomial proportions, see
 \code{\link[khsmisc]{scoreci}}).
+\item \code{"cuminc"} Cumulative incidence ("risk") from the Kaplan-Meier
+estimator. Provide time point (e.g., 1.5-year cumulative incidence)
+using \code{"cuminc 1.5"}. If not time point is provided, returns
+cumulative incidence at end of follow-up. Change between display as
+proportion or percent using the parameter \code{risk_percent}.
+\item \code{"cuminc (ci)"} Cumulative incidence ("risk") from the
+Kaplan-Meier estimator with 95\% confidence intervals (Greenwood
+standard errors with log transformation, the
+default of the survival package/\code{\link[survival]{survfit}}).
+Provide time point as in \code{"cuminc"}.
+\item \code{"surv"} Survival from the Kaplan-Meier
+estimator. Provide time point (e.g., 1.5-year survival)
+using \code{"surv 1.5"}. If not time point is provided, returns
+survival at end of follow-up. Change between display as
+proportion or percent using the parameter \code{risk_percent}.
+\item \code{"surv (ci)"} Survival from the
+Kaplan-Meier estimator with 95\% confidence interval (Greenwood
+standard errors with log transformation, the
+default of the survival package/\code{\link[survival]{survfit}}).
+Provide time point as in \code{"surv"}.
 \item \code{"rate"} Event rate: event count divided by person-time,
 multiplied by \code{factor}.
 \item \code{"rate (ci)"} Event rate with 95\% confidence interval
@@ -177,36 +242,72 @@ followed by risk in parentheses.
 followed by risk in parentheses.
 \item \code{"events/time (rate)"} A combination: Events slash time
 followed by rate in parentheses.
+\item \code{"medsurv"} Median survival.
+\item \code{"medsurv (ci)"} Median survival with 95\% confidence interval.
+\item \code{"medfu"} Median follow-up (reverse Kaplan-Meier), equals median
+survival for censoring.
+\item \code{"medfu (iqr)"} Median and interquartile range for follow-up.
+\item \code{"maxfu"} Maximum follow-up time.
+\item \code{"rmtl"} Restricted mean time lost. Provide
+time horizon, e.g., \code{"rmtl 2.5"} to evaluate restricted mean
+time lost over the first 2.5 years of follow up.
+The first non-censoring event will be taken as the outcome.
+See \code{confounders} for how to provide weights. Uses
+\code{\link[khsmisc]{estimate_rmtl}}.
 \item \code{"mean"} Mean.
 \item \code{"mean (ci)"} Mean and 95\% CI.
+\item \code{"mean (sd)"} Mean and standard deviation.
 \item \code{"median"} Median.
 \item \code{"median (iqr)"} Median and interquartile range.
+\item \code{"custom"} A custom function, provided to \code{table2} through
+the argument \code{custom}. See there for details.
+If a list of multiple functions is provided, use \code{"custom1"}
+through \code{"custom99"} to select one function.
 \item \code{"blank"} or \code{""} An empty line.
 }
 
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
 to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-\code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, or \code{"or"} to
+\code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, \code{"or"}, or
+\code{"rmtdiff"} to
 obtain "joint" models for exposure and effect modifier that have a
 single reference category.
 Example: \code{type = "hr_joint"}. The reference categories
 for exposure and effect modifier are their first factor levels, which
 can be changed using \code{\link[forcats]{fct_relevel}}.
-
-Digits for rounding estimates can be specified for each line separately.
-Example: \code{type = "diff (ci) 3"} to request a mean difference
-and its 95\% CI rounded to 3 decimal digits (note the space before
-\code{3}).
+\item \code{type2} Optional. A second statistic that is added in an adjacent
+row or column (global option \code{type2_layout} defaults to \code{"row"}
+and can alternatively be set to \code{"column"}). For example, use
+\code{type = "events/times", type2 = "hr"} to get both event
+counts/person-time and hazard ratios for the same data, exposure,
+stratum, confounders, and outcome.
+\item \code{digits} Optional. The number of digits for rounding an individual
+line. Defaults to \code{NA}, where the number of
+digits will be determined based on \code{table2}'s arguments
+\code{risk_percent}, \code{risk_digits}, \code{diff_digits},
+\code{ratio_digits}, or \code{rate_digits}, as applicable.
+\item \code{digits2} Optional. As \code{digits}, for the second
+estimate (\code{type2}).
 }
 
-Hint: Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
+Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
 \code{\link[dplyr]{mutate}} to construct the \code{design} dataset,
 especially variables that are used repeatedly (e.g., \code{exposure, time,
-  event}, or \code{outcome}). See examples.
+event}, or \code{outcome}). See examples.
+
+If regression models cannot provide estimates in a stratum, e.g.,
+because there are no events, then \code{"--"} will be printed. Accompanying
+warnings need to be suppressed manually, if appropriate, using
+\code{suppressWarnings(table2(...))}.
 }
+\section{Example Output (see Example 5)}{
+
+\if{html}{\figure{table2.png}{options: width=70\%}}
+}
+
 \examples{
-# Load 'cancer' dataset from survival package
+# Load 'cancer' dataset from survival package (Used in all examples)
 data(cancer, package = "survival")
 
 # The exposure (here, 'sex') must be categorical
@@ -216,6 +317,7 @@ cancer <- cancer \%>\%
                              labels = c("Men", "Women")),
                 time = time / 365.25,
                 status = status - 1)
+
 
 # Example 1: Binary outcomes (use 'outcome' variable)
 # Set table design
@@ -242,19 +344,22 @@ table2(design = design1 \%>\%
        data = cancer,
        layout = "cols")
 
+
 # Example 2: Survival outcomes (use 'time' and 'event'),
 #   with an effect modifier and a confounder
 # Set table design
 design2 <- tibble::tribble(
   # Elements that vary by row:
   ~label,                       ~stratum, ~confounders, ~type,
-  "**Overall: Events**",        NULL,     "",           "events",
+  "**Overall**",                NULL,     "",           "blank",
+  "  Events",                   NULL,     "",           "events",
   "  Person-years",             NULL,     "",           "time",
   "  Rate/1000 py (95\% CI)",    NULL,     "",           "rate (ci)",
   "  Unadjusted HR (95\% CI)",   NULL,     "",           "hr",
   "  Age-adjusted HR (95\% CI)", NULL,     "+ age",      "hr",
+  "  2-year restricted mean time lost", NULL, "",       "rmtl2",
   "",                           NULL,     "",           "blank",
-  "**Stratified models**",      NULL,     "",           "blank",
+  "**Stratified models**",      NULL,     "",           "",
   "*ECOG PS1* (events/N)",      1,        "",           "events/total",
   "  Unadjusted",               1,        "",           "hr",
   "  Age-adjusted",             1,        "+ age",      "hr",
@@ -274,6 +379,7 @@ design2 <- tibble::tribble(
 # Generate table2
 table2(design = design2,
        data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2))
+
 
 # Example 3: Get two estimates using 'type' and 'type2'
 design3 <- tibble::tribble(
@@ -298,18 +404,18 @@ table2(design = design3,
 # request rounding to 1 decimal digit in some cases;
 # add continuous trend (slope per one unit of the 'trend' variable)
 tibble::tribble(
-  ~label,                   ~stratum, ~type,
-  "Marginal mean (95\% CI)", NULL,     "mean (ci) 1",
-  "  Men",                  "Men",    "mean",
-  "  Women",                "Women",  "mean",
-  "",                       NULL,     "",
-  "Stratified model",       NULL,     "",
-  "  Men",                  "Men",    "diff 1",
-  "  Women",                "Women",  "diff 1",
-  "",                       NULL,     "",
-  "Joint model",            NULL,     "",
-  "  Men",                  "Men",    "diff_joint",
-  "  Women",                "Women",  "diff_joint") \%>\%
+  ~label,                   ~stratum, ~type,        ~digits,
+  "Marginal mean (95\% CI)", NULL,     "mean (ci)",  1,
+  "  Men",                  "Men",    "mean",       NA,
+  "  Women",                "Women",  "mean",       NA,
+  "",                       NULL,     "",           NA,
+  "Stratified model",       NULL,     "",           NA,
+  "  Men",                  "Men",    "diff",       1,
+  "  Women",                "Women",  "diff",       1,
+  "",                       NULL,     "",           NA,
+  "Joint model",            NULL,     "",           NA,
+  "  Men",                  "Men",    "diff_joint", NA,
+  "  Women",                "Women",  "diff_joint", NA) \%>\%
   dplyr::mutate(exposure = "ph.ecog_factor",
                 trend = "ph.ecog",
                 outcome = "age",
@@ -318,10 +424,54 @@ tibble::tribble(
                   dplyr::filter(ph.ecog < 3) \%>\%
                   dplyr::mutate(ph.ecog_factor = factor(ph.ecog)))
 
+
 # Example 5: Get formatted output for Example 2 (see above)
 \dontrun{
 table2(design = design2,
        data = cancer \%>\% dplyr::filter(ph.ecog \%in\% 1:2)) \%>\%
   mygt(md = 1)  # get markdown formatting in first column ('label')
 }
+
+
+# Example 6: Using custom functions and adding an
+# overall unstratified estimate
+
+library(dplyr)  # for easier data handling
+
+# Define first, very rudimentary function
+my_custom_fun1 <- function(data, ...) {
+  data \%>\%
+    group_by(.exposure) \%>\%
+    # Directly referencing the variable 'status'--not portable
+    summarize(res = paste("mean =", mean(status)))
+}
+
+# Define second, improved function
+my_custom_fun2 <- function(data, outcome, ...) {
+  # 'outcome', like all columns of the 'design' matrix, is one argument
+  # that is passed along to custom functions
+  data \%>\%
+    group_by(.exposure) \%>\%
+    # This improved function will work in other data sets
+    select(.exposure, variable = {{ outcome }}) \%>\%
+    summarize(res = paste(round(mean(variable), digits = 3)))
+}
+
+tibble::tribble(
+  ~label,                         ~type,
+  "Mean (SD), built-in function", "mean (sd)",
+  "Mean: 1st custom function",    "custom1",
+  "Mean: 2nd custom function",    "custom2") \%>\%
+  mutate(exposure = "sex",
+         outcome = "status") \%>\%
+  table2(data = cancer,
+         custom = list(my_custom_fun1, my_custom_fun2),
+         overall = TRUE)
+
+}
+\references{
+Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:
+Rothman KJ, Greenland S, Lash TL. Modern Epidemiology, 3rd edition.
+Philadelpha, PA: Lippincott Williams & Wilkins. Page 242.
+(Poisson/large-sample approximation for variance of incidence rates)
 }

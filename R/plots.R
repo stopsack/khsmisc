@@ -139,17 +139,18 @@ stripplot <- function(data, x, y,
 #'   observations with all variables. See parameter \code{use} of
 #'   \code{\link[stats]{cor}} for alternatives.
 #' @param reorder Perform hierarchical clustering in the correlation matrix?
-#'   This will order variables by their correlation patterns with other variables.
-#'   If turned off to \code{FALSE}, the order of variables in the dataset will be retained.
-#'   Defaults to \code{TRUE}.
-#' @param digits Decimal digits for displayed correlation coefficients. Defaults to \code{2}.
+#'   This will order variables by their correlation patterns with other
+#'   variables. If turned off to \code{FALSE}, the order of variables in the
+#'   dataset will be retained. Defaults to \code{TRUE}.
+#' @param digits Decimal digits for displayed correlation coefficients.
+#'   Defaults to \code{2}.
 #' @param legendpos (x, y) coordinates of color legend. Use
 #'   \code{legendpos = "none"} to turn off the legend.
 #'   Defaults to \code{c(0.15, 0.35)}.
 #' @param cutpoints Correlation coefficient values that have a distinct
 #'   color. Defaults to \code{c(-1, 0, 1)}.
-#' @param colors Colors for the \code{cutpoints}. Defaults to blue (for negative),
-#'   white (no correlation), and yellow (positive correlation) on the
+#' @param colors Colors for the \code{cutpoints}. Defaults to blue (for
+#'   negative), white (no correlation), and yellow (positive correlation) on the
 #'   \code{cividis} color scale.
 #'
 #' @return ggplot. Can be modified with the usual ggplot commands, such as
@@ -219,24 +220,27 @@ corrmat <- function(
   mymat %>%
     get_upper_triangle() %>%
     tibble::as_tibble(rownames = "var1") %>%
-    tidyr::pivot_longer(cols = -.data$var1, names_to = "var2", values_to = "value",
+    tidyr::pivot_longer(cols = -.data$var1, names_to = "var2",
+                        values_to = "value",
                         values_drop_na = TRUE) %>%
     dplyr::mutate_at(.vars = vars(.data$var1, .data$var2),
                      .funs = ~forcats::fct_inorder(factor(.))) %>%
     dplyr::group_by(.data$var1) %>%
     dplyr::mutate(ylabel = dplyr::if_else(dplyr::row_number() == 1,
-                                          true = as.character(.data$var1), false = "")) %>%
+                                          true = as.character(.data$var1),
+                                          false = "")) %>%
     dplyr::ungroup() %>%
     ggplot2::ggplot(mapping = aes(.data$var2, .data$var1, fill = .data$value)) +
     ggplot2::geom_tile(color = "white") +
-    ggplot2::scale_fill_gradient2(low      = colors[1],
-                         high     = colors[3],
-                         mid      = colors[2],
-                         midpoint = cutpoints[2],
-                         limit    = c(cutpoints[1], cutpoints[3]),
-                         space    = "Lab",
-                         name     = stringr::str_to_title(paste(method,
-                                                                "correlation", sep = "\n"))) +
+    ggplot2::scale_fill_gradient2(
+      low      = colors[1],
+      high     = colors[3],
+      mid      = colors[2],
+      midpoint = cutpoints[2],
+      limit    = c(cutpoints[1], cutpoints[3]),
+      space    = "Lab",
+      name     = stringr::str_to_title(paste(method,
+                                             "correlation", sep = "\n"))) +
     ggplot2::coord_fixed(clip = "off") +
     ggplot2::geom_text(aes(x = .data$var2, y = .data$var1,
                            label = format(round(.data$value, digits = digits),
@@ -245,7 +249,7 @@ corrmat <- function(
     ggplot2::geom_text(mapping = aes(x = as.numeric(.data$var2) - 0.7,
                                      y = as.numeric(.data$var1),
                                      label = .data$ylabel),
-              hjust = 1) +
+                       hjust = 1) +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
     ggplot2::theme(axis.title.x     = element_blank(),
@@ -259,117 +263,22 @@ corrmat <- function(
                    axis.line        = element_blank(),
                    axis.ticks       = element_blank(),
                    legend.position  = legendpos,
-                   plot.margin      = margin(t = 0, r = 0, b = 0, l = 2, unit = "cm"),
+                   plot.margin      = margin(t = 0, r = 0, b = 0, l = 2,
+                                             unit = "cm"),
                    legend.direction = "vertical",
                    legend.justification = c(1, 0)) +
     ggplot2::guides(fill = ggplot2::guide_colorbar(barwidth = 1, barheight = 5,
-                                                   title.position = "top", title.hjust = 0.5))
+                                                   title.position = "top",
+                                                   title.hjust = 0.5))
 }
 
 
-#' Exclusion Flowchart using DiagrammeR
-#'
-#' @description
-#' This function plots a flow chart using \code{\link[DiagrammeR]{grViz}}.
-#' It is restricted to the simple case of sequential exclusions from a single
-#' study population and not suited for CONSORT flowcharts for a
-#' parallel-group study (i.e., a randomized-controlled trial).
-#' The \code{left} column describes the flow of the group that ends up
-#' being included. The \code{right} column describes exclusions for various
-#' reasons.
-#'
-#' @param design Tibble with the following columns:
-#'   * \code{left} Text for the left box of each row.
-#'   * \code{n_left} Count to be shown as 'n =' in the bottom
-#'     of the left box. To skip, use \code{NA_integer_}.
-#'   * \code{right} Text for the right box of each row.
-#'   * \code{n_right} Count to be shown as 'n =' in the bottom
-#'     of the right box. To skip, use \code{NA_integer_}.
-#' @param width Minimum width for all boxes.
-#'
-#' @details
-#' Note \code{\link[DiagrammeR]{grViz}} does not automatically
-#' generate line breaks. To avoid extra-wide boxes, manually
-#' supply line breaks using \code{\\n}. See example.
-#'
-#' @return Plot rendered using \code{\link[DiagrammeR]{grViz}}.
-#'   For a \code{design} with three rows,
-#'   the following pseudo-code would be generated: \preformatted{
-#'   grViz(paste0("digraph flowchart {
-#'     node [fontname = Helvetica, shape = rectangle, width = 4]
-#'     tab1a [label = 'left[1] \\nn = ", n_left[1],  "']
-#'     tab1b [label = 'right[1]\\nn = ", n_right[1], "']
-#'     tab2a [label = 'left[2] \\nn = ", n_left[2],  "']
-#'     tab2b [label = 'right[2]\\nn = ", n_right[2], "']
-#'     tab3a [label = 'left[3] \\nn = ", n_left[3],  "']
-#'
-#'     { rank = same; tab1a; tab1b; }
-#'     { rank = same; tab2a; tab2b; }
-#'
-#'     tab1a -> tab2a -> tab3a;
-#'     tab1a -> tab1b;
-#'     tab2a -> tab2b;
-#'     }"))
-#'   }
-#' @export
-#'
-#' @examples
-#' # Generate a flow chart for two steps of exclusions:
-#' design <- tibble::tribble(
-#'   ~left,               ~n_left, ~right,              ~n_right,
-#'   "Study base",        1000,    "Not sampled",       250,
-#'   "Study population",  750,     "Participants with\nmissing exposure data", 100,
-#'   "Complete-case set", 650,     "",                 NA_integer_)
-#' exclusion_flowchart(design, width = 2)
-
-exclusion_flowchart <- function(design, width = 4) {
-  labels <- design %>%
-    dplyr::mutate(
-      index = dplyr::row_number(),
-      text = purrr::pmap_chr(
-        .l = list(.data$index, .data$left, .data$n_left),
-        .f = ~paste0("tab", ..1, "a [label = '", ..2,
-                     dplyr::if_else(!is.na(..3),
-                                    true = paste0("\\nn = ", ..3),
-                                    false = ""),
-                     "']")),
-      text = purrr::pmap_chr(
-        .l = list(.data$index, .data$text, .data$right, .data$n_right),
-        .f = ~dplyr::if_else(..3 == "",
-                             true = ..2,
-                             false = paste0(..2, "\ntab", .x, "b [label = '", ..3,
-                                            dplyr::if_else(!is.na(..4),
-                                                           true = paste0("\\nn = ", ..4),
-                                                           false = ""),
-                                            "']"))))
-  labels <- paste(labels$text, sep = "\n", collapse = "\n")
-
-  # Rows that have a right box
-  has_right <- design %>%
-    mutate(row_number = row_number()) %>%
-    filter(.data$right != "") %>%
-    pull(.data$row_number)
-
-  DiagrammeR::grViz(paste0(
-    "digraph flowchart {
-      node [fontname = Helvetica, shape = rectangle, width = ", width, "]\n",
-    labels,
-    paste0("{ rank = same; tab", has_right, "a; tab", has_right, "b; }",
-           sep = "\n", collapse = "\n"),
-    paste0(paste0("tab", 1:(nrow(design)-1), "a -> ", collapse = " "),
-           "tab", nrow(design), "a;\n"),
-    paste0("tab", has_right, "a -> tab", has_right, "b;",
-           sep = "\n", collapse = "\n"),
-    "}"))
-}
-
-
-
-#' Step ribbon plots.
+#' Step ribbon plots
 #'
 #' \code{geom_stepribbon} is an extension of the \code{geom_ribbon}, and
-#' is optimized for Kaplan-Meier plots with pointwise confidence intervals
-#' or a confidence band.
+#' is optimized for survival function plots with pointwise confidence intervals
+#' or differences between survival curves, such as for
+#' \code{\link[khsmisc]{estimate_rmtl}}.
 #'
 #' @seealso
 #'   \code{\link[ggplot2]{geom_ribbon}}
@@ -387,35 +296,17 @@ exclusion_flowchart <- function(design, width = 4) {
 #' library(ggplot2)
 #' huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 #' h <- ggplot(huron, aes(year))
+#' # Step ribbon
 #' h + geom_stepribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
 #'     geom_step(aes(y = level))
+#'
+#' # For comparison, simple ribbon
 #' h + geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
 #'     geom_line(aes(y = level))
-#'
-#' # Draw shaded area between two Kaplan-Meier curves to visualize
-#' # an RMST difference, having drawn the plot via
-#' #   figure <- survminer::ggsurvplot(...)
-#' \dontrun{
-#' df_ribbon <- figure$plot$data %>%  # access plot data
-#'   select(time, surv, strata) %>%
-#'   pivot_wider(names_from = strata,
-#'               values_from = surv,
-#'               names_repair = ~c("time", "surv", "surv2")) %>%
-#'   filter(time < 10) %>%  # maximum time for RMST--edit here
-#'   arrange(time) %>%  # carry forward survival values per stratum
-#'   fill(surv) %>%
-#'   fill(surv2)
-#'
-#' figure$plot +
-#'   geom_stepribbon(data = df_ribbon,
-#'                   mapping = aes(x = time, ymin = surv, ymax = surv2),
-#'                   fill = "gray80", alpha = 0.5)
-#' }
 
 #' @rdname geom_stepribbon
 #' @importFrom ggplot2 layer GeomRibbon
 #' @export
-
 geom_stepribbon <- function(
   mapping     = NULL,
   data        = NULL,
@@ -441,7 +332,6 @@ geom_stepribbon <- function(
 #' @format NULL
 #' @usage NULL
 #' @export
-
 GeomStepribbon <- ggproto(
   "GeomStepribbon", GeomRibbon,
 

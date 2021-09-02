@@ -1,3 +1,5 @@
+figure:
+  dev: "svglite::svglite"
 url: https://stopsack.github.io/khsmisc
 reference:
 - title: "Functions for Data Handling"
@@ -6,12 +8,17 @@ reference:
 - contents:
   - varlist
   - contains("_safely")
+  - make_exclusions
 - title: "Functions for Vectors"
 - contents:
   - scale_to_range
   - Mode
   - roundp
+- title: "Estimation functions"
+- contents:
   - scoreci
+  - estimate_rmtl
+  - survdiff_ci
 - title: "Functions for Tables"
   desc: "Tabulate data"
 - contents:

@@ -25,9 +25,15 @@ Formatting includes:
 \item Bold column labels
 }
 }
+\section{Example Output}{
+
+\if{html}{\figure{mygt.png}{options: width=50\%}}
+}
+
 \examples{
 data(mtcars)
 mtcars \%>\%
   dplyr::slice(1:5) \%>\%
   mygt()
+
 }

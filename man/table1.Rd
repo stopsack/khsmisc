@@ -62,18 +62,30 @@ count (column percent).
 \item Rounding of continuous values to one decimal digit by default.
 }
 }
+\section{Example Output}{
+
+\if{html}{Example 1}
+
+\if{html}{\figure{table1a.png}{options: width=70\%}}
+
+\if{html}{Example 2}
+
+\if{html}{\figure{table1b.png}{options: width=70\%}}
+}
+
 \examples{
 data(mtcars)
 
-# Stratify by "gear":
+# Example 1: Stratify by "gear":
 \dontrun{
 mtcars \%>\%
   table1(by = gear)
 }
 
-# Show only selected variables in rows:
+# Example 2: Show only selected variables in rows:
 \dontrun{
 mtcars \%>\%
   table1(cyl, mpg, disp, by = gear)
 }
+
 }

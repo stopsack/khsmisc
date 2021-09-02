@@ -13,6 +13,7 @@ estimate_rmtl(
   event_of_interest = 1,
   weight = NULL,
   tau = NULL,
+  reach_tau = c("warn", "stop", "ignore"),
   conf.level = 0.95
 )
 }
@@ -46,8 +47,23 @@ survey weights. The default (\code{NULL}) uses equal weights for all
 observations.}
 
 \item{tau}{Optional. Time horizon to restrict event times. By default, the
-the latest time in the group with the shortest follow-up. Prefer a
+latest time in the group with the shortest follow-up. Prefer a
 user-defined, interpretable time horizon.}
+
+\item{reach_tau}{Optional. How to handle provided
+\code{tau} values that are not reached in one of the exposure categories.
+\itemize{
+\item \code{"warn"} Default. Display a warning and estimate RMTL and its
+difference in those exposure categories where \code{tau} is reached.
+\item \code{"stop"} Stop with an error if \code{tau} not reached in one or more
+of the exposure categories.
+\item \code{"ignore"} Ignore exposure categories where \code{tau} is not
+reached; estimate RMTL and its difference in those exposure categories
+where \code{tau} is reached.
+}
+
+If \code{tau} is not reached in any of the exposure categories, the
+function always stops with an error.}
 
 \item{conf.level}{Optional. Confidence level. Defaults to \code{0.95}.}
 }
@@ -65,25 +81,27 @@ interest:
 \itemize{
 \item \code{exposure} Exposure group.
 \item \code{time} Event time.
-\item \code{estimate} Nelsen-Aalen estimate of cumulative incidence function
+\item \code{estimate} Aalen-Johansen estimate of cumulative incidence function
 with \code{se}, \code{conf.low}, and \code{conf.high}.
 }
 }
 }
 \description{
 The method of Connor and Trinquart (Stat Med 2021) estimates the RMTL in the
-presence of competing risks. This function a modification of their R code.
-Estimation functions are identical; input and output handling have been
+presence of competing risks. This function is a modification of their R code.
+Estimation functions are identical; input handling and output have been
 adapted.
 }
 \details{
 Differences to the original function rmtl::rmtl():
 \itemize{
-\item Convert print() to stop() for errors.
-\item Pass data as a data frame/tibble, select variables from it.
+\item Convert \code{\link{print}} for errors to \code{\link{stop}} or
+\code{\link{warning}}.
+\item Pass data as a data frame/tibble and select variables from it.
 \item Allow for different variable types in the \code{event} variable.
 \item Use \code{\link[survival]{Surv}} conventions for entry/exit times
 (\code{time}, \code{time2}).
+\item Allow for exposure groups where \code{tau} is not reached.
 \item Return contrasts in restricted mean time lost as comparisons to the
 reference level instead of all pairwise comparisons.
 \item Add origin (time 0, cumulative incidence 0) to the returned cumulative
@@ -105,16 +123,43 @@ result <- estimate_rmtl(
   tau = 365.25)  # time horizon: one year
 result
 
-# Make (simple) plot
+# Make simple plot
 library(ggplot2)
+library(dplyr)
+library(tidyr)
+
 result$cif \%>\%
   ggplot(mapping = aes(x = time, y = estimate, color = exposure)) +
   geom_step() +
   scale_x_continuous(breaks = seq(from = 0, to = 365, by = 60)) +
-  labs(x = "Time since start of follow-up in days", y = "Cumulative incidence")
+  labs(x = "Time since start of follow-up in days",
+       y = "Cumulative incidence")
+
+# Make fancier plot with a shaded area for the RMTL difference
+df_ribbon <- result$cif \%>\%
+  select(exposure, time, estimate) \%>\%
+  pivot_wider(names_from = exposure,
+              values_from = estimate,
+              names_repair = ~c("time", "surv", "surv2")) \%>\%
+  filter(time < 365.25) \%>\%  # tau for RMST
+  arrange(time) \%>\%  # carry forward survival values per stratum
+  fill(surv) \%>\%
+  fill(surv2)
+
+result$cif \%>\%
+  ggplot() +
+  geom_step(mapping = aes(x = time, y = estimate, color = exposure)) +
+  scale_x_continuous(breaks = seq(from = 0, to = 365, by = 60)) +
+  scale_y_continuous(expand = expansion()) +
+  labs(x = "Time since start of follow-up in days",
+       y = "Cumulative incidence") +
+  cowplot::theme_minimal_hgrid() +
+  geom_stepribbon(data = df_ribbon,
+                  mapping = aes(x = time, ymin = surv, ymax = surv2),
+                  fill = "gray80", alpha = 0.5)
 }
 \references{
 Conner SC, Trinquart L. Estimation and modeling of the restricted
 mean time lost in the presence of competing risks. Stat Med 2021;40:2177–96.
-https://doi.org/10.1002/sim.8896.
+\url{https://doi.org/10.1002/sim.8896}.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tables.R
 \name{rates}
 \alias{rates}
-\title{Event Counts, Person-Time, Incidence Rates, and Cumulative Incidence (Risk).}
+\title{Events, Person-Time, Incidence Rates, and Cumulative Incidence (Risk)}
 \usage{
 rates(
   data,
@@ -62,6 +62,10 @@ with log-log 95\% confidence intervals.
 Summary table of overall or stratified incidence rates
 and cumulative incidence.
 }
+\details{
+This function is not being developed further. All functionality has been
+implemented in \code{\link[khsmisc]{table2}}.
+}
 \examples{
 data(cancer, package = "survival")
 cancer <- cancer \%>\%
@@ -87,6 +91,6 @@ cancer \%>\%
 \references{
 Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:
 Rothman KJ, Greenland S, Lash TL. Modern Epidemiology, 3rd edition.
-Philadelpha, PA: Lippincott Williams & Wilkins. Page 242. (Poisson/large-sample
-approximation for variance of incidence rates)
+Philadelpha, PA: Lippincott Williams & Wilkins. Page 242.
+(Poisson/large-sample approximation for variance of incidence rates)
 }

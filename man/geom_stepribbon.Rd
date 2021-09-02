@@ -4,7 +4,7 @@
 \name{geom_stepribbon}
 \alias{geom_stepribbon}
 \alias{GeomStepribbon}
-\title{Step ribbon plots.}
+\title{Step ribbon plots}
 \usage{
 geom_stepribbon(
   mapping = NULL,
@@ -65,37 +65,21 @@ to the paired geom/stat.}
 }
 \description{
 \code{geom_stepribbon} is an extension of the \code{geom_ribbon}, and
-is optimized for Kaplan-Meier plots with pointwise confidence intervals
-or a confidence band.
+is optimized for survival function plots with pointwise confidence intervals
+or differences between survival curves, such as for
+\code{\link[khsmisc]{estimate_rmtl}}.
 }
 \examples{
 library(ggplot2)
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 h <- ggplot(huron, aes(year))
+# Step ribbon
 h + geom_stepribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
     geom_step(aes(y = level))
+
+# For comparison, simple ribbon
 h + geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
     geom_line(aes(y = level))
-
-# Draw shaded area between two Kaplan-Meier curves to visualize
-# an RMST difference, having drawn the plot via
-#   figure <- survminer::ggsurvplot(...)
-\dontrun{
-df_ribbon <- figure$plot$data \%>\%  # access plot data
-  select(time, surv, strata) \%>\%
-  pivot_wider(names_from = strata,
-              values_from = surv,
-              names_repair = ~c("time", "surv", "surv2")) \%>\%
-  filter(time < 10) \%>\%  # maximum time for RMST--edit here
-  arrange(time) \%>\%  # carry forward survival values per stratum
-  fill(surv) \%>\%
-  fill(surv2)
-
-figure$plot +
-  geom_stepribbon(data = df_ribbon,
-                  mapping = aes(x = time, ymin = surv, ymax = surv2),
-                  fill = "gray80", alpha = 0.5)
-}
 }
 \seealso{
 \code{\link[ggplot2]{geom_ribbon}}

@@ -289,6 +289,9 @@ mytabstyle <- function(mytab) {
 #' mtcars %>%
 #'   dplyr::slice(1:5) %>%
 #'   mygt()
+#'
+#' @section Example Output:
+#' \if{html}{\figure{mygt.png}{options: width=50\%}}
 mygt <- function(df, md = NULL) {
   df <- df %>%
     gt::gt() %>%
@@ -343,17 +346,26 @@ mygt <- function(df, md = NULL) {
 #' @examples
 #' data(mtcars)
 #'
-#' # Stratify by "gear":
+#' # Example 1: Stratify by "gear":
 #' \dontrun{
 #' mtcars %>%
 #'   table1(by = gear)
 #' }
 #'
-#' # Show only selected variables in rows:
+#' # Example 2: Show only selected variables in rows:
 #' \dontrun{
 #' mtcars %>%
 #'   table1(cyl, mpg, disp, by = gear)
 #' }
+#'
+#' @section Example Output:
+#' \if{html}{Example 1}
+#'
+#' \if{html}{\figure{table1a.png}{options: width=70\%}}
+#'
+#' \if{html}{Example 2}
+#'
+#' \if{html}{\figure{table1b.png}{options: width=70\%}}
 table1 <- function(data,
                    ...,
                    by        = NULL,
@@ -429,7 +441,10 @@ table1 <- function(data,
   }
 }
 
-#' Event Counts, Person-Time, Incidence Rates, and Cumulative Incidence (Risk).
+#' Events, Person-Time, Incidence Rates, and Cumulative Incidence (Risk)
+#'
+#' This function is not being developed further. All functionality has been
+#' implemented in \code{\link[khsmisc]{table2}}.
 #'
 #' @import survival dplyr tidyr purrr
 #' @importFrom stats qnorm
@@ -473,8 +488,8 @@ table1 <- function(data,
 #' @references
 #' Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:
 #' Rothman KJ, Greenland S, Lash TL. Modern Epidemiology, 3rd edition.
-#' Philadelpha, PA: Lippincott Williams & Wilkins. Page 242. (Poisson/large-sample
-#' approximation for variance of incidence rates)
+#' Philadelpha, PA: Lippincott Williams & Wilkins. Page 242.
+#' (Poisson/large-sample approximation for variance of incidence rates)
 #'
 #' @examples
 #' data(cancer, package = "survival")
