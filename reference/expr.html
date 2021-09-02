@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>khsmisc: Miscellaneous functions for epidemiology research — khsmisc • khsmisc</title>
+<title>expr function — expr • khsmisc</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,13 @@
 
 
 
-<meta property="og:title" content="khsmisc: Miscellaneous functions for epidemiology research — khsmisc" />
-<meta property="og:description" content="This package serves two purposes: (a) loading a set of core packages
-for epidemiology research and (b) providing a set of custom functions,
-which also build on the core packages." />
+<meta property="og:title" content="expr function — expr" />
+<meta property="og:description" content="These objects are imported from other packages. Follow the links
+below to see their documentation.
+
+  rlangexpr
+
+" />
 
 
 
@@ -116,78 +119,23 @@ which also build on the core packages." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>khsmisc: Miscellaneous functions for epidemiology research</h1>
-    <small class="dont-index">Source: <a href='https://github.com/stopsack/khsmisc/blob/master/R/khsmisc.R'><code>R/khsmisc.R</code></a></small>
-    <div class="hidden name"><code>khsmisc.Rd</code></div>
+    <h1>expr function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/stopsack/khsmisc/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
+    <div class="hidden name"><code>expr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This package serves two purposes: (a) loading a set of core packages
-for epidemiology research and (b) providing a set of custom functions,
-which also build on the core packages.</p>
+    <p>These objects are imported from other packages. Follow the links
+below to see their documentation.</p>
+<dl>
+  <dt>rlang</dt><dd><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>expr</a></code></p></dd>
+
+</dl>
     </div>
 
+    <pre class="usage"><span class='fu'>expr</span><span class='op'>(</span><span class='va'>expr</span><span class='op'>)</span></pre>
 
 
-    <h2 class="hasAnchor" id="automatically-loaded-core-packages"><a class="anchor" href="#automatically-loaded-core-packages"></a>Automatically loaded core packages</h2>
-
-    
-
-
-<p>This package loads a number of useful core packages for epidemiologic
-data handling as well as descriptive and inferential analyses.</p><ul>
-<li><p>Data handling: the whole universe of the <code><a href='https://tidyverse.tidyverse.org/reference/tidyverse-package.html'>tidyverse-package</a></code>;
-variable labels via <code><a href='https://haven.tidyverse.org/reference/labelled.html'>labelled</a></code>;
-reading Excel files via <code><a href='https://readxl.tidyverse.org/reference/readxl-package.html'>readxl-package</a></code>.</p></li>
-<li><p>Tables: formatted tables via <code><a href='https://gt.rstudio.com/reference/gt.html'>gt</a></code>;
-descriptive tables via <code><a href='http://www.danieldsjoberg.com/gtsummary//reference/gtsummary-package.html'>gtsummary-package</a></code>.</p></li>
-<li><p>Figures: <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code>;
-red/green blindness-proof color palettes via
-<code><a href='https://sjmgarnier.github.io/viridis/reference/scale_viridis.html'>scale_color_viridis</a></code>;
-arranging figure panels via cowplot (<code><a href='https://wilkelab.org/cowplot/reference/plot_grid.html'>plot_grid</a></code>).</p></li>
-<li><p>Analyses: time-to-event analyses using <code>survival</code>;
-accessing regression model results via <code><a href='https://broom.tidymodels.org/reference/broom.html'>broom</a></code>.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="functions-for-data-handling"><a class="anchor" href="#functions-for-data-handling"></a>Functions for data handling</h2>
-
-    
-
-
-<p><code><a href='varlist.html'>varlist</a></code>: Variable list/dataset inventory, Stata style</p>
-<p><code><a href='write_csv_safely.html'>write_csv_safely</a></code>, <code><a href='save_safely.html'>save_safely</a></code>,
-<code><a href='pdf_safely.html'>pdf_safely</a></code>:
-Export CSV files, R objects, or PDFs without overwriting existing files</p>
-    <h2 class="hasAnchor" id="functions-for-vectors"><a class="anchor" href="#functions-for-vectors"></a>Functions for vectors</h2>
-
-    
-
-
-<p><code><a href='scale_to_range.html'>scale_to_range</a></code>: Scale a vector to a given range</p>
-<p><code><a href='Mode.html'>Mode</a></code>: Most common value</p>
-<p><code><a href='roundp.html'>roundp</a></code>: Round and format p-values</p>
-    <h2 class="hasAnchor" id="functions-for-descriptive-tables"><a class="anchor" href="#functions-for-descriptive-tables"></a>Functions for descriptive tables</h2>
-
-    
-
-
-<p><code><a href='mytab.html'>mytab</a></code>: A contingency table for categorical variables</p>
-<p><code><a href='tsummary.html'>tsummary</a></code>: A descriptive table for continuous variables</p>
-<p><code><a href='mygt.html'>mygt</a></code>: Format and print any tibble as a 'gt' table</p>
-<p><code><a href='table1.html'>table1</a></code>: Formatted stratified descriptive tables using gtsummary</p>
-<p><code><a href='table2.html'>table2</a></code>: Stratified result tables</p>
-<p><code><a href='rates.html'>rates</a></code>: Event counts, person-time, incidence rates, and cumulative incidence</p>
-    <h2 class="hasAnchor" id="functions-for-plots"><a class="anchor" href="#functions-for-plots"></a>Functions for plots</h2>
-
-    
-
-
-<p><code><a href='stripplot.html'>stripplot</a></code>: Box-whiskers/dot plot</p>
-<p><code><a href='corrmat.html'>corrmat</a></code>: Correlation matrix</p>
-<p><code><a href='exclusion_flowchart.html'>exclusion_flowchart</a></code>: Flowcharts of exclusions from study</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='https://github.com/stopsack/khsmisc'>https://github.com/stopsack/khsmisc</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

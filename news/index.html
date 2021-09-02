@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -117,6 +117,33 @@
       <small>Source: <a href='https://github.com/stopsack/khsmisc/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="khsmisc-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#khsmisc-040" class="anchor"></a>khsmisc 0.4.0</h1>
+<ul>
+<li>
+<code><a href="../reference/make_exclusions.html">make_exclusions()</a></code>: New function for sequential exclusions to derive an analytical data set and prepare a flow chart for <code><a href="../reference/exclusion_flowchart.html">exclusion_flowchart()</a></code>.</li>
+<li>
+<code><a href="../reference/estimate_rmtl.html">estimate_rmtl()</a></code>: New function, reshaping code by Conner and Trinquart, that estimates restricted mean time lost, handling competing risks and weighting.</li>
+<li>
+<code><a href="../reference/survdiff_ci.html">survdiff_ci()</a></code>: New function for differences in <em>x</em>-year survival/cumulative incidence.</li>
+<li>
+<code><a href="../reference/table2.html">table2()</a></code>:
+<ul>
+<li>
+<strong>Breaking change</strong>: In the <code>design</code> matrix, digits for rounding can no longer be provided as part of <code>type</code>. Use separate column <code>digits</code> if needed.</li>
+<li>Add unstratified, descriptive tables without an <code>exposure</code> variable, as well as showing overall and stratified estimates in one table.</li>
+<li>Allow for custom estimation functions (<code>table2(custom = list(fun_a, fun_b)))</code> that can be called via, <em>e.g.</em>, <code>type = "custom1"</code>.</li>
+<li>Add more predefined <code>type</code> options: <code>medsurv</code> median survival, <code>medfu</code>/<code>maxfu</code> median/maximum follow-up, <code>surv</code>/<code>cuminc</code> survival and cumulative incidence from Kaplan-Meier, <code>rmtl</code> restricted mean time lost, <code>rmtdiff</code>/<code>survdiff</code>/<code>cumincdiff</code> difference in RMTL/survival/cumulative incidence, <code><a href="https://rdrr.io/r/base/mean.html">mean (sd)</a></code>/<code>sd</code> mean and standard deviation.</li>
+<li>If a regression model cannot provide estimates for a stratum, print <code>--</code>.</li>
+<li>Add argument <code>risk_digits</code> for rounding of risk/cumulative incidence.</li>
+<li>Fix <code>type = "median (iqr)"</code>: do not remove missing values, like elsewhere.</li>
+</ul>
+</li>
+<li>Add screenshots of formatted output to <code>man/figures/</code>.</li>
+<li>Require up-to-date gt, gtsummary dependencies.</li>
+</ul>
+</div>
     <div id="khsmisc-036" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.6">
 <a href="#khsmisc-036" class="anchor"></a>khsmisc 0.3.6</h1>

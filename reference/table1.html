@@ -78,7 +78,7 @@ Rounding of continuous values to one decimal digit by default.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -204,21 +204,30 @@ Passed on to <code><a href='http://www.danieldsjoberg.com/gtsummary//reference/t
     <p>Formatted table. Continuous variables are
 median (quartile 1, quartile 3); categorical variables are
 count (column percent).</p>
+    <h2 class="hasAnchor" id="example-output"><a class="anchor" href="#example-output"></a>Example Output</h2>
+
+    
+
+<p>Example 1</p>
+<p><img src='figures/table1a.png' width=70% /></p>
+<p>Example 2</p>
+<p><img src='figures/table1b.png' width=70% /></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
 
-<span class='co'># Stratify by "gear":</span>
+<span class='co'># Example 1: Stratify by "gear":</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'>table1</span><span class='op'>(</span>by <span class='op'>=</span> <span class='va'>gear</span><span class='op'>)</span>
 <span class='op'>}</span>
 
-<span class='co'># Show only selected variables in rows:</span>
+<span class='co'># Example 2: Show only selected variables in rows:</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'>table1</span><span class='op'>(</span><span class='va'>cyl</span>, <span class='va'>mpg</span>, <span class='va'>disp</span>, by <span class='op'>=</span> <span class='va'>gear</span><span class='op'>)</span>
 <span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

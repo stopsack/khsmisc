@@ -13,13 +13,22 @@
     <loc>https://stopsack.github.io/khsmisc/reference/corrmat.html</loc>
   </url>
   <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/estimate_rmtl.html</loc>
+  </url>
+  <url>
     <loc>https://stopsack.github.io/khsmisc/reference/exclusion_flowchart.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/expr.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/geom_stepribbon.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/khsmisc.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/make_exclusions.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/mygt.html</loc>
@@ -53,6 +62,9 @@
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/stripplot.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/survdiff_ci.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/table1.html</loc>

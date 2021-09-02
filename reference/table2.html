@@ -77,7 +77,7 @@ Model diagnostics for regression models need to be conducted separately." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -139,12 +139,15 @@ Model diagnostics for regression models need to be conducted separately.</p>
   layout <span class='op'>=</span> <span class='st'>"rows"</span>,
   factor <span class='op'>=</span> <span class='fl'>1000</span>,
   risk_percent <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  diff_digits <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>risk_percent</span> <span class='op'>==</span> <span class='cn'>TRUE</span>, true <span class='op'>=</span> <span class='fl'>0</span>, false <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+  risk_digits <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>risk_percent</span> <span class='op'>==</span> <span class='cn'>TRUE</span>, true <span class='op'>=</span> <span class='fl'>0</span>, false <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+  diff_digits <span class='op'>=</span> <span class='fl'>2</span>,
   ratio_digits <span class='op'>=</span> <span class='fl'>2</span>,
   rate_digits <span class='op'>=</span> <span class='fl'>1</span>,
   to <span class='op'>=</span> <span class='cn'>NULL</span>,
   type2_layout <span class='op'>=</span> <span class='st'>"rows"</span>,
-  prepare_md <span class='op'>=</span> <span class='cn'>TRUE</span>
+  prepare_md <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  custom <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overall <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -177,11 +180,16 @@ events per person-time by. Defaults to <code>1000</code>.</p></td>
 percentage points instead of proportions. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
+      <th>risk_digits</th>
+      <td><p>Optional. Number of decimal digits to show for risks/
+cumulative incidence. Defaults to <code>2</code> for <code>risk_percent = FALSE</code>
+and to <code>0</code> for <code>risk_percent = TRUE</code>. Can override for each line
+in <code>type</code>.</p></td>
+    </tr>
+    <tr>
       <th>diff_digits</th>
       <td><p>Optional. Number of decimal digits to show for
-rounding of means, risks, and risk difference estimates. Defaults to
-<code>2</code> for <code>risk_percent = FALSE</code> and to <code>0</code> for
-<code>risk_percent = TRUE</code>. Can override for each line in <code>type</code>.</p></td>
+rounding of means and mean difference estimates. Defaults to <code>2</code>.</p></td>
     </tr>
     <tr>
       <th>ratio_digits</th>
@@ -215,6 +223,32 @@ printing with markdown (<code><!-- %&gt;% gt:gt() %&gt;% -->
 This step will replace two spaces or a tab at the beginning of a
 <code>label</code> with HTML code for an indentation (<code>&amp;ensp;</code>).</p></td>
     </tr>
+    <tr>
+      <th>custom</th>
+      <td><p>Optional. Defaults to <code>NULL</code>. A custom function (or a
+<code><a href='https://rdrr.io/r/base/list.html'>list</a></code> of such functions), that can be called via
+<code>type = "custom"</code> (or <code>type = "custom2"</code>, for example).
+Must have at minimum the arguments <code>data</code> and
+<code>...</code>, i.e., be defined as <code>function(data, ...)</code>.
+Custom functions receive <code>table2</code>'s dataset <code>data</code>, where
+the exposure variable has been renamed to <code>.exposure</code>. All other
+variables are unchanged. All arguments of <code>table2</code> and the elements of
+the  <code>design</code> dataset are passed along as arguments to the custom
+function. Functions must return a data frame or tibble with as many rows as
+exposure levels and two columns: an exposure column, <code>.exposure</code>, and
+a result column per exposure level, <code>res</code>, of type <code>character</code>.
+All estimation steps need to be done by the custom function, such as
+subsetting to the <code>stratum</code> of the <code>effect_modifier</code> or rounding of
+numeric estimates, as applicable. See examples.</p></td>
+    </tr>
+    <tr>
+      <th>overall</th>
+      <td><p>Optional. Defaults to <code>FALSE</code>. Add a first column with
+unstratified estimates to an exposure-stratified table? Elements will be
+shown only for absolute estimates (e.g., <code>type = "mean"</code>) and blank
+for comparatible estimates (e.g., mean difference via
+<code>type = "diff"</code>).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -224,10 +258,18 @@ This step will replace two spaces or a tab at the beginning of a
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The main input parameter is the dataset <code>design</code>.
-Always required are the columns <code>label</code>, <code>type</code>, and
-<code>exposure</code>, as well as <code>outcome</code> for binary outcomes
-or <code>time</code> and <code>event</code> for survival outcomes:</p><ul>
-<li><p><code>label</code> A label for each row (or column).</p></li>
+Always required are the column <code>type</code> (the type of requested
+statistic, see below), as well as <code>outcome</code> for binary outcomes or
+<code>time</code> and <code>event</code> for survival outcomes:</p><ul>
+<li><p><code>label</code> A label for each row (or column). If missing, <code>type</code>
+will be used as the label.</p></li>
+<li><p><code>exposure</code> Optional. The exposure variable. Must be categorical
+(factor or logical). If missing (<code>NA</code>), then an unstratified
+table with absolute estimates only will be returned.</p></li>
+<li><p><code>outcome</code> The outcome variable for non-survival data
+(i.e., whenever <code>event</code> and <code>time</code> are not used).
+For risk/prevalence data, this variable must be <code>0</code>/<code>1</code>
+or <code>FALSE</code>/<code>TRUE</code>.</p></li>
 <li><p><code>time</code> The time variable for survival data. Needed for,
 e.g., <code>type = "hr"</code> and <code>type = "rate"</code>
 (i.e., whenever <code>outcome</code> is not used).</p></li>
@@ -240,12 +282,6 @@ the exit time, following conventions of
 Events are typically <code>1</code>, censored observations <code>0</code>.
 Needed for, e.g., <code>type = "hr"</code> and <code>type = "rate"</code>
 (i.e., whenever <code>outcome</code> is not used).</p></li>
-<li><p><code>outcome</code> The outcome variable for non-survival data
-(i.e., whenever <code>event</code> and <code>time</code> are not used).
-For risk/prevalence data, this variable must be <code>0</code>/<code>1</code>
-or <code>FALSE</code>/<code>TRUE</code>.</p></li>
-<li><p><code>exposure</code> The exposure variable. Must be categorical
-(factor or logical).</p></li>
 <li><p><code>trend</code> Optional. For regression models, a continuous
 representation of the exposure, for which a slope per one unit
 increase ("trend") will be estimated. Must be a numeric variable.
@@ -264,10 +300,11 @@ Use <code>NA</code> or <code>""</code> (empty string) to leave blank; the defaul
 For Cox models, can add <code>"+ strata(site)"</code>
 to obtain models with stratification by, e.g., <code>site</code>.
 For Poisson models, can add <code>"+ offset(log(persontime))"</code>
-to define, e.g., <code>persontime</code> as the offset.</p></li>
+to define, e.g., <code>persontime</code> as the offset.
+For differences in restricted mean time lost (<code>rmtdiff</code>) with
+weighting, provide a single variable name with user-defined weights.</p></li>
 <li><p><code>type</code> The statistic requested (case-insensitive):</p>
-<p>Comparative estimates from regression models
-with 95% confidence intervals:</p><ul>
+<p>Comparative estimates with 95% confidence intervals:</p><ul>
 <li><p><code>"hr"</code> Hazard ratio from Cox proportional
 hazards regression.</p></li>
 <li><p><code>"irr"</code> Incidence rate ratio for count outcomes
@@ -276,23 +313,36 @@ from Poisson regression model.</p></li>
 from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskratio</a></code>. Can request specific model
 fitting  approach and, for marginal
 standardization only, the number of bootstrap repeats.
-Examples: <code>"rrglm_start"</code> or <code>"rrmargstd2000"</code>.
-(Note absence of white space.)</p></li>
+Examples: <code>"rrglm_start"</code> or <code>"rrmargstd 2000"</code>.</p></li>
 <li><p><code>"rd"</code> Risk difference (or prevalence difference)
-from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskdiff</a></code>. Can request model fitting approach
-and bootstrap repeats as for <code>"rr"</code>.</p></li>
+from <code><a href='https://stopsack.github.io/risks/reference/riskratio.html'>riskdiff</a></code>. Can request model fitting
+approach and bootstrap repeats as for <code>"rr"</code>.</p></li>
 <li><p><code>"diff"</code> Mean difference from linear model.</p></li>
 <li><p><code>"quantreg"</code> Quantile difference from quantile regression using
 <code><a href='https://rdrr.io/pkg/quantreg/man/rq.html'>rq</a></code> with <code>method = "fn"</code>.
 By default, this is the difference in medians. For a different
-quantile, e.g., the 75th percentile, use <code>"quantreg0.75"</code>.
-Note absence of white space before the quantile.</p></li>
+quantile, e.g., the 75th percentile, use <code>"quantreg 0.75"</code>.</p></li>
 <li><p><code>"fold"</code> Fold change from generalized linear
 model with log link (i.e., ratio of arithmetic means).</p></li>
 <li><p><code>"foldlog"</code> Fold change from linear
 model after log transformation of the outcome
 (i.e., ratio of geometric means).</p></li>
 <li><p><code>"or"</code> Odds ratio from logistic regression.</p></li>
+<li><p><code>"rmtdiff"</code> Difference in restricted mean time lost. Provide
+time horizon, e.g., <code>"rmtdiff 2.5"</code> to evaluate differences in
+restricted mean time lost over the first 2.5 years of follow up.
+The first non-censoring event will be taken as the outcome.
+See <code>confounders</code> for how to provide weights. Uses
+<code><a href='estimate_rmtl.html'>estimate_rmtl</a></code>.</p></li>
+<li><p><code>"survdiff"</code> Difference in survival from Kaplan-Meier estimator.
+Provide time horizon, e.g., <code>"survdiff 2.5"</code> to evaluate
+differences in survival at 2.5 years. Cannot not handle confounders.
+Uses <code><a href='survdiff_ci.html'>survdiff_ci</a></code>.</p></li>
+<li><p><code>"survdiff"</code> Difference in cumulative incidence from
+Kaplan-Meier estimator. Provide time horizon, e.g.,
+<code>"cumincdiff 2.5"</code> to evaluate differences in cumulative
+incidence at 2.5 years. Cannot not handle confounders.
+Uses <code><a href='survdiff_ci.html'>survdiff_ci</a></code>.</p></li>
 </ul>
 
 <p>Absolute estimates per exposure category:</p><ul>
@@ -302,14 +352,35 @@ model after log transformation of the outcome
 <li><p><code>"total"</code> Number of observations.</p></li>
 <li><p><code>"events/time"</code> Events slash person-time.</p></li>
 <li><p><code>"events/total"</code> Events slash number of observations.</p></li>
-<li><p><code>"cases/controls"</code> Cases and non-cases;
-for case-control studies.</p></li>
-<li><p><code>"risk"</code> Risk (or prevalence), i.e., events divided
-by number of observations. Change between display as proportion
-or percent using the parameter <code>risk_percent</code>.</p></li>
+<li><p><code>"cases/controls"</code> Cases and non-cases (events and non-events);
+useful for case-control studies.</p></li>
+<li><p><code>"risk"</code> Risk (or prevalence), calculated as a proportion,
+i.e., outcomes divided by number of observations. Change between
+display as proportion or percent using the parameter
+<code>risk_percent</code>.</p></li>
 <li><p><code>"risk (ci)"</code> Risk with 95% confidence interval
 (Wilson score interval for binomial proportions, see
 <code><a href='scoreci.html'>scoreci</a></code>).</p></li>
+<li><p><code>"cuminc"</code> Cumulative incidence ("risk") from the Kaplan-Meier
+estimator. Provide time point (e.g., 1.5-year cumulative incidence)
+using <code>"cuminc 1.5"</code>. If not time point is provided, returns
+cumulative incidence at end of follow-up. Change between display as
+proportion or percent using the parameter <code>risk_percent</code>.</p></li>
+<li><p><code>"cuminc (ci)"</code> Cumulative incidence ("risk") from the
+Kaplan-Meier estimator with 95% confidence intervals (Greenwood
+standard errors with log transformation, the
+default of the survival package/<code><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></code>).
+Provide time point as in <code>"cuminc"</code>.</p></li>
+<li><p><code>"surv"</code> Survival from the Kaplan-Meier
+estimator. Provide time point (e.g., 1.5-year survival)
+using <code>"surv 1.5"</code>. If not time point is provided, returns
+survival at end of follow-up. Change between display as
+proportion or percent using the parameter <code>risk_percent</code>.</p></li>
+<li><p><code>"surv (ci)"</code> Survival from the
+Kaplan-Meier estimator with 95% confidence interval (Greenwood
+standard errors with log transformation, the
+default of the survival package/<code><a href='https://rdrr.io/pkg/survival/man/survfit.html'>survfit</a></code>).
+Provide time point as in <code>"surv"</code>.</p></li>
 <li><p><code>"rate"</code> Event rate: event count divided by person-time,
 multiplied by <code>factor</code>.</p></li>
 <li><p><code>"rate (ci)"</code> Event rate with 95% confidence interval
@@ -320,35 +391,77 @@ followed by risk in parentheses.</p></li>
 followed by risk in parentheses.</p></li>
 <li><p><code>"events/time (rate)"</code> A combination: Events slash time
 followed by rate in parentheses.</p></li>
+<li><p><code>"medsurv"</code> Median survival.</p></li>
+<li><p><code>"medsurv (ci)"</code> Median survival with 95% confidence interval.</p></li>
+<li><p><code>"medfu"</code> Median follow-up (reverse Kaplan-Meier), equals median
+survival for censoring.</p></li>
+<li><p><code>"medfu (iqr)"</code> Median and interquartile range for follow-up.</p></li>
+<li><p><code>"maxfu"</code> Maximum follow-up time.</p></li>
+<li><p><code>"rmtl"</code> Restricted mean time lost. Provide
+time horizon, e.g., <code>"rmtl 2.5"</code> to evaluate restricted mean
+time lost over the first 2.5 years of follow up.
+The first non-censoring event will be taken as the outcome.
+See <code>confounders</code> for how to provide weights. Uses
+<code><a href='estimate_rmtl.html'>estimate_rmtl</a></code>.</p></li>
 <li><p><code>"mean"</code> Mean.</p></li>
 <li><p><code>"mean (ci)"</code> Mean and 95% CI.</p></li>
+<li><p><code>"mean (sd)"</code> Mean and standard deviation.</p></li>
 <li><p><code>"median"</code> Median.</p></li>
 <li><p><code>"median (iqr)"</code> Median and interquartile range.</p></li>
+<li><p><code>"custom"</code> A custom function, provided to <code>table2</code> through
+the argument <code>custom</code>. See there for details.
+If a list of multiple functions is provided, use <code>"custom1"</code>
+through <code>"custom99"</code> to select one function.</p></li>
 <li><p><code>"blank"</code> or <code>""</code> An empty line.</p></li>
 </ul>
 
 <p>By default, regression models will be fit separately for each
 stratum of the <code>effect_modifier</code>. Append <code>"_joint"</code>
 to <code>"hr"</code>, <code>"rr"</code>, <code>"rd"</code>, <code>"irr"</code>, <code>"diff"</code>,
-<code>"fold"</code>, <code>"foldlog"</code>, <code>"quantreg"</code>, or <code>"or"</code> to
+<code>"fold"</code>, <code>"foldlog"</code>, <code>"quantreg"</code>, <code>"or"</code>, or
+<code>"rmtdiff"</code> to
 obtain "joint" models for exposure and effect modifier that have a
 single reference category.
 Example: <code>type = "hr_joint"</code>. The reference categories
 for exposure and effect modifier are their first factor levels, which
-can be changed using <code><a href='https://forcats.tidyverse.org/reference/fct_relevel.html'>fct_relevel</a></code>.</p>
-<p>Digits for rounding estimates can be specified for each line separately.
-Example: <code>type = "diff (ci) 3"</code> to request a mean difference
-and its 95% CI rounded to 3 decimal digits (note the space before
-<code>3</code>).</p></li>
+can be changed using <code><a href='https://forcats.tidyverse.org/reference/fct_relevel.html'>fct_relevel</a></code>.</p></li>
+<li><p><code>type2</code> Optional. A second statistic that is added in an adjacent
+row or column (global option <code>type2_layout</code> defaults to <code>"row"</code>
+and can alternatively be set to <code>"column"</code>). For example, use
+<code>type = "events/times", type2 = "hr"</code> to get both event
+counts/person-time and hazard ratios for the same data, exposure,
+stratum, confounders, and outcome.</p></li>
+<li><p><code>digits</code> Optional. The number of digits for rounding an individual
+line. Defaults to <code>NA</code>, where the number of
+digits will be determined based on <code>table2</code>'s arguments
+<code>risk_percent</code>, <code>risk_digits</code>, <code>diff_digits</code>,
+<code>ratio_digits</code>, or <code>rate_digits</code>, as applicable.</p></li>
+<li><p><code>digits2</code> Optional. As <code>digits</code>, for the second
+estimate (<code>type2</code>).</p></li>
 </ul>
 
-<p>Hint: Use <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code>, and
+<p>Use <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, <code><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></code>, and
 <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></code> to construct the <code>design</code> dataset,
 especially variables that are used repeatedly (e.g., <code>exposure, time,
-  event</code>, or <code>outcome</code>). See examples.</p>
+event</code>, or <code>outcome</code>). See examples.</p>
+<p>If regression models cannot provide estimates in a stratum, e.g.,
+because there are no events, then <code>"--"</code> will be printed. Accompanying
+warnings need to be suppressed manually, if appropriate, using
+<code><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings(table2(...))</a></code>.</p>
+    <h2 class="hasAnchor" id="example-output-see-example-"><a class="anchor" href="#example-output-see-example-"></a>Example Output (see Example 5)</h2>
+
+    
+
+<p><img src='figures/table2.png' width=70% /></p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:
+Rothman KJ, Greenland S, Lash TL. Modern Epidemiology, 3rd edition.
+Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
+(Poisson/large-sample approximation for variance of incidence rates)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load 'cancer' dataset from survival package</span>
+    <pre class="examples"><div class='input'><span class='co'># Load 'cancer' dataset from survival package (Used in all examples)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>cancer</span>, package <span class='op'>=</span> <span class='st'>"survival"</span><span class='op'>)</span>
 
 <span class='co'># The exposure (here, 'sex') must be categorical</span>
@@ -358,6 +471,7 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
                              labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Men"</span>, <span class='st'>"Women"</span><span class='op'>)</span><span class='op'>)</span>,
                 time <span class='op'>=</span> <span class='va'>time</span> <span class='op'>/</span> <span class='fl'>365.25</span>,
                 status <span class='op'>=</span> <span class='va'>status</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>
+
 
 <span class='co'># Example 1: Binary outcomes (use 'outcome' variable)</span>
 <span class='co'># Set table design</span>
@@ -399,19 +513,22 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 
 #&gt; <span style='color: #BCBCBC;'>1</span> Men   1 (reference)    0 (reference)         
 #&gt; <span style='color: #BCBCBC;'>2</span> Women 0.73 (0.60-0.88) -0.22 (-0.34 to -0.10)</div><div class='input'>
+
 <span class='co'># Example 2: Survival outcomes (use 'time' and 'event'),</span>
 <span class='co'>#   with an effect modifier and a confounder</span>
 <span class='co'># Set table design</span>
 <span class='va'>design2</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
   <span class='co'># Elements that vary by row:</span>
   <span class='op'>~</span><span class='va'>label</span>,                       <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>confounders</span>, <span class='op'>~</span><span class='va'>type</span>,
-  <span class='st'>"**Overall: Events**"</span>,        <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"events"</span>,
+  <span class='st'>"**Overall**"</span>,                <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
+  <span class='st'>"  Events"</span>,                   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"events"</span>,
   <span class='st'>"  Person-years"</span>,             <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"time"</span>,
   <span class='st'>"  Rate/1000 py (95% CI)"</span>,    <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"rate (ci)"</span>,
   <span class='st'>"  Unadjusted HR (95% CI)"</span>,   <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"hr"</span>,
   <span class='st'>"  Age-adjusted HR (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
+  <span class='st'>"  2-year restricted mean time lost"</span>, <span class='cn'>NULL</span>, <span class='st'>""</span>,       <span class='st'>"rmtl2"</span>,
   <span class='st'>""</span>,                           <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
-  <span class='st'>"**Stratified models**"</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>"blank"</span>,
+  <span class='st'>"**Stratified models**"</span>,      <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='st'>""</span>,
   <span class='st'>"*ECOG PS1* (events/N)"</span>,      <span class='fl'>1</span>,        <span class='st'>""</span>,           <span class='st'>"events/total"</span>,
   <span class='st'>"  Unadjusted"</span>,               <span class='fl'>1</span>,        <span class='st'>""</span>,           <span class='st'>"hr"</span>,
   <span class='st'>"  Age-adjusted"</span>,             <span class='fl'>1</span>,        <span class='st'>"+ age"</span>,      <span class='st'>"hr"</span>,
@@ -431,26 +548,29 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
 <span class='co'># Generate table2</span>
 <span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design2</span>,
        data <span class='op'>=</span> <span class='va'>cancer</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ph.ecog</span> <span class='op'>%in%</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 17 × 3</span>
-#&gt;    sex                              Men                     Women               
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               
-#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>"</span>**Overall: Events**<span style='color: #949494;'>"</span>            <span style='color: #949494;'>"</span>82<span style='color: #949494;'>"</span>                    <span style='color: #949494;'>"</span>44<span style='color: #949494;'>"</span>                
-#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>"</span>&amp;ensp;Person-years<span style='color: #949494;'>"</span>             <span style='color: #949494;'>"</span>70<span style='color: #949494;'>"</span>                    <span style='color: #949494;'>"</span>59<span style='color: #949494;'>"</span>                
-#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>"</span>&amp;ensp;Rate/1000 py (95% CI)<span style='color: #949494;'>"</span>    <span style='color: #949494;'>"</span>1164.8 (938.1-1446.3)<span style='color: #949494;'>"</span> <span style='color: #949494;'>"</span>746.7 (555.7-1003.…
-#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted HR (95% CI)<span style='color: #949494;'>"</span>   <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.60 (0.41-0.86)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted HR (95% CI)<span style='color: #949494;'>"</span> <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.60 (0.41-0.86)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>""</span>                               <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>                  
-#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>"</span>**Stratified models**<span style='color: #949494;'>"</span>          <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>                  
-#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>"</span>*ECOG PS1* (events/N)<span style='color: #949494;'>"</span>          <span style='color: #949494;'>"</span>54/71<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>28/42<span style='color: #949494;'>"</span>             
-#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted<span style='color: #949494;'>"</span>               <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.53 (0.33-0.85)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted<span style='color: #949494;'>"</span>             <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.53 (0.33-0.85)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>"</span>*ECOG PS2* (events/N)<span style='color: #949494;'>"</span>          <span style='color: #949494;'>"</span>28/29<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>16/21<span style='color: #949494;'>"</span>             
-#&gt; <span style='color: #BCBCBC;'>12</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted<span style='color: #949494;'>"</span>               <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.70 (0.37-1.30)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'>13</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted<span style='color: #949494;'>"</span>             <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.68 (0.34-1.36)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'>14</span> <span style='color: #949494;'>""</span>                               <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>                  
-#&gt; <span style='color: #BCBCBC;'>15</span> <span style='color: #949494;'>"</span>**Joint model**, age-adj.<span style='color: #949494;'>"</span>      <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>                  
-#&gt; <span style='color: #BCBCBC;'>16</span> <span style='color: #949494;'>"</span>&amp;ensp;ECOG PS1<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.55 (0.35-0.88)<span style='color: #949494;'>"</span>  
-#&gt; <span style='color: #BCBCBC;'>17</span> <span style='color: #949494;'>"</span>&amp;ensp;ECOG PS2<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>1.54 (0.98-2.44)<span style='color: #949494;'>"</span>      <span style='color: #949494;'>"</span>1.10 (0.62-1.98)<span style='color: #949494;'>"</span>  </div><div class='input'>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 19 × 3</span>
+#&gt;    sex                                      Men                     Women       
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>"</span>**Overall**<span style='color: #949494;'>"</span>                            <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>          
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>"</span>&amp;ensp;Events<span style='color: #949494;'>"</span>                           <span style='color: #949494;'>"</span>82<span style='color: #949494;'>"</span>                    <span style='color: #949494;'>"</span>44<span style='color: #949494;'>"</span>        
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>"</span>&amp;ensp;Person-years<span style='color: #949494;'>"</span>                     <span style='color: #949494;'>"</span>70<span style='color: #949494;'>"</span>                    <span style='color: #949494;'>"</span>59<span style='color: #949494;'>"</span>        
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>"</span>&amp;ensp;Rate/1000 py (95% CI)<span style='color: #949494;'>"</span>            <span style='color: #949494;'>"</span>1164.8 (938.1-1446.3)<span style='color: #949494;'>"</span> <span style='color: #949494;'>"</span>746.7 (555…
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted HR (95% CI)<span style='color: #949494;'>"</span>           <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.60 (0.41…
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted HR (95% CI)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.60 (0.41…
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>"</span>&amp;ensp;2-year restricted mean time lost<span style='color: #949494;'>"</span> <span style='color: #949494;'>"</span>1.21<span style='color: #949494;'>"</span>                  <span style='color: #949494;'>"</span>0.89<span style='color: #949494;'>"</span>      
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>""</span>                                       <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>          
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>"</span>**Stratified models**<span style='color: #949494;'>"</span>                  <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>          
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>"</span>*ECOG PS1* (events/N)<span style='color: #949494;'>"</span>                  <span style='color: #949494;'>"</span>54/71<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>28/42<span style='color: #949494;'>"</span>     
+#&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted<span style='color: #949494;'>"</span>                       <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.53 (0.33…
+#&gt; <span style='color: #BCBCBC;'>12</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted<span style='color: #949494;'>"</span>                     <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.53 (0.33…
+#&gt; <span style='color: #BCBCBC;'>13</span> <span style='color: #949494;'>"</span>*ECOG PS2* (events/N)<span style='color: #949494;'>"</span>                  <span style='color: #949494;'>"</span>28/29<span style='color: #949494;'>"</span>                 <span style='color: #949494;'>"</span>16/21<span style='color: #949494;'>"</span>     
+#&gt; <span style='color: #BCBCBC;'>14</span> <span style='color: #949494;'>"</span>&amp;ensp;Unadjusted<span style='color: #949494;'>"</span>                       <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.70 (0.37…
+#&gt; <span style='color: #BCBCBC;'>15</span> <span style='color: #949494;'>"</span>&amp;ensp;Age-adjusted<span style='color: #949494;'>"</span>                     <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.68 (0.34…
+#&gt; <span style='color: #BCBCBC;'>16</span> <span style='color: #949494;'>""</span>                                       <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>          
+#&gt; <span style='color: #BCBCBC;'>17</span> <span style='color: #949494;'>"</span>**Joint model**, age-adj.<span style='color: #949494;'>"</span>              <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>          
+#&gt; <span style='color: #BCBCBC;'>18</span> <span style='color: #949494;'>"</span>&amp;ensp;ECOG PS1<span style='color: #949494;'>"</span>                         <span style='color: #949494;'>"</span>1 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>0.55 (0.35…
+#&gt; <span style='color: #BCBCBC;'>19</span> <span style='color: #949494;'>"</span>&amp;ensp;ECOG PS2<span style='color: #949494;'>"</span>                         <span style='color: #949494;'>"</span>1.54 (0.98-2.44)<span style='color: #949494;'>"</span>      <span style='color: #949494;'>"</span>1.10 (0.62…</div><div class='input'>
+
 <span class='co'># Example 3: Get two estimates using 'type' and 'type2'</span>
 <span class='va'>design3</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
   <span class='op'>~</span><span class='va'>label</span>,     <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>type</span>,          <span class='op'>~</span><span class='va'>type2</span>,
@@ -484,18 +604,18 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
 <span class='co'># request rounding to 1 decimal digit in some cases;</span>
 <span class='co'># add continuous trend (slope per one unit of the 'trend' variable)</span>
 <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-  <span class='op'>~</span><span class='va'>label</span>,                   <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>type</span>,
-  <span class='st'>"Marginal mean (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"mean (ci) 1"</span>,
-  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"mean"</span>,
-  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"mean"</span>,
-  <span class='st'>""</span>,                       <span class='cn'>NULL</span>,     <span class='st'>""</span>,
-  <span class='st'>"Stratified model"</span>,       <span class='cn'>NULL</span>,     <span class='st'>""</span>,
-  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"diff 1"</span>,
-  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"diff 1"</span>,
-  <span class='st'>""</span>,                       <span class='cn'>NULL</span>,     <span class='st'>""</span>,
-  <span class='st'>"Joint model"</span>,            <span class='cn'>NULL</span>,     <span class='st'>""</span>,
-  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"diff_joint"</span>,
-  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"diff_joint"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='op'>~</span><span class='va'>label</span>,                   <span class='op'>~</span><span class='va'>stratum</span>, <span class='op'>~</span><span class='va'>type</span>,        <span class='op'>~</span><span class='va'>digits</span>,
+  <span class='st'>"Marginal mean (95% CI)"</span>, <span class='cn'>NULL</span>,     <span class='st'>"mean (ci)"</span>,  <span class='fl'>1</span>,
+  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"mean"</span>,       <span class='cn'>NA</span>,
+  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"mean"</span>,       <span class='cn'>NA</span>,
+  <span class='st'>""</span>,                       <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='cn'>NA</span>,
+  <span class='st'>"Stratified model"</span>,       <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='cn'>NA</span>,
+  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"diff"</span>,       <span class='fl'>1</span>,
+  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"diff"</span>,       <span class='fl'>1</span>,
+  <span class='st'>""</span>,                       <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='cn'>NA</span>,
+  <span class='st'>"Joint model"</span>,            <span class='cn'>NULL</span>,     <span class='st'>""</span>,           <span class='cn'>NA</span>,
+  <span class='st'>"  Men"</span>,                  <span class='st'>"Men"</span>,    <span class='st'>"diff_joint"</span>, <span class='cn'>NA</span>,
+  <span class='st'>"  Women"</span>,                <span class='st'>"Women"</span>,  <span class='st'>"diff_joint"</span>, <span class='cn'>NA</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>exposure <span class='op'>=</span> <span class='st'>"ph.ecog_factor"</span>,
                 trend <span class='op'>=</span> <span class='st'>"ph.ecog"</span>,
                 outcome <span class='op'>=</span> <span class='st'>"age"</span>,
@@ -517,12 +637,55 @@ especially variables that are used repeatedly (e.g., <code>exposure, time,
 #&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>"</span>Joint model<span style='color: #949494;'>"</span>            <span style='color: #949494;'>""</span>                      <span style='color: #949494;'>""</span>        <span style='color: #949494;'>""</span>        <span style='color: #949494;'>""</span>      
 #&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>"</span>&amp;ensp;Men<span style='color: #949494;'>"</span>              <span style='color: #949494;'>"</span>0 (reference)<span style='color: #949494;'>"</span>         <span style='color: #949494;'>"</span>-0.21 (… <span style='color: #949494;'>"</span>2.00 (-… <span style='color: #949494;'>"</span>0.93 (…
 #&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>"</span>&amp;ensp;Women<span style='color: #949494;'>"</span>            <span style='color: #949494;'>"</span>-4.30 (-8.70 to 0.11)<span style='color: #949494;'>"</span> <span style='color: #949494;'>"</span>-3.81 (… <span style='color: #949494;'>"</span>4.90 (0… <span style='color: #949494;'>"</span>4.36 (…</div><div class='input'>
+
 <span class='co'># Example 5: Get formatted output for Example 2 (see above)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>table2</span><span class='op'>(</span>design <span class='op'>=</span> <span class='va'>design2</span>,
        data <span class='op'>=</span> <span class='va'>cancer</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>ph.ecog</span> <span class='op'>%in%</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='mygt.html'>mygt</a></span><span class='op'>(</span>md <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>  <span class='co'># get markdown formatting in first column ('label')</span>
 <span class='op'>}</span>
+
+
+<span class='co'># Example 6: Using custom functions and adding an</span>
+<span class='co'># overall unstratified estimate</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>  <span class='co'># for easier data handling</span>
+
+<span class='co'># Define first, very rudimentary function</span>
+<span class='va'>my_custom_fun1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>data</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>.exposure</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='co'># Directly referencing the variable 'status'--not portable</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"mean ="</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>status</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Define second, improved function</span>
+<span class='va'>my_custom_fun2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>outcome</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='co'># 'outcome', like all columns of the 'design' matrix, is one argument</span>
+  <span class='co'># that is passed along to custom functions</span>
+  <span class='va'>data</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>.exposure</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='co'># This improved function will work in other data sets</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>.exposure</span>, variable <span class='op'>=</span> <span class='op'>{</span><span class='op'>{</span> <span class='va'>outcome</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>variable</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>label</span>,                         <span class='op'>~</span><span class='va'>type</span>,
+  <span class='st'>"Mean (SD), built-in function"</span>, <span class='st'>"mean (sd)"</span>,
+  <span class='st'>"Mean: 1st custom function"</span>,    <span class='st'>"custom1"</span>,
+  <span class='st'>"Mean: 2nd custom function"</span>,    <span class='st'>"custom2"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>exposure <span class='op'>=</span> <span class='st'>"sex"</span>,
+         outcome <span class='op'>=</span> <span class='st'>"status"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>table2</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>cancer</span>,
+         custom <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>my_custom_fun1</span>, <span class='va'>my_custom_fun2</span><span class='op'>)</span>,
+         overall <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 4</span>
+#&gt;   Summary                      Overall                  Men          Women      
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      
+#&gt; <span style='color: #BCBCBC;'>1</span> Mean (SD), built-in function 0.72 (0.45)              0.81 (0.39)  0.59 (0.49)
+#&gt; <span style='color: #BCBCBC;'>2</span> Mean: 1st custom function    mean = 0.723684210526316 mean = 0.81… mean = 0.5…
+#&gt; <span style='color: #BCBCBC;'>3</span> Mean: 2nd custom function    0.724                    0.812        0.589      </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

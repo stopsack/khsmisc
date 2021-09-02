@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Event Counts, Person-Time, Incidence Rates, and Cumulative Incidence (Risk). — rates • khsmisc</title>
+<title>Events, Person-Time, Incidence Rates, and Cumulative Incidence (Risk) — rates • khsmisc</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Event Counts, Person-Time, Incidence Rates, and Cumulative Incidence (Risk). — rates" />
+<meta property="og:title" content="Events, Person-Time, Incidence Rates, and Cumulative Incidence (Risk) — rates" />
 <meta property="og:description" content="Summary table of overall or stratified incidence rates
 and cumulative incidence." />
 
@@ -73,7 +73,7 @@ and cumulative incidence." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ and cumulative incidence." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Event Counts, Person-Time, Incidence Rates, and Cumulative Incidence (Risk).</h1>
+    <h1>Events, Person-Time, Incidence Rates, and Cumulative Incidence (Risk)</h1>
     <small class="dont-index">Source: <a href='https://github.com/stopsack/khsmisc/blob/master/R/tables.R'><code>R/tables.R</code></a></small>
     <div class="hidden name"><code>rates.Rd</code></div>
     </div>
@@ -201,12 +201,16 @@ e.g., for rates per 1000 person-years of follow-up.</p></td>
 with log-log 95% confidence intervals.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is not being developed further. All functionality has been
+implemented in <code><a href='table2.html'>table2</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Greenland S, Rothman KJ (2008). Introduction to Categorical Statistics. In:
 Rothman KJ, Greenland S, Lash TL. Modern Epidemiology, 3rd edition.
-Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242. (Poisson/large-sample
-approximation for variance of incidence rates)</p>
+Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
+(Poisson/large-sample approximation for variance of incidence rates)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>cancer</span>, package <span class='op'>=</span> <span class='st'>"survival"</span><span class='op'>)</span>

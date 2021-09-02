@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -83,20 +83,21 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The khsmisc package can be installed from <a href="https://github.com/stopsack/khsmisc">GitHub</a>. A CRAN submission is not planned.</p>
+<p>The khsmisc package can be installed or updated from <a href="https://github.com/stopsack/khsmisc">GitHub</a>. A CRAN submission is not planned. If the remotes library is missing, install it first (<code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("remotes")</a></code>).</p>
+<p>Install or update the khsmisc package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># if "remotes" library is missing, install it first:</span>
-<span class="co">#   install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="functions-for-epidemiology-research" class="section level2">
 <h2 class="hasAnchor">
 <a href="#functions-for-epidemiology-research" class="anchor"></a>Functions for Epidemiology Research</h2>
 <ul>
 <li>
-<strong>Data handling:</strong> <code><a href="reference/varlist.html">varlist()</a></code> for variable list/dataset inventory, Stata style; <code><a href="reference/write_csv_safely.html">write_csv_safely()</a></code>, <code><a href="reference/save_safely.html">save_safely()</a></code>, <code><a href="reference/saveRDS_safely.html">saveRDS_safely()</a></code>, and <code><a href="reference/pdf_safely.html">pdf_safely()</a></code> to export CSV files, R objects, or PDFs without overwriting existing files.</li>
+<strong>Data handling:</strong> <code><a href="reference/varlist.html">varlist()</a></code> for variable list/dataset inventory, Stata style; <code><a href="reference/write_csv_safely.html">write_csv_safely()</a></code>, <code><a href="reference/save_safely.html">save_safely()</a></code>, <code><a href="reference/saveRDS_safely.html">saveRDS_safely()</a></code>, and <code><a href="reference/pdf_safely.html">pdf_safely()</a></code> to export CSV files, R objects, or PDFs without overwriting existing files; and <code><a href="reference/make_exclusions.html">make_exclusions()</a></code> to perform sequential exclusions when generating an analytical dataset.</li>
 <li>
-<strong>Functions for vectors:</strong> <code><a href="reference/scale_to_range.html">scale_to_range()</a></code> to scale a vector to a given range; <code><a href="reference/Mode.html">Mode()</a></code> to obtain the most common value; <code><a href="reference/roundp.html">roundp()</a></code> to round and format <em>p</em>-values; <code><a href="reference/scoreci.html">scoreci()</a></code> for Wilson confidence intervals for proportions.</li>
+<strong>Functions for vectors:</strong> <code><a href="reference/scale_to_range.html">scale_to_range()</a></code> to scale a vector to a given range; <code><a href="reference/Mode.html">Mode()</a></code> to obtain the most common value; and <code><a href="reference/roundp.html">roundp()</a></code> to round and format <em>p</em>-values.</li>
+<li>
+<strong>Estimation functions:</strong> <code><a href="reference/scoreci.html">scoreci()</a></code> for Wilson confidence intervals for proportions; <code><a href="reference/estimate_rmtl.html">estimate_rmtl()</a></code> for restricted mean time lost and its difference; <code><a href="reference/survdiff_ci.html">survdiff_ci()</a></code> for <em>x</em>-year survival differences.</li>
 <li>
 <strong>Functions for descriptive tables:</strong> <code><a href="reference/tabulate_rowcol.html">tabulate_rowcol()</a></code> for categorical variables; <code><a href="reference/tsummary.html">tsummary()</a></code> for continuous variables; <code><a href="reference/mygt.html">mygt()</a></code> for formatting and printing any tibble as a ‘gt’ table; <code><a href="reference/table1.html">table1()</a></code> for formatted stratified descriptive tables using <code>gtsummary</code>; <code><a href="reference/table2.html">table2()</a></code> for stratified result tables; <code><a href="reference/rates.html">rates()</a></code> for event counts, person-time, incidence rates, and cumulative incidence.</li>
 <li>
