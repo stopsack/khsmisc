@@ -43,6 +43,8 @@
 #'                 title = "Mortality by ECOG performance status") +
 #'   # Themes refer to axes as shown--'y' is now vertical
 #'   ggplot2::theme(axis.title.y = ggplot2::element_blank())
+#'
+#' # Note- Color fill may be off with ggplot v3.3.4+
 brickchart <- function(
   data, outcome, by, group,
   colors = NULL,
@@ -103,7 +105,7 @@ brickchart <- function(
     ggplot2::facet_grid(rows = dplyr::vars({{ group }}))
   if(guide == FALSE) {
     myplot +
-    ggplot2::scale_fill_manual(values = fillcolors, guide = FALSE)
+    ggplot2::scale_fill_manual(values = fillcolors, guide = "none")
   } else {
     myplot +
     ggplot2::scale_fill_manual(values = fillcolors,

@@ -56,4 +56,6 @@ cancer \%>\%
                 title = "Mortality by ECOG performance status") +
   # Themes refer to axes as shown--'y' is now vertical
   ggplot2::theme(axis.title.y = ggplot2::element_blank())
+
+# Note- Color fill may be off with ggplot v3.3.4+
 }
