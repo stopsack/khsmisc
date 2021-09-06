@@ -43,6 +43,8 @@ cancer \%>\%
   brickchart(outcome = status == 2,
              by = ph.ecog)
 
+# Stratified version
+# Note- Color fill may be off with ggplot v3.3.4+
 cancer \%>\%
   dplyr::filter(ph.ecog < 3) \%>\%
   brickchart(outcome = status == 2,
@@ -57,5 +59,4 @@ cancer \%>\%
   # Themes refer to axes as shown--'y' is now vertical
   ggplot2::theme(axis.title.y = ggplot2::element_blank())
 
-# Note- Color fill may be off with ggplot v3.3.4+
 }
