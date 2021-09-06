@@ -31,7 +31,7 @@
 #'              by = ph.ecog)
 #'
 #' # Stratified version
-#' # Note- Color fill may be off with ggplot v3.3.4+
+#' # Note: Color fill may be off with ggplot v3.3.4+
 #' cancer %>%
 #'   dplyr::filter(ph.ecog < 3) %>%
 #'   brickchart(outcome = status == 2,
