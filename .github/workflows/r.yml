@@ -44,6 +44,8 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
 
+      - uses: r-lib/actions/setup-pandoc@master
+
       - name: Install remotes, GH dependency risks
         run: |
           install.packages(c("remotes", "rcmdcheck"))
