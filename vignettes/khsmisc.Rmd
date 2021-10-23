@@ -469,7 +469,7 @@ tribble(~label,             ~effect_modifier, ~stratum,        ~confounders,    
   table2(data = analytical %>% 
            filter(!is.na(ascore) & !is.na(smoke3) & !is.na(histology) & !is.na(grade))) %>%
   mygt()
-````
+```
 
 
 ### Table 4: Sensitivity analyses
