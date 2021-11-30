@@ -1,6 +1,6 @@
 ---
-title: "--BLANK TITLE--"
-author: "Konrad H. Stopsack <stopsack@mskcc.org>"
+title: "(add title)"
+author: "Konrad H. Stopsack <stopsack@mail.harvard.edu>"
 date: "`r format(Sys.time(), '%a %b %d, %Y %X')`"
 output:
   html_document:
@@ -12,16 +12,16 @@ output:
     toc_float:
       collapsed: false
       smooth_scroll: false
+  github_document:
+    toc: true
+    toc_depth: 2
+    html_preview: true
 ---
 
 ```{r setup, include = FALSE}
-rm(list = ls())
 knitr::opts_chunk$set(echo = TRUE)
-
-# Embed figures in SVG format, not as PNG
-library(svglite)
+library(svglite)  # Embed figures in SVG format, not as PNG:
 knitr::opts_chunk$set(dev = "svglite")
-
 library(khsverse)
 ```
 
@@ -36,6 +36,6 @@ library(khsverse)
 # Data in Text
 
 
-```{r cleanup, echo = FALSE}
-rm(list = ls())
+```{r versioning}
+# sessionInfo()
 ```

@@ -293,14 +293,21 @@ mytabstyle <- function(mytab) {
 #' @section Example Output:
 #' \if{html}{\figure{mygt.png}{options: width=50\%}}
 mygt <- function(df, md = NULL) {
-  df <- df %>%
-    gt::gt() %>%
-    mytabstyle()
-  if(!is.null(md)) {
+  # RMarkdown "output: github_document" cannot handle HTML styles
+  if(stringr::str_detect(string = knitr::opts_knit$get("rmarkdown.pandoc.to"),
+                         pattern = "gfm")) {
+    return(gt::as_raw_html(gt::gt(df)))
+  } else {
+    khsmisc::mygt(...)
+    df <- df %>%
+      gt::gt() %>%
+      mytabstyle()
+    if(!is.null(md)) {
       df <- df %>%
         gt::fmt_markdown(columns = md)
     }
-  return(df)
+    return(df)
+  }
 }
 
 #' Table 1: Stratified Descriptive Tables
