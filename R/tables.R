@@ -294,9 +294,9 @@ mytabstyle <- function(mytab) {
 #' \if{html}{\figure{mygt.png}{options: width=50\%}}
 mygt <- function(df, md = NULL) {
   # RMarkdown "output: github_document" cannot handle HTML styles
-  if(stringr::str_detect(
+  if(any(stringr::str_detect(
     string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
-    pattern = "gfm")) {
+    pattern = "gfm"))) {
     return(gt::as_raw_html(gt::gt(df)))
   } else {
     df <- df %>%
