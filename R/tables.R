@@ -280,6 +280,11 @@ mytabstyle <- function(mytab) {
 #' @param md Optional. If not \code{NULL}, then the given
 #'   columns will be printed with markdown formatting, e.g., \code{md = c(1, 3)}
 #'   for columns 1 and 3.
+#' @param indent Optional. Detects labels (first
+#'  columns in a \code{\link[khsmisc]{table2}}) that start with two or four
+#'   spaces and ensures indenting via \code{\link[gt]{tab_style}}. Defaults
+#'   to 10 and 20 pixels for two or four spaces (\code{c(10, 20)}). Set to
+#'   \code{NULL} to turn off.
 #'
 #' @return Formatted gt table
 #' @export
@@ -292,21 +297,32 @@ mytabstyle <- function(mytab) {
 #'
 #' @section Example Output:
 #' \if{html}{\figure{mygt.png}{options: width=50\%}}
-mygt <- function(df, md = NULL) {
+mygt <- function(df, md = NULL, indent = c(10, 20)) {
   # RMarkdown "output: github_document" cannot handle HTML styles
   if(any(stringr::str_detect(
     string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
     pattern = "gfm"))) {
     return(gt::as_raw_html(gt::gt(df)))
   } else {
-    df <- df %>%
+    df_gt <- df %>%
       gt::gt() %>%
       mytabstyle()
     if(!is.null(md)) {
-      df <- df %>%
+      df_gt <- df_gt %>%
         gt::fmt_markdown(columns = md)
     }
-    return(df)
+    if(!is.null(indent[1])) {
+      df_gt <- df_gt %>%
+        gt::tab_style(
+          style = gt::cell_text(indent = gt::px(indent[1])),
+          locations = gt::cells_body(columns = 1,
+                                     rows = attr(df, "mygt.indent2"))) %>%
+        gt::tab_style(
+          style = gt::cell_text(indent = gt::px(indent[2])),
+          locations = gt::cells_body(columns = 1,
+                                     rows = attr(df, "mygt.indent4")))
+    }
+    df_gt
   }
 }
 

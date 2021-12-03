@@ -1080,10 +1080,10 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'   \code{type2} in the \code{design} matrix, display it as in rows below
 #'   (\code{"rows"}) or columns (\code{"columns"}) to the right. Defaults to
 #'   \code{"rows"}.
-#' @param prepare_md Optional. Defaults to \code{TRUE}. Prepare labels for
-#'   printing with markdown, e.g. using \code{\link[khsmisc]{mygt}(md = 1)}.
-#'   This step will replace two spaces or a tab at the beginning of a
-#'   \code{label} with HTML code for an indentation (\code{&ensp;}).
+#' @param prepare_md Deprecated parameter; ignored. Two/four spaces in the
+#'   \code{label} column of the \code{design} matrix are now being passed on
+#'   silently as an attribute to \code{\link[khsmisc]{mygt}} to ensure
+#'   indentation.
 #' @param custom Optional. Defaults to \code{NULL}. A custom function (or a
 #'   \code{\link{list}} of such functions), that can be called via
 #'   \code{type = "custom"} (or \code{type = "custom2"}, for example).
@@ -1483,7 +1483,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                    rate_digits = 1,
                    to = NULL,
                    type2_layout = "rows",
-                   prepare_md = TRUE,
+                   prepare_md = "deprecated",  # unused
                    custom = NULL,
                    overall = FALSE) {
   if(!is.data.frame(design))
@@ -1531,7 +1531,6 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                  rate_digits = rate_digits,
                  to = to,
                  type2_layout = type2_layout,
-                 prepare_md = prepare_md,
                  custom = custom,
                  overall = FALSE),
           table2(design = design,
@@ -1545,7 +1544,6 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                  rate_digits = rate_digits,
                  to = to,
                  type2_layout = type2_layout,
-                 prepare_md = prepare_md,
                  custom = custom,
                  overall = FALSE) %>%
             dplyr::select(-1)))
@@ -1561,7 +1559,6 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                             rate_digits = rate_digits,
                             to = to,
                             type2_layout = type2_layout,
-                            prepare_md = prepare_md,
                             custom = custom,
                             overall = FALSE)
         return(dplyr::bind_rows(
@@ -1576,7 +1573,6 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                  rate_digits = rate_digits,
                  to = to,
                  type2_layout = type2_layout,
-                 prepare_md = prepare_md,
                  custom = custom,
                  overall = FALSE) %>%
             dplyr::rename(!!names(res_strat)[1] := 1),
@@ -1585,17 +1581,6 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
     }
   } else {
     name <- "Summary"
-  }
-
-  if(prepare_md == TRUE) {
-    design <- design %>%
-      dplyr::mutate(
-        label = stringr::str_replace_all(string = .data$label,
-                                         pattern = "^\\h\\h",
-                                         replacement = "&ensp;"),
-        label = stringr::str_replace_all(string = .data$label,
-                                         pattern = "^&ensp;\\h\\h",
-                                         replacement = "&ensp;&ensp;"))
   }
 
   res <- design %>%
@@ -1629,12 +1614,20 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
       dplyr::select(.data$index, .data$label, .data$result) %>%
       tidyr::unnest(cols = .data$result)
     if(layout == "rows") {
-      res %>%
+      res <- res %>%
         tidyr::pivot_wider(names_from = .data$.exposure,
                            values_from = .data$res,
                            values_fill = "") %>%
         dplyr::rename(!!name := .data$label) %>%
         dplyr::select(-.data$index)
+      # capture rows that are indented for mygt()
+      attr(res, which = "mygt.indent2") <- stringr::str_which(
+        string = res %>% dplyr::pull(1),
+        pattern = "^[:blank:]{2,3}")
+      attr(res, which = "mygt.indent4") <- stringr::str_which(
+        string = res %>% dplyr::pull(1),
+        pattern = "^[:blank:]{4,}")
+      return(res)
     } else {
       if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {
         res %>%
@@ -1688,7 +1681,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                            true = "", false = .data$value))
     if(layout == "rows") {
       if(type2_layout == "rows") {
-        res %>%
+        res <- res %>%
           tidyr::pivot_wider(names_from = .data$.exposure,
                              values_from = .data$value,
                              values_fill = "") %>%
@@ -1700,7 +1693,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
           dplyr::rename(!!name := .data$label) %>%
           dplyr::select(-.data$index, -.data$whichres)
       } else {
-        res %>%
+        res <- res %>%
           dplyr::mutate(
             .exposure = dplyr::if_else(.data$whichres == "res.1",
                                        true = paste0(.data$.exposure),
@@ -1713,6 +1706,15 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
           dplyr::rename(!!name := .data$label) %>%
           dplyr::select(-.data$index)
       }
+
+      attr(res, which = "mygt.indent2") <- stringr::str_which(
+        string = res %>% dplyr::pull(1),
+        pattern = "^[:blank:]{2,3}")
+      attr(res, which = "mygt.indent4") <- stringr::str_which(
+        string = res %>% dplyr::pull(1),
+        pattern = "^[:blank:]{4,}")
+      return(res)
+
     } else {
       if(type2_layout == "rows") {
         if(sum(duplicated(design$label)) > 0 | "" %in% design$label) {

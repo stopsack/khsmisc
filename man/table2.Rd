@@ -16,7 +16,7 @@ table2(
   rate_digits = 1,
   to = NULL,
   type2_layout = "rows",
-  prepare_md = TRUE,
+  prepare_md = "deprecated",
   custom = NULL,
   overall = FALSE
 )
@@ -62,10 +62,10 @@ quantiles; defaults to \code{"-"} otherwise.}
 (\code{"rows"}) or columns (\code{"columns"}) to the right. Defaults to
 \code{"rows"}.}
 
-\item{prepare_md}{Optional. Defaults to \code{TRUE}. Prepare labels for
-printing with markdown, e.g. using \code{\link[khsmisc]{mygt}(md = 1)}.
-This step will replace two spaces or a tab at the beginning of a
-\code{label} with HTML code for an indentation (\code{&ensp;}).}
+\item{prepare_md}{Deprecated parameter; ignored. Two/four spaces in the
+\code{label} column of the \code{design} matrix are now being passed on
+silently as an attribute to \code{\link[khsmisc]{mygt}} to ensure
+indentation.}
 
 \item{custom}{Optional. Defaults to \code{NULL}. A custom function (or a
 \code{\link{list}} of such functions), that can be called via
