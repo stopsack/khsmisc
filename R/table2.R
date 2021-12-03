@@ -95,13 +95,15 @@ table_counts <- function(data, event, time, time2, outcome,
       type == "outcomes"              ~ paste(sum(.data$outcome)),
       type == "events"                ~ paste(sum(.data$event)),
       type == "time"                  ~
-        paste(trimws(format(round(sum(.data$time), digits = 0), nsmall = 0))),
+        paste(trimws(format(round(sum(.data$time), digits = digits),
+                            nsmall = digits))),
       type == "total"                 ~ paste(n()),
       type == "outcomes/total"        ~ paste(sum(.data$outcome), n(),
                                               sep = "/"),
       type == "events/time"           ~
         paste(sum(.data$event),
-              trimws(format(round(sum(.data$time), digits = 0), nsmall = 0)),
+              trimws(format(round(sum(.data$time), digits = digits),
+                            nsmall = digits)),
               sep = "/"),
       type == "events/total"          ~ paste(sum(.data$event), n(), sep = "/"),
       type == "cases/controls"        ~ paste(sum(.data$outcome),
@@ -939,6 +941,9 @@ fill_cells <- function(data, event, time, time2, outcome,
       stringr::str_detect(string = type,
                           pattern = "rate") ~
         rate_digits[1],
+      stringr::str_detect(string = type,
+                          pattern = "time$") ~
+        0,
       TRUE ~ 4)
   }
 
@@ -1076,8 +1081,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'   (\code{"rows"}) or columns (\code{"columns"}) to the right. Defaults to
 #'   \code{"rows"}.
 #' @param prepare_md Optional. Defaults to \code{TRUE}. Prepare labels for
-#'   printing with markdown (\code{%>% gt:gt() %>%
-#'   gt::fmt_markdown(columns = 1)}).
+#'   printing with markdown, e.g. using \code{\link[khsmisc]{mygt}(md = 1)}.
 #'   This step will replace two spaces or a tab at the beginning of a
 #'   \code{label} with HTML code for an indentation (\code{&ensp;}).
 #' @param custom Optional. Defaults to \code{NULL}. A custom function (or a
@@ -1210,7 +1214,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        \code{\link[khsmisc]{scoreci}}).
 #'      * \code{"cuminc"} Cumulative incidence ("risk") from the Kaplan-Meier
 #'        estimator. Provide time point (e.g., 1.5-year cumulative incidence)
-#'        using \code{"cuminc 1.5"}. If not time point is provided, returns
+#'        using \code{"cuminc 1.5"}. If no time point is provided, returns
 #'        cumulative incidence at end of follow-up. Change between display as
 #'        proportion or percent using the parameter \code{risk_percent}.
 #'      * \code{"cuminc (ci)"} Cumulative incidence ("risk") from the
@@ -1220,7 +1224,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        Provide time point as in \code{"cuminc"}.
 #'      * \code{"surv"} Survival from the Kaplan-Meier
 #'        estimator. Provide time point (e.g., 1.5-year survival)
-#'        using \code{"surv 1.5"}. If not time point is provided, returns
+#'        using \code{"surv 1.5"}. If no time point is provided, returns
 #'        survival at end of follow-up. Change between display as
 #'        proportion or percent using the parameter \code{risk_percent}.
 #'      * \code{"surv (ci)"} Survival from the

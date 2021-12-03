@@ -63,8 +63,7 @@ quantiles; defaults to \code{"-"} otherwise.}
 \code{"rows"}.}
 
 \item{prepare_md}{Optional. Defaults to \code{TRUE}. Prepare labels for
-printing with markdown (\code{%>% gt:gt() %>%
-  gt::fmt_markdown(columns = 1)}).
+printing with markdown, e.g. using \code{\link[khsmisc]{mygt}(md = 1)}.
 This step will replace two spaces or a tab at the beginning of a
 \code{label} with HTML code for an indentation (\code{&ensp;}).}
 
@@ -214,7 +213,7 @@ display as proportion or percent using the parameter
 \code{\link[khsmisc]{scoreci}}).
 \item \code{"cuminc"} Cumulative incidence ("risk") from the Kaplan-Meier
 estimator. Provide time point (e.g., 1.5-year cumulative incidence)
-using \code{"cuminc 1.5"}. If not time point is provided, returns
+using \code{"cuminc 1.5"}. If no time point is provided, returns
 cumulative incidence at end of follow-up. Change between display as
 proportion or percent using the parameter \code{risk_percent}.
 \item \code{"cuminc (ci)"} Cumulative incidence ("risk") from the
@@ -224,7 +223,7 @@ default of the survival package/\code{\link[survival]{survfit}}).
 Provide time point as in \code{"cuminc"}.
 \item \code{"surv"} Survival from the Kaplan-Meier
 estimator. Provide time point (e.g., 1.5-year survival)
-using \code{"surv 1.5"}. If not time point is provided, returns
+using \code{"surv 1.5"}. If no time point is provided, returns
 survival at end of follow-up. Change between display as
 proportion or percent using the parameter \code{risk_percent}.
 \item \code{"surv (ci)"} Survival from the
