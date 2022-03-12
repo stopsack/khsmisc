@@ -24,6 +24,7 @@
 #' * \code{excluded} The data after applying the row's filter.
 #' * \code{n_left} Number of observations before applying the row's filter.
 #' * \code{n_right} Number of observations after applying the row's filter.
+#'
 #' The last row, \code{included}, contains the data after applying all filters.
 #' Access this tibble using \code{%>% pull(included) %>% last()}.
 #'

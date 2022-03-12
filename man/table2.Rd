@@ -187,7 +187,7 @@ See \code{confounders} for how to provide weights. Uses
 Provide time horizon, e.g., \code{"survdiff 2.5"} to evaluate
 differences in survival at 2.5 years. Cannot not handle confounders.
 Uses \code{\link[khsmisc]{survdiff_ci}}.
-\item \code{"survdiff"} Difference in cumulative incidence from
+\item \code{"cumincdiff"} Difference in cumulative incidence from
 Kaplan-Meier estimator. Provide time horizon, e.g.,
 \code{"cumincdiff 2.5"} to evaluate differences in cumulative
 incidence at 2.5 years. Cannot not handle confounders.

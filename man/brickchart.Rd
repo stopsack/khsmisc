@@ -4,7 +4,7 @@
 \alias{brickchart}
 \title{Brick Chart}
 \usage{
-brickchart(data, outcome, by, group, colors = NULL, guide = FALSE)
+brickchart(data, outcome, by, group, colors = NULL, guide = FALSE, ...)
 }
 \arguments{
 \item{data}{Data set.}
@@ -22,7 +22,11 @@ Example: \code{list(c("darkred", "red"), c("darkblue", "lightblue"))}.
 If not provided, colors will be generated from the
 \code{\link[viridis]{viridis_pal}} palette.}
 
-\item{guide}{Optional: Show legend? Defaults to \code{FALSE}.}
+\item{guide}{Optional: Show legend? Defaults to \code{FALSE}. May not work
+with ggplot version 3.3.4 or newer.}
+
+\item{...}{Optional: further arguments passed to the call of
+\code{\link[ggplot2]{facet_grid}}, used for \code{group}.}
 }
 \value{
 ggplot. Modify further with standard ggplot functions.
@@ -44,13 +48,12 @@ cancer \%>\%
              by = ph.ecog)
 
 # Stratified version
-# Note- Color fill may be off with ggplot v3.3.4+
+# Note- Color fill may be off with ggplot v3.3.4+ if guide = TRUE
 cancer \%>\%
   dplyr::filter(ph.ecog < 3) \%>\%
   brickchart(outcome = status == 2,
              by = ph.ecog,
-             group = sex,
-             guide = TRUE) +  # show color legend
+             group = sex) +
   # Modify graph with standard ggplot functions
   # Refer to axes before flipping x <-> y. Here, y is horizontal:
   ggplot2::labs(y = "Risk (cumulative incidence)",

@@ -13,7 +13,10 @@
 #'   Example: \code{list(c("darkred", "red"), c("darkblue", "lightblue"))}.
 #'   If not provided, colors will be generated from the
 #'   \code{\link[viridis]{viridis_pal}} palette.
-#' @param guide Optional: Show legend? Defaults to \code{FALSE}.
+#' @param guide Optional: Show legend? Defaults to \code{FALSE}. May not work
+#'   with ggplot version 3.3.4 or newer.
+#' @param ... Optional: further arguments passed to the call of
+#'   \code{\link[ggplot2]{facet_grid}}, used for \code{group}.
 #'
 #' @return ggplot. Modify further with standard ggplot functions.
 #' @export
@@ -31,13 +34,12 @@
 #'              by = ph.ecog)
 #'
 #' # Stratified version
-#' # Note- Color fill may be off with ggplot v3.3.4+
+#' # Note- Color fill may be off with ggplot v3.3.4+ if guide = TRUE
 #' cancer %>%
 #'   dplyr::filter(ph.ecog < 3) %>%
 #'   brickchart(outcome = status == 2,
 #'              by = ph.ecog,
-#'              group = sex,
-#'              guide = TRUE) +  # show color legend
+#'              group = sex) +
 #'   # Modify graph with standard ggplot functions
 #'   # Refer to axes before flipping x <-> y. Here, y is horizontal:
 #'   ggplot2::labs(y = "Risk (cumulative incidence)",
@@ -49,7 +51,8 @@
 brickchart <- function(
   data, outcome, by, group,
   colors = NULL,
-  guide = FALSE) {
+  guide = FALSE,
+  ...) {
   data <- data %>%
     dplyr::mutate({{ by }} := forcats::fct_rev(factor({{ by }})))
   if(missing(group)) {
@@ -103,7 +106,7 @@ brickchart <- function(
     ggplot2::theme(strip.text = ggplot2::element_text(face = "bold"),
                    axis.line.y = ggplot2::element_blank(),
                    axis.ticks.y = ggplot2::element_blank()) +
-    ggplot2::facet_grid(rows = dplyr::vars({{ group }}))
+    ggplot2::facet_grid(rows = dplyr::vars({{ group }}), ...)
   if(guide == FALSE) {
     myplot +
     ggplot2::scale_fill_manual(values = fillcolors, guide = "none")

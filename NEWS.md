@@ -1,3 +1,16 @@
+# khsmisc 0.4.0-9004 (unreleased)
+
+* `mygt()`:
+   + Return raw HTML if knitting R Markdown to `output: github_document`.
+   + Format column labels.
+* `table2()`: 
+   + Allow customizing rounding of "time" and "events/time" estimates.
+   + Pass along indentation of labels to `mygt()` as an attribute instead of
+     HTML.
+* `brickchart()`: document workaround (no legend) for ggplot version >= 3.3.4
+* Update R Markdown template; make facets more controllable
+
+
 # khsmisc 0.4.0
 
 * `make_exclusions()`: New function for sequential exclusions to derive an 

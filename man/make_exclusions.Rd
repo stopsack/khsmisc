@@ -29,9 +29,10 @@ A tibble. Each row is a filtering step. Variables:
 \item \code{excluded} The data after applying the row's filter.
 \item \code{n_left} Number of observations before applying the row's filter.
 \item \code{n_right} Number of observations after applying the row's filter.
+}
+
 The last row, \code{included}, contains the data after applying all filters.
 Access this tibble using \code{\%>\% pull(included) \%>\% last()}.
-}
 }
 \description{
 This function performs sequential, user-defined \code{\link[dplyr]{filter}}
