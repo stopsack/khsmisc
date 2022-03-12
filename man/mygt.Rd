@@ -17,7 +17,9 @@ for columns 1 and 3.}
 columns in a \code{\link[khsmisc]{table2}}) that start with two or four
 spaces and ensures indenting via \code{\link[gt]{tab_style}}. Defaults
 to 10 and 20 pixels for two or four spaces (\code{c(10, 20)}). Set to
-\code{NULL} to turn off.}
+\code{NULL} to turn off. (Note that gt currently does not seem to support
+four-space indents in columns with markdown formatting, e.g.,
+\code{md = 1}.)}
 }
 \value{
 Formatted gt table

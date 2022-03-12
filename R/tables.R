@@ -252,7 +252,6 @@ tsummary <- function(data,
 
 #' Custom formatting for gt Tables
 #'
-#' @import gt
 #' @param mytab gt object
 #' @noRd
 mytabstyle <- function(mytab) {
@@ -262,8 +261,12 @@ mytabstyle <- function(mytab) {
                     table.border.top.style = "none",
                     table_body.border.top.style = "none",
                     column_labels.font.weight = "bold") %>%
-    gt::tab_style(style = cell_text(align = "left", v_align = "top"),
-                  locations = cells_body())
+    gt::tab_style(style = gt::cell_text(align = "left",
+                                        v_align = "top"),
+                  locations = gt::cells_body()) %>%
+    gt::tab_style(style = cell_text(align = "left",
+                                    v_align = "bottom"),
+                  locations = gt::cells_column_labels())
 }
 
 #' Turn tibble into gt Table with Custom Formatting
@@ -274,8 +277,6 @@ mytabstyle <- function(mytab) {
 #'   * No top border
 #'   * Bold column labels
 #'
-#' @import gt
-#'
 #' @param df Data frame/tibble
 #' @param md Optional. If not \code{NULL}, then the given
 #'   columns will be printed with markdown formatting, e.g., \code{md = c(1, 3)}
@@ -284,7 +285,9 @@ mytabstyle <- function(mytab) {
 #'  columns in a \code{\link[khsmisc]{table2}}) that start with two or four
 #'   spaces and ensures indenting via \code{\link[gt]{tab_style}}. Defaults
 #'   to 10 and 20 pixels for two or four spaces (\code{c(10, 20)}). Set to
-#'   \code{NULL} to turn off.
+#'   \code{NULL} to turn off. (Note that gt currently does not seem to support
+#'   four-space indents in columns with markdown formatting, e.g.,
+#'   \code{md = 1}.)
 #'
 #' @return Formatted gt table
 #' @export
@@ -307,20 +310,32 @@ mygt <- function(df, md = NULL, indent = c(10, 20)) {
     df_gt <- df %>%
       gt::gt() %>%
       mytabstyle()
-    if(!is.null(md)) {
-      df_gt <- df_gt %>%
-        gt::fmt_markdown(columns = md)
-    }
     if(!is.null(indent[1])) {
+      if(is.null(attr(df, "mygt.indent4")) |
+         length(attr(df, "mygt.indent4")) == 0)
+        indent4 <- FALSE
+      else
+        indent4 <- attr(df, "mygt.indent4")
+      if(is.null(attr(df, "mygt.indent2")) |
+         length(attr(df, "mygt.indent2")) == 0)
+        indent2 <-FALSE
+      else {
+        indent2 <- attr(df, "mygt.indent2")
+        indent2 <- indent2[!(indent2 %in% indent4)]
+      }
       df_gt <- df_gt %>%
         gt::tab_style(
           style = gt::cell_text(indent = gt::px(indent[1])),
           locations = gt::cells_body(columns = 1,
-                                     rows = attr(df, "mygt.indent2"))) %>%
+                                     rows = indent2)) %>%
         gt::tab_style(
           style = gt::cell_text(indent = gt::px(indent[2])),
           locations = gt::cells_body(columns = 1,
-                                     rows = attr(df, "mygt.indent4")))
+                                     rows = indent4))
+    }
+    if(!is.null(md)) {
+      df_gt <- df_gt %>%
+        gt::fmt_markdown(columns = md)
     }
     df_gt
   }
