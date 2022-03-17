@@ -432,11 +432,26 @@ table_counts <- function(data, event, time, time2, outcome,
           } else { "--" }
         } else { "" }),
     .groups = "drop") %>%
-  dplyr::mutate(res = dplyr::if_else(
-    .data$res %in% c("NaN", "NA", "NaN (NA)",
-                     paste0("NA (NA", to, "NA)"),
-                     paste0("NaN (NaN", to, "NaN)")),
-    true = "--", false = .data$res))
+  dplyr::mutate(
+    res = dplyr::if_else(
+      stringr::str_remove(string = .data$res,
+                          pattern = "%") %in%
+        c("NaN", "NA", "NaN (NA)",
+          paste0("NA (NA", to, "NA)"),
+          paste0("NaN (NaN", to, "NaN)")),
+      true = "--", false = .data$res),
+    res = dplyr::case_when(
+      stringr::str_detect(string = .data$res,
+                          pattern = stringr::fixed("(NaN)")) ~
+        paste0(stringr::str_remove(string = .data$res,
+                                   pattern = stringr::fixed("(NaN)")),
+               "(--)"),
+      stringr::str_detect(string = .data$res,
+                          pattern = stringr::fixed("(NaN%)")) ~
+        paste0(stringr::str_remove(string = .data$res,
+                                   pattern = stringr::fixed("(NaN%)")),
+               "(--)"),
+      TRUE ~ .data$res))
 }
 
 #' Get point estimate and CI from regression models
