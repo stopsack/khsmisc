@@ -90,7 +90,8 @@ table_counts <- function(data, event, time, time2, outcome,
   }
 
   data %>%
-    dplyr::group_by(.data$.exposure) %>%
+    dplyr::group_by(.data$.exposure,
+                    .drop = FALSE) %>%
     dplyr::summarize(res = dplyr::case_when(
       type == "outcomes"              ~ paste(sum(.data$outcome)),
       type == "events"                ~ paste(sum(.data$event)),
@@ -239,7 +240,10 @@ table_counts <- function(data, event, time, time2, outcome,
                                nsmall = digits)), ")")
         } else { "" },
       type == "maxfu" ~
-        paste(trimws(format(round(max(.data$time), digits = 0), nsmall = 0))),
+        if(type == "maxfu") {
+          paste(trimws(format(round(max(.data$time), digits = 0),
+                              nsmall = 0)))
+        } else { "" },
       type == "cuminc" ~
         if(type == "cuminc") {
           if(is.na(time2[1])) {
@@ -415,7 +419,12 @@ table_counts <- function(data, event, time, time2, outcome,
                                                      probs = 0.75),
                                      digits = digits), nsmall = digits)), ")")
         } else { "" }),
-    .groups = "drop")
+    .groups = "drop") %>%
+  dplyr::mutate(res = dplyr::if_else(
+    .data$res %in% c("NaN", "NA", "NaN (NA)",
+                     paste0("NA (NA", to, "NA)"),
+                     paste0("NaN (NaN", to, "NaN)")),
+    true = "--", false = .data$res))
 }
 
 #' Get point estimate and CI from regression models
