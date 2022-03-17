@@ -1,6 +1,6 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.4.0-9005
+Version: 0.4.0-9006
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",

@@ -546,11 +546,12 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     if(!is.na(bootrepeats))
       bootrepeats <- max(bootrepeats, 50)
     # Select model fitting approach for riskdiff or riskratio, if provided:
-    approach <- stringr::str_remove_all(string = estimand,
-                                        pattern = "rd|rr|_joint|\\h|[:digit:]")
+    approach <- stringr::str_remove_all(
+      string = estimand,
+      pattern = "^rd|^rr|_joint|\\h|[:digit:]")
     if(stringr::str_length(string = approach) == 0)
       approach <- "auto"
-    if(stringr::str_detect(string = estimand, pattern = "rd")) {
+    if(stringr::str_detect(string = estimand, pattern = "^rd")) {
       possible_approaches <- as.character(as.list(args(
         risks::riskdiff))$approach)
     } else {
@@ -852,6 +853,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                  .data$conf.low, to,
                  .data$conf.high, ")")),
       res = dplyr::if_else(
+        (.data$conf.low == .data$conf.high &
+           .data$conf.low == .data$estimate) |
         is.na(.data$estimate) &
           !stringr::str_detect(
             string = estimand,
