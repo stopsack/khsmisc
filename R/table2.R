@@ -28,8 +28,9 @@ table_counts <- function(data, event, time, time2, outcome,
     }
   }
 
-  if(stringr::str_detect(string = type,
-                         pattern = "outcomes|risk|mean|median|cases|^sd")) {
+  if(stringr::str_detect(
+    string = type,
+    pattern = "outcomes|risk|mean|median|cases|range|^sd")) {
     data <- data %>%
       dplyr::select(.data$.exposure, outcome = dplyr::one_of(outcome)) %>%
       dplyr::mutate(event = NA, time = NA)
@@ -62,7 +63,7 @@ table_counts <- function(data, event, time, time2, outcome,
   }
   if(is.null(to))
     to <- dplyr::if_else(stringr::str_detect(string = type,
-                                             pattern = "mean|median"),
+                                             pattern = "mean|median|range"),
                          true = " to ", false = "-")
 
   # Extract specific follow-up time for cumulative incidence/survival,
@@ -106,7 +107,8 @@ table_counts <- function(data, event, time, time2, outcome,
               trimws(format(round(sum(.data$time), digits = digits),
                             nsmall = digits)),
               sep = "/"),
-      type == "events/total"          ~ paste(sum(.data$event), n(), sep = "/"),
+      type == "events/total"          ~ paste(sum(.data$event), n(),
+                                              sep = "/"),
       type == "cases/controls"        ~ paste(sum(.data$outcome),
                                               sum(!.data$outcome),
                                               sep = "/"),
@@ -418,6 +420,16 @@ table_counts <- function(data, event, time, time2, outcome,
                  trimws(format(round(stats::quantile(.data$outcome,
                                                      probs = 0.75),
                                      digits = digits), nsmall = digits)), ")")
+        } else { "" },
+      type == "range" ~
+        if(type == "range") {
+          if(sum(!is.na(.data$outcome)) > 0) {
+            paste0(trimws(format(round(min(.data$outcome),
+                                       digits = digits), nsmall = digits)),
+                   to,
+                   trimws(format(round(max(.data$outcome),
+                                       digits = digits), nsmall = digits)))
+          } else { "--" }
         } else { "" }),
     .groups = "drop") %>%
   dplyr::mutate(res = dplyr::if_else(
@@ -928,7 +940,7 @@ fill_cells <- function(data, event, time, time2, outcome,
   # Check that outcome variable exists, if needed
   if(stringr::str_detect(
     string = type,
-    pattern = "outcomes|^diff|mean|median|risk|^rr|rd|irr|fold|foldlog|or|cases|quantreg|^sd")) {
+    pattern = "outcomes|^diff|mean|median|risk|^rr|rd|irr|fold|foldlog|or|cases|quantreg|^sd|range")) {
     if(!(outcome %in% names(data)))
       stop(paste0("Using type = '", type, "' requires an outcome variable, ",
                   "but the variable '", outcome,
@@ -939,7 +951,7 @@ fill_cells <- function(data, event, time, time2, outcome,
       dplyr::pull(outcome)
     if(!(stringr::str_detect(
       string = type,
-      pattern = "^diff|mean|median|irr|fold|foldlog|quantreg|^sd")))
+      pattern = "^diff|mean|median|irr|fold|foldlog|quantreg|^sd|range")))
       if(!(all(sort(unique(outcomevar)) == c(0, 1)) |
            all(sort(unique(outcomevar)) == c(FALSE, TRUE))))
         stop(paste0("Outcome variable '", outcome,
@@ -958,7 +970,7 @@ fill_cells <- function(data, event, time, time2, outcome,
         ratio_digits[1],
       stringr::str_detect(
         string = type,
-        pattern = "^diff|mean|median|quantreg|medsurv|medfu|maxfu|rmtl|rmtdiff|^sd") ~
+        pattern = "^diff|mean|median|quantreg|medsurv|medfu|maxfu|rmtl|rmtdiff|^sd|range") ~
         diff_digits[1],
       stringr::str_detect(
         string = type,
@@ -1285,6 +1297,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      * \code{"mean (sd)"} Mean and standard deviation.
 #'      * \code{"median"} Median.
 #'      * \code{"median (iqr)"} Median and interquartile range.
+#'      * \code{"range"} Range: Minimum to maximum value.
 #'      * \code{"custom"} A custom function, provided to \code{table2} through
 #'        the argument \code{custom}. See there for details.
 #'        If a list of multiple functions is provided, use \code{"custom1"}

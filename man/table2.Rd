@@ -258,6 +258,7 @@ See \code{confounders} for how to provide weights. Uses
 \item \code{"mean (sd)"} Mean and standard deviation.
 \item \code{"median"} Median.
 \item \code{"median (iqr)"} Median and interquartile range.
+\item \code{"range"} Range: Minimum to maximum value.
 \item \code{"custom"} A custom function, provided to \code{table2} through
 the argument \code{custom}. See there for details.
 If a list of multiple functions is provided, use \code{"custom1"}
