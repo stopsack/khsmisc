@@ -274,7 +274,10 @@ obtain "joint" models for exposure and effect modifier that have a
 single reference category.
 Example: \code{type = "hr_joint"}. The reference categories
 for exposure and effect modifier are their first factor levels, which
-can be changed using \code{\link[forcats]{fct_relevel}}.
+can be changed using \code{\link[forcats]{fct_relevel}}. Note that
+the joint model will be fit across all non-missing (\code{NA}) strata
+of the effect modifier, even if the \code{design} table does not
+request all strata be shown.
 \item \code{type2} Optional. A second statistic that is added in an adjacent
 row or column (global option \code{type2_layout} defaults to \code{"row"}
 and can alternatively be set to \code{"column"}). For example, use

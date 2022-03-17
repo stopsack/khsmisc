@@ -458,10 +458,14 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     pattern <- paste0(".exposure[:digit:]{1,2}__", effectmodifier_level,
                       "__[:digit:]{1,2}__")
     data <- data %>%
-      dplyr::rename(.effectmod = dplyr::one_of(effectmodifier))
+      dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
+      filter(!is.na(.data$.effectmod))
     xlevels_indices <- 1:length(xlevels)
     names(xlevels_indices) <- xlevels
-    emlevels <- data %>% dplyr::pull(.data$.effectmod) %>% factor() %>% levels()
+    emlevels <- data %>%
+      dplyr::pull(.data$.effectmod) %>%
+      factor() %>%
+      levels()
     emlevels_indices <- 1:length(emlevels)
     names(emlevels_indices) <- emlevels
     data <- data %>%
@@ -536,14 +540,15 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   }
   if(exists("bootrepeats")) {
     if(is.na(bootrepeats))
-      bootrepeats <- 1000  # default if not provided. only used for risks models
+      bootrepeats <- 1000  # default if not provided. used for risks models
   } else {
     bootrepeats <- 1000
   }
 
   # Extract follow-up time for RMTL:
   rmtl_noci <- FALSE
-  if(stringr::str_detect(string = estimand, pattern = "rmtl|rmtdiff|survdiff|cumincdiff")) {
+  if(stringr::str_detect(string = estimand,
+                         pattern = "rmtl|rmtdiff|survdiff|cumincdiff")) {
     timepoint <- stringr::str_remove_all(
       string = estimand,
       pattern = "rmtl|rmtdiff|_joint|survdiff|cumincdiff|\\(ci\\)|\\h")
@@ -741,7 +746,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 },
                 stop(paste0("Estimand '", estimand, "' is not implemented.")))
 
-  fit <- switch(
+    fit <- switch(
     EXPR = estimand,
     # tidy.rq does not like the "exponentiate" argument:
     quantreg =,
@@ -776,9 +781,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   fit <- fit %>%
     dplyr::select(.data$term, .data$estimate,
                   .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate(nonconverg = if_else(.data$conf.low == 0 &
-                                        .data$conf.high == Inf,
-                                       true = TRUE, false = FALSE)) %>%
+    dplyr::mutate(nonconverg = .data$conf.low == 0 &
+                    .data$conf.high == Inf) %>%
     dplyr::mutate_if(.predicate = is.numeric,
                      .funs = ~format(round(. * multiply, digits = digits),
                                      nsmall = digits,
@@ -796,23 +800,36 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
       dplyr::left_join(x = tibble::tibble(.exposure = xlevels),
                        by = ".exposure")
   }
-  fit %>%
-    dplyr::mutate(res = case_when(.data$nonconverg == TRUE ~ "--",
-                                  rmtl_noci == TRUE ~ .data$estimate,
-                                  # includes "rmtl (ci)":
-                                  TRUE ~ paste0(.data$estimate, " (",
-                                                .data$conf.low, to,
-                                                .data$conf.high, ")")),
-                  res = dplyr::if_else(is.na(.data$estimate) &
-                                         !stringr::str_detect(
-                                           string = estimand,
-                                           pattern = "rmtl")  &
-                                         !(stringr::str_detect(
-                                           string = estimand,
-                                           pattern = "rmtdiff|survdiff") &
-                                             dplyr::row_number() != 1),
-                                       true = paste(reference, "(reference)"),
-                                       false = .data$res)) %>%
+
+  fit <- fit %>%
+    dplyr::mutate(
+      res = case_when(
+        .data$nonconverg == TRUE |
+          is.na(.data$conf.low) |
+          as.character(.data$conf.low) == "NA" ~
+          "--",
+        rmtl_noci == TRUE ~
+          .data$estimate,
+        # includes "rmtl (ci)":
+        TRUE ~
+          paste0(.data$estimate, " (",
+                 .data$conf.low, to,
+                 .data$conf.high, ")")),
+      res = dplyr::if_else(
+        is.na(.data$estimate) &
+          !stringr::str_detect(
+            string = estimand,
+            pattern = "rmtl")  &
+          !(stringr::str_detect(
+            string = estimand,
+            pattern = "rmtdiff|survdiff") &
+              dplyr::row_number() != 1) &
+          (!stringr::str_detect(
+            string = estimand,
+            pattern = "rmtdiff|survdiff") &
+             dplyr::row_number() == 1),
+        true = paste(reference, "(reference)"),
+        false = .data$res)) %>%
     dplyr::select(.data$.exposure, .data$res)
 }
 
@@ -1274,7 +1291,10 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      single reference category.
 #'      Example: \code{type = "hr_joint"}. The reference categories
 #'      for exposure and effect modifier are their first factor levels, which
-#'      can be changed using \code{\link[forcats]{fct_relevel}}.
+#'      can be changed using \code{\link[forcats]{fct_relevel}}. Note that
+#'      the joint model will be fit across all non-missing (\code{NA}) strata
+#'      of the effect modifier, even if the \code{design} table does not
+#'      request all strata be shown.
 #'
 #'   * \code{type2} Optional. A second statistic that is added in an adjacent
 #'     row or column (global option \code{type2_layout} defaults to \code{"row"}
