@@ -495,7 +495,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                       "__[:digit:]{1,2}__")
     data <- data %>%
       dplyr::rename(.effectmod = dplyr::one_of(effectmodifier)) %>%
-      filter(!is.na(.data$.effectmod))
+      dplyr::filter(!is.na(.data$.effectmod)) %>%
+      dplyr::mutate(.effectmod = factor(.data$.effectmod))
     xlevels_indices <- 1:length(xlevels)
     names(xlevels_indices) <- xlevels
     emlevels <- data %>%
