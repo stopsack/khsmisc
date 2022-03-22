@@ -153,7 +153,7 @@ estimate_rmtl <- function(data,
     dplyr::mutate(
       group = factor(.data$group),
       entry = dplyr::if_else(is.na(.data$time2),
-                             true = 0, false = .data$time),
+                             true = 0, false = as.double(.data$time)),
       times = dplyr::if_else(is.na(.data$time2),
                              true = .data$time, false = .data$time2),
       event = as.numeric(factor(as.numeric(.data$event))) - 1) %>%

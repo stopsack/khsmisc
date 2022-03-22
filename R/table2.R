@@ -818,9 +818,15 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   fit <- fit %>%
     dplyr::select(.data$term, .data$estimate,
                   .data$conf.low, .data$conf.high) %>%
-    dplyr::mutate(nonconverg = .data$conf.low == 0 &
-                    .data$conf.high == Inf) %>%
-    dplyr::mutate_if(.predicate = is.numeric,
+    dplyr::mutate(
+      ref_rrrd = (.data$conf.low == .data$conf.high &
+                     .data$conf.low == .data$estimate &
+                    estimand %in% c("rr", "rd", "rd_joint", "rr_joint")),
+      nonconverg = (.data$conf.low == 0 &
+                      .data$conf.high == Inf)) %>%
+    dplyr::mutate_at(.vars = dplyr::vars(.data$estimate,
+                                         .data$conf.low,
+                                         .data$conf.high),
                      .funs = ~format(round(. * multiply, digits = digits),
                                      nsmall = digits,
                                      trim = TRUE, scientific = FALSE)) %>%
@@ -838,9 +844,9 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                        by = ".exposure")
   }
 
-  fit <- fit %>%
+  fit %>%
     dplyr::mutate(
-      res = case_when(
+      res = dplyr::case_when(
         .data$nonconverg == TRUE |
           is.na(.data$conf.low) |
           as.character(.data$conf.low) == "NA" ~
@@ -853,20 +859,14 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                  .data$conf.low, to,
                  .data$conf.high, ")")),
       res = dplyr::if_else(
-        (.data$conf.low == .data$conf.high &
-           .data$conf.low == .data$estimate) |
-        is.na(.data$estimate) &
+        (is.na(.data$estimate) | .data$ref_rrrd == TRUE) &
           !stringr::str_detect(
             string = estimand,
             pattern = "rmtl")  &
           !(stringr::str_detect(
             string = estimand,
-            pattern = "rmtdiff|survdiff") &
-              dplyr::row_number() != 1) &
-          (!stringr::str_detect(
-            string = estimand,
-            pattern = "rmtdiff|survdiff") &
-             dplyr::row_number() == 1),
+            pattern = "rmtdiff|survdiff|cumincdiff") &
+              dplyr::row_number() != 1),
         true = paste(reference, "(reference)"),
         false = .data$res)) %>%
     dplyr::select(.data$.exposure, .data$res)
