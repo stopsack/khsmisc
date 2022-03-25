@@ -288,6 +288,8 @@ mytabstyle <- function(mytab) {
 #'   \code{NULL} to turn off. (Note that gt currently does not seem to support
 #'   four-space indents in columns with markdown formatting, e.g.,
 #'   \code{md = 1}.)
+#' @param remove_border Optional. For indented lines, remove the upper
+#'   horizontal border line? Defaults to \code{TRUE}.
 #'
 #' @return Formatted gt table
 #' @export
@@ -300,7 +302,7 @@ mytabstyle <- function(mytab) {
 #'
 #' @section Example Output:
 #' \if{html}{\figure{mygt.png}{options: width=50\%}}
-mygt <- function(df, md = NULL, indent = c(10, 20)) {
+mygt <- function(df, md = NULL, indent = c(10, 20), remove_border = TRUE) {
   # RMarkdown "output: github_document" cannot handle HTML styles
   if(any(stringr::str_detect(
     string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
@@ -323,6 +325,7 @@ mygt <- function(df, md = NULL, indent = c(10, 20)) {
         indent2 <- attr(df, "mygt.indent2")
         indent2 <- indent2[!(indent2 %in% indent4)]
       }
+      all_indents <- union(indent2, indent4)[union(indent2, indent4) != 0]
       df_gt <- df_gt %>%
         gt::tab_style(
           style = gt::cell_text(indent = gt::px(indent[1])),
@@ -332,6 +335,13 @@ mygt <- function(df, md = NULL, indent = c(10, 20)) {
           style = gt::cell_text(indent = gt::px(indent[2])),
           locations = gt::cells_body(columns = 1,
                                      rows = indent4))
+      if(remove_border == TRUE & length(all_indents) > 0) {
+        df_gt <- df_gt %>%
+          gt::tab_style(
+            style = gt::cell_borders(sides = "top", weight = NULL),
+            locations = gt::cells_body(columns = gt::everything(),
+                                       rows = all_indents))
+      }
     }
     if(!is.null(md)) {
       df_gt <- df_gt %>%
@@ -375,6 +385,8 @@ mygt <- function(df, md = NULL, indent = c(10, 20)) {
 #'  default, will trigger which \code{statistic} is shown. For example:
 #'  \code{type = list(gear ~ "continuous", vs ~ "dichotomous")}.
 #'  Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.
+#' @param remove_borders Optional. For indented lines of individual strata,
+#'   remove the upper horizontal border line? Defaults to \code{TRUE}.
 #'
 #' @return Formatted table. Continuous variables are
 #'   median (quartile 1, quartile 3); categorical variables are
@@ -412,7 +424,8 @@ table1 <- function(data,
                    digits    = list(all_continuous() ~ c(1, 1),
                                     all_categorical() ~ c(0, 0)),
                    statistic = NULL,
-                   type      = NULL) {
+                   type      = NULL,
+                   remove_border = TRUE) {
   by <- data %>% dplyr::select({{ by }}) %>% names()
   if(length(by) > 1)
     stop(paste0("Only one stratification (column) variable is supported. Input was: by = '",
@@ -471,11 +484,20 @@ table1 <- function(data,
       label <- paste("By", labelled::var_label(data %>% dplyr::pull(by)))
     if(label == "By ")  # If variable label is empty, use variable name
       label <- paste("By", by)
-    res %>%
+    res <- res %>%
       gtsummary::as_gt(include = -tab_footnote) %>%
       gt::tab_spanner(label = gt::md(paste0("**", label, "**")),
                       columns = gt::matches("stat_[123456789]")) %>%
       mytabstyle()
+    rows_levels <- which(res[["_data"]]$row_type %in% c("level", "missing"))
+    if(remove_border == TRUE & length(rows_levels) > 0) {
+      res <- res %>%
+        gt::tab_style(
+          style = gt::cell_borders(sides = "top", weight = NULL),
+          locations = gt::cells_body(columns = gt::everything(),
+                                     rows = rows_levels))
+    }
+    res
   }
 }
 
