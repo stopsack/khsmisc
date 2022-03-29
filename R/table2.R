@@ -861,13 +861,10 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                  .data$conf.high, ")")),
       res = dplyr::if_else(
         (is.na(.data$estimate) | .data$ref_rrrd == TRUE) &
+          dplyr::row_number() == 1 &
           !stringr::str_detect(
             string = estimand,
-            pattern = "rmtl")  &
-          !(stringr::str_detect(
-            string = estimand,
-            pattern = "rmtdiff|survdiff|cumincdiff") &
-              dplyr::row_number() != 1),
+            pattern = "rmtl"),
         true = paste(reference, "(reference)"),
         false = .data$res)) %>%
     dplyr::select(.data$.exposure, .data$res)
