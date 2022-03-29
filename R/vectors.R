@@ -52,7 +52,7 @@ Mode <- function(x) {
 #'   or returns an inequality of "< 0.001" (if p < 0.001).
 #'
 #' @param pee Numeric p-vale
-#' @param equal Show equal sign if p > 0.001? Defaults to TRUE.
+#' @param equal Show equal sign if p > 0.001? Defaults to \code{FALSE}
 #'
 #' @return String: rounded number, preceded by equal sign (unless \code{equal = FALSE})
 #'   or less-than sign.
@@ -64,11 +64,12 @@ Mode <- function(x) {
 #'
 #' # Omit equal sign
 #' roundp(0.01138, equal = FALSE)
-roundp <- function(pee, equal = TRUE) {
+roundp <- function(pee, equal = FALSE) {
   dplyr::case_when(
     pee < 0.001               ~ "< 0.001",
     pee < 0.05 & pee >= 0.001 ~ paste0(if(equal == TRUE) "= ",
                                        format(round(pee, 3), nsmall = 3)),
+    pee > 0.99                ~ "> 0.99",
     pee > 0.05                ~ paste0(if(equal == TRUE) "= ",
                                        format(round(pee, 2), nsmall = 2)))
 }

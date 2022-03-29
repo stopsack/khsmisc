@@ -4,12 +4,12 @@
 \alias{roundp}
 \title{Round and Format p-Values}
 \usage{
-roundp(pee, equal = TRUE)
+roundp(pee, equal = FALSE)
 }
 \arguments{
 \item{pee}{Numeric p-vale}
 
-\item{equal}{Show equal sign if p > 0.001? Defaults to TRUE.}
+\item{equal}{Show equal sign if p > 0.001? Defaults to \code{FALSE}}
 }
 \value{
 String: rounded number, preceded by equal sign (unless \code{equal = FALSE})
