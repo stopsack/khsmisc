@@ -971,8 +971,8 @@ fill_cells <- function(data, event, time, time2, outcome,
     if(!(stringr::str_detect(
       string = type,
       pattern = "^diff|mean|median|irr|fold|foldlog|quantreg|^sd|range")))
-      if(!(all(outcomevar %in% c(0, 1)) |
-           all(outcomevar %in% c(FALSE, TRUE))))
+      if(!(all(outcomevar %in% c(0, 1, NA)) |
+           all(outcomevar %in% c(FALSE, TRUE, NA))))
         stop(paste0("Outcome variable '", outcome,
                     "' must be binary with levels c(0, 1) or c(FALSE, TRUE)."))
   }
