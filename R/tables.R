@@ -97,6 +97,7 @@ tabulate_rowcol <- function(data,
 #' @param colsums Optional. Show column sums? Defaults to TRUE.
 #'
 #' @return Tibble.
+#' @keywords internal
 #' @export
 #'
 #' @examples

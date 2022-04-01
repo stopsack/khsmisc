@@ -52,7 +52,8 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 \section{Functions for descriptive tables}{
 
 
-\code{\link[khsmisc]{mytab}}: A contingency table for categorical variables
+\code{\link[khsmisc]{tabulate_rowcol}}: A contingency table for categorical
+variables.
 
 \code{\link[khsmisc]{tsummary}}: A descriptive table for continuous variables
 
@@ -72,9 +73,14 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 
 \code{\link[khsmisc]{corrmat}}: Correlation matrix
 
-\code{\link[khsmisc]{exclusion_flowchart}}: Flowcharts of exclusions from study
+\code{\link[khsmisc]{exclusion_flowchart}}: Flowcharts of exclusions from a study
+
+\code{\link[khsmisc]{geom_stepribbon}}: Step ribbon plots
+
+\code{\link[khsmisc]{brickchart}}: Brick chart
 }
 
 \seealso{
 \url{https://github.com/stopsack/khsmisc}
 }
+\keyword{internal}

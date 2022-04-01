@@ -40,3 +40,4 @@ mtcars \%>\%
   dplyr::select(carb, gear) \%>\%
   mytab(rowsum = FALSE, colsum = FALSE)
 }
+\keyword{internal}
