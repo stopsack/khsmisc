@@ -49,7 +49,7 @@ default, will trigger which \code{statistic} is shown. For example:
 \code{type = list(gear ~ "continuous", vs ~ "dichotomous")}.
 Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.}
 
-\item{remove_borders}{Optional. For indented lines of individual strata,
+\item{remove_border}{Optional. For indented lines of individual strata,
 remove the upper horizontal border line? Defaults to \code{TRUE}.}
 }
 \value{

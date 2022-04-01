@@ -1,6 +1,6 @@
 ---
 title: "(add title)"
-author: "Konrad H. Stopsack <stopsack@mail.harvard.edu>"
+author: "(add name)"
 date: "`r format(Sys.time(), '%a %b %d, %Y %X')`"
 output:
   html_document:
@@ -22,10 +22,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(svglite)  # Embed figures in SVG format, not as PNG:
 knitr::opts_chunk$set(dev = "svglite")
-library(khsverse)
 ```
 
 ```{r load}
+library(khsverse)
 
 ```
 
@@ -36,6 +36,8 @@ library(khsverse)
 # Data in Text
 
 
+**Session Info**
+
 ```{r versioning}
-# sessionInfo()
+sessionInfo()
 ```

@@ -1,14 +1,22 @@
-# khsmisc 0.4.0-9004 (unreleased)
+# khsmisc 0.4.1
 
+* `table1()` and `table2() %>% mygt()`: Remove horizontal border lines at the 
+     top of indented lines (parameter `remove_border`).
 * `mygt()`:
    + Return raw HTML if knitting R Markdown to `output: github_document`.
    + Format column labels.
 * `table2()`: 
-   + Allow customizing rounding of "time" and "events/time" estimates.
    + Pass along indentation of labels to `mygt()` as an attribute instead of
      HTML.
-* `brickchart()`: document workaround (no legend) for ggplot version >= 3.3.4
-* Update R Markdown template; make facets more controllable
+   + Improve handling of missing effect modifier strata, empty exposure strata,
+     uniform binary exposures, `logical` effect modifiers, 
+     missing per-stratum estimates, and rounding of 
+     `type = "time"` and `"events/time"`.
+   + New `type = "range"` (min-max).
+* `brickchart()`: make compatible (without legend) with ggplot >= 3.3.4;
+  make facets customizable.
+* `roundp()`: format *p* as `> 0.99` instead of `1.00`.
+* Update R Markdown template.
 
 
 # khsmisc 0.4.0

@@ -385,7 +385,7 @@ mygt <- function(df, md = NULL, indent = c(10, 20), remove_border = TRUE) {
 #'  default, will trigger which \code{statistic} is shown. For example:
 #'  \code{type = list(gear ~ "continuous", vs ~ "dichotomous")}.
 #'  Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.
-#' @param remove_borders Optional. For indented lines of individual strata,
+#' @param remove_border Optional. For indented lines of individual strata,
 #'   remove the upper horizontal border line? Defaults to \code{TRUE}.
 #'
 #' @return Formatted table. Continuous variables are

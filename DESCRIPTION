@@ -1,11 +1,11 @@
 Package: khsmisc
 Title: Miscellaneous functions for epidemiology research
-Version: 0.4.0-9006
+Version: 0.4.1
 Authors@R: 
     person(given = "Konrad",
            family = "Stopsack",
            role = c("aut", "cre"),
-           email = "stopsack@mskcc.org",
+           email = "stopsack@post.harvard.edu",
            comment = c(ORCID = "0000-0002-0722-1311"))
 Description: This package provides handy helper functions for 
   commonly performed data handling and analytical tasks in
@@ -35,7 +35,7 @@ Imports:
     viridis,
     broom (>= 0.7.0),
     cowplot (>= 1.0.0),
-    gt (>= 0.3.1),
+    gt (>= 0.4.0),
     gtsummary (>= 1.4.2),
     quantreg
 Suggests: 
