@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://stopsack.github.io/khsmisc/404.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/articles/khsmisc.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/authors.html</loc>
+  </url>
+  <url>
     <loc>https://stopsack.github.io/khsmisc/index.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/news/index.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/Mode.html</loc>
@@ -23,6 +41,9 @@
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/geom_stepribbon.html</loc>
+  </url>
+  <url>
+    <loc>https://stopsack.github.io/khsmisc/reference/index.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/khsmisc.html</loc>
@@ -83,8 +104,5 @@
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/write_csv_safely.html</loc>
-  </url>
-  <url>
-    <loc>https://stopsack.github.io/khsmisc/articles/khsmisc.html</loc>
   </url>
 </urlset>

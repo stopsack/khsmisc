@@ -1,9 +1,9 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   khsmisc: khsmisc.html
-last_built: 2021-10-23T14:48Z
+last_built: 2022-04-01T13:35Z
 urls:
   reference: https://stopsack.github.io/khsmisc/reference
   article: https://stopsack.github.io/khsmisc/articles

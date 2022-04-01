@@ -21,6 +21,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,18 +35,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/khsmisc.html">Get started</a>
 </li>
@@ -57,7 +53,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/stopsack/khsmisc/">
+  <a href="https://github.com/stopsack/khsmisc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -74,23 +70,23 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="the-khsmisc-package" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#the-khsmisc-package" class="anchor"></a>The <code>khsmisc</code> package</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="the-khsmisc-package">The <code>khsmisc</code> package<a class="anchor" aria-label="anchor" href="#the-khsmisc-package"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p>The khsmisc package provides a set of custom functions for epidemiology research. For a package that loads core libraries that fit well with this approach (e.g., tidyverse), see the <a href="https://stopsack.github.io/khsverse">khsverse package</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>The khsmisc package can be installed or updated from <a href="https://github.com/stopsack/khsmisc">GitHub</a>. A CRAN submission is not planned. If the remotes library is missing, install it first (<code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("remotes")</a></code>).</p>
+<p>The khsmisc package provides a set of custom functions for epidemiology research. For a package that loads core libraries that fit well with this approach (e.g., tidyverse), see the <a href="https://stopsack.github.io/khsverse" class="external-link">khsverse package</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The khsmisc package can be installed or updated from <a href="https://github.com/stopsack/khsmisc" class="external-link">GitHub</a>. A CRAN submission is not planned. If the remotes library is missing, install it first (<code>install.packages("remotes")</code>).</p>
 <p>Install or update the khsmisc package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="functions-for-epidemiology-research" class="section level2">
-<h2 class="hasAnchor">
-<a href="#functions-for-epidemiology-research" class="anchor"></a>Functions for Epidemiology Research</h2>
+<div class="section level2">
+<h2 id="functions-for-epidemiology-research">Functions for Epidemiology Research<a class="anchor" aria-label="anchor" href="#functions-for-epidemiology-research"></a>
+</h2>
 <ul>
 <li>
 <strong>Data handling:</strong> <code><a href="reference/varlist.html">varlist()</a></code> for variable list/dataset inventory, Stata style; <code><a href="reference/write_csv_safely.html">write_csv_safely()</a></code>, <code><a href="reference/save_safely.html">save_safely()</a></code>, <code><a href="reference/saveRDS_safely.html">saveRDS_safely()</a></code>, and <code><a href="reference/pdf_safely.html">pdf_safely()</a></code> to export CSV files, R objects, or PDFs without overwriting existing files; and <code><a href="reference/make_exclusions.html">make_exclusions()</a></code> to perform sequential exclusions when generating an analytical dataset.</li>
@@ -106,9 +102,9 @@
 <strong>Others:</strong> R Markdown template, available via File &gt; New File &gt; R Markdown &gt; From Template.</li>
 </ul>
 </div>
-<div id="an-analysis-example-tcga-blca" class="section level2">
-<h2 class="hasAnchor">
-<a href="#an-analysis-example-tcga-blca" class="anchor"></a>An analysis example: TCGA <code>BLCA</code>
+<div class="section level2">
+<h2 id="an-analysis-example-tcga-blca">An analysis example: TCGA <code>BLCA</code>
+<a class="anchor" aria-label="anchor" href="#an-analysis-example-tcga-blca"></a>
 </h2>
 <ul>
 <li>The <a href="articles/khsmisc.html">“Get Started”</a> vignette described an sample analysis workflow using the khsmisc package and TCGA <code>BLCA</code>.</li>
@@ -119,42 +115,54 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/stopsack/khsmisc/">https://​github.com/​stopsack/​khsmisc/​</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Konrad Stopsack <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0722-1311" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://github.com/stopsack/khsmisc/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/stopsack/khsmisc/actions/workflows/r.yml"><img src="https://github.com/stopsack/khsmisc/actions/workflows/r.yml/badge.svg" alt="R CMD Check Windows/MacOS/Ubuntu"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing khsmisc</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Konrad Stopsack <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0722-1311" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/stopsack/khsmisc/actions/workflows/r.yml" class="external-link"><img src="https://github.com/stopsack/khsmisc/actions/workflows/r.yml/badge.svg" alt="R CMD Check Windows/MacOS/Ubuntu"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Konrad Stopsack.</p>
+  <p></p>
+<p>Developed by Konrad Stopsack.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -162,6 +170,8 @@
 
   
 
+
+  
 
   </body>
 </html>
