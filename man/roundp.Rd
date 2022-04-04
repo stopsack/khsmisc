@@ -24,6 +24,6 @@ or returns an inequality of "< 0.001" (if p < 0.001).
 roundp(0.1138)
 roundp(c(0.01138, 0.0000138))
 
-# Omit equal sign
-roundp(0.01138, equal = FALSE)
+# Include equal sign
+roundp(0.01138, equal = TRUE)
 }

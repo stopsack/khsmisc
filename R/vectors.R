@@ -62,8 +62,8 @@ Mode <- function(x) {
 #' roundp(0.1138)
 #' roundp(c(0.01138, 0.0000138))
 #'
-#' # Omit equal sign
-#' roundp(0.01138, equal = FALSE)
+#' # Include equal sign
+#' roundp(0.01138, equal = TRUE)
 roundp <- function(pee, equal = FALSE) {
   dplyr::case_when(
     pee < 0.001               ~ "< 0.001",
