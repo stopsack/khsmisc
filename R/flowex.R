@@ -67,11 +67,13 @@ make_exclusions <- function(criteria, data) {
         .x = .data$filter,
         .f = ~dplyr::filter(.data = .x, eval(.y)),
         .init = data), -1),
-      included_lead = dplyr::lead(.data$included),
-      excluded      = purrr::map2(.x = .data$included_lead,
-                                  .y = .data$included,
+      included_lead = dplyr::lead(.data$included,
+                                  default = .data$included[1]),
+      excluded      = purrr::map2(.x = .data$included,
+                                  .y = .data$included_lead,
                                   .f = dplyr::setdiff),
-      n_left        = purrr::map_int(.x = .data$included, .f = nrow),
+      n_left        = purrr::map_int(.x = .data$included,
+                                     .f = nrow),
       n_right       = .data$n_left - dplyr::lead(.data$n_left)) %>%
     dplyr::select(-.data$included_lead)
 }
