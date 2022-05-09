@@ -101,6 +101,7 @@ brickchart <- function(
                                            y = .data$proportion,
                                            fill = .data$color)) +
     ggplot2::geom_bar(stat = "identity") +
+    ggplot2::scale_x_discrete(drop = FALSE) +
     ggplot2::coord_flip() +
     cowplot::theme_minimal_vgrid() +
     ggplot2::theme(strip.text = ggplot2::element_text(face = "bold"),

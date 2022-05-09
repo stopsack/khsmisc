@@ -1,3 +1,9 @@
+# khsmisc 0.4.1-9001
+
+* `make_exclusions()`: return a list of observations filtered out (`excluded`)
+* `brickchart()`: do not drop `by` categories without events
+
+
 # khsmisc 0.4.1
 
 * `table1()` and `table2() %>% mygt()`: Remove horizontal border lines at the 
