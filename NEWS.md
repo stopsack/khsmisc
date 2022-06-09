@@ -1,7 +1,8 @@
-# khsmisc 0.4.1-9001
+# khsmisc 0.4.2
 
 * `make_exclusions()`: return a list of observations filtered out (`excluded`)
-* `brickchart()`: do not drop `by` categories without events
+* `brickchart()`: do not drop `by` or `group` categories without events
+* New vignette about ratio of continuous outcomes with `table2()`
 
 
 # khsmisc 0.4.1
