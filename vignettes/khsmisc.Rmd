@@ -129,10 +129,12 @@ clinical <- clinical %>%
 Additional exposure data on tumors of the same study participants comes in the form of derived tumor aneuploidy scores as per Taylor, ..., Meyerson ([Cancer Cell 2018;33:676–689](https://doi.org/10.1016/j.ccell.2018.03.007)).
 
     
-Load the Excel file provided as their [Supplementary Table 2 via a HTTPS URL](https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx), show dataset inventory, and select/rename variables:
+Next, load the Excel file provided as their [Supplementary Table 2 via a HTTPS URL](https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx), show dataset inventory, and select/rename variables.
+
+The following code can no longer be excuted because the journal blocks simple downloads. Instead, manually open the link above in the browser.
     
-```{r}
-# --Workaround: read_xlsx() is currently not supporting reading URLs directly--
+```{r, eval = FALSE}
+### THIS CHUNK IS NOT BEING EXECUTED
 # Generate temporary path
 temporary_path <- tempfile(fileext = ".xlsx")
 # Download Taylor suppl. table 2 to that temporary path
@@ -145,17 +147,28 @@ print(paste("Taylor et al. suppl. table 2 is temporarily available locally at",
 taylor <- read_xlsx(path = temporary_path, 
                     skip = 1)  # skip the first line
 # --end workaround--
+```
 
-varlist(taylor) %>%
-  print(n = 20)
+This example will continue to use **SIMULATED** data as follows:
 
-taylor <- taylor %>%
-  select(id         = Sample,
-         ascore     = `AneuploidyScore(AS)`,
-         ascore_del = AS_del,
-         ascore_amp = AS_amp,
-         doubling   = Genome_doublings,
-         purity     = Purity)
+```{r sim_taylor}
+# Simulated aneuploidy data for demonstration purposes:
+set.seed(123)
+taylor <- clinical %>%
+  select(id) %>%
+  mutate(
+    id = paste0(id, "-01"),  # make simulated IDs match Taylor et al.'s
+    purity = rnorm(n = n(), 
+                   mean = 0.6,
+                   sd = 0.2),
+    ascore = rnorm(n = n(),
+                   mean = 12,
+                   sd = 9),
+    ascore = case_when(ascore < 0 ~ 0,
+                       ascore > 40 ~ 40,
+                       TRUE ~ ascore))
+
+varlist(taylor)
 ```
 
 
@@ -180,13 +193,13 @@ Consistently code categorical variables as a `factor` and continuous variables a
 
 ```{r}
 combined <- combined %>%
-  mutate_at(.vars = vars(sex, race, ethnicity, smoke,
-                         c_tstage, p_stage, p_tstage, p_nstage, mstage, 
-                         grade, histology, 
-                         os_status, dfs_status),
-            .funs = factor) %>%
-  mutate_at(.vars = vars(height, weight, agedx, dxyear, os_mos, dfs_mos),
-            .funs = as.numeric)
+  mutate(
+    across(.cols = c(sex, race, ethnicity, smoke,
+                     c_tstage, p_stage, p_tstage, p_nstage, mstage, 
+                     grade, histology, os_status, dfs_status), 
+           .fns = factor),
+    across(.cols = c(height, weight, agedx, dxyear, os_mos, dfs_mos),
+           .fns = as.numeric))
 ```
 
 The warning messages are expected, as some numeric variables contain non-numeric values.
@@ -196,19 +209,25 @@ Next, recode various labels of missing data in categorical variables to a consis
 
 ```{r}
 # Tabulate some examples
-combined %>% select(race, dfs_status, histology) %>%
-  map(.f = table, useNA = "always")  # always show NA ("missing") levels
+combined %>% 
+  select(race, dfs_status, histology) %>%
+  map(.f = table, 
+      useNA = "always")  # always show NA ("missing") levels
 
 # Collapse all actually missings to R's missing
 combined <- combined %>%
-  mutate_if(.predicate = is.factor, 
-            .funs = ~fct_collapse(., NULL = c("[Not Available]", 
-                                              "[Discrepancy]", 
-                                              "Indeterminate")))
+  mutate(
+    across(.cols = where(is.factor), 
+           .fns = ~fct_collapse(., 
+                                NULL = c("[Not Available]", 
+                                         "[Discrepancy]", 
+                                         "Indeterminate"))))
 
 # Revisit the examples after recoding
-combined %>% select(race, dfs_status, histology) %>%
-  map(.f = table, useNA = "always")  # always show NA ("missing") levels
+combined %>% 
+  select(race, dfs_status, histology) %>%
+  map(.f = table, 
+      useNA = "always")  # always show NA ("missing") levels
 ```
 
 
@@ -216,10 +235,13 @@ Recode event indicators to the numeric values that `survival` functions require:
 
 ```{r}
 combined <- combined %>%
-  mutate(dfs_event = case_when(dfs_status == "Recurred/Progressed" ~ 1,
-                               dfs_status == "DiseaseFree"         ~ 0),
-         os_event  = case_when(os_status  == "DECEASED"            ~ 1,
-                               os_status  == "LIVING"              ~ 0))
+  mutate(
+    dfs_event = case_when(
+      dfs_status == "Recurred/Progressed" ~ 1,
+      dfs_status == "DiseaseFree"         ~ 0),
+    os_event  = case_when(
+      os_status  == "DECEASED"            ~ 1,
+      os_status  == "LIVING"              ~ 0))
 ```
 
 
@@ -232,12 +254,13 @@ combined %>%
 
 combined <- combined %>% 
          # Change from all uppercase:
-  mutate(race      = factor(str_to_title(race)),
-         ethnicity = factor(str_to_title(ethnicity)),
-         # Make "Black" as short as other categories
-         race = fct_recode(race, Black = "Black Or African American"),
-         # Make "White" the reference category because of sample size
-         race = fct_relevel(race, "White"))
+  mutate(
+    race      = factor(str_to_title(race)),
+    ethnicity = factor(str_to_title(ethnicity)),
+    # Make "Black" as short as other categories
+    race = fct_recode(race, Black = "Black Or African American"),
+    # Make "White" the reference category because of sample size
+    race = fct_relevel(race, "White"))
 
 # After:
 combined %>%
@@ -248,16 +271,23 @@ Assign meaningful labels to the `smoke` variable, based on inspection of other s
 
 ```{r}
 combined <- combined %>%
-  mutate(smoke = factor(smoke, levels = 1:5, 
-                        labels = c("Never", "Current", 
-                                   "Former, quit >15 y", "Former, quit <15 y", 
-                                   "Former")),
-         # Combine all "formers":
-         smoke3 = fct_collapse(smoke, Former = c("Former", 
-                                                 "Former, quit >15 y", 
-                                                 "Former, quit <15 y")),
-         # Change order of levels, starting with "never" as the reference:
-         smoke3 = fct_relevel(smoke3, "Never", "Former", "Current"))
+  mutate(
+    smoke = factor(
+      smoke, 
+      levels = 1:5, 
+      labels = c("Never", "Current", 
+                 "Former, quit >15 y", "Former, quit <15 y", 
+                 "Former")),
+    # Combine all "formers":
+    smoke3 = fct_collapse(
+      smoke, 
+      Former = c("Former", 
+                 "Former, quit >15 y", 
+                 "Former, quit <15 y")),
+    # Change order of levels, starting with "never" as the reference:
+    smoke3 = fct_relevel(
+      smoke3, 
+      "Never", "Former", "Current"))
 ```
 
 
@@ -275,33 +305,33 @@ Category boundaries are informed by results from code to be run below.
 
 ```{r}
 combined <- combined %>%
-  mutate(ascore_cat = cut(ascore, 
-                          breaks = c(0, 5, 10, 20, max(ascore, na.rm = TRUE)), 
-                          include.lowest = TRUE))
+  mutate(
+    ascore_cat = cut(
+      ascore, 
+      breaks = c(0, 5, 10, 20, max(ascore, na.rm = TRUE)), 
+      include.lowest = TRUE))
 ```
 
 ### Labeling variables
 
 ```{r}
 combined <- combined %>%
-  set_variable_labels(sex        = "Sex",
-                      race       = "Self-reported race",
-                      ethnicity  = "Ethnicity",
-                      smoke      = "Smoking status at diangosis",
-                      smoke3     = "Smoking status at diagnosis",
-                      agedx      = "Age at diagnosis",
-                      dxyear     = "Calendar year of initial diagnosis",
-                      bmidx      = "Body mass index at diagnosis",
-                      p_stage    = "AJCC pathologic stage",
-                      mstage     = "Metastases at diagnosis",
-                      grade      = "Histologic grade",
-                      histology  = "Histologic subtype",
-                      ascore     = "Aneuploidy score",
-                      ascore_cat = "Aneuploidy score",
-                      ascore_del = "Aneuploidy score: deletions",
-                      ascore_amp = "Aneuploidy score: amplifications",
-                      doubling   = "Whole genome doubling",
-                      purity     = "DNA tumor purity by ABSOLUTE")
+  set_variable_labels(
+    sex        = "Sex",
+    race       = "Self-reported race",
+    ethnicity  = "Ethnicity",
+    smoke      = "Smoking status at diangosis",
+    smoke3     = "Smoking status at diagnosis",
+    agedx      = "Age at diagnosis",
+    dxyear     = "Calendar year of initial diagnosis",
+    bmidx      = "Body mass index at diagnosis",
+    p_stage    = "AJCC pathologic stage",
+    mstage     = "Metastases at diagnosis",
+    grade      = "Histologic grade",
+    histology  = "Histologic subtype",
+    ascore     = "Aneuploidy score",
+    ascore_cat = "Aneuploidy score",
+    purity     = "DNA tumor purity by ABSOLUTE")
 ```
 
 
@@ -321,9 +351,11 @@ Exposure and confounders
 
 ```{r}
 combined %>%
-  tsummary(race, agedx, bmidx, dxyear, purity, by = race) %>%  # make descriptive table
+  # make descriptive table:
+  tsummary(race, agedx, bmidx, dxyear, purity, by = race) %>%  
   select(-mean, -sd, -sum) %>%  # remove undesired statistics
-  mutate_if(.predicate = is.numeric, .funs = round, digits = 2) %>%  # round
+  mutate(across(.cols = where(is.numeric), 
+                .fns = round, digits = 2)) %>%  # round
   mygt()  # format
 ```
 
@@ -351,12 +383,15 @@ Is the outcome reasonably normally distributed? Show a quantile--quantile plot b
 ```{r}
 combined %>% 
   ggplot(aes(sample = ascore)) + 
-  stat_qq() + stat_qq_line() +
+  stat_qq() + 
+  stat_qq_line() +
   labs(y = "Sample, untransformed") +
   theme_minimal_grid()
 
-combined %>% ggplot(aes(sample = log(ascore + 0.1))) + 
-  stat_qq() + stat_qq_line() +
+combined %>% 
+  ggplot(aes(sample = log(ascore + 0.1))) + 
+  stat_qq() + 
+  stat_qq_line() +
   labs(y = "Sample, log(x + 0.1)-transformed") +
   theme_minimal_grid()
 ```
@@ -401,10 +436,12 @@ analytical %>%
 
 ```{r}
 analytical %>%
-  table1(ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
-         p_stage, mstage, grade, histology, purity, doubling,
-         by = race, digits = list(agedx  = c(1, 1), 
-                                  dxyear = c(0, 0)))
+  table1(
+    ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
+    p_stage, mstage, grade, histology, purity,
+    by = race, 
+    digits = list(agedx  = c(1, 1), 
+                  dxyear = c(0, 0)))
 ```
 
 
@@ -412,7 +449,8 @@ analytical %>%
 
 ```{r}
 analytical %>%
-  stripplot(x = race, y = ascore)
+  stripplot(x = race, 
+            y = ascore)
 ```
 
 **Restricted to high grade, non-missing aneuploidy scores and histology, and then color code by histology**
@@ -420,9 +458,13 @@ analytical %>%
 analytical %>%
   filter(grade == "High Grade") %>%
   filter(!is.na(ascore) & !is.na(histology)) %>%
-  stripplot(x = race, y = ascore, color = histology) +
+  stripplot(x = race, 
+            y = ascore, 
+            color = histology) +
   # change color palette:
-  scale_color_viridis_d(option = "cividis", end = 0.8, direction = -1) +
+  scale_color_viridis_d(option = "cividis", 
+                        end = 0.8, 
+                        direction = -1) +
   # add label:
   labs(color = "Histology")
 ```
@@ -432,23 +474,31 @@ analytical %>%
 ```{r}
 # Part 1: Stratified
 analytical %>%
-  table1(ascore_cat, by = race)
+  table1(ascore_cat, 
+         by = race)
 ```
 
 
 ```{r}
-tribble(~label,                             ~confounders,                                 ~type,
-        "N",                                "",                                           "total",
-        "Mean altered chromosome arms",     "",                                           "mean",
-        "Difference (95% CI):",             "",                                           "", 
-        "-- Model (1) Age/sex-adjusted",    "+ agedx + sex",                              "diff",
-        "-- Model (2) Model 1 + smoking",   "+ agedx + sex + smoke3",                     "diff",
-        "-- Model (3) Model 2 + histology", "+ agedx + sex + smoke3 + histology",         "diff",
-        "-- Model (4) Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade", "diff") %>%
-  mutate(exposure = "race", outcome = "ascore", diff_digits = 1) %>%
-  table2(data = analytical %>% 
-           # evaluate all models in the same complete-case subset:
-           filter(!is.na(ascore) & !is.na(smoke3) & !is.na(histology) & !is.na(grade))) %>%
+tribble(
+  ~label,                           ~confounders,             ~type,
+  "N",                              "",                       "total",
+  "Mean altered chromosome arms",   "",                       "mean",
+  "Difference (95% CI):",           "",                       "", 
+  "  Model 1: Age/sex-adjusted",    "+ agedx + sex",          "diff",
+  "  Model 2: Model 1 + smoking",   "+ agedx + sex + smoke3", "diff",
+  "  Model 3: Model 2 + histology", "+ agedx + sex + smoke3 + histology",  "diff",
+  "  Model 4: Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade", "diff") %>%
+  mutate(exposure = "race", 
+         outcome = "ascore") %>%
+  table2(
+    data = analytical %>% 
+      # evaluate all models in the same complete-case subset:
+      filter(!is.na(ascore) & 
+               !is.na(smoke3) & 
+               !is.na(histology) & 
+               !is.na(grade)),
+    diff_digits = 1) %>%
   mygt()
 ```
 
@@ -458,16 +508,23 @@ tribble(~label,                             ~confounders,                       
 Models are adjusted for age (and sex, unless sex is an effect modifier).
 
 ```{r}
-tribble(~label,             ~effect_modifier, ~stratum,        ~confounders,    ~type,
-        "By sex",           NULL,             NULL,            "",              "",
-        "-- Female",        "sex",            "Female",        "+ agedx",       "diff",
-        "-- Male",          "sex",            "Male",          "+ agedx",       "diff",
-        "By histology",     NULL,             NULL,            "",              "",
-        "-- Papillary",     "histology",      "Papillary",     "+ agedx + sex", "diff",
-        "-- Non-Papillary", "histology",      "Non-Papillary", "+ agedx + sex", "diff") %>%
-  mutate(exposure = "race", outcome = "ascore", diff_digits = 1) %>%
-  table2(data = analytical %>% 
-           filter(!is.na(ascore) & !is.na(smoke3) & !is.na(histology) & !is.na(grade))) %>%
+tribble(
+  ~label,            ~effect_modifier, ~stratum,    ~confounders,    ~type,
+  "By sex",          NULL,             NULL,        "",              "",
+  "  Female",        "sex",            "Female",    "+ agedx",       "diff",
+  "  Male",          "sex",            "Male",      "+ agedx",       "diff",
+  "By histology",    NULL,             NULL,        "",              "",
+  "  Papillary",     "histology",      "Papillary", "+ agedx + sex", "diff",
+  "  Non-Papillary", "histology",  "Non-Papillary", "+ agedx + sex", "diff") %>%
+  mutate(exposure = "race", 
+         outcome = "ascore") %>%
+  table2(
+    data = analytical %>% 
+      filter(!is.na(ascore) & 
+               !is.na(smoke3) &
+               !is.na(histology) & 
+               !is.na(grade)),
+    diff_digits = 1) %>%
   mygt()
 ```
 
@@ -475,3 +532,4 @@ tribble(~label,             ~effect_modifier, ~stratum,        ~confounders,    
 ### Table 4: Sensitivity analyses
 
 ...
+
