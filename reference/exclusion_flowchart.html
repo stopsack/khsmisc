@@ -24,7 +24,7 @@ Generate the design using make_exclusions."><!-- mathjax --><script src="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
       </span>
     </div>
 
@@ -35,6 +35,16 @@ Generate the design using make_exclusions."><!-- mathjax --><script src="https:/
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/fold.html">Tutorial: Ratios of continuous variables</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -130,8 +140,8 @@ supply line breaks using <code>\n</code>. See example.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Plot</span></span>
 <span class="r-in"><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<div id="htmlwidget-0dd95ea734051d2022be" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0dd95ea734051d2022be">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+<div id="htmlwidget-002e98a17962e95351a1" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-002e98a17962e95351a1">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>
@@ -146,7 +156,7 @@ supply line breaks using <code>\n</code>. See example.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

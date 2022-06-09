@@ -20,7 +20,7 @@ plot a flowchart of exclusions."><!-- mathjax --><script src="https://cdnjs.clou
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
       </span>
     </div>
 
@@ -31,6 +31,16 @@ plot a flowchart of exclusions."><!-- mathjax --><script src="https://cdnjs.clou
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/fold.html">Tutorial: Ratios of continuous variables</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -135,7 +145,7 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All patients          <span style="color: #949494;">"</span>Missing EC… <span style="color: #949494;">&lt;language&gt;</span> &lt;tibble&gt; &lt;tibble&gt;    228       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Known ECOG            <span style="color: #949494;">"</span>Exclude me… <span style="color: #949494;">&lt;language&gt;</span> &lt;tibble&gt; &lt;tibble&gt;    227     137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analytical population <span style="color: #949494;">""</span>           <span style="color: #949494;">&lt;lgl [1]&gt;</span>  &lt;tibble&gt; <span style="color: #949494;">&lt;NULL&gt;</span>       90      <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analytical population <span style="color: #949494;">""</span>           <span style="color: #949494;">&lt;lgl [1]&gt;</span>  &lt;tibble&gt; &lt;tibble&gt;     90      <span style="color: #BB0000;">NA</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Access study population after all exclusions</span></span>
 <span class="r-in"><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
@@ -159,8 +169,8 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-in"><span class="co"># Plot flow chart of exclusions (might not display in the online reference)</span></span>
 <span class="r-in"><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="exclusion_flowchart.html">exclusion_flowchart</a></span><span class="op">(</span><span class="op">)</span></span>
-<div id="htmlwidget-ae5bfdcffd1bcc94d34d" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ae5bfdcffd1bcc94d34d">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+<div id="htmlwidget-e0190eadc87fd41d6bb2" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0190eadc87fd41d6bb2">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>
@@ -175,7 +185,7 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
