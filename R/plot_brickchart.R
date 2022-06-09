@@ -58,7 +58,9 @@ brickchart <- function(
   if(missing(group)) {
     group <- NULL  # for facet_grid
   } else {
-    data <- data %>% dplyr::arrange({{ group }})
+    data <- data %>%
+      dplyr::mutate({{ group }} := factor({{ group }})) %>%
+      dplyr::arrange({{ group }})
   }
   if(is.null(colors)) {
     by_length <- length(unique(data %>% dplyr::pull({{ by }})))
@@ -97,6 +99,15 @@ brickchart <- function(
     dplyr::filter({{ outcome }}) %>%
     dplyr::group_by({{ by }}) %>%
     dplyr::mutate(color = factor(dplyr::row_number() + .data$groupnum)) %>%
+    dplyr::bind_rows(
+      data %>%
+        dplyr::distinct({{ group }}) %>%
+        dplyr::mutate(
+          {{ by }} := (data %>%
+                         dplyr::select({{ by }}) %>%
+                         dplyr::slice(1) %>%
+                         dplyr::pull(1)),
+          proportion = 0)) %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x = {{ by }},
                                            y = .data$proportion,
                                            fill = .data$color)) +
