@@ -666,6 +666,8 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                     paste(outcome, "~ .exposure", confounders)),
                     data = data)
                 },
+                irrrob =,
+                irrrob_joint =,
                 irr_joint =,
                 irr = {
                   reference <- 1
@@ -810,6 +812,31 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
     cumincdiff = ,
     cumincdiff_joint = {
       fit %>% dplyr::mutate(term = paste0(".exposure", .data$term))
+    },
+    irrrob =,
+    irrrob_joint = {
+      if (!requireNamespace("sandwich", quietly = TRUE)) {
+        stop(paste(
+          "The package \"sandwich\" must be installed to estimate robust",
+          "standard errors.\nInstall with:  install.packages(\"sandwich\")"),
+          call. = FALSE)
+      }
+      broom::tidy(fit,
+                  conf.int = FALSE,
+                  exponentiate = FALSE) %>%
+        dplyr::mutate(
+          std.error = sqrt(diag(sandwich::vcovHC(fit,
+                                                 type = "HC0"))),
+          statistic = .data$estimate / .data$std.error,
+          conf.low = .data$estimate -
+            stats::qnorm(0.975) * .data$std.error,
+          conf.high = .data$estimate +
+            stats::qnorm(0.975) * .data$std.error) %>%
+        dplyr::mutate_at(
+          .vars = dplyr::vars(.data$estimate,
+                              .data$conf.low,
+                              .data$conf.high),
+          .funs = exp)
     },
     # standard- otherwise:
     broom::tidy(fit, conf.int = TRUE,
@@ -1214,6 +1241,8 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        hazards regression.
 #'      * \code{"irr"} Incidence rate ratio for count outcomes
 #'        from Poisson regression model.
+#'      * \code{"irrrob"} Ratio for other outcomes
+#'        from Poisson regression model with robust (sandwich) standard errors.
 #'      * \code{"rr"} Risk ratio (or prevalence ratio)
 #'        from \code{\link[risks]{riskratio}}. Can request specific model
 #'        fitting  approach and, for marginal
@@ -1322,9 +1351,9 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'
 #'      By default, regression models will be fit separately for each
 #'      stratum of the \code{effect_modifier}. Append \code{"_joint"}
-#'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-#'      \code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, \code{"or"}, or
-#'      \code{"rmtdiff"} to
+#'      to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"},
+#'      \code{"irrrob"}, \code{"diff"}, \code{"fold"}, \code{"foldlog"},
+#'      \code{"quantreg"}, \code{"or"}, or \code{"rmtdiff"} to
 #'      obtain "joint" models for exposure and effect modifier that have a
 #'      single reference category.
 #'      Example: \code{type = "hr_joint"}. The reference categories
@@ -1725,12 +1754,13 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                           rate_digits = rate_digits,
                                           to = to,
                                           custom_fn = custom)) %>%
-      dplyr::mutate(result = purrr::map2(.x = .data$result,
-                                         .y = .data$result2,
-                                         .f = ~full_join(.x, .y,
-                                                         by = ".exposure",
-                                                         suffix = c(".1",
-                                                                    ".2")))) %>%
+      dplyr::mutate(result = purrr::map2(
+        .x = .data$result,
+        .y = .data$result2,
+        .f = ~full_join(.x, .y,
+                        by = ".exposure",
+                        suffix = c(".1",
+                                   ".2")))) %>%
       dplyr::select(.data$index, .data$label, .data$result) %>%
       tidyr::unnest(cols = .data$result) %>%
       tidyr::pivot_longer(cols = c(.data$res.1, .data$res.2),
@@ -1764,10 +1794,17 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
           dplyr::rename(!!name := .data$label) %>%
           dplyr::select(-.data$index)
       }
-
-      attr(res, which = "mygt.indent2") <- stringr::str_which(
-        string = res %>% dplyr::pull(1),
-        pattern = "^[:blank:]{2,3}")
+      if(type2_layout == "rows") {
+        attr(res, which = "mygt.indent2") <- union(
+          stringr::str_which(
+            string = res %>% dplyr::pull(1),
+            pattern = "^[:blank:]{2,3}"),
+          which(!(1:nrow(res) %% 2)))
+      } else {
+        attr(res, which = "mygt.indent2") <- stringr::str_which(
+          string = res %>% dplyr::pull(1),
+          pattern = "^[:blank:]{2,3}")
+      }
       attr(res, which = "mygt.indent4") <- stringr::str_which(
         string = res %>% dplyr::pull(1),
         pattern = "^[:blank:]{4,}")

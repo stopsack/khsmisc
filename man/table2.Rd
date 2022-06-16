@@ -158,6 +158,8 @@ Comparative estimates with 95\% confidence intervals:
 hazards regression.
 \item \code{"irr"} Incidence rate ratio for count outcomes
 from Poisson regression model.
+\item \code{"irrrob"} Ratio for other outcomes
+from Poisson regression model with robust (sandwich) standard errors.
 \item \code{"rr"} Risk ratio (or prevalence ratio)
 from \code{\link[risks]{riskratio}}. Can request specific model
 fitting  approach and, for marginal
@@ -268,9 +270,9 @@ through \code{"custom99"} to select one function.
 
 By default, regression models will be fit separately for each
 stratum of the \code{effect_modifier}. Append \code{"_joint"}
-to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"}, \code{"diff"},
-\code{"fold"}, \code{"foldlog"}, \code{"quantreg"}, \code{"or"}, or
-\code{"rmtdiff"} to
+to \code{"hr"}, \code{"rr"}, \code{"rd"}, \code{"irr"},
+\code{"irrrob"}, \code{"diff"}, \code{"fold"}, \code{"foldlog"},
+\code{"quantreg"}, \code{"or"}, or \code{"rmtdiff"} to
 obtain "joint" models for exposure and effect modifier that have a
 single reference category.
 Example: \code{type = "hr_joint"}. The reference categories

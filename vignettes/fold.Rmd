@@ -44,7 +44,7 @@ cars
 ```
 
 
-Using `table2()`, one can calculate mean differences in `mpg`, `hp`, or `wt`:
+Using `table2()`, one can calculate mean differences (`type = "diff"`) in `mpg`, `hp`, or `wt`:
 
 ```{r table2_diff}
 tribble(
@@ -66,11 +66,12 @@ tribble(
 Two types of ratios for continuous outcomes are implemented in `table2()`:
 
 `type =` | Ratio of ... | Model           | Use
----------|--------------|-----------------|-------------------------------------
-`"fold"` | Arithmetric means | Generalized linear model with log link: `glm(y ~ x, family = gaussian(link = "log"))` | Tolerates `0` in the `outcome` variable. Best fit if outcome is normally distributed without transformation.
-`"fold"` | Geometric means   | Linear model with log-transformed outcome: `lm(log(y) ~ x)` | Does not tolerate `0` in the `outcome` variable, as `log(0)` is undefined (R returns `-Inf`). Best fit if outcome is normally distributed after log transformation.
+-------|------------|-----------------|-------------------------------------
+`"fold"` | Arithmetric means | Generalized linear model with Gaussian distribution and log link: `glm(y ~ x, family = gaussian(link = "log"))` | Tolerates `0` in the `outcome` variable. Best fit if outcome is normally distributed without transformation.
+`"irrrob"` | Arithmetric means | Generalized linear model with Poisson distribution and log link: `glm(y ~ x, family = poisson())`, with robust (sandwich) standard errors | Tolerates `0` in the `outcome` variable. (Note, the `stats::glm()` will issue warnings that the outcome is "non-integer." This warning can be ignored here.)
+`"foldlog"` | Geometric means | Linear model with log-transformed outcome: `lm(log(y) ~ x)` | Does not tolerate `0` in the `outcome` variable, as `log(0)` is undefined (R returns `-Inf`). Best fit if outcome is normally distributed after log transformation.
 
-In both models, beta coefficients can be interpreted as ratios after exponentiation.
+In both models, beta coefficients can be interpreted as ratios after exponentiation. `table2()` automatically does all nessary transformations.
 
 In the `cars` data, ratios of usual (arithmetric) means could be considered informative, given that `hist(cars$mpg)` etc. does not show major skew in these outcomes.
 

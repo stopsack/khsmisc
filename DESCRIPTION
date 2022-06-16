@@ -43,6 +43,7 @@ Suggests:
     markdown,
     rmarkdown,
     readxl,
+    sandwich,
     svglite,
     survminer
 Remotes:
