@@ -10,6 +10,8 @@
 #'   * Rounding of continuous values to one decimal digit. Percentages for
 #'     categorical and binary are rounded to no decimal digits.
 #'
+#' @param data Data frame/tibble to print. Required. Alternatively, this can
+#'   be a \code{list} of data frames, which will be displayed side-by-side.
 #' @param ... Optional: Rows to include in table. If none are provided,
 #'   all variables will be shown. Supports tidy evaluation; see examples.
 #'   If multiple data sets are shown side-by-side, this parameter will be
@@ -40,6 +42,12 @@
 #'  Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.
 #' @param remove_border Optional. For indented lines of individual strata,
 #'   remove the upper horizontal border line? Defaults to \code{TRUE}.
+#' @param as_gt Optional. Whether to return a formatted gt table. Defaults to
+#'   \code{TRUE}.
+#' @param data_names Optional. A character vector of names when displaying
+#'   multiple data sets (i.e., when inputting a \code{list} to the \code{data}
+#'   argument)
+#'
 #' @return Formatted table. Continuous variables are
 #'   median (quartile 1, quartile 3); categorical variables are
 #'   count (column percent).
@@ -59,6 +67,23 @@
 #' mtcars %>%
 #'   table1(cyl, mpg, disp, by = gear)
 #' }
+#'
+#' # Example 3: Two datasets side by side
+#' \dontrun{
+#' dataset1 <- mtcars %>%
+#'   dplyr::select(cyl, hp, qsec, gear) %>%
+#'   dplyr::slice(1:20)
+#'
+#' dataset2 <- mtcars %>%
+#'   dplyr::select(cyl, hp, wt, gear) %>%
+#'   dplyr::slice(5:20)
+#'
+#' table1(
+#'   data = list(dataset1, dataset2),
+#'   by = gear,
+#'   data_names = c("First set", "Second set"))
+#' }
+#'
 #' @section Example Output:
 #' \if{html}{Example 1}
 #'
@@ -77,6 +102,49 @@ table1 <- function(data,
                    statistic = NULL,
                    type      = NULL,
                    remove_border = TRUE,
+                   as_gt     = TRUE,
+                   data_names = NULL) {
+  # Multiple data sets side-by-side
+  if("list" %in% class(data)) {
+    if(missing(by)) {
+      tbl_list <- purrr::map(
+        .x = data,
+        .f = ~table1(data = .x,
+                     overall = overall,
+                     label = label,
+                     digits = digits,
+                     statistic = statistic,
+                     type = type,
+                     as_gt = FALSE))
+    } else {
+      if(length(as.list(match.call(expand.dots=FALSE))$by) == 1) {
+        bylist <- rep(as.character(as.list(match.call(expand.dots = FALSE))$by),
+                      times = length(data))
+      } else {
+        bylist <- as.character(as.list(match.call(expand.dots = FALSE))$by)[-1]
+      }
+      tbl_list <- purrr::map2(
+        .x = data,
+        .y = bylist,
+        .f = ~table1(data = .x %>%
+                       dplyr::rename(.by = one_of(.y)),
+                     by = .data$.by,
+                     overall = overall,
+                     label = label,
+                     digits = digits,
+                     statistic = statistic,
+                     type = type,
+                     as_gt = FALSE))
+    }
+    res <- gtsummary::tbl_merge(tbls = tbl_list,
+                                tab_spanner = data_names) %>%
+      gtsummary::as_gt(include = -tab_footnote)
+
+  # Single data set
+  } else {
+    gtsummary::set_gtsummary_theme(
+      list("tbl_summary-fn:percent_fun" = function(x)
+        sprintf("%.0f", 100 * x)))
     mystats <- list(N ~ "{n}")
     if(!is.null(statistic))
       mystats <- append(mystats, statistic)
