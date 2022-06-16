@@ -24,7 +24,7 @@ Generate the design using make_exclusions."><!-- mathjax --><script src="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -93,12 +93,17 @@ of the left box. To skip, use <code>NA_integer_</code>.</p></li>
 <li><p><code>n_right</code> Count to be shown as 'n =' in the bottom
 of the right box. To skip, use <code>NA_integer_</code>.</p></li>
 </ul></dd>
+
+
 <dt>width</dt>
 <dd><p>Minimum width for all boxes. Defaults to <code>3</code> (inches).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Plot rendered using <code><a href="https://rdrr.io/pkg/DiagrammeR/man/grViz.html" class="external-link">grViz</a></code>.
+    
+
+<p>Plot rendered using <code><a href="https://rdrr.io/pkg/DiagrammeR/man/grViz.html" class="external-link">grViz</a></code>.
 For a <code>design</code> with three rows,
 the following pseudo-code would be generated:</p><div class="sourceCode"><pre><code><span class="fu">grViz</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"digraph flowchart {
     node [fontname = Helvetica, shape = rectangle, width = 4]
@@ -115,6 +120,8 @@ the following pseudo-code would be generated:</p><div class="sourceCode"><pre><c
     tab1a -&gt; tab1b;
     tab2a -&gt; tab2b;
     }"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -140,8 +147,8 @@ supply line breaks using <code>\n</code>. See example.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Plot</span></span>
 <span class="r-in"><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<div id="htmlwidget-002e98a17962e95351a1" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-002e98a17962e95351a1">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+<div id="htmlwidget-c5e24fbd6fd09aa95fe5" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c5e24fbd6fd09aa95fe5">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>
@@ -156,7 +163,7 @@ supply line breaks using <code>\n</code>. See example.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

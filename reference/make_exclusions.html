@@ -20,7 +20,7 @@ plot a flowchart of exclusions."><!-- mathjax --><script src="https://cdnjs.clou
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -84,13 +84,18 @@ plot a flowchart of exclusions.</p>
 The filter in the last row will not be executed, because the last row
 serves as a description of the final data set. See examples.</p></li>
 </ul></dd>
+
+
 <dt>data</dt>
 <dd><p>Tibble with data set on which the filtering criteria should be
 applied.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble. Each row is a filtering step. Variables:</p><ul><li><p><code>left</code>: Labels for included subset that is "left" after the filter.</p></li>
+    
+
+<p>A tibble. Each row is a filtering step. Variables:</p><ul><li><p><code>left</code>: Labels for included subset that is "left" after the filter.</p></li>
 <li><p><code>right</code>: Labels for excluded subset (which
 <code><a href="exclusion_flowchart.html">exclusion_flowchart</a></code> plots to the right).</p></li>
 <li><p><code>included</code> The data before applying the row's filter.</p></li>
@@ -169,8 +174,8 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-in"><span class="co"># Plot flow chart of exclusions (might not display in the online reference)</span></span>
 <span class="r-in"><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="exclusion_flowchart.html">exclusion_flowchart</a></span><span class="op">(</span><span class="op">)</span></span>
-<div id="htmlwidget-e0190eadc87fd41d6bb2" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e0190eadc87fd41d6bb2">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+<div id="htmlwidget-6c2d8a14994e8e14e451" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6c2d8a14994e8e14e451">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>
@@ -185,7 +190,7 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

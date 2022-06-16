@@ -20,7 +20,7 @@ adapted."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -90,17 +90,25 @@ adapted.</p>
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Data frame (tibble).</p></dd>
+
+
 <dt>exposure</dt>
 <dd><p>Optional. Name of exposure variable within the <code>data</code>.
 If omitted, will return unstratified RMTL.</p></dd>
+
+
 <dt>time</dt>
 <dd><p>Name of time variable within the <code>data</code>. By default, this
 is the event time. If <code>time2</code> is also given, this is the entry time,
 as per <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></code> standard.</p></dd>
+
+
 <dt>time2</dt>
 <dd><p>Optional. Name of the variable  within the <code>data</code>
 indicating the exit (event) time. If omitted, <code>time</code> is  the event
 time, as per <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></code> standard.</p></dd>
+
+
 <dt>event</dt>
 <dd><p>Name of event variable within the <code>data</code>. Can be integer,
 factor, character, or logical. The reference level indicates censoring and
@@ -108,18 +116,26 @@ is taken as the first level of the factor, the lowest numeric value
 (usually <code>0</code>), or <code>FALSE</code> for a logical variables. Other levels
 are events of different types. If no competing risks, the alternative
 level, e.g. <code>1</code>, indicates the event (e.g., death).</p></dd>
+
+
 <dt>event_of_interest</dt>
 <dd><p>Optional. Indicator for which of the non-censoring
 events is of main interest. Others are treated as competing. Defaults to
 <code>1</code>, i.e., the first non-censoring event.</p></dd>
+
+
 <dt>weight</dt>
 <dd><p>Optional. Weights, such as inverse-probability weights or
 survey weights. The default (<code>NULL</code>) uses equal weights for all
 observations.</p></dd>
+
+
 <dt>tau</dt>
 <dd><p>Optional. Time horizon to restrict event times. By default, the
 latest time in the group with the shortest follow-up. Prefer a
 user-defined, interpretable time horizon.</p></dd>
+
+
 <dt>reach_tau</dt>
 <dd><p>Optional. How to handle provided
 <code>tau</code> values that are not reached in one of the exposure categories.</p><ul><li><p><code>"warn"</code> Default. Display a warning and estimate RMTL and its
@@ -131,12 +147,17 @@ reached; estimate RMTL and its difference in those exposure categories
 where <code>tau</code> is reached.</p></li>
 </ul><p>If <code>tau</code> is not reached in any of the exposure categories, the
 function always stops with an error.</p></dd>
+
+
 <dt>conf.level</dt>
 <dd><p>Optional. Confidence level. Defaults to <code>0.95</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>List:</p><ul><li><p><code>tau</code> Time horizon.</p></li>
+    
+
+<p>List:</p><ul><li><p><code>tau</code> Time horizon.</p></li>
 <li><p><code>rmtl</code> Tibble with absolute estimates of RMTL, per exposure group if
 given.</p></li>
 <li><p><code>rmtdiff</code> Tibble with contrasts of RMTL between exposure groups,
@@ -277,7 +298,7 @@ mean time lost in the presence of competing risks. Stat Med 2021;40:2177–96.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

@@ -21,7 +21,7 @@ but not beyond the most extreme data point."><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -92,36 +92,57 @@ but not beyond the most extreme data point.</p>
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Data frame. Required.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>Categorical variable for x-axis. Required.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>Continuous variable for y-axis. Required.</p></dd>
+
+
 <dt>contrast</dt>
 <dd><p>If added, the mean difference between extreme categories
 will be added. <code>contrast</code> provides the preceding label. See example.
 Defaults to <code>NULL</code> (do not show contrast).</p></dd>
+
+
 <dt>unit</dt>
 <dd><p>Scale to print after the point estimate for the
 contrast between extreme categories.
 Defaults to <code>NULL</code> (no unit).</p></dd>
+
+
 <dt>digits</dt>
 <dd><p>Number of digits for rounding point estimate and
 confidence intervals of the contrast. Defaults to 2.</p></dd>
+
+
 <dt>jitter</dt>
 <dd><p>Avoid overplotting of points with similar values?
 Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>color</dt>
 <dd><p>Variable to color data points by. Defaults to <code>NULL</code> (none).</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Remove "NA" category from x-axis?
 Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>printplot</dt>
 <dd><p><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> the plot? Defaults to <code>FALSE</code>,
 i.e., just return the plot.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>ggplot object, or nothing
+    
+
+<p>ggplot object, or nothing
 (if plot is sent to graphics device with <code>printplot = TRUE</code>).
 Standard customization options for a <code>ggplot</code> object can be added
 on afterwards; see example.</p>
@@ -160,7 +181,7 @@ on afterwards; see example.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

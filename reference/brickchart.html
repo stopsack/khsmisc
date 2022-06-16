@@ -18,7 +18,7 @@ observations.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -75,12 +75,20 @@ observations.</p>
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Data set.</p></dd>
+
+
 <dt>outcome</dt>
 <dd><p>Outcome expression, e.g., <code>event == TRUE</code>.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>Exposure variable.</p></dd>
+
+
 <dt>group</dt>
 <dd><p>Optional: Grouping variable, e.g., an effect modifier.</p></dd>
+
+
 <dt>colors</dt>
 <dd><p>Optional: Color list. Must be a <code>list</code> consisting of
 two-element color code vectors with the dark and bright colors for each
@@ -88,16 +96,23 @@ level of the exposure variable (<code>by</code>).
 Example: <code>list(c("darkred", "red"), c("darkblue", "lightblue"))</code>.
 If not provided, colors will be generated from the
 <code><a href="https://sjmgarnier.github.io/viridis/reference/viridis_pal.html" class="external-link">viridis_pal</a></code> palette.</p></dd>
+
+
 <dt>guide</dt>
 <dd><p>Optional: Show legend? Defaults to <code>FALSE</code>. May not work
 with ggplot version 3.3.4 or newer.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional: further arguments passed to the call of
 <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></code>, used for <code>group</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>ggplot. Modify further with standard ggplot functions.</p>
+    
+
+<p>ggplot. Modify further with standard ggplot functions.</p>
     </div>
 
     <div id="ref-examples">
@@ -144,7 +159,7 @@ with ggplot version 3.3.4 or newer.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

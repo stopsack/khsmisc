@@ -18,7 +18,7 @@ point based on the difference between per-group Kaplan-Meier estimates."><!-- ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -84,20 +84,31 @@ point based on the difference between per-group Kaplan-Meier estimates.</p>
 <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></code> of the form, <code>Surv(time, event) ~ group</code>.
 The exposure variable (here, <code>group</code>) must be categorical with at
 least 2 categories.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>Data set.</p></dd>
+
+
 <dt>time</dt>
 <dd><p>Time point to estimate survival difference at.</p></dd>
+
+
 <dt>estimand</dt>
 <dd><p>Optional. Estimate difference in survival (<code>"survival"</code>)
 or cumulative incidence (<code>"cuminc"</code>)? This parameter affects the
 sign of the differences. Defaults to <code>"survival"</code>.</p></dd>
+
+
 <dt>conf.level</dt>
 <dd><p>Optional. Confidence level. Defaults to <code>0.95</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Tibble in <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></code> format:</p><ul><li><p><code>term</code> Name of the exposure stratum.</p></li>
+    
+
+<p>Tibble in <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></code> format:</p><ul><li><p><code>term</code> Name of the exposure stratum.</p></li>
 <li><p><code>estimate</code> Difference in survival at <code>time</code>.</p></li>
 <li><p><code>std.error</code> Large-sample standard error of the difference in survival
 functions (see References). For each survival function, Greenwood
@@ -151,7 +162,7 @@ where the outcome is time to an event. BMJ 1999;319:1492–5.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

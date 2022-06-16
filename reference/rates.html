@@ -18,7 +18,7 @@ and cumulative incidence."><!-- mathjax --><script src="https://cdnjs.cloudflare
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -86,36 +86,55 @@ and cumulative incidence.</p>
     <dl><dt>data</dt>
 <dd><p>Data frame/tibble. If grouped using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></code>,
 then stratified results will be returned.</p></dd>
+
+
 <dt>time</dt>
 <dd><p>Variable indicating follow-up time.</p></dd>
+
+
 <dt>event</dt>
 <dd><p>Variable indicating events (event = 1, censor = 0).</p></dd>
+
+
 <dt>by</dt>
 <dd><p>Optional. Variable to stratify results by. Defaults
 to how the dataset is grouped, i.e., if it is grouped already,
 results will be shown by the stratification variable.</p></dd>
+
+
 <dt>risk_time</dt>
 <dd><p>Optional. Time point at which cumulative incidence
 (risk) should be calculated. Provide in original units of follow-up
 time, i.e., before potential division by the <code>conversion</code> factor.
 If not provided, defaults to the end of follow-up, which may not
 be the best interpretable timepoint.</p></dd>
+
+
 <dt>conversion</dt>
 <dd><p>Optional. Divisor for follow-up time. Defaults to 1.
 Set <code>conversion = 12</code> if <code>time</code> is in months and
 rates per person-years are desired.</p></dd>
+
+
 <dt>rate_digits</dt>
 <dd><p>Optional. Decimal digits to display for rates. Defaults to 1.</p></dd>
+
+
 <dt>risk_digits</dt>
 <dd><p>Optional. Decimal digits to display for
 cumulative incidence (risk). Defaults to 1.</p></dd>
+
+
 <dt>factor</dt>
 <dd><p>Optional. Person-time units for the denominator. Defaults to <code>1000</code>,
 e.g., for rates per 1000 person-years of follow-up.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Tibble:</p><ul><li><p><code>n</code> Count of participants.</p></li>
+    
+
+<p>Tibble:</p><ul><li><p><code>n</code> Count of participants.</p></li>
 <li><p><code>Events</code> Count of events.</p></li>
 <li><p><code>Person-time</code> Sum of person-time.</p></li>
 <li><p><code>Rate per person-time</code> Incidence rate.</p></li>
@@ -190,7 +209,7 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
