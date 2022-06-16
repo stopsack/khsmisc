@@ -1,3 +1,17 @@
+# khsmisc 0.4.3
+
+* `table1()`: 
+  + Add option to display multiple stratified datasets side-by-side
+  + Adapt to gtsummary's removal of global options to avoid warnings and format
+    percentages to no decimal digits even at <10%
+* `table2()`: 
+  + Add `type = "irrrob"`, Poisson models with robust standard errors
+    for ratios of continuous outcomes
+  + Suppress horizontal rules between results from `type` and `type2`
+* Add vignette about ratio models for continuous outcomes
+* Update "Getting started"" vignette, using simulated data to avoid downloads
+
+
 # khsmisc 0.4.2
 
 * `make_exclusions()`: return a list of observations filtered out (`excluded`)
