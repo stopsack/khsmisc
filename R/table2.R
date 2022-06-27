@@ -1,3 +1,38 @@
+#' Find exposure categories with sparse data:
+#' observations or events below "nmin"
+#'
+#' @param data  Dataset
+#' @param event Event variable
+#' @param estimand  Estimand
+#' @param is_trend Whether trend is estimated
+#'
+#' @return Tibble
+#' @noRd
+counts_per_stratum <- function(data, event, estimand, is_trend) {
+  if(is_trend == TRUE) {
+    data <- data %>%
+      dplyr::mutate(.exposure = "")
+  }
+
+  if(stringr::str_detect(
+  string = estimand,
+  pattern = "rmtdiff|rmtl|^surv|cuminc|^hr|^irr|events|^rate|medsurv|medfu|maxfu") &
+  !stringr::str_detect(
+    string = estimand,
+    pattern = "irrrob")) {
+  data <- data %>%
+    dplyr::select(.data$.exposure,
+                  .event = {{ event }}) %>%
+    dplyr::filter(as.logical(.data$.event))  # == TRUE
+  }
+  data %>%
+    dplyr::count(
+      .data$.exposure,
+      name = ".per_stratum",
+      .drop = FALSE)
+}
+
+
 #' Get counts
 #'
 #' @param data Dataset
@@ -17,7 +52,7 @@
 table_counts <- function(data, event, time, time2, outcome,
                          effectmodifier = NULL, effectmodifier_level = NULL,
                          type, factor, risk_percent,
-                         digits, to) {
+                         digits, to, nmin) {
   if(!missing(effectmodifier) & !missing(effectmodifier_level)) {
     if(!is.null(effectmodifier_level) & !is.null(effectmodifier)) {
       if(!is.na(effectmodifier)) {
@@ -89,6 +124,13 @@ table_counts <- function(data, event, time, time2, outcome,
       timepoint <- NA_real_
     }
   }
+  if(is.na(nmin))
+    nmin <- 0
+  count_per_stratum <- counts_per_stratum(
+    data = data,
+    event = event,
+    estimand = type,
+    is_trend = FALSE)
 
   data %>%
     dplyr::group_by(.data$.exposure,
@@ -432,6 +474,8 @@ table_counts <- function(data, event, time, time2, outcome,
           } else { "--" }
         } else { "" }),
     .groups = "drop") %>%
+  dplyr::left_join(count_per_stratum,
+                   by = ".exposure") %>%
   dplyr::mutate(
     res = dplyr::if_else(
       stringr::str_remove(string = .data$res,
@@ -451,7 +495,11 @@ table_counts <- function(data, event, time, time2, outcome,
         paste0(stringr::str_remove(string = .data$res,
                                    pattern = stringr::fixed("(NaN%)")),
                "(--)"),
-      TRUE ~ .data$res))
+      TRUE ~ .data$res),
+    res = dplyr::if_else(.data$.per_stratum < nmin,
+                         true = "--",
+                         false = .data$res)) %>%
+    dplyr::select(-.data$.per_stratum)
 }
 
 #' Get point estimate and CI from regression models
@@ -475,7 +523,7 @@ table_counts <- function(data, event, time, time2, outcome,
 table_regress <- function(data, estimand, event, time, time2, outcome,
                           effectmodifier = NULL, effectmodifier_level = NULL,
                           confounders = "", risk_percent = FALSE, digits = 2,
-                          is_trend = FALSE,
+                          is_trend = FALSE, nmin = NA,
                           to = "-") {
   xlevels <- data %>% dplyr::pull(.data$.exposure) %>% levels()
   if(is.null(xlevels) & stringr::str_detect(string = estimand,
@@ -522,6 +570,15 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
       }
     }
   }
+
+  # Find exposure categories with sparse data:
+  if(is.na(nmin))
+    nmin <- 0
+  count_per_stratum <- counts_per_stratum(
+    data = data,
+    event = event,
+    estimand = estimand,
+    is_trend = is_trend)
 
   # Select specific quantiles for quantreg, if provided:
   if(stringr::str_detect(string = estimand, pattern = "quantreg")) {
@@ -858,6 +915,13 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                      .funs = ~format(round(. * multiply, digits = digits),
                                      nsmall = digits,
                                      trim = TRUE, scientific = FALSE)) %>%
+    dplyr::full_join(
+      count_per_stratum %>%
+        dplyr::mutate(
+          .exposure = paste0(
+            ".exposure",
+            .data$.exposure)),
+      by = c(term = ".exposure")) %>%
     dplyr::filter(stringr::str_detect(string = .data$term,
                                       pattern = pattern)) %>%
     dplyr::mutate(.exposure = stringr::str_remove(string = .data$term,
@@ -893,7 +957,10 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
             string = estimand,
             pattern = "rmtl"),
         true = paste(reference, "(reference)"),
-        false = .data$res)) %>%
+        false = .data$res),
+      res = dplyr::if_else(.data$.per_stratum < nmin,
+                           true = "--",
+                           false = .data$res)) %>%
     dplyr::select(.data$.exposure, .data$res)
 }
 
@@ -911,6 +978,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
 #' @param type Type of statistic quested from table_count
 #' @param trend Continuous (trend) exposure variable
 #' @param digits Number of digits to round an individual estimate to
+#' @param nmin Minimum number of observations/events to display an estimate
 #' @param factor Factor for rates. Defaults to 1000.
 #' @param risk_percent Show risks and risk differences as percentages?
 #' @param diff_digits Number of digits to round difference estimates to
@@ -923,7 +991,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
 #' @noRd
 fill_cells <- function(data, event, time, time2, outcome,
                        exposure, effect_modifier, stratum, confounders,
-                       type, trend, digits, factor, risk_percent,
+                       type, trend, digits, nmin, factor, risk_percent,
                        diff_digits, risk_digits, ratio_digits, rate_digits,
                        to, custom_fn) {
   if(is.na(exposure)) {
@@ -1047,7 +1115,8 @@ fill_cells <- function(data, event, time, time2, outcome,
                                confounders = confounders,
                                digits = digits,
                                risk_percent = risk_percent,
-                               to = to)
+                               to = to,
+                               nmin = nmin)
       if(!is.na(trend)) {
         dplyr::bind_rows(res_cat,
                          table_regress(
@@ -1064,7 +1133,8 @@ fill_cells <- function(data, event, time, time2, outcome,
                            digits = digits,
                            risk_percent = risk_percent,
                            to = to,
-                           is_trend = TRUE))
+                           is_trend = TRUE,
+                           nmin = nmin))
       } else {
         res_cat
       }
@@ -1103,7 +1173,8 @@ fill_cells <- function(data, event, time, time2, outcome,
                           factor = factor,
                           digits = digits,
                           risk_percent = risk_percent,
-                          to = to)
+                          to = to,
+                          nmin = nmin)
       }
     } else {
       table_counts(data = data,
@@ -1117,7 +1188,8 @@ fill_cells <- function(data, event, time, time2, outcome,
                    factor = factor,
                    digits = digits,
                    risk_percent = risk_percent,
-                   to = to)
+                   to = to,
+                   nmin = nmin)
     }
   }
 }
@@ -1376,6 +1448,10 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'     \code{ratio_digits}, or \code{rate_digits}, as applicable.
 #'   * \code{digits2} Optional. As \code{digits}, for the second
 #'     estimate (\code{type2}).
+#'   * \code{nmin}. Optional. Suppress estimates with \code{"--"} if a cell
+#'     defined by exposure, and possibly the effect modifier, contains fewer
+#'     observations or, for survival analyses, fewer events than \code{nmin}.
+#'     Defaults to \code{NA}, i.e., to print all estimates.
 #'
 #' Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
 #' \code{\link[dplyr]{mutate}} to construct the \code{design} dataset,
@@ -1591,6 +1667,7 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
   if(!("type2"       %in% names(design))) design$type2       <- ""
   if(!("digits"      %in% names(design))) design$digits      <- NA
   if(!("digits2"     %in% names(design))) design$digits2     <- NA
+  if(!("nmin"        %in% names(design))) design$nmin        <- NA
   if(!("effect_modifier" %in% names(design) & "stratum" %in% names(design))) {
     design <- design %>%
       dplyr::mutate(effect_modifier = NA, stratum = NA)
@@ -1683,7 +1760,8 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                                  .data$confounders,
                                                  .data$type,
                                                  .data$trend,
-                                                 .data$digits),
+                                                 .data$digits,
+                                                 .data$nmin),
                                        .f = fill_cells,
                                        data = data,
                                        factor = factor,
@@ -1743,7 +1821,8 @@ table2 <- function(design, data, layout = "rows", factor = 1000,
                                                     .data$confounders,
                                                     .data$type2,  # !
                                                     .data$trend,
-                                                    .data$digits2),  # !
+                                                    .data$digits2,  # !
+                                                    .data$nmin),
                                           .f = fill_cells,
                                           data = data,
                                           factor = factor,

@@ -294,6 +294,10 @@ digits will be determined based on \code{table2}'s arguments
 \code{ratio_digits}, or \code{rate_digits}, as applicable.
 \item \code{digits2} Optional. As \code{digits}, for the second
 estimate (\code{type2}).
+\item \code{nmin}. Optional. Suppress estimates with \code{"--"} if a cell
+defined by exposure, and possibly the effect modifier, contains fewer
+observations or, for survival analyses, fewer events than \code{nmin}.
+Defaults to \code{NA}, i.e., to print all estimates.
 }
 
 Use \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, and
