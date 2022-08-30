@@ -29,7 +29,10 @@ with ggplot version 3.3.4 or newer.}
 \code{\link[ggplot2]{facet_grid}}, used for \code{group}.}
 }
 \value{
-ggplot. Modify further with standard ggplot functions.
+ggplot. Modify further with standard ggplot functions. The additional
+variables \code{label_outcomes} (outcome count), \code{label_total}
+(per-group total), and \code{label_prop} (proportion) can also be accessed.
+See example.
 }
 \description{
 Plot bars of proportions that consist of "bricks" showing individual
@@ -60,6 +63,11 @@ cancer \%>\%
                 fill = "ECOG status",  # Color label
                 title = "Mortality by ECOG performance status") +
   # Themes refer to axes as shown--'y' is now vertical
-  ggplot2::theme(axis.title.y = ggplot2::element_blank())
+  ggplot2::theme(axis.title.y = ggplot2::element_blank()) +
+  # add label
+  geom_text(
+    mapping = aes(
+      label = paste0(round(label_prop * 100), "\%"),
+      y = label_prop + 0.05))
 
 }

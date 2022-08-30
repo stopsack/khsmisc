@@ -18,7 +18,10 @@
 #' @param ... Optional: further arguments passed to the call of
 #'   \code{\link[ggplot2]{facet_grid}}, used for \code{group}.
 #'
-#' @return ggplot. Modify further with standard ggplot functions.
+#' @return ggplot. Modify further with standard ggplot functions. The additional
+#'   variables \code{label_outcomes} (outcome count), \code{label_total}
+#'   (per-group total), and \code{label_prop} (proportion) can also be accessed.
+#'   See example.
 #' @export
 #'
 #' @examples
@@ -46,7 +49,12 @@
 #'                 fill = "ECOG status",  # Color label
 #'                 title = "Mortality by ECOG performance status") +
 #'   # Themes refer to axes as shown--'y' is now vertical
-#'   ggplot2::theme(axis.title.y = ggplot2::element_blank())
+#'   ggplot2::theme(axis.title.y = ggplot2::element_blank()) +
+#'   # add label
+#'   geom_text(
+#'     mapping = aes(
+#'       label = paste0(round(label_prop * 100), "%"),
+#'       y = label_prop + 0.05))
 #'
 brickchart <- function(
   data, outcome, by, group,
@@ -95,8 +103,23 @@ brickchart <- function(
   myplot <- data %>%
     dplyr::mutate(groupnum = 100000 * as.numeric(factor({{ by }}))) %>%
     dplyr::group_by({{ group }}, {{ by }}) %>%
-    dplyr::mutate(proportion = 1 / dplyr::n()) %>%
+    dplyr::mutate(
+      label_total = dplyr::n(),
+      proportion = 1 / dplyr::n()) %>%
     dplyr::filter({{ outcome }}) %>%
+    dplyr::mutate(
+      label_outcomes = dplyr::if_else(
+        dplyr::row_number() == 1,
+        true = dplyr::n(),
+        false = NA_integer_),
+      label_prop = dplyr::if_else(
+        dplyr::row_number() == 1,
+        true = .data$label_outcomes / .data$label_total,
+        false = NA_real_),
+      label_total = dplyr::if_else(
+        dplyr::row_number() == 1,
+        true = .data$label_total,
+        false = NA_integer_)) %>%
     dplyr::group_by({{ by }}) %>%
     dplyr::mutate(color = factor(dplyr::row_number() + .data$groupnum)) %>%
     dplyr::bind_rows(
