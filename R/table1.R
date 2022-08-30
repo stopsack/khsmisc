@@ -148,15 +148,14 @@ table1 <- function(data,
     mystats <- list(N ~ "{n}")
     if(!is.null(statistic))
       mystats <- append(mystats, statistic)
-    data <- data %>% dplyr::rename(.by := {{ by }})
-
-    newdata <- data %>% select(!!!rlang::enquos(...), .data$.by)
-    if(ncol(newdata) == 1)
-      newdata <- data
-    data <- newdata
 
     # Unstratified
     if(missing(by)) {
+      newdata <- data %>%
+        dplyr::select(!!!rlang::enquos(...))
+      if(ncol(newdata) == 0)
+        newdata <- data
+      data <- newdata
       res <- data %>%
         dplyr::mutate(N = 1) %>%
         dplyr::select(.data$N, dplyr::everything()) %>%
@@ -169,6 +168,16 @@ table1 <- function(data,
       }
     # Stratified
     } else {
+      data <- data %>%
+        dplyr::rename(.by := {{ by }})
+      newdata <- data %>%
+        dplyr::select(
+          !!!rlang::enquos(...),
+          .data$.by)
+      if(ncol(newdata) == 1)
+        newdata <- data
+      data <- newdata
+
       if(overall == TRUE) {
         if(sum(is.na(data %>%
                      dplyr::pull(.data$.by))) > 0)
