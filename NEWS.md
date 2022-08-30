@@ -1,3 +1,11 @@
+# khsmisc 0.4.4
+
+* `table2()`: add option to suppress estimates if per-cell count lower than the
+  `design` option `nmin`
+* `brickchart()`: make proportion and counts per group available for labeling
+* `table1()`: display one or more *un*stratified datasets
+
+
 # khsmisc 0.4.3
 
 * `table1()`: 
@@ -8,8 +16,8 @@
   + Add `type = "irrrob"`, Poisson models with robust standard errors
     for ratios of continuous outcomes
   + Suppress horizontal rules between results from `type` and `type2`
-* Add vignette about ratio models for continuous outcomes
-* Update "Getting started"" vignette, using simulated data to avoid downloads
+* Update vignette about ratio models for continuous outcomes
+* Update "Getting started" vignette, using simulated data to avoid downloads
 
 
 # khsmisc 0.4.2
