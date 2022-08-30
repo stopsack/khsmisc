@@ -22,7 +22,7 @@ Model diagnostics for regression models need to be conducted separately."><!-- m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -76,22 +76,22 @@ Model diagnostics for regression models need to be conducted separately.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">table2</span><span class="op">(</span>
-  <span class="va">design</span>,
-  <span class="va">data</span>,
-  layout <span class="op">=</span> <span class="st">"rows"</span>,
-  factor <span class="op">=</span> <span class="fl">1000</span>,
-  risk_percent <span class="op">=</span> <span class="cn">FALSE</span>,
-  risk_digits <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">risk_percent</span> <span class="op">==</span> <span class="cn">TRUE</span>, true <span class="op">=</span> <span class="fl">0</span>, false <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
-  diff_digits <span class="op">=</span> <span class="fl">2</span>,
-  ratio_digits <span class="op">=</span> <span class="fl">2</span>,
-  rate_digits <span class="op">=</span> <span class="fl">1</span>,
-  to <span class="op">=</span> <span class="cn">NULL</span>,
-  type2_layout <span class="op">=</span> <span class="st">"rows"</span>,
-  prepare_md <span class="op">=</span> <span class="st">"deprecated"</span>,
-  custom <span class="op">=</span> <span class="cn">NULL</span>,
-  overall <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">table2</span><span class="op">(</span></span>
+<span>  <span class="va">design</span>,</span>
+<span>  <span class="va">data</span>,</span>
+<span>  layout <span class="op">=</span> <span class="st">"rows"</span>,</span>
+<span>  factor <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  risk_percent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  risk_digits <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">risk_percent</span> <span class="op">==</span> <span class="cn">TRUE</span>, true <span class="op">=</span> <span class="fl">0</span>, false <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  diff_digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  ratio_digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  rate_digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type2_layout <span class="op">=</span> <span class="st">"rows"</span>,</span>
+<span>  prepare_md <span class="op">=</span> <span class="st">"deprecated"</span>,</span>
+<span>  custom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overall <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -380,6 +380,10 @@ digits will be determined based on <code>table2</code>'s arguments
 <code>ratio_digits</code>, or <code>rate_digits</code>, as applicable.</p></li>
 <li><p><code>digits2</code> Optional. As <code>digits</code>, for the second
 estimate (<code>type2</code>).</p></li>
+<li><p><code>nmin</code>. Optional. Suppress estimates with <code>"--"</code> if a cell
+defined by exposure, and possibly the effect modifier, contains fewer
+observations or, for survival analyses, fewer events than <code>nmin</code>.
+Defaults to <code>NA</code>, i.e., to print all estimates.</p></li>
 </ul><p>Use <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></code>, <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></code>, and
 <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></code> to construct the <code>design</code> dataset,
 especially variables that are used repeatedly (e.g., <code>exposure, time,
@@ -405,36 +409,36 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load 'cancer' dataset from survival package (Used in all examples)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The exposure (here, 'sex') must be categorical</span></span>
-<span class="r-in"><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
-<span class="r-in">                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">                time <span class="op">=</span> <span class="va">time</span> <span class="op">/</span> <span class="fl">365.25</span>,</span>
-<span class="r-in">                status <span class="op">=</span> <span class="va">status</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 1: Binary outcomes (use 'outcome' variable)</span></span>
-<span class="r-in"><span class="co"># Set table design</span></span>
-<span class="r-in"><span class="va">design1</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outcomes"</span>,</span>
-<span class="r-in">            <span class="st">"Total"</span>,</span>
-<span class="r-in">            <span class="st">"Outcomes/Total"</span>,</span>
-<span class="r-in">            <span class="st">"Risk"</span>,</span>
-<span class="r-in">            <span class="st">"Risk (CI)"</span>,</span>
-<span class="r-in">            <span class="st">"Outcomes (Risk)"</span>,</span>
-<span class="r-in">            <span class="st">"Outcomes/Total (Risk)"</span>,</span>
-<span class="r-in">            <span class="st">"RR"</span>,</span>
-<span class="r-in">            <span class="st">"RD"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="va">label</span>,</span>
-<span class="r-in">                exposure <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span class="r-in">                outcome <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Generate table2</span></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design1</span>, data <span class="op">=</span> <span class="va">cancer</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load 'cancer' dataset from survival package (Used in all examples)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The exposure (here, 'sex') must be categorical</span></span></span>
+<span class="r-in"><span><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                time <span class="op">=</span> <span class="va">time</span> <span class="op">/</span> <span class="fl">365.25</span>,</span></span>
+<span class="r-in"><span>                status <span class="op">=</span> <span class="va">status</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 1: Binary outcomes (use 'outcome' variable)</span></span></span>
+<span class="r-in"><span><span class="co"># Set table design</span></span></span>
+<span class="r-in"><span><span class="va">design1</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Outcomes"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Total"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Outcomes/Total"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Risk"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Risk (CI)"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Outcomes (Risk)"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"Outcomes/Total (Risk)"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"RR"</span>,</span></span>
+<span class="r-in"><span>            <span class="st">"RD"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="va">label</span>,</span></span>
+<span class="r-in"><span>                exposure <span class="op">=</span> <span class="st">"sex"</span>,</span></span>
+<span class="r-in"><span>                outcome <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate table2</span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design1</span>, data <span class="op">=</span> <span class="va">cancer</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sex                   Men              Women                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
@@ -447,53 +451,53 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Outcomes/Total (Risk) 112/138 (0.81)   53/90 (0.59)          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> RR                    1 (reference)    0.73 (0.60-0.88)      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> RD                    0 (reference)    -0.22 (-0.34 to -0.10)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Use 'design' as columns (selecting RR and RD only)</span></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design1</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">label</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR"</span>, <span class="st">"RD"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">       data <span class="op">=</span> <span class="va">cancer</span>,</span>
-<span class="r-in">       layout <span class="op">=</span> <span class="st">"cols"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use 'design' as columns (selecting RR and RD only)</span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design1</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">label</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RR"</span>, <span class="st">"RD"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       data <span class="op">=</span> <span class="va">cancer</span>,</span></span>
+<span class="r-in"><span>       layout <span class="op">=</span> <span class="st">"cols"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sex   RR               RD                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Men   1 (reference)    0 (reference)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Women 0.73 (0.60-0.88) -0.22 (-0.34 to -0.10)</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 2: Survival outcomes (use 'time' and 'event'),</span></span>
-<span class="r-in"><span class="co">#   with an effect modifier and a confounder</span></span>
-<span class="r-in"><span class="co"># Set table design</span></span>
-<span class="r-in"><span class="va">design2</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="co"># Elements that vary by row:</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">label</span>,                       <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">confounders</span>, <span class="op">~</span><span class="va">type</span>,</span>
-<span class="r-in">  <span class="st">"**Overall**"</span>,                <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"blank"</span>,</span>
-<span class="r-in">  <span class="st">"  Events"</span>,                   <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"events"</span>,</span>
-<span class="r-in">  <span class="st">"  Person-years"</span>,             <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"time"</span>,</span>
-<span class="r-in">  <span class="st">"  Rate/1000 py (95% CI)"</span>,    <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"rate (ci)"</span>,</span>
-<span class="r-in">  <span class="st">"  Unadjusted HR (95% CI)"</span>,   <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"  Age-adjusted HR (95% CI)"</span>, <span class="cn">NULL</span>,     <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"  2-year restricted mean time lost"</span>, <span class="cn">NULL</span>, <span class="st">""</span>,       <span class="st">"rmtl2"</span>,</span>
-<span class="r-in">  <span class="st">""</span>,                           <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"blank"</span>,</span>
-<span class="r-in">  <span class="st">"**Stratified models**"</span>,      <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span>
-<span class="r-in">  <span class="st">"*ECOG PS1* (events/N)"</span>,      <span class="fl">1</span>,        <span class="st">""</span>,           <span class="st">"events/total"</span>,</span>
-<span class="r-in">  <span class="st">"  Unadjusted"</span>,               <span class="fl">1</span>,        <span class="st">""</span>,           <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"  Age-adjusted"</span>,             <span class="fl">1</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"*ECOG PS2* (events/N)"</span>,      <span class="fl">2</span>,        <span class="st">""</span>,           <span class="st">"events/total"</span>,</span>
-<span class="r-in">  <span class="st">"  Unadjusted"</span>,               <span class="fl">2</span>,        <span class="st">""</span>,           <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"  Age-adjusted"</span>,             <span class="fl">2</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">""</span>,                           <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span>
-<span class="r-in">  <span class="st">"**Joint model**, age-adj."</span>,  <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span>
-<span class="r-in">  <span class="st">"  ECOG PS1"</span>,                 <span class="fl">1</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr_joint"</span>,</span>
-<span class="r-in">  <span class="st">"  ECOG PS2"</span>,                 <span class="fl">2</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr_joint"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="co"># Elements that are the same for all rows:</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span class="r-in">                event <span class="op">=</span> <span class="st">"status"</span>,</span>
-<span class="r-in">                time <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span class="r-in">                effect_modifier <span class="op">=</span> <span class="st">"ph.ecog"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Generate table2</span></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design2</span>,</span>
-<span class="r-in">       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2: Survival outcomes (use 'time' and 'event'),</span></span></span>
+<span class="r-in"><span><span class="co">#   with an effect modifier and a confounder</span></span></span>
+<span class="r-in"><span><span class="co"># Set table design</span></span></span>
+<span class="r-in"><span><span class="va">design2</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="co"># Elements that vary by row:</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">label</span>,                       <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">confounders</span>, <span class="op">~</span><span class="va">type</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"**Overall**"</span>,                <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"blank"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Events"</span>,                   <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"events"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Person-years"</span>,             <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"time"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Rate/1000 py (95% CI)"</span>,    <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"rate (ci)"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Unadjusted HR (95% CI)"</span>,   <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Age-adjusted HR (95% CI)"</span>, <span class="cn">NULL</span>,     <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  2-year restricted mean time lost"</span>, <span class="cn">NULL</span>, <span class="st">""</span>,       <span class="st">"rmtl2"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">""</span>,                           <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">"blank"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"**Stratified models**"</span>,      <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"*ECOG PS1* (events/N)"</span>,      <span class="fl">1</span>,        <span class="st">""</span>,           <span class="st">"events/total"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Unadjusted"</span>,               <span class="fl">1</span>,        <span class="st">""</span>,           <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Age-adjusted"</span>,             <span class="fl">1</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"*ECOG PS2* (events/N)"</span>,      <span class="fl">2</span>,        <span class="st">""</span>,           <span class="st">"events/total"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Unadjusted"</span>,               <span class="fl">2</span>,        <span class="st">""</span>,           <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Age-adjusted"</span>,             <span class="fl">2</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">""</span>,                           <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"**Joint model**, age-adj."</span>,  <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="st">""</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  ECOG PS1"</span>,                 <span class="fl">1</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr_joint"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  ECOG PS2"</span>,                 <span class="fl">2</span>,        <span class="st">"+ age"</span>,      <span class="st">"hr_joint"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="co"># Elements that are the same for all rows:</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span></span>
+<span class="r-in"><span>                event <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                time <span class="op">=</span> <span class="st">"time"</span>,</span></span>
+<span class="r-in"><span>                effect_modifier <span class="op">=</span> <span class="st">"ph.ecog"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate table2</span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design2</span>,</span></span>
+<span class="r-in"><span>       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    sex                                  Men                     Women           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
@@ -516,21 +520,21 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> <span style="color: #949494;">"</span>**Joint model**, age-adj.<span style="color: #949494;">"</span>          <span style="color: #949494;">""</span>                      <span style="color: #949494;">""</span>              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> <span style="color: #949494;">"</span>  ECOG PS1<span style="color: #949494;">"</span>                         <span style="color: #949494;">"</span>1 (reference)<span style="color: #949494;">"</span>         <span style="color: #949494;">"</span>0.55 (0.35-0.8…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> <span style="color: #949494;">"</span>  ECOG PS2<span style="color: #949494;">"</span>                         <span style="color: #949494;">"</span>1.54 (0.98-2.44)<span style="color: #949494;">"</span>      <span style="color: #949494;">"</span>1.10 (0.62-1.9…</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 3: Get two estimates using 'type' and 'type2'</span></span>
-<span class="r-in"><span class="va">design3</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">label</span>,     <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">type</span>,          <span class="op">~</span><span class="va">type2</span>,</span>
-<span class="r-in">  <span class="st">"ECOG PS1"</span>, <span class="fl">1</span>,        <span class="st">"events/total"</span>, <span class="st">"hr"</span>,</span>
-<span class="r-in">  <span class="st">"ECOG PS2"</span>, <span class="fl">2</span>,        <span class="st">"events/total"</span>, <span class="st">"hr"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span class="r-in">                event <span class="op">=</span> <span class="st">"status"</span>,</span>
-<span class="r-in">                time <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span class="r-in">                confounders <span class="op">=</span> <span class="st">"+ age"</span>,</span>
-<span class="r-in">                effect_modifier <span class="op">=</span> <span class="st">"ph.ecog"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design3</span>,</span>
-<span class="r-in">       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 3: Get two estimates using 'type' and 'type2'</span></span></span>
+<span class="r-in"><span><span class="va">design3</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">label</span>,     <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">type</span>,          <span class="op">~</span><span class="va">type2</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"ECOG PS1"</span>, <span class="fl">1</span>,        <span class="st">"events/total"</span>, <span class="st">"hr"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"ECOG PS2"</span>, <span class="fl">2</span>,        <span class="st">"events/total"</span>, <span class="st">"hr"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span></span>
+<span class="r-in"><span>                event <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                time <span class="op">=</span> <span class="st">"time"</span>,</span></span>
+<span class="r-in"><span>                confounders <span class="op">=</span> <span class="st">"+ age"</span>,</span></span>
+<span class="r-in"><span>                effect_modifier <span class="op">=</span> <span class="st">"ph.ecog"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design3</span>,</span></span>
+<span class="r-in"><span>       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sex        Men           Women           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
@@ -538,40 +542,40 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">""</span>         1 (reference) 0.53 (0.33-0.85)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">"</span>ECOG PS2<span style="color: #949494;">"</span> 28/29         16/21           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">""</span>         1 (reference) 0.68 (0.34-1.36)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design3</span>,</span>
-<span class="r-in">       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">       layout <span class="op">=</span> <span class="st">"cols"</span>, type2_layout <span class="op">=</span> <span class="st">"cols"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design3</span>,</span></span>
+<span class="r-in"><span>       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       layout <span class="op">=</span> <span class="st">"cols"</span>, type2_layout <span class="op">=</span> <span class="st">"cols"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sex   `ECOG PS1` `ECOG PS1 `      `ECOG PS2` `ECOG PS2 `     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Men   54/71      1 (reference)    28/29      1 (reference)   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Women 28/42      0.53 (0.33-0.85) 16/21      0.68 (0.34-1.36)</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 4: Continuous outcomes (use 'outcome' variable);</span></span>
-<span class="r-in"><span class="co"># request rounding to 1 decimal digit in some cases;</span></span>
-<span class="r-in"><span class="co"># add continuous trend (slope per one unit of the 'trend' variable)</span></span>
-<span class="r-in"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">label</span>,                   <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">type</span>,        <span class="op">~</span><span class="va">digits</span>,</span>
-<span class="r-in">  <span class="st">"Marginal mean (95% CI)"</span>, <span class="cn">NULL</span>,     <span class="st">"mean (ci)"</span>,  <span class="fl">1</span>,</span>
-<span class="r-in">  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"mean"</span>,       <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"mean"</span>,       <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">""</span>,                       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"Stratified model"</span>,       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"diff"</span>,       <span class="fl">1</span>,</span>
-<span class="r-in">  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"diff"</span>,       <span class="fl">1</span>,</span>
-<span class="r-in">  <span class="st">""</span>,                       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"Joint model"</span>,            <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"diff_joint"</span>, <span class="cn">NA</span>,</span>
-<span class="r-in">  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"diff_joint"</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"ph.ecog_factor"</span>,</span>
-<span class="r-in">                trend <span class="op">=</span> <span class="st">"ph.ecog"</span>,</span>
-<span class="r-in">                outcome <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span class="r-in">                effect_modifier <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">table2</span><span class="op">(</span>data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ph.ecog_factor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ph.ecog</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 4: Continuous outcomes (use 'outcome' variable);</span></span></span>
+<span class="r-in"><span><span class="co"># request rounding to 1 decimal digit in some cases;</span></span></span>
+<span class="r-in"><span><span class="co"># add continuous trend (slope per one unit of the 'trend' variable)</span></span></span>
+<span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">label</span>,                   <span class="op">~</span><span class="va">stratum</span>, <span class="op">~</span><span class="va">type</span>,        <span class="op">~</span><span class="va">digits</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Marginal mean (95% CI)"</span>, <span class="cn">NULL</span>,     <span class="st">"mean (ci)"</span>,  <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"mean"</span>,       <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"mean"</span>,       <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">""</span>,                       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Stratified model"</span>,       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"diff"</span>,       <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"diff"</span>,       <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  <span class="st">""</span>,                       <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Joint model"</span>,            <span class="cn">NULL</span>,     <span class="st">""</span>,           <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Men"</span>,                  <span class="st">"Men"</span>,    <span class="st">"diff_joint"</span>, <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"  Women"</span>,                <span class="st">"Women"</span>,  <span class="st">"diff_joint"</span>, <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"ph.ecog_factor"</span>,</span></span>
+<span class="r-in"><span>                trend <span class="op">=</span> <span class="st">"ph.ecog"</span>,</span></span>
+<span class="r-in"><span>                outcome <span class="op">=</span> <span class="st">"age"</span>,</span></span>
+<span class="r-in"><span>                effect_modifier <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">table2</span><span class="op">(</span>data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ph.ecog_factor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ph.ecog</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ph.ecog_factor           `0`                     `1`              `2`   Trend</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -586,57 +590,57 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">"</span>Joint model<span style="color: #949494;">"</span>            <span style="color: #949494;">""</span>                      <span style="color: #949494;">""</span>               <span style="color: #949494;">""</span>    <span style="color: #949494;">""</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">"</span>  Men<span style="color: #949494;">"</span>                  <span style="color: #949494;">"</span>0 (reference)<span style="color: #949494;">"</span>         <span style="color: #949494;">"</span>-0.21 (-3.75 t… <span style="color: #949494;">"</span>2.0… <span style="color: #949494;">"</span>0.9…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> <span style="color: #949494;">"</span>  Women<span style="color: #949494;">"</span>                <span style="color: #949494;">"</span>-4.30 (-8.70 to 0.11)<span style="color: #949494;">"</span> <span style="color: #949494;">"</span>-3.81 (-7.74 t… <span style="color: #949494;">"</span>4.9… <span style="color: #949494;">"</span>4.3…</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 5: Get formatted output for Example 2 (see above)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design2</span>,</span>
-<span class="r-in">       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="mygt.html">mygt</a></span><span class="op">(</span>md <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># get markdown formatting in first column ('label')</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 6: Using custom functions and adding an</span></span>
-<span class="r-in"><span class="co"># overall unstratified estimate</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>  <span class="co"># for easier data handling</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define first, very rudimentary function</span></span>
-<span class="r-in"><span class="va">my_custom_fun1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.exposure</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="co"># Directly referencing the variable 'status'--not portable</span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"mean ="</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define second, improved function</span></span>
-<span class="r-in"><span class="va">my_custom_fun2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">outcome</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="co"># 'outcome', like all columns of the 'design' matrix, is one argument</span></span>
-<span class="r-in">  <span class="co"># that is passed along to custom functions</span></span>
-<span class="r-in">  <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.exposure</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="co"># This improved function will work in other data sets</span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.exposure</span>, variable <span class="op">=</span> <span class="op">{</span><span class="op">{</span> <span class="va">outcome</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">label</span>,                         <span class="op">~</span><span class="va">type</span>,</span>
-<span class="r-in">  <span class="st">"Mean (SD), built-in function"</span>, <span class="st">"mean (sd)"</span>,</span>
-<span class="r-in">  <span class="st">"Mean: 1st custom function"</span>,    <span class="st">"custom1"</span>,</span>
-<span class="r-in">  <span class="st">"Mean: 2nd custom function"</span>,    <span class="st">"custom2"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span class="r-in">         outcome <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">table2</span><span class="op">(</span>data <span class="op">=</span> <span class="va">cancer</span>,</span>
-<span class="r-in">         custom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">my_custom_fun1</span>, <span class="va">my_custom_fun2</span><span class="op">)</span>,</span>
-<span class="r-in">         overall <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 5: Get formatted output for Example 2 (see above)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">table2</span><span class="op">(</span>design <span class="op">=</span> <span class="va">design2</span>,</span></span>
+<span class="r-in"><span>       data <span class="op">=</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mygt.html">mygt</a></span><span class="op">(</span>md <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># get markdown formatting in first column ('label')</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 6: Using custom functions and adding an</span></span></span>
+<span class="r-in"><span><span class="co"># overall unstratified estimate</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>  <span class="co"># for easier data handling</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define first, very rudimentary function</span></span></span>
+<span class="r-in"><span><span class="va">my_custom_fun1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.exposure</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="co"># Directly referencing the variable 'status'--not portable</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"mean ="</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define second, improved function</span></span></span>
+<span class="r-in"><span><span class="va">my_custom_fun2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">outcome</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># 'outcome', like all columns of the 'design' matrix, is one argument</span></span></span>
+<span class="r-in"><span>  <span class="co"># that is passed along to custom functions</span></span></span>
+<span class="r-in"><span>  <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.exposure</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="co"># This improved function will work in other data sets</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.exposure</span>, variable <span class="op">=</span> <span class="op">{</span><span class="op">{</span> <span class="va">outcome</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">label</span>,                         <span class="op">~</span><span class="va">type</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Mean (SD), built-in function"</span>, <span class="st">"mean (sd)"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Mean: 1st custom function"</span>,    <span class="st">"custom1"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Mean: 2nd custom function"</span>,    <span class="st">"custom2"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"sex"</span>,</span></span>
+<span class="r-in"><span>         outcome <span class="op">=</span> <span class="st">"status"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">table2</span><span class="op">(</span>data <span class="op">=</span> <span class="va">cancer</span>,</span></span>
+<span class="r-in"><span>         custom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">my_custom_fun1</span>, <span class="va">my_custom_fun2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>         overall <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Summary                      Overall                  Men                Women</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Mean (SD), built-in function 0.72 (0.45)              0.81 (0.39)        0.59…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Mean: 1st custom function    mean = 0.723684210526316 mean = 0.81159420… mean…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Mean: 2nd custom function    0.724                    0.812              0.589</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -651,7 +655,7 @@ Philadelpha, PA: Lippincott Williams &amp; Wilkins. Page 242.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

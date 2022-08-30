@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -97,15 +97,15 @@
 </h2>
 <p>The <code>khsmisc</code> package can be installed from <a href="https://github.com/stopsack/khsmisc" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># if "remotes" library is missing, install it first:</span>
-<span class="co">#   install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># if "remotes" library is missing, install it first:</span></span>
+<span><span class="co">#   install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"stopsack/khsmisc"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>To access the documentation after installing the package, run</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="st">"khsmisc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="st">"khsmisc"</span><span class="op">)</span></span></code></pre></div>
 <p>or</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"khsmisc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"khsmisc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="setting-up-a-new-rmarkdown">Setting up a new RMarkdown<a class="anchor" aria-label="anchor" href="#setting-up-a-new-rmarkdown"></a>
@@ -130,7 +130,7 @@
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">khsverse</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">khsverse</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>To just load the khsmisc package by itself, replace <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(khsverse)</a></code> by <code><a href="https://stopsack.github.io/khsmisc">library(khsmisc)</a></code>.</li>
 <li>The template also includes code to set graphics output to SVG format. If PNG output is preferred or the svglite package is not installed, that part can be deleted.</li>
@@ -151,63 +151,63 @@
 </h3>
 <p>Participant and tumor data from the Cancer Genome Atlas Bladder Cancer “cohort” (<code>BLCA</code>) will be used in their published 2017 version. Insert a new R chunk into the markdown (toolbar: <em>Insert</em> &gt; <em>R</em>), and add code for reading a tab-separated file (“TSV”). The code retrieves the file <code>data_clinical_patient.txt</code>, which can be downloaded as part of the <a href="http://download.cbioportal.org/blca_tcga_pub_2017.tar.gz" class="external-link">cBioPortal TCGA-BLCA tarball (276 MB)</a>. A copy of just the “clinical” dataset is available in the <code>extdata</code> directory of the khsmisc package. The first four lines of the TSV file are skipped because they contain meta-data.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"data_clinical_patient.txt"</span>, 
-                                        package <span class="op">=</span> <span class="st">"khsmisc"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-                     skip <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
-<span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">411</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">83</span></span>
-<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
-<span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> "\t"</span>
-<span class="co">#&gt; <span style="color: #BB0000;">chr</span> (81): OTHER_PATIENT_ID, PATIENT_ID, FORM_COMPLETION_DATE, PROSPECTIVE_CO...</span>
-<span class="co">#&gt; <span style="color: #00BB00;">dbl</span>  (2): AGE, DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"data_clinical_patient.txt"</span>, </span>
+<span>                                        package <span class="op">=</span> <span class="st">"khsmisc"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                     skip <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">411</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">83</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> "\t"</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (81): OTHER_PATIENT_ID, PATIENT_ID, FORM_COMPLETION_DATE, PROSPECTIVE_CO...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span>  (2): AGE, DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
 <p>An inventory of the dataset:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/varlist.html">varlist</a></span><span class="op">(</span><span class="va">clinical</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>  <span class="co"># show the first 15 lines of output</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 83 × 4</span></span>
-<span class="co">#&gt;    name                               n class     label</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> OTHER_PATIENT_ID                 411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PATIENT_ID                       411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> FORM_COMPLETION_DATE             411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PROSPECTIVE_COLLECTION           411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> RETROSPECTIVE_COLLECTION         411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> DAYS_TO_BIRTH                    411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> SEX                              411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> HEIGHT                           411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> WEIGHT                           411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> RACE                             411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> ETHNICITY                        411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> HISTORY_OTHER_MALIGNANCY         411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> HISTORY_NEOADJUVANT_TRTYN        411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> NONINVASIVE_BLADDER_HISTORY      411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> NONINVASIVE_BLADDER_CA_TX_TYPE   411 character NULL </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 68 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/varlist.html">varlist</a></span><span class="op">(</span><span class="va">clinical</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>  <span class="co"># show the first 15 lines of output</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 83 × 4</span></span></span>
+<span><span class="co">#&gt;    name                               n class     label</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> OTHER_PATIENT_ID                 411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> PATIENT_ID                       411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> FORM_COMPLETION_DATE             411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> PROSPECTIVE_COLLECTION           411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> RETROSPECTIVE_COLLECTION         411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> DAYS_TO_BIRTH                    411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> SEX                              411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> HEIGHT                           411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> WEIGHT                           411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> RACE                             411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> ETHNICITY                        411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> HISTORY_OTHER_MALIGNANCY         411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> HISTORY_NEOADJUVANT_TRTYN        411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> NONINVASIVE_BLADDER_HISTORY      411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> NONINVASIVE_BLADDER_CA_TX_TYPE   411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 68 more rows</span></span></span></code></pre></div>
 <p>Select and rename variables of interest:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>id         <span class="op">=</span> <span class="va">PATIENT_ID</span>, 
-         sex        <span class="op">=</span> <span class="va">SEX</span>,
-         race       <span class="op">=</span> <span class="va">RACE</span>,
-         ethnicity  <span class="op">=</span> <span class="va">ETHNICITY</span>,
-         height     <span class="op">=</span> <span class="va">HEIGHT</span>,
-         weight     <span class="op">=</span> <span class="va">WEIGHT</span>,
-         smoke      <span class="op">=</span> <span class="va">TOBACCO_SMOKING_HISTORY_INDICATOR</span>,
-         agedx      <span class="op">=</span> <span class="va">AGE</span>, 
-         dxyear     <span class="op">=</span> <span class="va">INITIAL_PATHOLOGIC_DX_YEAR</span>,
-         c_tstage   <span class="op">=</span> <span class="va">CLIN_T_STAGE</span>,
-         p_stage    <span class="op">=</span> <span class="va">AJCC_PATHOLOGIC_TUMOR_STAGE</span>,
-         p_tstage   <span class="op">=</span> <span class="va">AJCC_TUMOR_PATHOLOGIC_PT</span>, 
-         p_nstage   <span class="op">=</span> <span class="va">AJCC_NODES_PATHOLOGIC_PN</span>,
-         mstage     <span class="op">=</span> <span class="va">AJCC_METASTASIS_PATHOLOGIC_PM</span>,
-         grade      <span class="op">=</span> <span class="va">GRADE</span>,
-         histology  <span class="op">=</span> <span class="va">HISTOLOGICAL_SUBTYPE</span>,
-         os_status  <span class="op">=</span> <span class="va">OS_STATUS</span>, 
-         os_mos     <span class="op">=</span> <span class="va">OS_MONTHS</span>, 
-         dfs_status <span class="op">=</span> <span class="va">DFS_STATUS</span>,
-         dfs_mos    <span class="op">=</span> <span class="va">DFS_MONTHS</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>id         <span class="op">=</span> <span class="va">PATIENT_ID</span>, </span>
+<span>         sex        <span class="op">=</span> <span class="va">SEX</span>,</span>
+<span>         race       <span class="op">=</span> <span class="va">RACE</span>,</span>
+<span>         ethnicity  <span class="op">=</span> <span class="va">ETHNICITY</span>,</span>
+<span>         height     <span class="op">=</span> <span class="va">HEIGHT</span>,</span>
+<span>         weight     <span class="op">=</span> <span class="va">WEIGHT</span>,</span>
+<span>         smoke      <span class="op">=</span> <span class="va">TOBACCO_SMOKING_HISTORY_INDICATOR</span>,</span>
+<span>         agedx      <span class="op">=</span> <span class="va">AGE</span>, </span>
+<span>         dxyear     <span class="op">=</span> <span class="va">INITIAL_PATHOLOGIC_DX_YEAR</span>,</span>
+<span>         c_tstage   <span class="op">=</span> <span class="va">CLIN_T_STAGE</span>,</span>
+<span>         p_stage    <span class="op">=</span> <span class="va">AJCC_PATHOLOGIC_TUMOR_STAGE</span>,</span>
+<span>         p_tstage   <span class="op">=</span> <span class="va">AJCC_TUMOR_PATHOLOGIC_PT</span>, </span>
+<span>         p_nstage   <span class="op">=</span> <span class="va">AJCC_NODES_PATHOLOGIC_PN</span>,</span>
+<span>         mstage     <span class="op">=</span> <span class="va">AJCC_METASTASIS_PATHOLOGIC_PM</span>,</span>
+<span>         grade      <span class="op">=</span> <span class="va">GRADE</span>,</span>
+<span>         histology  <span class="op">=</span> <span class="va">HISTOLOGICAL_SUBTYPE</span>,</span>
+<span>         os_status  <span class="op">=</span> <span class="va">OS_STATUS</span>, </span>
+<span>         os_mos     <span class="op">=</span> <span class="va">OS_MONTHS</span>, </span>
+<span>         dfs_status <span class="op">=</span> <span class="va">DFS_STATUS</span>,</span>
+<span>         dfs_mos    <span class="op">=</span> <span class="va">DFS_MONTHS</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="load-taylor-et-al--aneuploidy-calls">Load Taylor <em>et al.</em> aneuploidy calls<a class="anchor" aria-label="anchor" href="#load-taylor-et-al--aneuploidy-calls"></a>
@@ -216,241 +216,241 @@
 <p>Next, load the Excel file provided as their <a href="https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx" class="external-link">Supplementary Table 2 via a HTTPS URL</a>, show dataset inventory, and select/rename variables.</p>
 <p>The following code can no longer be excuted because the journal blocks simple downloads. Instead, manually open the link above in the browser.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">### THIS CHUNK IS NOT BEING EXECUTED</span>
-<span class="co"># Generate temporary path</span>
-<span class="va">temporary_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".xlsx"</span><span class="op">)</span>
-<span class="co"># Download Taylor suppl. table 2 to that temporary path</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx"</span>, 
-              destfile <span class="op">=</span> <span class="va">temporary_path</span><span class="op">)</span>
-<span class="co"># Print temporary file location</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Taylor et al. suppl. table 2 is temporarily available locally at"</span>,
-      <span class="va">temporary_path</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># Read Excel file from temporary path:</span>
-<span class="va">taylor</span> <span class="op">&lt;-</span> <span class="fu">read_xlsx</span><span class="op">(</span>path <span class="op">=</span> <span class="va">temporary_path</span>, 
-                    skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># skip the first line</span>
-<span class="co"># --end workaround--</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">### THIS CHUNK IS NOT BEING EXECUTED</span></span>
+<span><span class="co"># Generate temporary path</span></span>
+<span><span class="va">temporary_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".xlsx"</span><span class="op">)</span></span>
+<span><span class="co"># Download Taylor suppl. table 2 to that temporary path</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx"</span>, </span>
+<span>              destfile <span class="op">=</span> <span class="va">temporary_path</span><span class="op">)</span></span>
+<span><span class="co"># Print temporary file location</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Taylor et al. suppl. table 2 is temporarily available locally at"</span>,</span>
+<span>      <span class="va">temporary_path</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Read Excel file from temporary path:</span></span>
+<span><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="fu">read_xlsx</span><span class="op">(</span>path <span class="op">=</span> <span class="va">temporary_path</span>, </span>
+<span>                    skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># skip the first line</span></span>
+<span><span class="co"># --end workaround--</span></span></code></pre></div>
 <p>This example will continue to use <strong>SIMULATED</strong> data as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Simulated aneuploidy data for demonstration purposes:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
-<span class="va">taylor</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">id</span>, <span class="st">"-01"</span><span class="op">)</span>,  <span class="co"># make simulated IDs match Taylor et al.'s</span>
-    purity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, 
-                   mean <span class="op">=</span> <span class="fl">0.6</span>,
-                   sd <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,
-    ascore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,
-                   mean <span class="op">=</span> <span class="fl">12</span>,
-                   sd <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>,
-    ascore <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">ascore</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">~</span> <span class="fl">0</span>,
-                       <span class="va">ascore</span> <span class="op">&gt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="fl">40</span>,
-                       <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/varlist.html">varlist</a></span><span class="op">(</span><span class="va">taylor</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span>
-<span class="co">#&gt;   name       n class     label</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> id       411 character NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> purity   411 numeric   NULL </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ascore   411 numeric   NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Simulated aneuploidy data for demonstration purposes:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">id</span>, <span class="st">"-01"</span><span class="op">)</span>,  <span class="co"># make simulated IDs match Taylor et al.'s</span></span>
+<span>    purity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>                   mean <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>                   sd <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>    ascore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                   mean <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                   sd <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>,</span>
+<span>    ascore <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">ascore</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">~</span> <span class="fl">0</span>,</span>
+<span>                       <span class="va">ascore</span> <span class="op">&gt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="fl">40</span>,</span>
+<span>                       <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/varlist.html">varlist</a></span><span class="op">(</span><span class="va">taylor</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
+<span><span class="co">#&gt;   name       n class     label</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> id       411 character NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> purity   411 numeric   NULL </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ascore   411 numeric   NULL</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="merging-datasets">Merging datasets<a class="anchor" aria-label="anchor" href="#merging-datasets"></a>
 </h3>
 <p>Left-join the Taylor <em>et al.</em> aneuploidy scores to the clinical data, <em>i.e.</em>, keep all observations from <code>clinical</code> and those that match from <code>taylor</code>. Because IDs in <code>taylor</code> are tumor IDs, they contain an extra suffix that we need to remove before merging. We also need to check that this procedure did not introduce duplicates.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="va">taylor</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu">str_sub</span><span class="op">(</span>string <span class="op">=</span> <span class="va">id</span>, start <span class="op">=</span> <span class="fl">1</span>, end <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">taylor</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">combined</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Check for duplicates. Should return 0.</span>
-<span class="co">#&gt; [1] 0</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="va">taylor</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu">str_sub</span><span class="op">(</span>string <span class="op">=</span> <span class="va">id</span>, start <span class="op">=</span> <span class="fl">1</span>, end <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">taylor</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">combined</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Check for duplicates. Should return 0.</span></span>
+<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="recoding-variables">Recoding variables<a class="anchor" aria-label="anchor" href="#recoding-variables"></a>
 </h3>
 <p>Consistently code categorical variables as a <code>factor</code> and continuous variables as <code>numeric</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">race</span>, <span class="va">ethnicity</span>, <span class="va">smoke</span>,
-                     <span class="va">c_tstage</span>, <span class="va">p_stage</span>, <span class="va">p_tstage</span>, <span class="va">p_nstage</span>, <span class="va">mstage</span>, 
-                     <span class="va">grade</span>, <span class="va">histology</span>, <span class="va">os_status</span>, <span class="va">dfs_status</span><span class="op">)</span>, 
-           .fns <span class="op">=</span> <span class="va">factor</span><span class="op">)</span>,
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">weight</span>, <span class="va">agedx</span>, <span class="va">dxyear</span>, <span class="va">os_mos</span>, <span class="va">dfs_mos</span><span class="op">)</span>,
-           .fns <span class="op">=</span> <span class="va">as.numeric</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span>
-
-<span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span>
-
-<span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span>
-
-<span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span>
-
-<span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">race</span>, <span class="va">ethnicity</span>, <span class="va">smoke</span>,</span>
+<span>                     <span class="va">c_tstage</span>, <span class="va">p_stage</span>, <span class="va">p_tstage</span>, <span class="va">p_nstage</span>, <span class="va">mstage</span>, </span>
+<span>                     <span class="va">grade</span>, <span class="va">histology</span>, <span class="va">os_status</span>, <span class="va">dfs_status</span><span class="op">)</span>, </span>
+<span>           .fns <span class="op">=</span> <span class="va">factor</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">weight</span>, <span class="va">agedx</span>, <span class="va">dxyear</span>, <span class="va">os_mos</span>, <span class="va">dfs_mos</span><span class="op">)</span>,</span>
+<span>           .fns <span class="op">=</span> <span class="va">as.numeric</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span></code></pre></div>
 <p>The warning messages are expected, as some numeric variables contain non-numeric values.</p>
 <p>Next, recode various labels of missing data in categorical variables to a consistent missing type, using <code>fct_collapse</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Tabulate some examples</span>
-<span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">dfs_status</span>, <span class="va">histology</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> <span class="va">table</span>, 
-      useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span>  <span class="co"># always show NA ("missing") levels</span>
-<span class="co">#&gt; $race</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;           [Not Available]                     ASIAN BLACK OR AFRICAN AMERICAN </span>
-<span class="co">#&gt;                        18                        44                        23 </span>
-<span class="co">#&gt;                     WHITE                      &lt;NA&gt; </span>
-<span class="co">#&gt;                       326                         0 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dfs_status</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     [Not Available]         DiseaseFree Recurred/Progressed                &lt;NA&gt; </span>
-<span class="co">#&gt;                  89                 179                 143                   0 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $histology</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   [Discrepancy] [Not Available]   Non-Papillary       Papillary            &lt;NA&gt; </span>
-<span class="co">#&gt;               1               4             273             133               0</span>
-
-<span class="co"># Collapse all actually missings to R's missing</span>
-<span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu">where</span><span class="op">(</span><span class="va">is.factor</span><span class="op">)</span>, 
-           .fns <span class="op">=</span> <span class="op">~</span><span class="fu">fct_collapse</span><span class="op">(</span><span class="va">.</span>, 
-                                <span class="cn">NULL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[Not Available]"</span>, 
-                                         <span class="st">"[Discrepancy]"</span>, 
-                                         <span class="st">"Indeterminate"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Revisit the examples after recoding</span>
-<span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">dfs_status</span>, <span class="va">histology</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> <span class="va">table</span>, 
-      useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span>  <span class="co"># always show NA ("missing") levels</span>
-<span class="co">#&gt; $race</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                     ASIAN BLACK OR AFRICAN AMERICAN                     WHITE </span>
-<span class="co">#&gt;                        44                        23                       326 </span>
-<span class="co">#&gt;                      &lt;NA&gt; </span>
-<span class="co">#&gt;                        18 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $dfs_status</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;         DiseaseFree Recurred/Progressed                &lt;NA&gt; </span>
-<span class="co">#&gt;                 179                 143                  89 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $histology</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Non-Papillary     Papillary          &lt;NA&gt; </span>
-<span class="co">#&gt;           273           133             5</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Tabulate some examples</span></span>
+<span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">dfs_status</span>, <span class="va">histology</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> <span class="va">table</span>, </span>
+<span>      useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span>  <span class="co"># always show NA ("missing") levels</span></span>
+<span><span class="co">#&gt; $race</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;           [Not Available]                     ASIAN BLACK OR AFRICAN AMERICAN </span></span>
+<span><span class="co">#&gt;                        18                        44                        23 </span></span>
+<span><span class="co">#&gt;                     WHITE                      &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;                       326                         0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dfs_status</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     [Not Available]         DiseaseFree Recurred/Progressed                &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;                  89                 179                 143                   0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $histology</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   [Discrepancy] [Not Available]   Non-Papillary       Papillary            &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;               1               4             273             133               0</span></span>
+<span></span>
+<span><span class="co"># Collapse all actually missings to R's missing</span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu">where</span><span class="op">(</span><span class="va">is.factor</span><span class="op">)</span>, </span>
+<span>           .fns <span class="op">=</span> <span class="op">~</span><span class="fu">fct_collapse</span><span class="op">(</span><span class="va">.</span>, </span>
+<span>                                <span class="cn">NULL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[Not Available]"</span>, </span>
+<span>                                         <span class="st">"[Discrepancy]"</span>, </span>
+<span>                                         <span class="st">"Indeterminate"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Revisit the examples after recoding</span></span>
+<span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">dfs_status</span>, <span class="va">histology</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> <span class="va">table</span>, </span>
+<span>      useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span>  <span class="co"># always show NA ("missing") levels</span></span>
+<span><span class="co">#&gt; $race</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                     ASIAN BLACK OR AFRICAN AMERICAN                     WHITE </span></span>
+<span><span class="co">#&gt;                        44                        23                       326 </span></span>
+<span><span class="co">#&gt;                      &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;                        18 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dfs_status</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;         DiseaseFree Recurred/Progressed                &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;                 179                 143                  89 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $histology</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Non-Papillary     Papillary          &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;           273           133             5</span></span></code></pre></div>
 <p>Recode event indicators to the numeric values that <code>survival</code> functions require:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    dfs_event <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span>
-      <span class="va">dfs_status</span> <span class="op">==</span> <span class="st">"Recurred/Progressed"</span> <span class="op">~</span> <span class="fl">1</span>,
-      <span class="va">dfs_status</span> <span class="op">==</span> <span class="st">"DiseaseFree"</span>         <span class="op">~</span> <span class="fl">0</span><span class="op">)</span>,
-    os_event  <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span>
-      <span class="va">os_status</span>  <span class="op">==</span> <span class="st">"DECEASED"</span>            <span class="op">~</span> <span class="fl">1</span>,
-      <span class="va">os_status</span>  <span class="op">==</span> <span class="st">"LIVING"</span>              <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    dfs_event <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">dfs_status</span> <span class="op">==</span> <span class="st">"Recurred/Progressed"</span> <span class="op">~</span> <span class="fl">1</span>,</span>
+<span>      <span class="va">dfs_status</span> <span class="op">==</span> <span class="st">"DiseaseFree"</span>         <span class="op">~</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    os_event  <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">os_status</span>  <span class="op">==</span> <span class="st">"DECEASED"</span>            <span class="op">~</span> <span class="fl">1</span>,</span>
+<span>      <span class="va">os_status</span>  <span class="op">==</span> <span class="st">"LIVING"</span>              <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Recode race categories to make them more readable:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Before:</span>
-<span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span>
-<span class="co">#&gt;   race                          n</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ASIAN                        44</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> BLACK OR AFRICAN AMERICAN    23</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> WHITE                       326</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>                           18</span>
-
-<span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-         <span class="co"># Change from all uppercase:</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    race      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu">str_to_title</span><span class="op">(</span><span class="va">race</span><span class="op">)</span><span class="op">)</span>,
-    ethnicity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu">str_to_title</span><span class="op">(</span><span class="va">ethnicity</span><span class="op">)</span><span class="op">)</span>,
-    <span class="co"># Make "Black" as short as other categories</span>
-    race <span class="op">=</span> <span class="fu">fct_recode</span><span class="op">(</span><span class="va">race</span>, Black <span class="op">=</span> <span class="st">"Black Or African American"</span><span class="op">)</span>,
-    <span class="co"># Make "White" the reference category because of sample size</span>
-    race <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">race</span>, <span class="st">"White"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># After:</span>
-<span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span>
-<span class="co">#&gt;   race      n</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> White   326</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian    44</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black    23</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>       18</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Before:</span></span>
+<span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
+<span><span class="co">#&gt;   race                          n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ASIAN                        44</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> BLACK OR AFRICAN AMERICAN    23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> WHITE                       326</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>                           18</span></span>
+<span></span>
+<span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>         <span class="co"># Change from all uppercase:</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    race      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu">str_to_title</span><span class="op">(</span><span class="va">race</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    ethnicity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu">str_to_title</span><span class="op">(</span><span class="va">ethnicity</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Make "Black" as short as other categories</span></span>
+<span>    race <span class="op">=</span> <span class="fu">fct_recode</span><span class="op">(</span><span class="va">race</span>, Black <span class="op">=</span> <span class="st">"Black Or African American"</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Make "White" the reference category because of sample size</span></span>
+<span>    race <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">race</span>, <span class="st">"White"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># After:</span></span>
+<span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
+<span><span class="co">#&gt;   race      n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> White   326</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian    44</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black    23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>       18</span></span></code></pre></div>
 <p>Assign meaningful labels to the <code>smoke</code> variable, based on inspection of other smoking-related variables in the full dataset:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    smoke <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span>
-      <span class="va">smoke</span>, 
-      levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, 
-      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Never"</span>, <span class="st">"Current"</span>, 
-                 <span class="st">"Former, quit &gt;15 y"</span>, <span class="st">"Former, quit &lt;15 y"</span>, 
-                 <span class="st">"Former"</span><span class="op">)</span><span class="op">)</span>,
-    <span class="co"># Combine all "formers":</span>
-    smoke3 <span class="op">=</span> <span class="fu">fct_collapse</span><span class="op">(</span>
-      <span class="va">smoke</span>, 
-      Former <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Former"</span>, 
-                 <span class="st">"Former, quit &gt;15 y"</span>, 
-                 <span class="st">"Former, quit &lt;15 y"</span><span class="op">)</span><span class="op">)</span>,
-    <span class="co"># Change order of levels, starting with "never" as the reference:</span>
-    smoke3 <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span>
-      <span class="va">smoke3</span>, 
-      <span class="st">"Never"</span>, <span class="st">"Former"</span>, <span class="st">"Current"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    smoke <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>      <span class="va">smoke</span>, </span>
+<span>      levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, </span>
+<span>      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Never"</span>, <span class="st">"Current"</span>, </span>
+<span>                 <span class="st">"Former, quit &gt;15 y"</span>, <span class="st">"Former, quit &lt;15 y"</span>, </span>
+<span>                 <span class="st">"Former"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Combine all "formers":</span></span>
+<span>    smoke3 <span class="op">=</span> <span class="fu">fct_collapse</span><span class="op">(</span></span>
+<span>      <span class="va">smoke</span>, </span>
+<span>      Former <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Former"</span>, </span>
+<span>                 <span class="st">"Former, quit &gt;15 y"</span>, </span>
+<span>                 <span class="st">"Former, quit &lt;15 y"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Change order of levels, starting with "never" as the reference:</span></span>
+<span>    smoke3 <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span></span>
+<span>      <span class="va">smoke3</span>, </span>
+<span>      <span class="st">"Never"</span>, <span class="st">"Former"</span>, <span class="st">"Current"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="creating-derived-variables">Creating derived variables<a class="anchor" aria-label="anchor" href="#creating-derived-variables"></a>
 </h3>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>bmidx <span class="op">=</span> <span class="va">weight</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">height</span>, <span class="op">-</span><span class="va">weight</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>bmidx <span class="op">=</span> <span class="va">weight</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">height</span>, <span class="op">-</span><span class="va">weight</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="categorizing-variables">Categorizing variables<a class="anchor" aria-label="anchor" href="#categorizing-variables"></a>
 </h3>
 <p>Category boundaries are informed by results from code to be run below.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
-    ascore_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span>
-      <span class="va">ascore</span>, 
-      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">ascore</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, 
-      include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    ascore_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span></span>
+<span>      <span class="va">ascore</span>, </span>
+<span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">ascore</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>      include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="labeling-variables">Labeling variables<a class="anchor" aria-label="anchor" href="#labeling-variables"></a>
 </h3>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">set_variable_labels</span><span class="op">(</span>
-    sex        <span class="op">=</span> <span class="st">"Sex"</span>,
-    race       <span class="op">=</span> <span class="st">"Self-reported race"</span>,
-    ethnicity  <span class="op">=</span> <span class="st">"Ethnicity"</span>,
-    smoke      <span class="op">=</span> <span class="st">"Smoking status at diangosis"</span>,
-    smoke3     <span class="op">=</span> <span class="st">"Smoking status at diagnosis"</span>,
-    agedx      <span class="op">=</span> <span class="st">"Age at diagnosis"</span>,
-    dxyear     <span class="op">=</span> <span class="st">"Calendar year of initial diagnosis"</span>,
-    bmidx      <span class="op">=</span> <span class="st">"Body mass index at diagnosis"</span>,
-    p_stage    <span class="op">=</span> <span class="st">"AJCC pathologic stage"</span>,
-    mstage     <span class="op">=</span> <span class="st">"Metastases at diagnosis"</span>,
-    grade      <span class="op">=</span> <span class="st">"Histologic grade"</span>,
-    histology  <span class="op">=</span> <span class="st">"Histologic subtype"</span>,
-    ascore     <span class="op">=</span> <span class="st">"Aneuploidy score"</span>,
-    ascore_cat <span class="op">=</span> <span class="st">"Aneuploidy score"</span>,
-    purity     <span class="op">=</span> <span class="st">"DNA tumor purity by ABSOLUTE"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">set_variable_labels</span><span class="op">(</span></span>
+<span>    sex        <span class="op">=</span> <span class="st">"Sex"</span>,</span>
+<span>    race       <span class="op">=</span> <span class="st">"Self-reported race"</span>,</span>
+<span>    ethnicity  <span class="op">=</span> <span class="st">"Ethnicity"</span>,</span>
+<span>    smoke      <span class="op">=</span> <span class="st">"Smoking status at diangosis"</span>,</span>
+<span>    smoke3     <span class="op">=</span> <span class="st">"Smoking status at diagnosis"</span>,</span>
+<span>    agedx      <span class="op">=</span> <span class="st">"Age at diagnosis"</span>,</span>
+<span>    dxyear     <span class="op">=</span> <span class="st">"Calendar year of initial diagnosis"</span>,</span>
+<span>    bmidx      <span class="op">=</span> <span class="st">"Body mass index at diagnosis"</span>,</span>
+<span>    p_stage    <span class="op">=</span> <span class="st">"AJCC pathologic stage"</span>,</span>
+<span>    mstage     <span class="op">=</span> <span class="st">"Metastases at diagnosis"</span>,</span>
+<span>    grade      <span class="op">=</span> <span class="st">"Histologic grade"</span>,</span>
+<span>    histology  <span class="op">=</span> <span class="st">"Histologic subtype"</span>,</span>
+<span>    ascore     <span class="op">=</span> <span class="st">"Aneuploidy score"</span>,</span>
+<span>    ascore_cat <span class="op">=</span> <span class="st">"Aneuploidy score"</span>,</span>
+<span>    purity     <span class="op">=</span> <span class="st">"DNA tumor purity by ABSOLUTE"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -460,9 +460,9 @@
 <h3 id="contingency-tables">Contingency tables<a class="anchor" aria-label="anchor" href="#contingency-tables"></a>
 </h3>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/tabulate_rowcol.html">tabulate_rowcol</a></span><span class="op">(</span><span class="va">smoke3</span>, <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># make contingency table</span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/tabulate_rowcol.html">tabulate_rowcol</a></span><span class="op">(</span><span class="va">smoke3</span>, <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># make contingency table</span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></span></code></pre></div>
 <div id="kbgfgdwzpd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -836,15 +836,6 @@
   font-size: 65%;
 }
 
-#kbgfgdwzpd .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #kbgfgdwzpd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -857,32 +848,34 @@
   vertical-align: 0;
 }
 
-#kbgfgdwzpd .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#kbgfgdwzpd .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#kbgfgdwzpd .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#kbgfgdwzpd .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#kbgfgdwzpd .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#kbgfgdwzpd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kbgfgdwzpd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kbgfgdwzpd .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">smoke3 X race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">White</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Asian</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Black</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">(Missing)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Total</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">smoke3 X race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">White</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Asian</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Black</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">(Missing)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Total</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -934,13 +927,13 @@
 </h3>
 <p>Exposure and confounders</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="co"># make descriptive table:</span>
-  <span class="fu"><a href="../reference/tsummary.html">tsummary</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">agedx</span>, <span class="va">bmidx</span>, <span class="va">dxyear</span>, <span class="va">purity</span>, by <span class="op">=</span> <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">mean</span>, <span class="op">-</span><span class="va">sd</span>, <span class="op">-</span><span class="va">sum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># remove undesired statistics</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, 
-                .fns <span class="op">=</span> <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># round</span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># make descriptive table:</span></span>
+<span>  <span class="fu"><a href="../reference/tsummary.html">tsummary</a></span><span class="op">(</span><span class="va">race</span>, <span class="va">agedx</span>, <span class="va">bmidx</span>, <span class="va">dxyear</span>, <span class="va">purity</span>, by <span class="op">=</span> <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">mean</span>, <span class="op">-</span><span class="va">sd</span>, <span class="op">-</span><span class="va">sum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># remove undesired statistics</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span>.cols <span class="op">=</span> <span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, </span>
+<span>                .fns <span class="op">=</span> <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># round</span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></span></code></pre></div>
 <div id="iepkpyisok" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -1314,15 +1307,6 @@
   font-size: 65%;
 }
 
-#iepkpyisok .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #iepkpyisok .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -1335,35 +1319,37 @@
   vertical-align: 0;
 }
 
-#iepkpyisok .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#iepkpyisok .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#iepkpyisok .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#iepkpyisok .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#iepkpyisok .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#iepkpyisok .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#iepkpyisok .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#iepkpyisok .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">rows</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">obs</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">distin</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">min</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">q25</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">median</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">q75</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">max</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">rows</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">obs</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">distin</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">q25</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">median</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">q75</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">max</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr class="gt_group_heading_row">
@@ -1559,10 +1545,10 @@
 </div>
 <p>Outcome</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/tsummary.html">tsummary</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"ascore"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># make descriptive table</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">mean</span>, <span class="op">-</span><span class="va">sd</span>, <span class="op">-</span><span class="va">sum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># remove undesired statistics</span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/tsummary.html">tsummary</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"ascore"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># make descriptive table</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">mean</span>, <span class="op">-</span><span class="va">sd</span>, <span class="op">-</span><span class="va">sum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># remove undesired statistics</span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></span></code></pre></div>
 <div id="qiyolstgko" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -1936,15 +1922,6 @@
   font-size: 65%;
 }
 
-#qiyolstgko .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #qiyolstgko .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -1957,35 +1934,37 @@
   vertical-align: 0;
 }
 
-#qiyolstgko .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#qiyolstgko .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#qiyolstgko .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#qiyolstgko .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#qiyolstgko .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#qiyolstgko .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qiyolstgko .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qiyolstgko .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">variable</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">rows</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">obs</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">distin</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">min</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">q25</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">median</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">q75</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">max</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">rows</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">obs</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">distin</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">q25</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">median</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">q75</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">max</th>
     </tr></thead>
 <tbody class="gt_table_body"><tr>
 <td class="gt_row gt_left" style="text-align: left; vertical-align: top;">ascore</td>
@@ -2005,28 +1984,28 @@
 <h3 id="plots-of-the-outcome">Plots of the outcome<a class="anchor" aria-label="anchor" href="#plots-of-the-outcome"></a>
 </h3>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># each bar = 2 units of "ascore"</span>
-  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># each bar = 2 units of "ascore"</span></span>
+<span>  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>Is the outcome reasonably normally distributed? Show a quantile–quantile plot before and after log transformation.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Sample, untransformed"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Sample, untransformed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ascore</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Sample, log(x + 0.1)-transformed"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">ascore</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Sample, log(x + 0.1)-transformed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-20-2.png" width="700"></p>
 </div>
 </div>
@@ -2038,35 +2017,35 @@
 </h3>
 <p>Because the main exposure is self-reported race, we will have to exclude participants with missing race from the analytical population.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># All participants:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span>
-<span class="co">#&gt; [1] 411</span>
-
-<span class="co"># Exclude with missing race:</span>
-<span class="va">analytical</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">copy_labels_from</span><span class="op">(</span>from <span class="op">=</span> <span class="va">combined</span><span class="op">)</span>
-
-<span class="co"># Analytical population:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">analytical</span><span class="op">)</span>
-<span class="co">#&gt; [1] 393</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># All participants:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 411</span></span>
+<span></span>
+<span><span class="co"># Exclude with missing race:</span></span>
+<span><span class="va">analytical</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">race</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">copy_labels_from</span><span class="op">(</span>from <span class="op">=</span> <span class="va">combined</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Analytical population:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">analytical</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 393</span></span></code></pre></div>
 <p>Note that the dataset contains participants with tumors that were metastatic at diagnosis (M1):</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">mstage</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span>
-<span class="co">#&gt;   mstage     n</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> M0       184</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> M1        10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> MX       196</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>         3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">mstage</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
+<span><span class="co">#&gt;   mstage     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> M0       184</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> M1        10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> MX       196</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>         3</span></span></code></pre></div>
 <p>In the analytical dataset, does everyone have an aneuploidy score?</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>missing_ascore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/tabulate_rowcol.html">tabulate_rowcol</a></span><span class="op">(</span><span class="va">missing_ascore</span>, <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>missing_ascore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/tabulate_rowcol.html">tabulate_rowcol</a></span><span class="op">(</span><span class="va">missing_ascore</span>, <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="iznxskvaii" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -2440,15 +2419,6 @@
   font-size: 65%;
 }
 
-#iznxskvaii .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #iznxskvaii .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -2461,31 +2431,33 @@
   vertical-align: 0;
 }
 
-#iznxskvaii .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#iznxskvaii .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#iznxskvaii .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#iznxskvaii .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#iznxskvaii .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#iznxskvaii .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#iznxskvaii .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#iznxskvaii .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">missing_ascore X race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">White</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Asian</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Black</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Total</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">missing_ascore X race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">White</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Asian</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Black</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Total</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -2510,15 +2482,17 @@
 <h3 id="table-1-exposure-stratified-characteristics-of-the-study-population">Table 1: Exposure-stratified characteristics of the study population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratified-characteristics-of-the-study-population"></a>
 </h3>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/table1.html">table1</a></span><span class="op">(</span>
-    <span class="va">ethnicity</span>, <span class="va">sex</span>, <span class="va">agedx</span>, <span class="va">dxyear</span>, <span class="va">smoke3</span>, <span class="va">bmidx</span>, 
-    <span class="va">p_stage</span>, <span class="va">mstage</span>, <span class="va">grade</span>, <span class="va">histology</span>, <span class="va">purity</span>,
-    by <span class="op">=</span> <span class="va">race</span>, 
-    digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>agedx  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, 
-                  dxyear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning: The `fmt_missing()` function is deprecated and will soon be removed</span>
-<span class="co">#&gt; * Use the `sub_missing()` function instead</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/table1.html">table1</a></span><span class="op">(</span></span>
+<span>    <span class="va">ethnicity</span>, <span class="va">sex</span>, <span class="va">agedx</span>, <span class="va">dxyear</span>, <span class="va">smoke3</span>, <span class="va">bmidx</span>, </span>
+<span>    <span class="va">p_stage</span>, <span class="va">mstage</span>, <span class="va">grade</span>, <span class="va">histology</span>, <span class="va">purity</span>,</span>
+<span>    by <span class="op">=</span> <span class="va">race</span>, </span>
+<span>    digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>agedx  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                  dxyear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in cond &amp; tbl$locname != "title": longer object length is not a multiple</span></span>
+<span><span class="co">#&gt; of shorter object length</span></span>
+<span><span class="co">#&gt; Warning in cond &amp; tbl$locname != "subtitle": longer object length is not a</span></span>
+<span><span class="co">#&gt; multiple of shorter object length</span></span></code></pre></div>
 <div id="wxqjhrxfyr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -2892,15 +2866,6 @@
   font-size: 65%;
 }
 
-#wxqjhrxfyr .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #wxqjhrxfyr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -2913,37 +2878,39 @@
   vertical-align: 0;
 }
 
-#wxqjhrxfyr .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#wxqjhrxfyr .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#wxqjhrxfyr .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#wxqjhrxfyr .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#wxqjhrxfyr .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#wxqjhrxfyr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wxqjhrxfyr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wxqjhrxfyr .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings">
 <tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Overall</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Overall</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup">
         <span class="gt_column_spanner"><strong>By Self-reported race</strong></span>
       </th>
     </tr>
 <tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>White</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Asian</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Black</strong></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>White</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Asian</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Black</strong></th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -3221,36 +3188,38 @@
 <h3 id="figure-1-box-whiskersdot-plots">Figure 1: Box-whiskers/dot plots<a class="anchor" aria-label="anchor" href="#figure-1-box-whiskersdot-plots"></a>
 </h3>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/stripplot.html">stripplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">race</span>, 
-            y <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/stripplot.html">stripplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">race</span>, </span>
+<span>            y <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p><strong>Restricted to high grade, non-missing aneuploidy scores and histology, and then color code by histology</strong></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">==</span> <span class="st">"High Grade"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/stripplot.html">stripplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">race</span>, 
-            y <span class="op">=</span> <span class="va">ascore</span>, 
-            color <span class="op">=</span> <span class="va">histology</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co"># change color palette:</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span>, 
-                        end <span class="op">=</span> <span class="fl">0.8</span>, 
-                        direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co"># add label:</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Histology"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">==</span> <span class="st">"High Grade"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/stripplot.html">stripplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">race</span>, </span>
+<span>            y <span class="op">=</span> <span class="va">ascore</span>, </span>
+<span>            color <span class="op">=</span> <span class="va">histology</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># change color palette:</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_d</a></span><span class="op">(</span>option <span class="op">=</span> <span class="st">"cividis"</span>, </span>
+<span>                        end <span class="op">=</span> <span class="fl">0.8</span>, </span>
+<span>                        direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># add label:</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Histology"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="table-2-stratified-and-regression-analyses">Table 2: Stratified and regression analyses<a class="anchor" aria-label="anchor" href="#table-2-stratified-and-regression-analyses"></a>
 </h3>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Part 1: Stratified</span>
-<span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/table1.html">table1</a></span><span class="op">(</span><span class="va">ascore_cat</span>, 
-         by <span class="op">=</span> <span class="va">race</span><span class="op">)</span>
-<span class="co">#&gt; Warning: The `fmt_missing()` function is deprecated and will soon be removed</span>
-<span class="co">#&gt; * Use the `sub_missing()` function instead</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Part 1: Stratified</span></span>
+<span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/table1.html">table1</a></span><span class="op">(</span><span class="va">ascore_cat</span>, </span>
+<span>         by <span class="op">=</span> <span class="va">race</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in cond &amp; tbl$locname != "title": longer object length is not a multiple</span></span>
+<span><span class="co">#&gt; of shorter object length</span></span>
+<span><span class="co">#&gt; Warning in cond &amp; tbl$locname != "subtitle": longer object length is not a</span></span>
+<span><span class="co">#&gt; multiple of shorter object length</span></span></code></pre></div>
 <div id="yrfwjgkqpp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -3624,15 +3593,6 @@
   font-size: 65%;
 }
 
-#yrfwjgkqpp .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #yrfwjgkqpp .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -3645,37 +3605,39 @@
   vertical-align: 0;
 }
 
-#yrfwjgkqpp .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#yrfwjgkqpp .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#yrfwjgkqpp .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#yrfwjgkqpp .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#yrfwjgkqpp .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#yrfwjgkqpp .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#yrfwjgkqpp .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#yrfwjgkqpp .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings">
 <tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Overall</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Overall</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup">
         <span class="gt_column_spanner"><strong>By Self-reported race</strong></span>
       </th>
     </tr>
 <tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>White</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Asian</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;"><strong>Black</strong></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>White</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Asian</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col"><strong>Black</strong></th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -3725,26 +3687,26 @@
 </table>
 </div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-  <span class="op">~</span><span class="va">label</span>,                           <span class="op">~</span><span class="va">confounders</span>,             <span class="op">~</span><span class="va">type</span>,
-  <span class="st">"N"</span>,                              <span class="st">""</span>,                       <span class="st">"total"</span>,
-  <span class="st">"Mean altered chromosome arms"</span>,   <span class="st">""</span>,                       <span class="st">"mean"</span>,
-  <span class="st">"Difference (95% CI):"</span>,           <span class="st">""</span>,                       <span class="st">""</span>, 
-  <span class="st">"  Model 1: Age/sex-adjusted"</span>,    <span class="st">"+ agedx + sex"</span>,          <span class="st">"diff"</span>,
-  <span class="st">"  Model 2: Model 1 + smoking"</span>,   <span class="st">"+ agedx + sex + smoke3"</span>, <span class="st">"diff"</span>,
-  <span class="st">"  Model 3: Model 2 + histology"</span>, <span class="st">"+ agedx + sex + smoke3 + histology"</span>,  <span class="st">"diff"</span>,
-  <span class="st">"  Model 4: Model 3 + grade"</span>,     <span class="st">"+ agedx + sex + smoke3 + histology + grade"</span>, <span class="st">"diff"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"race"</span>, 
-         outcome <span class="op">=</span> <span class="st">"ascore"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/table2.html">table2</a></span><span class="op">(</span>
-    data <span class="op">=</span> <span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-      <span class="co"># evaluate all models in the same complete-case subset:</span>
-      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> 
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">smoke3</span><span class="op">)</span> <span class="op">&amp;</span> 
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span> <span class="op">&amp;</span> 
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span><span class="op">)</span>,
-    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">label</span>,                           <span class="op">~</span><span class="va">confounders</span>,             <span class="op">~</span><span class="va">type</span>,</span>
+<span>  <span class="st">"N"</span>,                              <span class="st">""</span>,                       <span class="st">"total"</span>,</span>
+<span>  <span class="st">"Mean altered chromosome arms"</span>,   <span class="st">""</span>,                       <span class="st">"mean"</span>,</span>
+<span>  <span class="st">"Difference (95% CI):"</span>,           <span class="st">""</span>,                       <span class="st">""</span>, </span>
+<span>  <span class="st">"  Model 1: Age/sex-adjusted"</span>,    <span class="st">"+ agedx + sex"</span>,          <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"  Model 2: Model 1 + smoking"</span>,   <span class="st">"+ agedx + sex + smoke3"</span>, <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"  Model 3: Model 2 + histology"</span>, <span class="st">"+ agedx + sex + smoke3 + histology"</span>,  <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"  Model 4: Model 3 + grade"</span>,     <span class="st">"+ agedx + sex + smoke3 + histology + grade"</span>, <span class="st">"diff"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"race"</span>, </span>
+<span>         outcome <span class="op">=</span> <span class="st">"ascore"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/table2.html">table2</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>      <span class="co"># evaluate all models in the same complete-case subset:</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">smoke3</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="nscsdqhqpm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -4118,15 +4080,6 @@
   font-size: 65%;
 }
 
-#nscsdqhqpm .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #nscsdqhqpm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -4139,30 +4092,32 @@
   vertical-align: 0;
 }
 
-#nscsdqhqpm .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#nscsdqhqpm .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#nscsdqhqpm .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#nscsdqhqpm .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#nscsdqhqpm .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#nscsdqhqpm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#nscsdqhqpm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#nscsdqhqpm .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Self-reported race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">White</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Asian</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Black</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Self-reported race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">White</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Asian</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Black</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -4216,24 +4171,24 @@
 </h3>
 <p>Models are adjusted for age (and sex, unless sex is an effect modifier).</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-  <span class="op">~</span><span class="va">label</span>,            <span class="op">~</span><span class="va">effect_modifier</span>, <span class="op">~</span><span class="va">stratum</span>,    <span class="op">~</span><span class="va">confounders</span>,    <span class="op">~</span><span class="va">type</span>,
-  <span class="st">"By sex"</span>,          <span class="cn">NULL</span>,             <span class="cn">NULL</span>,        <span class="st">""</span>,              <span class="st">""</span>,
-  <span class="st">"  Female"</span>,        <span class="st">"sex"</span>,            <span class="st">"Female"</span>,    <span class="st">"+ agedx"</span>,       <span class="st">"diff"</span>,
-  <span class="st">"  Male"</span>,          <span class="st">"sex"</span>,            <span class="st">"Male"</span>,      <span class="st">"+ agedx"</span>,       <span class="st">"diff"</span>,
-  <span class="st">"By histology"</span>,    <span class="cn">NULL</span>,             <span class="cn">NULL</span>,        <span class="st">""</span>,              <span class="st">""</span>,
-  <span class="st">"  Papillary"</span>,     <span class="st">"histology"</span>,      <span class="st">"Papillary"</span>, <span class="st">"+ agedx + sex"</span>, <span class="st">"diff"</span>,
-  <span class="st">"  Non-Papillary"</span>, <span class="st">"histology"</span>,  <span class="st">"Non-Papillary"</span>, <span class="st">"+ agedx + sex"</span>, <span class="st">"diff"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"race"</span>, 
-         outcome <span class="op">=</span> <span class="st">"ascore"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/table2.html">table2</a></span><span class="op">(</span>
-    data <span class="op">=</span> <span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> 
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">smoke3</span><span class="op">)</span> <span class="op">&amp;</span>
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span> <span class="op">&amp;</span> 
-               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span><span class="op">)</span>,
-    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">label</span>,            <span class="op">~</span><span class="va">effect_modifier</span>, <span class="op">~</span><span class="va">stratum</span>,    <span class="op">~</span><span class="va">confounders</span>,    <span class="op">~</span><span class="va">type</span>,</span>
+<span>  <span class="st">"By sex"</span>,          <span class="cn">NULL</span>,             <span class="cn">NULL</span>,        <span class="st">""</span>,              <span class="st">""</span>,</span>
+<span>  <span class="st">"  Female"</span>,        <span class="st">"sex"</span>,            <span class="st">"Female"</span>,    <span class="st">"+ agedx"</span>,       <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"  Male"</span>,          <span class="st">"sex"</span>,            <span class="st">"Male"</span>,      <span class="st">"+ agedx"</span>,       <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"By histology"</span>,    <span class="cn">NULL</span>,             <span class="cn">NULL</span>,        <span class="st">""</span>,              <span class="st">""</span>,</span>
+<span>  <span class="st">"  Papillary"</span>,     <span class="st">"histology"</span>,      <span class="st">"Papillary"</span>, <span class="st">"+ agedx + sex"</span>, <span class="st">"diff"</span>,</span>
+<span>  <span class="st">"  Non-Papillary"</span>, <span class="st">"histology"</span>,  <span class="st">"Non-Papillary"</span>, <span class="st">"+ agedx + sex"</span>, <span class="st">"diff"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>exposure <span class="op">=</span> <span class="st">"race"</span>, </span>
+<span>         outcome <span class="op">=</span> <span class="st">"ascore"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/table2.html">table2</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">smoke3</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">histology</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>               <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="nmgnvvtekw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -4607,15 +4562,6 @@
   font-size: 65%;
 }
 
-#nmgnvvtekw .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #nmgnvvtekw .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
@@ -4628,30 +4574,32 @@
   vertical-align: 0;
 }
 
-#nmgnvvtekw .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#nmgnvvtekw .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#nmgnvvtekw .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#nmgnvvtekw .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#nmgnvvtekw .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#nmgnvvtekw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#nmgnvvtekw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#nmgnvvtekw .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="table gt_table">
 <thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Self-reported race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">White</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Asian</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;">Black</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Self-reported race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">White</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Asian</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col">Black</th>
     </tr></thead>
 <tbody class="gt_table_body">
 <tr>
@@ -4719,7 +4667,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

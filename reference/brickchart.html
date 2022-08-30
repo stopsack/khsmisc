@@ -18,7 +18,7 @@ observations.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@ observations.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">brickchart</span><span class="op">(</span><span class="va">data</span>, <span class="va">outcome</span>, <span class="va">by</span>, <span class="va">group</span>, colors <span class="op">=</span> <span class="cn">NULL</span>, guide <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">brickchart</span><span class="op">(</span><span class="va">data</span>, <span class="va">outcome</span>, <span class="va">by</span>, <span class="va">group</span>, colors <span class="op">=</span> <span class="cn">NULL</span>, guide <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -112,39 +112,49 @@ with ggplot version 3.3.4 or newer.</p></dd>
     <h2>Value</h2>
     
 
-<p>ggplot. Modify further with standard ggplot functions.</p>
+<p>ggplot. Modify further with standard ggplot functions. The additional
+variables <code>label_outcomes</code> (outcome count), <code>label_total</code></p>
+
+
+<p>(per-group total), and <code>label_prop</code> (proportion) can also be accessed.
+See example.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
-<span class="r-in">                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="co"># drop missing/near-empty categories</span></span>
-<span class="r-in">  <span class="fu">brickchart</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">status</span> <span class="op">==</span> <span class="fl">2</span>,</span>
-<span class="r-in">             by <span class="op">=</span> <span class="va">ph.ecog</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="co"># drop missing/near-empty categories</span></span></span>
+<span class="r-in"><span>  <span class="fu">brickchart</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">status</span> <span class="op">==</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>             by <span class="op">=</span> <span class="va">ph.ecog</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="brickchart-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Stratified version</span></span>
-<span class="r-in"><span class="co"># Note- Color fill may be off with ggplot v3.3.4+ if guide = TRUE</span></span>
-<span class="r-in"><span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">brickchart</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">status</span> <span class="op">==</span> <span class="fl">2</span>,</span>
-<span class="r-in">             by <span class="op">=</span> <span class="va">ph.ecog</span>,</span>
-<span class="r-in">             group <span class="op">=</span> <span class="va">sex</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="co"># Modify graph with standard ggplot functions</span></span>
-<span class="r-in">  <span class="co"># Refer to axes before flipping x &lt;-&gt; y. Here, y is horizontal:</span></span>
-<span class="r-in">  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Risk (cumulative incidence)"</span>,</span>
-<span class="r-in">                fill <span class="op">=</span> <span class="st">"ECOG status"</span>,  <span class="co"># Color label</span></span>
-<span class="r-in">                title <span class="op">=</span> <span class="st">"Mortality by ECOG performance status"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="co"># Themes refer to axes as shown--'y' is now vertical</span></span>
-<span class="r-in">  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="brickchart-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratified version</span></span></span>
+<span class="r-in"><span><span class="co"># Note- Color fill may be off with ggplot v3.3.4+ if guide = TRUE</span></span></span>
+<span class="r-in"><span><span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">brickchart</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">status</span> <span class="op">==</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>             by <span class="op">=</span> <span class="va">ph.ecog</span>,</span></span>
+<span class="r-in"><span>             group <span class="op">=</span> <span class="va">sex</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="co"># Modify graph with standard ggplot functions</span></span></span>
+<span class="r-in"><span>  <span class="co"># Refer to axes before flipping x &lt;-&gt; y. Here, y is horizontal:</span></span></span>
+<span class="r-in"><span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Risk (cumulative incidence)"</span>,</span></span>
+<span class="r-in"><span>                fill <span class="op">=</span> <span class="st">"ECOG status"</span>,  <span class="co"># Color label</span></span></span>
+<span class="r-in"><span>                title <span class="op">=</span> <span class="st">"Mortality by ECOG performance status"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="co"># Themes refer to axes as shown--'y' is now vertical</span></span></span>
+<span class="r-in"><span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="co"># add label</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_text</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">label_prop</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, <span class="st">"%"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      y <span class="op">=</span> <span class="va">label_prop</span> <span class="op">+</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in geom_text(mapping = aes(label = paste0(round(label_prop * 100),     "%"), y = label_prop + 0.05)):</span> could not find function "geom_text"</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -159,7 +169,7 @@ with ggplot version 3.3.4 or newer.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ plot a flowchart of exclusions."><!-- mathjax --><script src="https://cdnjs.clou
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@ plot a flowchart of exclusions.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_exclusions</span><span class="op">(</span><span class="va">criteria</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_exclusions</span><span class="op">(</span><span class="va">criteria</span>, <span class="va">data</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -114,10 +114,10 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example data set</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cancer</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example data set</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cancer</span> <span class="op">&lt;-</span> <span class="va">cancer</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cancer</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 228 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -132,30 +132,30 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1   218      2    53     1       1       70        80      825      16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     7   166      2    61     1       2       70        70      271      34</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 218 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define exclusion criteria</span></span>
-<span class="r-in"><span class="va">criteria</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">left</span>,                   <span class="op">~</span><span class="va">right</span>,                <span class="op">~</span><span class="va">filter</span>,</span>
-<span class="r-in">  <span class="st">"All patients"</span>,          <span class="st">"Missing ECOG status"</span>, <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ph.ecog</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="st">"Known ECOG"</span>,            <span class="st">"Exclude men"</span>,         <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="st">"Analytical population"</span>, <span class="st">""</span>,                    <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Perform sequential exclusions</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">make_exclusions</span><span class="op">(</span>criteria <span class="op">=</span> <span class="va">criteria</span>, data <span class="op">=</span> <span class="va">cancer</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Show results</span></span>
-<span class="r-in"><span class="va">result</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define exclusion criteria</span></span></span>
+<span class="r-in"><span><span class="va">criteria</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">left</span>,                   <span class="op">~</span><span class="va">right</span>,                <span class="op">~</span><span class="va">filter</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"All patients"</span>,          <span class="st">"Missing ECOG status"</span>, <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ph.ecog</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Known ECOG"</span>,            <span class="st">"Exclude men"</span>,         <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Analytical population"</span>, <span class="st">""</span>,                    <span class="fu"><a href="expr.html">expr</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Perform sequential exclusions</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">make_exclusions</span><span class="op">(</span>criteria <span class="op">=</span> <span class="va">criteria</span>, data <span class="op">=</span> <span class="va">cancer</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Show results</span></span></span>
+<span class="r-in"><span><span class="va">result</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   left                  right        filter     included excluded n_left n_right</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> All patients          <span style="color: #949494;">"</span>Missing EC… <span style="color: #949494;">&lt;language&gt;</span> &lt;tibble&gt; &lt;tibble&gt;    228       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Known ECOG            <span style="color: #949494;">"</span>Exclude me… <span style="color: #949494;">&lt;language&gt;</span> &lt;tibble&gt; &lt;tibble&gt;    227     137</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Analytical population <span style="color: #949494;">""</span>           <span style="color: #949494;">&lt;lgl [1]&gt;</span>  &lt;tibble&gt; &lt;tibble&gt;     90      <span style="color: #BB0000;">NA</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Access study population after all exclusions</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">included</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">last</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Access study population after all exclusions</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">included</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">last</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 90 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -170,12 +170,12 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>    16   107      2    60     2       2       50        60      925     -<span style="color: #BB0000;">15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1   122      2    62     2       2       50        50     <span style="text-decoration: underline;">1</span>025      <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 80 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot flow chart of exclusions (might not display in the online reference)</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="exclusion_flowchart.html">exclusion_flowchart</a></span><span class="op">(</span><span class="op">)</span></span>
-<div id="htmlwidget-6c2d8a14994e8e14e451" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6c2d8a14994e8e14e451">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot flow chart of exclusions (might not display in the online reference)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="exclusion_flowchart.html">exclusion_flowchart</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<div id="htmlwidget-8c5ec0055dba4ccd39e9" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c5ec0055dba4ccd39e9">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -190,7 +190,7 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

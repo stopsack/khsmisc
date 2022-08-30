@@ -24,7 +24,7 @@ Generate the design using make_exclusions."><!-- mathjax --><script src="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@ reasons.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -105,21 +105,23 @@ of the right box. To skip, use <code>NA_integer_</code>.</p></li>
 
 <p>Plot rendered using <code><a href="https://rdrr.io/pkg/DiagrammeR/man/grViz.html" class="external-link">grViz</a></code>.
 For a <code>design</code> with three rows,
-the following pseudo-code would be generated:</p><div class="sourceCode"><pre><code><span class="fu">grViz</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"digraph flowchart {
-    node [fontname = Helvetica, shape = rectangle, width = 4]
-    tab1a [label = 'left[1] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,  <span class="st">"']
-    tab1b [label = 'right[1]\nn = "</span>, <span class="va">n_right</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"']
-    tab2a [label = 'left[2] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,  <span class="st">"']
-    tab2b [label = 'right[2]\nn = "</span>, <span class="va">n_right</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"']
-    tab3a [label = 'left[3] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,  <span class="st">"']
-
-    { rank = same; tab1a; tab1b; }
-    { rank = same; tab2a; tab2b; }
-
-    tab1a -&gt; tab2a -&gt; tab3a;
-    tab1a -&gt; tab1b;
-    tab2a -&gt; tab2b;
-    }"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+the following pseudo-code would be generated:</p><div class="sourceCode"><pre><code><span></span>
+<span>  <span class="fu">grViz</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"digraph flowchart {</span></span>
+<span><span class="st">    node [fontname = Helvetica, shape = rectangle, width = 4]</span></span>
+<span><span class="st">    tab1a [label = 'left[1] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,  <span class="st">"']</span></span>
+<span><span class="st">    tab1b [label = 'right[1]\nn = "</span>, <span class="va">n_right</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"']</span></span>
+<span><span class="st">    tab2a [label = 'left[2] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,  <span class="st">"']</span></span>
+<span><span class="st">    tab2b [label = 'right[2]\nn = "</span>, <span class="va">n_right</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"']</span></span>
+<span><span class="st">    tab3a [label = 'left[3] \nn = "</span>, <span class="va">n_left</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,  <span class="st">"']</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">    { rank = same; tab1a; tab1b; }</span></span>
+<span><span class="st">    { rank = same; tab2a; tab2b; }</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">    tab1a -&gt; tab2a -&gt; tab3a;</span></span>
+<span><span class="st">    tab1a -&gt; tab1b;</span></span>
+<span><span class="st">    tab2a -&gt; tab2b;</span></span>
+<span><span class="st">    }"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span></code></pre></div>
 
 
     </div>
@@ -138,17 +140,17 @@ supply line breaks using <code>\n</code>. See example.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Generate a flow chart for two steps of exclusions:</span></span>
-<span class="r-in"><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">~</span><span class="va">left</span>,               <span class="op">~</span><span class="va">n_left</span>, <span class="op">~</span><span class="va">right</span>,              <span class="op">~</span><span class="va">n_right</span>,</span>
-<span class="r-in">  <span class="st">"Study base"</span>,        <span class="fl">1000</span>,    <span class="st">"Not sampled"</span>,       <span class="fl">250</span>,</span>
-<span class="r-in">  <span class="st">"Study population"</span>,  <span class="fl">750</span>,     <span class="st">"Participants with\nmissing exposure data"</span>, <span class="fl">100</span>,</span>
-<span class="r-in">  <span class="st">"Complete-case set"</span>, <span class="fl">650</span>,     <span class="st">""</span>,                  <span class="cn">NA_integer_</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot</span></span>
-<span class="r-in"><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<div id="htmlwidget-c5e24fbd6fd09aa95fe5" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c5e24fbd6fd09aa95fe5">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate a flow chart for two steps of exclusions:</span></span></span>
+<span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">left</span>,               <span class="op">~</span><span class="va">n_left</span>, <span class="op">~</span><span class="va">right</span>,              <span class="op">~</span><span class="va">n_right</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Study base"</span>,        <span class="fl">1000</span>,    <span class="st">"Not sampled"</span>,       <span class="fl">250</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Study population"</span>,  <span class="fl">750</span>,     <span class="st">"Participants with\nmissing exposure data"</span>, <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Complete-case set"</span>, <span class="fl">650</span>,     <span class="st">""</span>,                  <span class="cn">NA_integer_</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot</span></span></span>
+<span class="r-in"><span><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<div id="htmlwidget-bbd30bac8778cc7d40b6" style="width:700px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bbd30bac8778cc7d40b6">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -163,7 +165,7 @@ supply line breaks using <code>\n</code>. See example.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
