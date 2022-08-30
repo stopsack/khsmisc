@@ -51,8 +51,8 @@
 #'   # Themes refer to axes as shown--'y' is now vertical
 #'   ggplot2::theme(axis.title.y = ggplot2::element_blank()) +
 #'   # add label
-#'   geom_text(
-#'     mapping = aes(
+#'   ggplot2::geom_text(
+#'     mapping = ggplot2::aes(
 #'       label = paste0(round(label_prop * 100), "%"),
 #'       y = label_prop + 0.05))
 #'
