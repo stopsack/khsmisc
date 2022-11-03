@@ -78,10 +78,11 @@
 
       
 
-      </header><script src="khsmisc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Sample analysis workflow using <code>khsmisc</code> and TCGA <code>BLCA</code>
+      <h1 data-toc-skip>Sample analysis workflow using
+<code>khsmisc</code> and TCGA <code>BLCA</code>
 </h1>
             
       
@@ -114,32 +115,46 @@
 <ol class="example" style="list-style-type: decimal">
 <li>
 <p><strong>Create an RMarkdown file</strong></p>
-<p>RStudio: <em>File</em> &gt; <em>New File</em> &gt; <em>R Markdown…</em> &gt; <em>From Template</em> &gt; <em>khsmisc RMarkdown template</em></p>
+<p>RStudio: <em>File</em> &gt; <em>New File</em> &gt; <em>R
+Markdown…</em> &gt; <em>From Template</em> &gt; <em>khsmisc RMarkdown
+template</em></p>
 </li>
 <li><p><strong>Customize the YAML header</strong></p></li>
 </ol>
 <ul>
 <li>Change the <code>title:</code> and <code>author:</code> fields.</li>
-<li>The date will automatically be updated when compiling the document.</li>
-<li>Note that this type of code, “YAML,” is sensitive to exact identation. Every indentation is done by exactly two spaces.</li>
+<li>The date will automatically be updated when compiling the
+document.</li>
+<li>Note that this type of code, “YAML,” is sensitive to exact
+identation. Every indentation is done by exactly two spaces.</li>
 </ul>
 <ol start="3" class="example" style="list-style-type: decimal">
 <li>
 <p><strong>Load the package</strong></p>
-<p>The template provides code that will load a number of packages via the <a href="https://stopsack.github.io/khsverse" class="external-link">khsverse meta-package</a>:</p>
+<p>The template provides code that will load a number of packages via
+the <a href="https://stopsack.github.io/khsverse" class="external-link">khsverse
+meta-package</a>:</p>
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">khsverse</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>To just load the khsmisc package by itself, replace <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(khsverse)</a></code> by <code><a href="https://stopsack.github.io/khsmisc">library(khsmisc)</a></code>.</li>
-<li>The template also includes code to set graphics output to SVG format. If PNG output is preferred or the svglite package is not installed, that part can be deleted.</li>
+<li>To just load the khsmisc package by itself, replace
+<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(khsverse)</a></code> by <code><a href="https://stopsack.github.io/khsmisc">library(khsmisc)</a></code>.</li>
+<li>The template also includes code to set graphics output to SVG
+format. If PNG output is preferred or the svglite package is not
+installed, that part can be deleted.</li>
 </ul>
 <ol start="4" class="example" style="list-style-type: decimal">
 <li>
 <p><strong>Knit the RMarkdown a first time</strong></p>
-<p>The RMarkdown is ready to be compiled using the <em>Knit</em> button. An HTML document should open that has nothing but a title and the startup messages of <code>khsverse</code> about all the packages it loads. If an an error message is shown instead, perhaps one of the packages was not installed properly?</p>
-<p>Learn more about the syntax of RMarkdown in the <a href="http://www.rstudio.com/resources/cheatsheets/" class="external-link">RStudio cheatsheets</a>.</p>
+<p>The RMarkdown is ready to be compiled using the <em>Knit</em> button.
+An HTML document should open that has nothing but a title and the
+startup messages of <code>khsverse</code> about all the packages it
+loads. If an an error message is shown instead, perhaps one of the
+packages was not installed properly?</p>
+<p>Learn more about the syntax of RMarkdown in the <a href="http://www.rstudio.com/resources/cheatsheets/" class="external-link">RStudio
+cheatsheets</a>.</p>
 </li>
 </ol>
 </div>
@@ -149,7 +164,17 @@
 <div class="section level3">
 <h3 id="load-the-tcga-blca-dataset">Load the TCGA <code>BLCA</code> dataset<a class="anchor" aria-label="anchor" href="#load-the-tcga-blca-dataset"></a>
 </h3>
-<p>Participant and tumor data from the Cancer Genome Atlas Bladder Cancer “cohort” (<code>BLCA</code>) will be used in their published 2017 version. Insert a new R chunk into the markdown (toolbar: <em>Insert</em> &gt; <em>R</em>), and add code for reading a tab-separated file (“TSV”). The code retrieves the file <code>data_clinical_patient.txt</code>, which can be downloaded as part of the <a href="http://download.cbioportal.org/blca_tcga_pub_2017.tar.gz" class="external-link">cBioPortal TCGA-BLCA tarball (276 MB)</a>. A copy of just the “clinical” dataset is available in the <code>extdata</code> directory of the khsmisc package. The first four lines of the TSV file are skipped because they contain meta-data.</p>
+<p>Participant and tumor data from the Cancer Genome Atlas Bladder
+Cancer “cohort” (<code>BLCA</code>) will be used in their published 2017
+version. Insert a new R chunk into the markdown (toolbar:
+<em>Insert</em> &gt; <em>R</em>), and add code for reading a
+tab-separated file (“TSV”). The code retrieves the file
+<code>data_clinical_patient.txt</code>, which can be downloaded as part
+of the <a href="http://download.cbioportal.org/blca_tcga_pub_2017.tar.gz" class="external-link">cBioPortal
+TCGA-BLCA tarball (276 MB)</a>. A copy of just the “clinical” dataset is
+available in the <code>extdata</code> directory of the khsmisc package.
+The first four lines of the TSV file are skipped because they contain
+meta-data.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"data_clinical_patient.txt"</span>, </span>
 <span>                                        package <span class="op">=</span> <span class="st">"khsmisc"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -212,9 +237,16 @@
 <div class="section level3">
 <h3 id="load-taylor-et-al--aneuploidy-calls">Load Taylor <em>et al.</em> aneuploidy calls<a class="anchor" aria-label="anchor" href="#load-taylor-et-al--aneuploidy-calls"></a>
 </h3>
-<p>Additional exposure data on tumors of the same study participants comes in the form of derived tumor aneuploidy scores as per Taylor, …, Meyerson (<a href="https://doi.org/10.1016/j.ccell.2018.03.007" class="external-link">Cancer Cell 2018;33:676–689</a>).</p>
-<p>Next, load the Excel file provided as their <a href="https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx" class="external-link">Supplementary Table 2 via a HTTPS URL</a>, show dataset inventory, and select/rename variables.</p>
-<p>The following code can no longer be excuted because the journal blocks simple downloads. Instead, manually open the link above in the browser.</p>
+<p>Additional exposure data on tumors of the same study participants
+comes in the form of derived tumor aneuploidy scores as per Taylor, …,
+Meyerson (<a href="https://doi.org/10.1016/j.ccell.2018.03.007" class="external-link">Cancer
+Cell 2018;33:676–689</a>).</p>
+<p>Next, load the Excel file provided as their <a href="https://www.cell.com/cms/10.1016/j.ccell.2018.03.007/attachment/2d887978-0a9c-4e90-af00-66eb5948673b/mmc2.xlsx" class="external-link">Supplementary
+Table 2 via a HTTPS URL</a>, show dataset inventory, and select/rename
+variables.</p>
+<p>The following code can no longer be excuted because the journal
+blocks simple downloads. Instead, manually open the link above in the
+browser.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### THIS CHUNK IS NOT BEING EXECUTED</span></span>
 <span><span class="co"># Generate temporary path</span></span>
@@ -229,7 +261,8 @@
 <span><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="fu">read_xlsx</span><span class="op">(</span>path <span class="op">=</span> <span class="va">temporary_path</span>, </span>
 <span>                    skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># skip the first line</span></span>
 <span><span class="co"># --end workaround--</span></span></code></pre></div>
-<p>This example will continue to use <strong>SIMULATED</strong> data as follows:</p>
+<p>This example will continue to use <strong>SIMULATED</strong> data as
+follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Simulated aneuploidy data for demonstration purposes:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -258,7 +291,12 @@
 <div class="section level3">
 <h3 id="merging-datasets">Merging datasets<a class="anchor" aria-label="anchor" href="#merging-datasets"></a>
 </h3>
-<p>Left-join the Taylor <em>et al.</em> aneuploidy scores to the clinical data, <em>i.e.</em>, keep all observations from <code>clinical</code> and those that match from <code>taylor</code>. Because IDs in <code>taylor</code> are tumor IDs, they contain an extra suffix that we need to remove before merging. We also need to check that this procedure did not introduce duplicates.</p>
+<p>Left-join the Taylor <em>et al.</em> aneuploidy scores to the
+clinical data, <em>i.e.</em>, keep all observations from
+<code>clinical</code> and those that match from <code>taylor</code>.
+Because IDs in <code>taylor</code> are tumor IDs, they contain an extra
+suffix that we need to remove before merging. We also need to check that
+this procedure did not introduce duplicates.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">taylor</span> <span class="op">&lt;-</span> <span class="va">taylor</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu">str_sub</span><span class="op">(</span>string <span class="op">=</span> <span class="va">id</span>, start <span class="op">=</span> <span class="fl">1</span>, end <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
@@ -272,7 +310,8 @@
 <div class="section level3">
 <h3 id="recoding-variables">Recoding variables<a class="anchor" aria-label="anchor" href="#recoding-variables"></a>
 </h3>
-<p>Consistently code categorical variables as a <code>factor</code> and continuous variables as <code>numeric</code>:</p>
+<p>Consistently code categorical variables as a <code>factor</code> and
+continuous variables as <code>numeric</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -291,8 +330,10 @@
 <span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span>
 <span></span>
 <span><span class="co">#&gt; Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</span></span></code></pre></div>
-<p>The warning messages are expected, as some numeric variables contain non-numeric values.</p>
-<p>Next, recode various labels of missing data in categorical variables to a consistent missing type, using <code>fct_collapse</code>:</p>
+<p>The warning messages are expected, as some numeric variables contain
+non-numeric values.</p>
+<p>Next, recode various labels of missing data in categorical variables
+to a consistent missing type, using <code>fct_collapse</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tabulate some examples</span></span>
 <span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -346,7 +387,8 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Non-Papillary     Papillary          &lt;NA&gt; </span></span>
 <span><span class="co">#&gt;           273           133             5</span></span></code></pre></div>
-<p>Recode event indicators to the numeric values that <code>survival</code> functions require:</p>
+<p>Recode event indicators to the numeric values that
+<code>survival</code> functions require:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -389,7 +431,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Asian    44</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Black    23</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>       18</span></span></code></pre></div>
-<p>Assign meaningful labels to the <code>smoke</code> variable, based on inspection of other smoking-related variables in the full dataset:</p>
+<p>Assign meaningful labels to the <code>smoke</code> variable, based on
+inspection of other smoking-related variables in the full dataset:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -421,7 +464,8 @@
 <div class="section level3">
 <h3 id="categorizing-variables">Categorizing variables<a class="anchor" aria-label="anchor" href="#categorizing-variables"></a>
 </h3>
-<p>Category boundaries are informed by results from code to be run below.</p>
+<p>Category boundaries are informed by results from code to be run
+below.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -1989,7 +2033,8 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># each bar = 2 units of "ascore"</span></span>
 <span>  <span class="fu">theme_minimal_grid</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
-<p>Is the outcome reasonably normally distributed? Show a quantile–quantile plot before and after log transformation.</p>
+<p>Is the outcome reasonably normally distributed? Show a
+quantile–quantile plot before and after log transformation.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combined</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -2015,7 +2060,9 @@
 <div class="section level3">
 <h3 id="study-population-applying-and-documenting-exclusions">Study population: Applying and documenting exclusions<a class="anchor" aria-label="anchor" href="#study-population-applying-and-documenting-exclusions"></a>
 </h3>
-<p>Because the main exposure is self-reported race, we will have to exclude participants with missing race from the analytical population.</p>
+<p>Because the main exposure is self-reported race, we will have to
+exclude participants with missing race from the analytical
+population.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># All participants:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">combined</span><span class="op">)</span></span>
@@ -2029,7 +2076,8 @@
 <span><span class="co"># Analytical population:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">analytical</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 393</span></span></code></pre></div>
-<p>Note that the dataset contains participants with tumors that were metastatic at diagnosis (M1):</p>
+<p>Note that the dataset contains participants with tumors that were
+metastatic at diagnosis (M1):</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">mstage</span><span class="op">)</span></span>
@@ -2040,7 +2088,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> M1        10</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> MX       196</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>         3</span></span></code></pre></div>
-<p>In the analytical dataset, does everyone have an aneuploidy score?</p>
+<p>In the analytical dataset, does everyone have an aneuploidy
+score?</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>missing_ascore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ascore</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -2479,7 +2528,8 @@
 </div>
 </div>
 <div class="section level3">
-<h3 id="table-1-exposure-stratified-characteristics-of-the-study-population">Table 1: Exposure-stratified characteristics of the study population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratified-characteristics-of-the-study-population"></a>
+<h3 id="table-1-exposure-stratified-characteristics-of-the-study-population">Table 1: Exposure-stratified characteristics of the study
+population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratified-characteristics-of-the-study-population"></a>
 </h3>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -2929,21 +2979,21 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Hispanic Or Latino</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Hispanic Or Latino</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">5 (1%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">5 (2%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0 (0%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0 (0%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Not Hispanic Or Latino</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Not Hispanic Or Latino</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">368 (99%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">307 (98%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">44 (100%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">17 (100%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">20</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">14</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0</td>
@@ -2957,14 +3007,14 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Female</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Female</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">101 (26%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">83 (25%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">8 (18%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">10 (43%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Male</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Male</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">292 (74%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">243 (75%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">36 (82%)</td>
@@ -2985,7 +3035,7 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;">2,011 (2,010, 2,012)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">15</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">13</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1</td>
@@ -2999,28 +3049,28 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Never</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Never</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">108 (28%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">79 (25%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">24 (55%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">5 (24%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Former</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Former</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">192 (51%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">175 (56%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">6 (14%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">11 (52%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Current</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Current</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">80 (21%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">61 (19%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">14 (32%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">5 (24%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">13</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">11</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0</td>
@@ -3034,7 +3084,7 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;">26.2 (23.0, 28.5)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">49</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">43</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1</td>
@@ -3048,35 +3098,35 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Stage I</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Stage I</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">2 (1%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1 (0%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1 (2%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0 (0%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Stage II</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Stage II</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">125 (32%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">87 (27%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">30 (68%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">8 (35%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Stage III</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Stage III</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">134 (34%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">115 (35%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">11 (25%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">8 (35%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Stage IV</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Stage IV</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">131 (33%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">122 (38%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">2 (5%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">7 (30%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0</td>
@@ -3090,28 +3140,28 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">M0</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    M0</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">184 (47%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">136 (42%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">39 (91%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">9 (39%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">M1</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    M1</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">10 (3%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">9 (3%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0 (0%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1 (4%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">MX</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    MX</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">196 (50%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">179 (55%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">4 (9%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">13 (57%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">3</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">2</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">1</td>
@@ -3125,21 +3175,21 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">High Grade</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    High Grade</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">370 (95%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">321 (99%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">26 (59%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">23 (100%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Low Grade</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Low Grade</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">21 (5%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">3 (1%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">18 (41%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0 (0%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">2</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">2</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0</td>
@@ -3153,21 +3203,21 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Non-Papillary</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Non-Papillary</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">262 (67%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">225 (70%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">18 (41%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">19 (83%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Papillary</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Papillary</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">127 (33%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">97 (30%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">26 (59%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">4 (17%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">Unknown</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    Unknown</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">4</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">4</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">0</td>
@@ -3192,7 +3242,8 @@
 <span>  <span class="fu"><a href="../reference/stripplot.html">stripplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">race</span>, </span>
 <span>            y <span class="op">=</span> <span class="va">ascore</span><span class="op">)</span></span></code></pre></div>
 <p><img src="khsmisc_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
-<p><strong>Restricted to high grade, non-missing aneuploidy scores and histology, and then color code by histology</strong></p>
+<p><strong>Restricted to high grade, non-missing aneuploidy scores and
+histology, and then color code by histology</strong></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analytical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">grade</span> <span class="op">==</span> <span class="st">"High Grade"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -3656,28 +3707,28 @@
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top;"></td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">[0,5]</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    [0,5]</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">85 (22%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">72 (22%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">7 (16%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">6 (26%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">(5,10]</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    (5,10]</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">59 (15%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">47 (14%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">9 (20%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">3 (13%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">(10,20]</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    (10,20]</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">179 (46%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">151 (46%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">18 (41%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">10 (43%)</td>
 </tr>
 <tr>
-<td class="gt_row gt_left" style="text-align: left; text-indent: 10px; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">(20,36.2]</td>
+<td class="gt_row gt_left" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">    (20,36.2]</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">70 (18%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">56 (17%)</td>
 <td class="gt_row gt_center" style="text-align: left; vertical-align: top; border-top-width: 0; border-top-style: solid; border-top-color: #000000;">10 (23%)</td>
@@ -4169,7 +4220,8 @@
 <div class="section level3">
 <h3 id="table-3-effect-modification">Table 3: Effect modification<a class="anchor" aria-label="anchor" href="#table-3-effect-modification"></a>
 </h3>
-<p>Models are adjusted for age (and sex, unless sex is an effect modifier).</p>
+<p>Models are adjusted for age (and sex, unless sex is an effect
+modifier).</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">label</span>,            <span class="op">~</span><span class="va">effect_modifier</span>, <span class="op">~</span><span class="va">stratum</span>,    <span class="op">~</span><span class="va">confounders</span>,    <span class="op">~</span><span class="va">type</span>,</span>
