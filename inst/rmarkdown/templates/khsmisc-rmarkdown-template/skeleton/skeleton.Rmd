@@ -9,6 +9,7 @@ output:
     toc_depth: 2
     number_sections: true
     theme: cosmo
+    df_print: kable
     toc_float:
       collapsed: false
       smooth_scroll: false
@@ -19,14 +20,12 @@ output:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(svglite)  # Embed figures in SVG format, not as PNG:
-knitr::opts_chunk$set(dev = "svglite")
+knitr::opts_chunk$set(dev = "svg")  # SVG, not PNG figures; also dev = "svglite"
 ```
 
-```{r load}
+```{r load, message = FALSE}
 library(khsverse)
-
+library(here)
 ```
 
 # Tables
@@ -39,5 +38,6 @@ library(khsverse)
 **Session Info**
 
 ```{r versioning}
-sessionInfo()
+here()
+sessioninfo::session_info()
 ```
