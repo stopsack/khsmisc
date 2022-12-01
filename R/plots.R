@@ -291,7 +291,7 @@ corrmat <- function(
 #' Modified code (used here):
 #' \url{https://github.com/adibender/ldatools/blob/master/R/geom_stepribbon.R}
 #'
-#' @inheritParams ggplot2:::geom_ribbon
+#' @inheritParams ggplot2::geom_ribbon
 #' @examples
 #' library(ggplot2)
 #' huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
