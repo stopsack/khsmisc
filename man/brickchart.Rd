@@ -4,7 +4,17 @@
 \alias{brickchart}
 \title{Brick Chart}
 \usage{
-brickchart(data, outcome, by, group, colors = NULL, guide = FALSE, ...)
+brickchart(
+  data,
+  outcome,
+  by,
+  group,
+  colors = NULL,
+  guide = FALSE,
+  flip = TRUE,
+  clip = "on",
+  ...
+)
 }
 \arguments{
 \item{data}{Data set.}
@@ -24,6 +34,10 @@ If not provided, colors will be generated from the
 
 \item{guide}{Optional: Show legend? Defaults to \code{FALSE}. May not work
 with ggplot version 3.3.4 or newer.}
+
+\item{flip}{Optional: Flip x and y axes? Defaults to \code{TRUE}.}
+
+\item{clip}{Optional: Clip graph? Defaults to \code{"on"}.}
 
 \item{...}{Optional: further arguments passed to the call of
 \code{\link[ggplot2]{facet_grid}}, used for \code{group}.}

@@ -15,6 +15,8 @@
 #'   \code{\link[viridis]{viridis_pal}} palette.
 #' @param guide Optional: Show legend? Defaults to \code{FALSE}. May not work
 #'   with ggplot version 3.3.4 or newer.
+#' @param flip Optional: Flip x and y axes? Defaults to \code{TRUE}.
+#' @param clip Optional: Clip graph? Defaults to \code{"on"}.
 #' @param ... Optional: further arguments passed to the call of
 #'   \code{\link[ggplot2]{facet_grid}}, used for \code{group}.
 #'
@@ -60,6 +62,8 @@ brickchart <- function(
   data, outcome, by, group,
   colors = NULL,
   guide = FALSE,
+  flip = TRUE,
+  clip = "on",
   ...) {
   data <- data %>%
     dplyr::mutate({{ by }} := forcats::fct_rev(factor({{ by }})))
@@ -136,12 +140,18 @@ brickchart <- function(
                                            fill = .data$color)) +
     ggplot2::geom_bar(stat = "identity") +
     ggplot2::scale_x_discrete(drop = FALSE) +
-    ggplot2::coord_flip() +
     cowplot::theme_minimal_vgrid() +
     ggplot2::theme(strip.text = ggplot2::element_text(face = "bold"),
                    axis.line.y = ggplot2::element_blank(),
                    axis.ticks.y = ggplot2::element_blank()) +
     ggplot2::facet_grid(rows = dplyr::vars({{ group }}), ...)
+  if(flip == TRUE) {
+    myplot <- myplot +
+      ggplot2::coord_flip(clip = clip)
+  } else {
+    myplot <- myplot +
+      ggplot2::coord_cartesian(clip = clip)
+  }
   if(guide == FALSE) {
     myplot +
     ggplot2::scale_fill_manual(values = fillcolors, guide = "none")

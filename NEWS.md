@@ -1,3 +1,4 @@
+* `brickchart()`: add `clip` and `flip` options
 # khsmisc 0.4.4
 
 * `table2()`: add option to suppress estimates if per-cell count lower than the
