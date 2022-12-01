@@ -1163,18 +1163,44 @@ fill_cells <- function(data, event, time, time2, outcome,
                      "') requested a specific custom function."))
         if(!is.function(custom_fn[[type]]))
           stop("The provided argument for 'custom' is not a list of functions.")
-        custom_fn[[type]](data, event = event,
-                          time = time,
-                          time2 = time2,
-                          outcome = outcome,
-                          effectmodifier = effect_modifier,
-                          effectmodifier_level = stratum,
-                          type = type,
-                          factor = factor,
-                          digits = digits,
-                          risk_percent = risk_percent,
-                          to = to,
-                          nmin = nmin)
+        res_cat <- custom_fn[[type]](
+          data,
+          event = event,
+          time = time,
+          time2 = time2,
+          outcome = outcome,
+          effectmodifier = effect_modifier,
+          effectmodifier_level = stratum,
+          confounders = confounders,
+          type = type,
+          factor = factor,
+          digits = digits,
+          risk_percent = risk_percent,
+          to = to,
+          nmin = nmin)
+        if(!is.na(trend)) {
+          dplyr::bind_rows(
+            res_cat,
+            custom_fn[[type]](
+              data %>%
+                dplyr::mutate(.exposure = .data$.trend),
+              event = event,
+              time = time,
+              time2 = time2,
+              outcome = outcome,
+              effectmodifier = effect_modifier,
+              effectmodifier_level = stratum,
+              confounders = confounders,
+              type = type,
+              factor = factor,
+              digits = digits,
+              risk_percent = risk_percent,
+              to = to,
+              is_trend = TRUE,
+              nmin = nmin))
+        } else {
+          res_cat
+        }
       }
     } else {
       table_counts(data = data,
