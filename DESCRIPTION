@@ -43,9 +43,7 @@ Suggests:
     markdown,
     rmarkdown,
     readxl,
-    sandwich,
-    svglite,
-    survminer
+    sandwich
 Remotes:
     stopsack/risks
 VignetteBuilder: knitr
