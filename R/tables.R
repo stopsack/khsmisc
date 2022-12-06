@@ -308,7 +308,9 @@ mygt <- function(df, md = NULL, indent = c(10, 20), remove_border = TRUE) {
   if(any(stringr::str_detect(
     string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
     pattern = "gfm"))) {
-    return(gt::as_raw_html(gt::gt(df)))
+    res <- knitr::kable(df)
+    attr(x = res, which = "mydata") <- df
+    return(res)
   } else {
     df_gt <- df %>%
       gt::gt() %>%
@@ -349,6 +351,62 @@ mygt <- function(df, md = NULL, indent = c(10, 20), remove_border = TRUE) {
         gt::fmt_markdown(columns = md)
     }
     df_gt
+  }
+}
+
+#' Alternative footnote for gt tables exported as kable
+#'
+#' This function can be called on a gt table and will the function just as
+#' \code{\link[gt]{tab_footnote}}. If called on a kable table, it will
+#' print the kable table, ignoring the footnote.
+#'
+#' @param data gt table or kable table
+#' @param footnote Footnote. Will be ignored for a kable table.
+#' @param locations Location, as per gt, e.g., \code{\link[gt]{cells_body}}.
+#'   Will be ignored for a kable table.
+#' @param placement Where to affix footnote marks. Will be ignored for a kable
+#'   table.
+#'
+#' @return gt table or kable table, whichever format \code{data} is in.
+#' @export
+tab_footnote <- function(
+    data,
+    footnote,
+    locations = NULL,
+    placement = c("auto", "right", "left")) {
+  if(inherits(x = data, what = "gt_tbl")) {
+    gt::tab_footnote(
+      data = data,
+      footnote = footnote,
+      locations = locations,
+      placement = placement)
+  } else {
+    data
+  }
+}
+
+#' Alternative styling for gt tables exported as kable
+#'
+#' This function can be called on a gt table and will function just as
+#' \code{\link[gt]{tab_footnote}}. If called on a kable table, it will
+#' print the kable table, ignoring the styling.
+#'
+#' @param data gt table or kable table
+#' @param style Style definition, e.g., per \code{\link[gt]{cell_text}}. Will
+#'   be ignored for a kable table.
+#' @param locations Location, as per gt, e.g., \code{\link[gt]{cells_body}}.
+#'   Will be ignored for a kable table.
+#'
+#' @return gt table or kable table, whichever format \code{data} is in.
+#' @export
+tab_style <- function(data, style, locations) {
+  if(inherits(x = data, what = "gt_tbl")) {
+    gt::tab_footnote(
+      data = data,
+      style = style,
+      locations = locations)
+  } else {
+    data
   }
 }
 

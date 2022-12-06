@@ -60,7 +60,8 @@ Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.}
 \item{remove_border}{Optional. For indented lines of individual strata,
 remove the upper horizontal border line? Defaults to \code{TRUE}.}
 
-\item{as_gt}{Optional. Whether to return a formatted gt table. Defaults to
+\item{as_gt}{Optional. Whether to return a formatted gt table, or, if
+knitting to a \code{github_document}, a kable table. Defaults to
 \code{TRUE}.}
 
 \item{data_names}{Optional. A character vector of names when displaying

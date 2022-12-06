@@ -42,7 +42,8 @@
 #'  Passed on to \code{\link[gtsummary]{tbl_summary}(type = ...)}.
 #' @param remove_border Optional. For indented lines of individual strata,
 #'   remove the upper horizontal border line? Defaults to \code{TRUE}.
-#' @param as_gt Optional. Whether to return a formatted gt table. Defaults to
+#' @param as_gt Optional. Whether to return a formatted gt table, or, if
+#'   knitting to a \code{github_document}, a kable table. Defaults to
 #'   \code{TRUE}.
 #' @param data_names Optional. A character vector of names when displaying
 #'   multiple data sets (i.e., when inputting a \code{list} to the \code{data}
@@ -137,8 +138,16 @@ table1 <- function(data,
                      as_gt = FALSE))
     }
     res <- gtsummary::tbl_merge(tbls = tbl_list,
-                                tab_spanner = data_names) %>%
-      gtsummary::as_gt(include = -tab_footnote)
+                                tab_spanner = data_names)
+    if(any(stringr::str_detect(
+      string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
+      pattern = "gfm"))) {
+      res <- res %>%
+        gtsummary::as_kable()
+    } else {
+      res <- res %>%
+        gtsummary::as_gt(include = -tab_footnote)
+    }
 
   # Single data set
   } else {
@@ -163,8 +172,15 @@ table1 <- function(data,
                                type = type) %>%
         gtsummary::bold_labels()
       if(as_gt == TRUE) {
-        res <- res %>%
-          gtsummary::as_gt(include = -tab_footnote)
+        if(any(stringr::str_detect(
+          string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
+          pattern = "gfm"))) {
+          res <- res %>%
+            gtsummary::as_kable()
+        } else {
+          res <- res %>%
+            gtsummary::as_gt(include = -tab_footnote)
+        }
       }
     # Stratified
     } else {
@@ -215,16 +231,26 @@ table1 <- function(data,
       if(label == "By ")  # If variable label is empty, use variable name
         label <- paste("By", deparse(substitute(by)))
       if(as_gt == TRUE) {
-        res <- res %>%
-          gtsummary::as_gt(include = -tab_footnote) %>%
-          gt::tab_spanner(label = gt::md(paste0("**", label, "**")),
-                          columns = gt::matches("stat_[123456789]"))
+        if(any(stringr::str_detect(
+          string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
+          pattern = "gfm"))) {
+          res <- res %>%
+            gtsummary::as_kable()
+        } else {
+          res <- res %>%
+            gtsummary::as_gt(include = -tab_footnote) %>%
+            gt::tab_spanner(label = gt::md(paste0("**", label, "**")),
+                            columns = gt::matches("stat_[123456789]"))
+        }
       }
     }
   }
 
   # Formatting
-  if(as_gt == TRUE) {
+  if(as_gt == TRUE &
+     !any(stringr::str_detect(
+       string = c("", knitr::opts_knit$get("rmarkdown.pandoc.to")),
+       pattern = "gfm"))) {
     res <- res %>%
       mytabstyle()
     rows_levels <- which(res[["_data"]]$row_type %in% c("level", "missing"))
