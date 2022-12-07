@@ -35,8 +35,8 @@ Imports:
     viridis,
     broom (>= 0.7.0),
     cowplot (>= 1.0.0),
-    gt (>= 0.4.0),
-    gtsummary (>= 1.4.2),
+    gt (>= 0.8.0),
+    gtsummary (>= 1.6.1),
     quantreg
 Suggests: 
     knitr,
