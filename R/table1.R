@@ -128,7 +128,7 @@ table1 <- function(data,
         .x = data,
         .y = bylist,
         .f = ~table1(data = .x %>%
-                       dplyr::rename(.by = one_of(.y)),
+                       dplyr::rename(".by" = one_of(.y)),
                      by = .data$.by,
                      overall = overall,
                      label = label,
@@ -185,11 +185,11 @@ table1 <- function(data,
     # Stratified
     } else {
       data <- data %>%
-        dplyr::rename(.by := {{ by }})
+        dplyr::rename(".by" := {{ by }})
       newdata <- data %>%
         dplyr::select(
           !!!rlang::enquos(...),
-          .data$.by)
+          ".by")
       if(ncol(newdata) == 1)
         newdata <- data
       data <- newdata
