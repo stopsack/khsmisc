@@ -16,7 +16,7 @@ output:
   github_document:
     toc: true
     toc_depth: 2
-    html_preview: true
+    html_preview: false
 ---
 
 ```{r setup, include = FALSE}
