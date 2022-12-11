@@ -401,7 +401,7 @@ tab_footnote <- function(
 #' @export
 tab_style <- function(data, style, locations) {
   if(inherits(x = data, what = "gt_tbl")) {
-    gt::tab_footnote(
+    gt::tab_style(
       data = data,
       style = style,
       locations = locations)
