@@ -1,4 +1,16 @@
+# khsmisc 0.4.5
+
+* Provide workaround for gt tables to allow knitting to `github_document`:
+  `mygt()` and `table1()` now export directly to markdown, using 
+  `knitr::kable()`, eliminating the extraneous inline CSS. The `table_style()` 
+  and `tab_footnote()` functions are wrappers that also accept on kable tables.
+* Update RMarkdown template: `here()`, knit to `github_document` by default.
 * `brickchart()`: add `clip` and `flip` options
+* `table2()`: also pass `confounders`, `trend` to custom functions
+* Required updated {gt}, {gtsummary}; remove dependencies {survminer}, 
+  {svglite}; add requirement for {knitr}, suggest the {here} package
+
+
 # khsmisc 0.4.4
 
 * `table2()`: add option to suppress estimates if per-cell count lower than the

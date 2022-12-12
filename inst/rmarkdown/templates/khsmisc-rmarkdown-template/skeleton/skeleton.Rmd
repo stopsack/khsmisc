@@ -3,6 +3,10 @@ title: "(add title)"
 author: "(add name)"
 date: "`r format(Sys.time(), '%a %b %d, %Y %X')`"
 output:
+  github_document:
+    toc: true
+    toc_depth: 2
+    html_preview: true
   html_document:
     code_folding: hide
     toc: true
@@ -13,10 +17,6 @@ output:
     toc_float:
       collapsed: false
       smooth_scroll: false
-  github_document:
-    toc: true
-    toc_depth: 2
-    html_preview: false
 ---
 
 ```{r setup, include = FALSE}
