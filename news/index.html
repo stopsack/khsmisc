@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
       </span>
     </div>
 
@@ -60,6 +60,16 @@
       <small>Source: <a href="https://github.com/stopsack/khsmisc/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.5" id="khsmisc-045">khsmisc 0.4.5<a class="anchor" aria-label="anchor" href="#khsmisc-045"></a></h2>
+<ul><li>Provide workaround for gt tables to allow knitting to <code>github_document</code>: <code><a href="../reference/mygt.html">mygt()</a></code> and <code><a href="../reference/table1.html">table1()</a></code> now export directly to markdown, using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, eliminating the extraneous inline CSS. The <code>table_style()</code> and <code><a href="../reference/tab_footnote.html">tab_footnote()</a></code> functions are wrappers that also accept on kable tables.</li>
+<li>Update RMarkdown template: <code>here()</code>, knit to <code>github_document</code> by default.</li>
+<li>
+<code><a href="../reference/brickchart.html">brickchart()</a></code>: add <code>clip</code> and <code>flip</code> options</li>
+<li>
+<code><a href="../reference/table2.html">table2()</a></code>: also pass <code>confounders</code>, <code>trend</code> to custom functions</li>
+<li>Required updated {gt}, {gtsummary}; remove dependencies {survminer}, {svglite}; add requirement for {knitr}, suggest the {here} package</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.4" id="khsmisc-044">khsmisc 0.4.4<a class="anchor" aria-label="anchor" href="#khsmisc-044"></a></h2>
 <ul><li>
