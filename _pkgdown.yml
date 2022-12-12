@@ -22,12 +22,14 @@ reference:
 - title: "Functions for Tables"
   desc: "Tabulate data"
 - contents:
+  - mygt
+  - tab_footnote
+  - tab_style
+  - rates
   - tabulate_rowcol
   - tsummary
-  - mygt
   - table1
   - table2
-  - rates
 - title: "Functions for Plots"
   desc: "Generating figures"
 - contents:
