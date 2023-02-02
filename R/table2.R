@@ -1220,9 +1220,13 @@ fill_cells <- function(data, event, time, time2, outcome,
   }
 }
 
-#' Table 2: Stratified Result Tables
+#' Table 2: Stratified Result Tables (Superseded)
 #'
-#' @description This function displays descriptive
+#' @description Superseded: This function has been superseded by the package
+#' rifttable. \code{table2} is no longer being updated and maintained, but will
+#' remain available unchanged as long as underlying R packages permit.
+#'
+#' This function displays descriptive
 #' and inferential results for binary, continuous, and survival data
 #' in the format of a table stratified by exposure and, if requested, by
 #' effect modifiers.

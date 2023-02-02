@@ -1,3 +1,5 @@
+* `table2()` has been superseded by `rifttable::rifttable()` but will remain
+  part of this package as long as possible.
 # khsmisc 0.4.5
 
 * Provide workaround for gt tables to allow knitting to `github_document`:

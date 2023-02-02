@@ -2,7 +2,7 @@
 % Please edit documentation in R/table2.R
 \name{table2}
 \alias{table2}
-\title{Table 2: Stratified Result Tables}
+\title{Table 2: Stratified Result Tables (Superseded)}
 \usage{
 table2(
   design,
@@ -94,6 +94,10 @@ Tibble. Get formatted output by passing on to
 \code{\link[khsmisc]{mygt}}.
 }
 \description{
+Superseded: This function has been superseded by the package
+rifttable. \code{table2} is no longer being updated and maintained, but will
+remain available unchanged as long as underlying R packages permit.
+
 This function displays descriptive
 and inferential results for binary, continuous, and survival data
 in the format of a table stratified by exposure and, if requested, by
