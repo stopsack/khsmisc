@@ -2,7 +2,7 @@
 % Please edit documentation in R/table1.R
 \name{table1}
 \alias{table1}
-\title{Table 1: Stratified Descriptive Tables}
+\title{Table 1: Stratified Descriptive Tables (Superseded)}
 \usage{
 table1(
   data,
@@ -74,6 +74,10 @@ median (quartile 1, quartile 3); categorical variables are
 count (column percent).
 }
 \description{
+Superseded: This function has been superseded by the package
+rifttable. \code{table1} is no longer being updated and maintained, but will
+remain available unchanged as long as underlying R packages permit.
+
 \code{table1} wraps \code{\link[gtsummary]{tbl_summary}} with some custom options:
 \itemize{
 \item Condensed formatting for better space use.

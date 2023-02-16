@@ -1,8 +1,12 @@
-#' Table 1: Stratified Descriptive Tables
+#' Table 1: Stratified Descriptive Tables (Superseded)
 #'
 #' @import gtsummary gt dplyr
 #'
-#' @description \code{table1} wraps \code{\link[gtsummary]{tbl_summary}} with some custom options:
+#' @description Superseded: This function has been superseded by the package
+#' rifttable. \code{table1} is no longer being updated and maintained, but will
+#' remain available unchanged as long as underlying R packages permit.
+#'
+#' \code{table1} wraps \code{\link[gtsummary]{tbl_summary}} with some custom options:
 #'   * Condensed formatting for better space use.
 #'   * Stratification in columns with informative spanning headers,
 #'     plus an "overall" column if desired.
