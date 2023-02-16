@@ -674,13 +674,17 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
   if(is.na(confounders))
     confounders <- ""
 
+  to_use <- "-"
+  if(!is.null(to))
+    to_use <- to
+
   multiply <- 1
   fit <- switch(EXPR = estimand,
                 hr_joint =,
                 hr = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   if(is.na(time2))
                     survival::coxph(formula = stats::as.formula(
                       paste0("survival::Surv(time = ", time, ",
@@ -698,7 +702,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 rr = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   risks::riskratio(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     data = data, approach = approach)
@@ -709,7 +713,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                   exponent <- FALSE
                   multiply <- if_else(risk_percent == TRUE,
                                       true = 100, false = 1)
-                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to_use)
                   risks::riskdiff(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     data = data, approach = approach)
@@ -718,7 +722,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 diff = {
                   reference <- 0
                   exponent <- FALSE
-                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to_use)
                   stats::lm(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     data = data)
@@ -729,7 +733,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 irr = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   stats::glm(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     family = stats::poisson(link = "log"),
@@ -739,7 +743,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 fold = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   stats::glm(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     family = stats::gaussian(link = "log"),
@@ -749,7 +753,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 foldlog = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   stats::lm(formula = stats::as.formula(
                     paste0("log(", outcome, ") ~ .exposure ", confounders)),
                     data = data)
@@ -758,7 +762,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 or = {
                   reference <- 1
                   exponent <- TRUE
-                  to <- dplyr::if_else(is.null(to), true = "-", false = to)
+                  to <- dplyr::if_else(is.null(to), true = "-", false = to_use)
                   stats::glm(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     family = stats::binomial(link = "logit"),
@@ -768,7 +772,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 quantreg = {
                   reference <- 0
                   exponent <- FALSE
-                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to_use)
                   quantreg::rq(formula = stats::as.formula(
                     paste(outcome, "~ .exposure", confounders)),
                     tau = tau, method = "fn",
@@ -779,7 +783,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 rmtl = {
                   reference <- 0
                   exponent <- FALSE
-                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to_use)
                   if(confounders == "") {
                     if(is.na(time2))
                       estimate_rmtl(data = data,
@@ -827,7 +831,7 @@ table_regress <- function(data, estimand, event, time, time2, outcome,
                 cumincdiff_joint = {
                   reference <- 0
                   exponent <- FALSE
-                  to <- dplyr::if_else(is.null(to), true = " to ", false = to)
+                  to <- dplyr::if_else(is.null(to), true = " to ", false = to_use)
                   multiply <- if_else(risk_percent == TRUE,
                                       true = 100, false = 1)
                   if(is.na(time2))
