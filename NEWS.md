@@ -1,10 +1,17 @@
-* `table2()` has been superseded by `rifttable::rifttable()` but will remain
-  part of this package as long as possible.
+# khsmisc 0.4.6
+
+* `table1()` and `table2()` have been superseded by the more flexible and more
+  lightweight [{rifttable} package](https://stopsack.github.io/rifttable). 
+  They will remain available in this package  for the near future as underlying 
+  packages permit.
+* Keep `table2()` compatible with {dplyr} 1.1.0 (input type checks)
+
+
 # khsmisc 0.4.5
 
 * Provide workaround for gt tables to allow knitting to `github_document`:
   `mygt()` and `table1()` now export directly to markdown, using 
-  `knitr::kable()`, eliminating the extraneous inline CSS. The `table_style()` 
+  `knitr::kable()`, eliminating the extraneous inline CSS. The `tab_style()` 
   and `tab_footnote()` functions are wrappers that also accept on kable tables.
 * Update RMarkdown template: `here()`, knit to `github_document` by default.
 * `brickchart()`: add `clip` and `flip` options
