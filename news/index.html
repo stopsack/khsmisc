@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
       </span>
     </div>
 
@@ -61,8 +61,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.6" id="khsmisc-046">khsmisc 0.4.6<a class="anchor" aria-label="anchor" href="#khsmisc-046"></a></h2>
+<ul><li>
+<code><a href="../reference/table1.html">table1()</a></code> and <code><a href="../reference/table2.html">table2()</a></code> have been superseded by the more flexible and more lightweight <a href="https://stopsack.github.io/rifttable" class="external-link">{rifttable} package</a>. They will remain available in this package for the near future as underlying packages permit.</li>
+<li>Keep <code><a href="../reference/table2.html">table2()</a></code> compatible with {dplyr} 1.1.0 (input type checks)</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.5" id="khsmisc-045">khsmisc 0.4.5<a class="anchor" aria-label="anchor" href="#khsmisc-045"></a></h2>
-<ul><li>Provide workaround for gt tables to allow knitting to <code>github_document</code>: <code><a href="../reference/mygt.html">mygt()</a></code> and <code><a href="../reference/table1.html">table1()</a></code> now export directly to markdown, using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, eliminating the extraneous inline CSS. The <code>table_style()</code> and <code><a href="../reference/tab_footnote.html">tab_footnote()</a></code> functions are wrappers that also accept on kable tables.</li>
+<ul><li>Provide workaround for gt tables to allow knitting to <code>github_document</code>: <code><a href="../reference/mygt.html">mygt()</a></code> and <code><a href="../reference/table1.html">table1()</a></code> now export directly to markdown, using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, eliminating the extraneous inline CSS. The <code><a href="../reference/tab_style.html">tab_style()</a></code> and <code><a href="../reference/tab_footnote.html">tab_footnote()</a></code> functions are wrappers that also accept on kable tables.</li>
 <li>Update RMarkdown template: <code>here()</code>, knit to <code>github_document</code> by default.</li>
 <li>
 <code><a href="../reference/brickchart.html">brickchart()</a></code>: add <code>clip</code> and <code>flip</code> options</li>
@@ -300,7 +306,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
