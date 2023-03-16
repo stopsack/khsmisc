@@ -408,8 +408,7 @@ estimate_rmtl <- function(data,
 #' * \code{p.value}
 #' * \code{conf.low} Lower confidence limit
 #' * \code{conf.high} Upper confidence limit
-#'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # Load 'cancer' dataset from survival package (Used in all examples)

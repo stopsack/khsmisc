@@ -100,7 +100,7 @@ roundp <- function(pee, equal = FALSE) {
 #'   * \code{midpoint} Mid-point of the confidence interval
 #'     (for \code{return_midpoint = TRUE}).
 #'   * \code{level} Confidence level.
-#' @export
+#' @noRd
 #'
 #' @seealso
 #' \url{http://users.stat.ufl.edu/~aa/cda/R/one-sample/R1/index.html}

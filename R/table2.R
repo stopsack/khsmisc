@@ -1377,12 +1377,10 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'      * \code{"survdiff"} Difference in survival from Kaplan-Meier estimator.
 #'        Provide time horizon, e.g., \code{"survdiff 2.5"} to evaluate
 #'        differences in survival at 2.5 years. Cannot not handle confounders.
-#'        Uses \code{\link[khsmisc]{survdiff_ci}}.
 #'      * \code{"cumincdiff"} Difference in cumulative incidence from
 #'        Kaplan-Meier estimator. Provide time horizon, e.g.,
 #'        \code{"cumincdiff 2.5"} to evaluate differences in cumulative
 #'        incidence at 2.5 years. Cannot not handle confounders.
-#'        Uses \code{\link[khsmisc]{survdiff_ci}}.
 #'
 #'      Absolute estimates per exposure category:
 #'
@@ -1399,8 +1397,7 @@ fill_cells <- function(data, event, time, time2, outcome,
 #'        display as proportion or percent using the parameter
 #'        \code{risk_percent}.
 #'      * \code{"risk (ci)"} Risk with 95% confidence interval
-#'        (Wilson score interval for binomial proportions, see
-#'        \code{\link[khsmisc]{scoreci}}).
+#'        (Wilson score interval for binomial proportions).
 #'      * \code{"cuminc"} Cumulative incidence ("risk") from the Kaplan-Meier
 #'        estimator. Provide time point (e.g., 1.5-year cumulative incidence)
 #'        using \code{"cuminc 1.5"}. If no time point is provided, returns
