@@ -37,6 +37,11 @@ tabulate_rowcol <- function(data,
                             maxlevels = 30,
                             rowsums   = TRUE,
                             colsums   = TRUE) {
+  if(utils::packageVersion("forcats") >= "1.0.0")
+    fct_expl_na <- forcats::fct_na_value_to_level
+  else
+    fct_expl_na <- forcats::fct_explicit_na
+
   topname <- paste(colnames(data %>% dplyr::select({{ row }}))[1], "X",
                    colnames(data %>% dplyr::select({{ col }}))[1])
   data <- data %>%
@@ -54,7 +59,7 @@ tabulate_rowcol <- function(data,
     dplyr::mutate_at(.vars = dplyr::vars(.data$rowvar, .data$colvar),
                      .funs = as.factor) %>%
     dplyr::mutate_at(.vars = dplyr::vars(.data$rowvar, .data$colvar),
-                     .funs = forcats::fct_explicit_na) %>%
+                     .funs = fct_expl_na) %>%
     dplyr::group_by_at(.vars = dplyr::vars(.data$rowvar, .data$colvar)) %>%
     dplyr::summarize(n = dplyr::n()) %>%
     tidyr::pivot_wider(names_from = .data$colvar, values_from = .data$n) %>%
@@ -114,6 +119,11 @@ mytab <- function(data,
                   maxlevels = 30,
                   rowsums   = TRUE,
                   colsums   = TRUE) {
+  if(utils::packageVersion("forcats") >= "1.0.0")
+    fct_expl_na <- forcats::fct_na_value_to_level
+  else
+    fct_expl_na <- forcats::fct_explicit_na
+
   var1lvls <- length(levels(factor(data %>% dplyr::pull(1))))
   var2lvls <- length(levels(factor(data %>% dplyr::pull(2))))
   topname <- paste(colnames(data)[1], "X", colnames(data)[2])
@@ -127,7 +137,8 @@ mytab <- function(data,
     else {
       result <- data %>%
         dplyr::mutate_at(.vars = dplyr::vars(1:2), .funs = as.factor) %>%
-        dplyr::mutate_at(.vars = dplyr::vars(1:2), .funs = forcats::fct_explicit_na) %>%
+        dplyr::mutate_at(.vars = dplyr::vars(1:2),
+                         .funs = fct_expl_na) %>%
         dplyr::group_by_at(.vars = dplyr::vars(1, 2)) %>%
         dplyr::summarize(n = dplyr::n()) %>%
         tidyr::spread(key = 2, value = "n") %>%
