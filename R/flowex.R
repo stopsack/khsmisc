@@ -43,8 +43,26 @@
 #'   "Known ECOG",            "Exclude men",         expr(sex == 2),
 #'   "Analytical population", "",                    expr(TRUE))
 #'
+#' # Alternative, equivalent approach to defining the criteria
+#' # Note the use of list() around expr(...)
+#' criteria <- dplyr::bind_rows(
+#'   tibble::tibble(
+#'     left = "All patients",
+#'     right = "Missing ECOG status",
+#'     filter = list(expr(!is.na(ph.ecog)))),
+#'   tibble::tibble(
+#'     left = "Known ECOG",
+#'     right = "Exclude men",
+#'     filter = list(expr(sex == 2))),
+#'   tibble::tibble(
+#'     left = "Analytical population",
+#'     right = "",
+#'     filter = list(expr(TRUE))))
+#'
 #' # Perform sequential exclusions
-#' result <- make_exclusions(criteria = criteria, data = cancer)
+#' result <- make_exclusions(
+#'   criteria = criteria,
+#'   data = cancer)
 #'
 #' # Show results
 #' result
