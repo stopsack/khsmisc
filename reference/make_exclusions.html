@@ -174,8 +174,8 @@ Access this tibble using <code>%&gt;% pull(included) %&gt;% last()</code>.</p>
 <span class="r-in"><span><span class="co"># Plot flow chart of exclusions (might not display in the online reference)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="exclusion_flowchart.html">exclusion_flowchart</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<div id="htmlwidget-812a2418c480aebc729c" style="width:700px;height:432.632880098888px;" class="grViz html-widget "></div>
-<script type="application/json" data-for="htmlwidget-812a2418c480aebc729c">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
+<div id="htmlwidget-6dfa0197811d21b6b72e" style="width:700px;height:432.632880098888px;" class="grViz html-widget "></div>
+<script type="application/json" data-for="htmlwidget-6dfa0197811d21b6b72e">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 3]\ntab1a [label = \"All patients\\nn = 228\"]\ntab1b [label = \"Missing ECOG status\\nn = 1\"]\ntab2a [label = \"Known ECOG\\nn = 227\"]\ntab2b [label = \"Exclude men\\nn = 137\"]\ntab3a [label = \"Analytical population\\nn = 90\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
