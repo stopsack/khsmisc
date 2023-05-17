@@ -30,19 +30,19 @@ jobs:
           #- { os: windows-latest, r: "release" }
           - { os: macOS-latest, r: "release", pkgdown: "true" }
           #- { os: macOS-latest, r: "devel" }
-          #- { os: ubuntu-latest, r: "release" }
+          - { os: ubuntu-latest, r: "release" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout V2
-        uses: actions/checkout@v2
+      - name: Checkout V3
+        uses: actions/checkout@v3
 
-      - name: Set up R ${{ matrix.r-version }}
+      - name: Set up R ${{ matrix.config.r }}
         uses: r-lib/actions/setup-r@HEAD
         with:
-          r-version: ${{ matrix.r-version }}
+          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@HEAD
 
