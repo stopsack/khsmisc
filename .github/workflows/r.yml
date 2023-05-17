@@ -45,6 +45,13 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@HEAD
+      
+      - name: Install curl on Linux for rcmdcheck
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
 
       - name: Install remotes, GH dependency risks
         run: |
