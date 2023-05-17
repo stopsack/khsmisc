@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   fold: fold.html
   khsmisc: khsmisc.html
-last_built: 2023-05-17T12:49Z
+last_built: 2023-05-17T13:23Z
 urls:
   reference: https://stopsack.github.io/khsmisc/reference
   article: https://stopsack.github.io/khsmisc/articles
