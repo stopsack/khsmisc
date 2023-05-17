@@ -52,6 +52,9 @@ jobs:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
+          
+      - name: Install ragg system dependencies
+        run: brew install harfbuzz fribidi
 
       - name: Install remotes, GH dependency risks
         run: |
