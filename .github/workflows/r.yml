@@ -53,9 +53,11 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
           
-      - name: Install ragg system dependencies
-        run: brew install harfbuzz fribidi
-
+      - uses: r-lib/actions/setup-r-dependencies@HEAD
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+      
       - name: Install remotes, GH dependency risks
         run: |
           install.packages(c("remotes", "rcmdcheck"))
