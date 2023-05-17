@@ -9,7 +9,7 @@ reasons.
 Generate the design using make_exclusions."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.1/htmlwidgets.js"></script><script src="libs/viz-1.8.2/viz.js"></script><link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet"><script src="libs/grViz-binding-1.0.9/grViz.js"></script></head><body data-spy="scroll" data-target="#toc">
+<![endif]--><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><script src="libs/viz-1.8.2/viz.js"></script><link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet"><script src="libs/grViz-binding-1.0.9/grViz.js"></script></head><body data-spy="scroll" data-target="#toc">
     
 
     <div class="container template-reference-topic">
@@ -149,8 +149,8 @@ supply line breaks using <code>\n</code>. See example.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot</span></span></span>
 <span class="r-in"><span><span class="fu">exclusion_flowchart</span><span class="op">(</span><span class="va">design</span>, width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<div id="htmlwidget-75e7e882433bc2e3cdf2" style="width:700px;height:432.632880098888px;" class="grViz html-widget "></div>
-<script type="application/json" data-for="htmlwidget-75e7e882433bc2e3cdf2">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
+<div id="htmlwidget-58c883a2e3455b5c4ae1" style="width:700px;height:432.632880098888px;" class="grViz html-widget "></div>
+<script type="application/json" data-for="htmlwidget-58c883a2e3455b5c4ae1">{"x":{"diagram":"digraph flowchart {\n      node [fontname = Helvetica, shape = rectangle, width = 2]\ntab1a [label = \"Study base\\nn = 1000\"]\ntab1b [label = \"Not sampled\\nn = 250\"]\ntab2a [label = \"Study population\\nn = 750\"]\ntab2b [label = \"Participants with\nmissing exposure data\\nn = 100\"]\ntab3a [label = \"Complete-case set\\nn = 650\"]{ rank = same; tab1a; tab1b; }\n\n{ rank = same; tab2a; tab2b; }\ntab1a ->  tab2a -> tab3a;\ntab1a -> tab1b;\n\ntab2a -> tab2b;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

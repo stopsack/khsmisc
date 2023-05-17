@@ -209,7 +209,7 @@ meta-data.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> HISTORY_NEOADJUVANT_TRTYN        411 character NULL </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> NONINVASIVE_BLADDER_HISTORY      411 character NULL </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> NONINVASIVE_BLADDER_CA_TX_TYPE   411 character NULL </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 68 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 68 more rows</span></span></span></code></pre></div>
 <p>Select and rename variables of interest:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="va">clinical</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -518,13 +518,25 @@ below.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">dplyr</span> package.</span></span>
 <span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/tidyverse/dplyr/issues&gt;</span>.</span></span></code></pre></div>
 <div id="kbgfgdwzpd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#kbgfgdwzpd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kbgfgdwzpd thead, #kbgfgdwzpd tbody, #kbgfgdwzpd tfoot, #kbgfgdwzpd tr, #kbgfgdwzpd td, #kbgfgdwzpd th {
+  border-style: none;
+}
+
+#kbgfgdwzpd p {
+  margin: 0;
+  padding: 0;
 }
 
 #kbgfgdwzpd .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -545,18 +557,6 @@ below.</p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#kbgfgdwzpd .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #kbgfgdwzpd .gt_caption {
@@ -580,12 +580,24 @@ below.</p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#kbgfgdwzpd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #kbgfgdwzpd .gt_bottom_border {
@@ -659,6 +671,10 @@ below.</p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#kbgfgdwzpd .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #kbgfgdwzpd .gt_group_heading {
@@ -760,6 +776,10 @@ below.</p>
   border-top-width: 2px;
 }
 
+#kbgfgdwzpd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #kbgfgdwzpd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -809,6 +829,16 @@ below.</p>
   border-top-color: #D3D3D3;
 }
 
+#kbgfgdwzpd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #kbgfgdwzpd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -839,8 +869,8 @@ below.</p>
 #kbgfgdwzpd .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -897,10 +927,9 @@ below.</p>
 }
 
 #kbgfgdwzpd .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #kbgfgdwzpd .gt_asterisk {
@@ -928,8 +957,8 @@ below.</p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="smoke3 X race">smoke3 X race</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="White">White</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Asian">Asian</th>
@@ -1007,13 +1036,25 @@ below.</p>
 <span><span class="co">#&gt;   # Now</span></span>
 <span><span class="co">#&gt;   across(a:b, \(x) mean(x, na.rm = TRUE))</span></span></code></pre></div>
 <div id="iepkpyisok" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#iepkpyisok table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#iepkpyisok thead, #iepkpyisok tbody, #iepkpyisok tfoot, #iepkpyisok tr, #iepkpyisok td, #iepkpyisok th {
+  border-style: none;
+}
+
+#iepkpyisok p {
+  margin: 0;
+  padding: 0;
 }
 
 #iepkpyisok .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -1034,18 +1075,6 @@ below.</p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#iepkpyisok .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #iepkpyisok .gt_caption {
@@ -1069,12 +1098,24 @@ below.</p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#iepkpyisok .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #iepkpyisok .gt_bottom_border {
@@ -1148,6 +1189,10 @@ below.</p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#iepkpyisok .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #iepkpyisok .gt_group_heading {
@@ -1249,6 +1294,10 @@ below.</p>
   border-top-width: 2px;
 }
 
+#iepkpyisok .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #iepkpyisok .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -1298,6 +1347,16 @@ below.</p>
   border-top-color: #D3D3D3;
 }
 
+#iepkpyisok .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #iepkpyisok .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -1328,8 +1387,8 @@ below.</p>
 #iepkpyisok .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -1386,10 +1445,9 @@ below.</p>
 }
 
 #iepkpyisok .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #iepkpyisok .gt_asterisk {
@@ -1417,8 +1475,8 @@ below.</p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="race">race</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="rows">rows</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="obs">obs</th>
@@ -1628,13 +1686,25 @@ below.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">mean</span>, <span class="op">-</span><span class="va">sd</span>, <span class="op">-</span><span class="va">sum</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="co"># remove undesired statistics</span></span>
 <span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># format</span></span></code></pre></div>
 <div id="qiyolstgko" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#qiyolstgko table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qiyolstgko thead, #qiyolstgko tbody, #qiyolstgko tfoot, #qiyolstgko tr, #qiyolstgko td, #qiyolstgko th {
+  border-style: none;
+}
+
+#qiyolstgko p {
+  margin: 0;
+  padding: 0;
 }
 
 #qiyolstgko .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -1655,18 +1725,6 @@ below.</p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#qiyolstgko .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #qiyolstgko .gt_caption {
@@ -1690,12 +1748,24 @@ below.</p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#qiyolstgko .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #qiyolstgko .gt_bottom_border {
@@ -1769,6 +1839,10 @@ below.</p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#qiyolstgko .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #qiyolstgko .gt_group_heading {
@@ -1870,6 +1944,10 @@ below.</p>
   border-top-width: 2px;
 }
 
+#qiyolstgko .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #qiyolstgko .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -1919,6 +1997,16 @@ below.</p>
   border-top-color: #D3D3D3;
 }
 
+#qiyolstgko .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #qiyolstgko .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -1949,8 +2037,8 @@ below.</p>
 #qiyolstgko .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -2007,10 +2095,9 @@ below.</p>
 }
 
 #qiyolstgko .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #qiyolstgko .gt_asterisk {
@@ -2038,8 +2125,8 @@ below.</p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="variable">variable</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="rows">rows</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="obs">obs</th>
@@ -2136,13 +2223,25 @@ score?</p>
 <span>  <span class="fu"><a href="../reference/tabulate_rowcol.html">tabulate_rowcol</a></span><span class="op">(</span><span class="va">missing_ascore</span>, <span class="va">race</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="iznxskvaii" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#iznxskvaii table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#iznxskvaii thead, #iznxskvaii tbody, #iznxskvaii tfoot, #iznxskvaii tr, #iznxskvaii td, #iznxskvaii th {
+  border-style: none;
+}
+
+#iznxskvaii p {
+  margin: 0;
+  padding: 0;
 }
 
 #iznxskvaii .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -2163,18 +2262,6 @@ score?</p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#iznxskvaii .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #iznxskvaii .gt_caption {
@@ -2198,12 +2285,24 @@ score?</p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#iznxskvaii .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #iznxskvaii .gt_bottom_border {
@@ -2277,6 +2376,10 @@ score?</p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#iznxskvaii .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #iznxskvaii .gt_group_heading {
@@ -2378,6 +2481,10 @@ score?</p>
   border-top-width: 2px;
 }
 
+#iznxskvaii .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #iznxskvaii .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -2427,6 +2534,16 @@ score?</p>
   border-top-color: #D3D3D3;
 }
 
+#iznxskvaii .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #iznxskvaii .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -2457,8 +2574,8 @@ score?</p>
 #iznxskvaii .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -2515,10 +2632,9 @@ score?</p>
 }
 
 #iznxskvaii .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #iznxskvaii .gt_asterisk {
@@ -2546,8 +2662,8 @@ score?</p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="missing_ascore X race">missing_ascore X race</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="White">White</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Asian">Asian</th>
@@ -2589,13 +2705,25 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
 <span>    digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>agedx  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, </span>
 <span>                  dxyear <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div id="wxqjhrxfyr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#wxqjhrxfyr table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wxqjhrxfyr thead, #wxqjhrxfyr tbody, #wxqjhrxfyr tfoot, #wxqjhrxfyr tr, #wxqjhrxfyr td, #wxqjhrxfyr th {
+  border-style: none;
+}
+
+#wxqjhrxfyr p {
+  margin: 0;
+  padding: 0;
 }
 
 #wxqjhrxfyr .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -2616,18 +2744,6 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#wxqjhrxfyr .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #wxqjhrxfyr .gt_caption {
@@ -2651,12 +2767,24 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#wxqjhrxfyr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #wxqjhrxfyr .gt_bottom_border {
@@ -2730,6 +2858,10 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#wxqjhrxfyr .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #wxqjhrxfyr .gt_group_heading {
@@ -2831,6 +2963,10 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   border-top-width: 2px;
 }
 
+#wxqjhrxfyr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #wxqjhrxfyr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -2880,6 +3016,16 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   border-top-color: #D3D3D3;
 }
 
+#wxqjhrxfyr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #wxqjhrxfyr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -2910,8 +3056,8 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
 #wxqjhrxfyr .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -2968,10 +3114,9 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
 }
 
 #wxqjhrxfyr .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #wxqjhrxfyr .gt_asterisk {
@@ -2999,16 +3144,16 @@ population<a class="anchor" aria-label="anchor" href="#table-1-exposure-stratifi
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings">
-<tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Overall&lt;/strong&gt;"><strong>Overall</strong></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;By Self-reported race&lt;/strong&gt;">
         <span class="gt_column_spanner"><strong>By Self-reported race</strong></span>
       </th>
     </tr>
-<tr>
+<tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;White&lt;/strong&gt;"><strong>White</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Asian&lt;/strong&gt;"><strong>Asian</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Black&lt;/strong&gt;"><strong>Black</strong></th>
@@ -3358,13 +3503,25 @@ histology, and then color code by histology</strong></p>
 <span>  <span class="fu"><a href="../reference/table1.html">table1</a></span><span class="op">(</span><span class="va">ascore_cat</span>, </span>
 <span>         by <span class="op">=</span> <span class="va">race</span><span class="op">)</span></span></code></pre></div>
 <div id="yrfwjgkqpp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#yrfwjgkqpp table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#yrfwjgkqpp thead, #yrfwjgkqpp tbody, #yrfwjgkqpp tfoot, #yrfwjgkqpp tr, #yrfwjgkqpp td, #yrfwjgkqpp th {
+  border-style: none;
+}
+
+#yrfwjgkqpp p {
+  margin: 0;
+  padding: 0;
 }
 
 #yrfwjgkqpp .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -3385,18 +3542,6 @@ histology, and then color code by histology</strong></p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#yrfwjgkqpp .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #yrfwjgkqpp .gt_caption {
@@ -3420,12 +3565,24 @@ histology, and then color code by histology</strong></p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#yrfwjgkqpp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #yrfwjgkqpp .gt_bottom_border {
@@ -3499,6 +3656,10 @@ histology, and then color code by histology</strong></p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#yrfwjgkqpp .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #yrfwjgkqpp .gt_group_heading {
@@ -3600,6 +3761,10 @@ histology, and then color code by histology</strong></p>
   border-top-width: 2px;
 }
 
+#yrfwjgkqpp .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #yrfwjgkqpp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -3649,6 +3814,16 @@ histology, and then color code by histology</strong></p>
   border-top-color: #D3D3D3;
 }
 
+#yrfwjgkqpp .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #yrfwjgkqpp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -3679,8 +3854,8 @@ histology, and then color code by histology</strong></p>
 #yrfwjgkqpp .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -3737,10 +3912,9 @@ histology, and then color code by histology</strong></p>
 }
 
 #yrfwjgkqpp .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #yrfwjgkqpp .gt_asterisk {
@@ -3768,16 +3942,16 @@ histology, and then color code by histology</strong></p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings">
-<tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings gt_spanner_row">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Overall&lt;/strong&gt;"><strong>Overall</strong></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;By Self-reported race&lt;/strong&gt;">
         <span class="gt_column_spanner"><strong>By Self-reported race</strong></span>
       </th>
     </tr>
-<tr>
+<tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;White&lt;/strong&gt;"><strong>White</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Asian&lt;/strong&gt;"><strong>Asian</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="&lt;strong&gt;Black&lt;/strong&gt;"><strong>Black</strong></th>
@@ -3858,13 +4032,25 @@ histology, and then color code by histology</strong></p>
 <span>    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="nscsdqhqpm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#nscsdqhqpm table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#nscsdqhqpm thead, #nscsdqhqpm tbody, #nscsdqhqpm tfoot, #nscsdqhqpm tr, #nscsdqhqpm td, #nscsdqhqpm th {
+  border-style: none;
+}
+
+#nscsdqhqpm p {
+  margin: 0;
+  padding: 0;
 }
 
 #nscsdqhqpm .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -3885,18 +4071,6 @@ histology, and then color code by histology</strong></p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#nscsdqhqpm .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #nscsdqhqpm .gt_caption {
@@ -3920,12 +4094,24 @@ histology, and then color code by histology</strong></p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#nscsdqhqpm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #nscsdqhqpm .gt_bottom_border {
@@ -3999,6 +4185,10 @@ histology, and then color code by histology</strong></p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#nscsdqhqpm .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #nscsdqhqpm .gt_group_heading {
@@ -4100,6 +4290,10 @@ histology, and then color code by histology</strong></p>
   border-top-width: 2px;
 }
 
+#nscsdqhqpm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #nscsdqhqpm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -4149,6 +4343,16 @@ histology, and then color code by histology</strong></p>
   border-top-color: #D3D3D3;
 }
 
+#nscsdqhqpm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #nscsdqhqpm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -4179,8 +4383,8 @@ histology, and then color code by histology</strong></p>
 #nscsdqhqpm .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -4237,10 +4441,9 @@ histology, and then color code by histology</strong></p>
 }
 
 #nscsdqhqpm .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #nscsdqhqpm .gt_asterisk {
@@ -4268,8 +4471,8 @@ histology, and then color code by histology</strong></p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Self-reported race">Self-reported race</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="White">White</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Asian">Asian</th>
@@ -4355,13 +4558,25 @@ modifier).</p>
 <span>    diff_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/mygt.html">mygt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div id="nmgnvvtekw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#nmgnvvtekw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#nmgnvvtekw thead, #nmgnvvtekw tbody, #nmgnvvtekw tfoot, #nmgnvvtekw tr, #nmgnvvtekw td, #nmgnvvtekw th {
+  border-style: none;
+}
+
+#nmgnvvtekw p {
+  margin: 0;
+  padding: 0;
 }
 
 #nmgnvvtekw .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -4382,18 +4597,6 @@ modifier).</p>
   border-left-style: none;
   border-left-width: 2px;
   border-left-color: #D3D3D3;
-}
-
-#nmgnvvtekw .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
 }
 
 #nmgnvvtekw .gt_caption {
@@ -4417,12 +4620,24 @@ modifier).</p>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#nmgnvvtekw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #nmgnvvtekw .gt_bottom_border {
@@ -4496,6 +4711,10 @@ modifier).</p>
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
+}
+
+#nmgnvvtekw .gt_spanner_row {
+  border-bottom-style: hidden;
 }
 
 #nmgnvvtekw .gt_group_heading {
@@ -4597,6 +4816,10 @@ modifier).</p>
   border-top-width: 2px;
 }
 
+#nmgnvvtekw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #nmgnvvtekw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -4646,6 +4869,16 @@ modifier).</p>
   border-top-color: #D3D3D3;
 }
 
+#nmgnvvtekw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #nmgnvvtekw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -4676,8 +4909,8 @@ modifier).</p>
 #nmgnvvtekw .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -4734,10 +4967,9 @@ modifier).</p>
 }
 
 #nmgnvvtekw .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #nmgnvvtekw .gt_asterisk {
@@ -4765,8 +4997,8 @@ modifier).</p>
   text-indent: 25px;
 }
 </style>
-<table class="table gt_table">
-<thead class="gt_col_headings"><tr>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Self-reported race">Self-reported race</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="White">White</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="text-align: left; vertical-align: bottom;" scope="col" id="Asian">Asian</th>
