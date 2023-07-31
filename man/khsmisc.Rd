@@ -56,8 +56,6 @@ Export CSV files, R objects, or PDFs without overwriting existing files
 variables.
 
 \code{\link[khsmisc]{tsummary}}: A descriptive table for continuous variables
-
-\code{\link[khsmisc]{rates}}: Event counts, person-time, incidence rates, and cumulative incidence
 }
 
 \section{Functions for plots}{
