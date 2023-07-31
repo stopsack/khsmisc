@@ -5,30 +5,9 @@
 \alias{khsmisc}
 \title{khsmisc: Miscellaneous functions for epidemiology research}
 \description{
-This package serves two purposes: (a) loading a set of core packages
-for epidemiology research and (b) providing a set of custom functions,
-which also build on the core packages.
+This package provides a set of custom functions for data handling, vector
+manipulation, and tabulation, and plotting.
 }
-\section{Automatically loaded core packages}{
-
-
-This package loads a number of useful core packages for epidemiologic
-data handling as well as descriptive and inferential analyses.
-\itemize{
-\item Data handling: the whole universe of the \code{\link[tidyverse]{tidyverse-package}};
-variable labels via \code{\link[labelled]{labelled}};
-reading Excel files via \code{\link[readxl]{readxl-package}}.
-\item Tables: formatted tables via \code{\link[gt]{gt}};
-descriptive tables via \code{\link[gtsummary]{gtsummary-package}}.
-\item Figures: \code{\link[ggplot2]{ggplot}};
-red/green blindness-proof color palettes via
-\code{\link[viridis]{scale_color_viridis}};
-arranging figure panels via cowplot (\code{\link[cowplot]{plot_grid}}).
-\item Analyses: time-to-event analyses using \code{survival};
-accessing regression model results via \code{\link[broom]{broom}}.
-}
-}
-
 \section{Functions for data handling}{
 
 
