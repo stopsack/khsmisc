@@ -70,8 +70,6 @@ library(khsverse)
 
 
 ```{r quietload, include = FALSE, message = FALSE}
-# all of these are usually loaded via khsverse, which, however, is not a
-# dependency of khsmisc and thus not actually used in the vignette
 library(khsmisc)
 library(tidyverse)  # Data handling
 library(readxl)     # Reading Excel files

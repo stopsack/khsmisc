@@ -2,7 +2,7 @@
 
 #' Contigency Table: Tabulate Rows Times Columns
 #'
-#' @import tidyverse purrr dplyr forcats
+#' @import purrr dplyr forcats
 #' @importFrom rlang `:=`
 # @import dplyr forcats tidyr purrr
 #'
@@ -196,7 +196,7 @@ mytabstyle <- function(mytab) {
     gt::tab_style(style = gt::cell_text(align = "left",
                                         v_align = "top"),
                   locations = gt::cells_body()) %>%
-    gt::tab_style(style = cell_text(align = "left",
+    gt::tab_style(style = gt::cell_text(align = "left",
                                     v_align = "bottom"),
                   locations = gt::cells_column_labels())
 }
@@ -237,6 +237,15 @@ mygt <- function(df, md = NULL, indent = NULL, remove_border = TRUE) {
     attr(x = res, which = "mydata") <- df
     return(res)
   } else {
+    if (!requireNamespace("gt", quietly = TRUE)) {
+      stop(
+        paste(
+          "The package \"gt\" must be installed to create formatted tables",
+          "via khsmisc::mygt(). Use alternative packages for table",
+          "formatting or install \"gt\":\n   install.packages(\"gt\")"),
+        call. = FALSE)
+    }
+
     df_gt <- df %>%
       gt::gt() %>%
       mytabstyle()

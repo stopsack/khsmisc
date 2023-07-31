@@ -2,7 +2,7 @@
 
 #' Variable List, Stata-style
 #'
-#' @import tidyverse labelled broom cowplot tibble viridis stringr
+#' @import labelled broom cowplot tibble viridis stringr
 #'
 #' @description This function prints an inventory of a dataset, similar to Stata's
 #'   \code{varlist} function.

@@ -45,8 +45,6 @@ Mode <- function(x) {
 
 #' Round and Format p-Values
 #'
-#' @import tidyverse
-#'
 #' @description Following conventions of many medical journals, this function
 #'   rounds a p-value to two digits (if p > 0.05) or three digits (if 0.001 <= p < 0.05),
 #'   or returns an inequality of "< 0.001" (if p < 0.001).

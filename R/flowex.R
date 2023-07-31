@@ -182,9 +182,9 @@ exclusion_flowchart <- function(design, width = 3) {
 
   # Rows that have a right box
   has_right <- design %>%
-    mutate(row_number = row_number()) %>%
-    filter(.data$right != "") %>%
-    pull(.data$row_number)
+    dplyr::mutate(row_number = dplyr::row_number()) %>%
+    dplyr::filter(.data$right != "") %>%
+    dplyr::pull(.data$row_number)
 
   DiagrammeR::grViz(paste0(
     "digraph flowchart {
