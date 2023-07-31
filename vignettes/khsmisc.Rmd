@@ -431,20 +431,6 @@ analytical %>%
   mygt()
 ```
 
-
-### Table 1: Exposure-stratified characteristics of the study population
-
-```{r}
-analytical %>%
-  table1(
-    ethnicity, sex, agedx, dxyear, smoke3, bmidx, 
-    p_stage, mstage, grade, histology, purity,
-    by = race, 
-    digits = list(agedx  = c(1, 1), 
-                  dxyear = c(0, 0)))
-```
-
-
 ### Figure 1: Box-whiskers/dot plots
 
 ```{r}
@@ -468,68 +454,4 @@ analytical %>%
   # add label:
   labs(color = "Histology")
 ```
-
-### Table 2: Stratified and regression analyses
-
-```{r}
-# Part 1: Stratified
-analytical %>%
-  table1(ascore_cat, 
-         by = race)
-```
-
-
-```{r}
-tribble(
-  ~label,                           ~confounders,             ~type,
-  "N",                              "",                       "total",
-  "Mean altered chromosome arms",   "",                       "mean",
-  "Difference (95% CI):",           "",                       "", 
-  "  Model 1: Age/sex-adjusted",    "+ agedx + sex",          "diff",
-  "  Model 2: Model 1 + smoking",   "+ agedx + sex + smoke3", "diff",
-  "  Model 3: Model 2 + histology", "+ agedx + sex + smoke3 + histology",  "diff",
-  "  Model 4: Model 3 + grade",     "+ agedx + sex + smoke3 + histology + grade", "diff") %>%
-  mutate(exposure = "race", 
-         outcome = "ascore") %>%
-  table2(
-    data = analytical %>% 
-      # evaluate all models in the same complete-case subset:
-      filter(!is.na(ascore) & 
-               !is.na(smoke3) & 
-               !is.na(histology) & 
-               !is.na(grade)),
-    diff_digits = 1) %>%
-  mygt()
-```
-
-
-### Table 3: Effect modification
-
-Models are adjusted for age (and sex, unless sex is an effect modifier).
-
-```{r}
-tribble(
-  ~label,            ~effect_modifier, ~stratum,    ~confounders,    ~type,
-  "By sex",          NULL,             NULL,        "",              "",
-  "  Female",        "sex",            "Female",    "+ agedx",       "diff",
-  "  Male",          "sex",            "Male",      "+ agedx",       "diff",
-  "By histology",    NULL,             NULL,        "",              "",
-  "  Papillary",     "histology",      "Papillary", "+ agedx + sex", "diff",
-  "  Non-Papillary", "histology",  "Non-Papillary", "+ agedx + sex", "diff") %>%
-  mutate(exposure = "race", 
-         outcome = "ascore") %>%
-  table2(
-    data = analytical %>% 
-      filter(!is.na(ascore) & 
-               !is.na(smoke3) &
-               !is.na(histology) & 
-               !is.na(grade)),
-    diff_digits = 1) %>%
-  mygt()
-```
-
-
-### Table 4: Sensitivity analyses
-
-...
 

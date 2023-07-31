@@ -4,7 +4,7 @@
 \alias{mygt}
 \title{Turn tibble into gt Table with Custom Formatting}
 \usage{
-mygt(df, md = NULL, indent = c(10, 20), remove_border = TRUE)
+mygt(df, md = NULL, indent = NULL, remove_border = TRUE)
 }
 \arguments{
 \item{df}{Data frame/tibble}
@@ -13,13 +13,7 @@ mygt(df, md = NULL, indent = c(10, 20), remove_border = TRUE)
 columns will be printed with markdown formatting, e.g., \code{md = c(1, 3)}
 for columns 1 and 3.}
 
-\item{indent}{Optional. Detects labels (first
-columns in a \code{\link[khsmisc]{table2}}) that start with two or four
-spaces and ensures indenting via \code{\link[gt]{tab_style}}. Defaults
-to 10 and 20 pixels for two or four spaces (\code{c(10, 20)}). Set to
-\code{NULL} to turn off. (Note that gt currently does not seem to support
-four-space indents in columns with markdown formatting, e.g.,
-\code{md = 1}.)}
+\item{indent}{Ignored.}
 
 \item{remove_border}{Optional. For indented lines, remove the upper
 horizontal border line? Defaults to \code{TRUE}.}

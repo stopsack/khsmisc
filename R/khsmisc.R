@@ -44,11 +44,6 @@
 #'
 #' \code{\link[khsmisc]{tsummary}}: A descriptive table for continuous variables
 #'
-#' \code{\link[khsmisc]{mygt}}: Format and print any tibble as a 'gt' table
-#'
-#' \code{\link[khsmisc]{table1}}: Formatted stratified descriptive tables using gtsummary
-#'
-#' \code{\link[khsmisc]{table2}}: Stratified result tables
 #'
 #' \code{\link[khsmisc]{rates}}: Event counts, person-time, incidence rates, and cumulative incidence
 #'
