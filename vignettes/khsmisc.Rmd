@@ -352,8 +352,9 @@ combined %>%
   # make descriptive table:
   tsummary(race, agedx, bmidx, dxyear, purity, by = race) %>%  
   select(-mean, -sd, -sum) %>%  # remove undesired statistics
-  mutate(across(.cols = where(is.numeric), 
-                .fns = round, digits = 2)) %>%  # round
+  mutate(across(
+    .cols = where(is.numeric), 
+    .fns = ~round(x = .x, digits = 2))) %>%  # round
   mygt()  # format
 ```
 
