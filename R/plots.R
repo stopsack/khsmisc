@@ -144,6 +144,8 @@ stripplot <- function(data, x, y,
 #'   dataset will be retained. Defaults to \code{TRUE}.
 #' @param digits Decimal digits for displayed correlation coefficients.
 #'   Defaults to \code{2}.
+#' @param fontsize Size for text in boxes and to the left of the boxes ("y
+#'   axis"). Defaults to \code{4}.
 #' @param legendpos (x, y) coordinates of color legend. Use
 #'   \code{legendpos = "none"} to turn off the legend.
 #'   Defaults to \code{c(0.15, 0.35)}.
@@ -186,6 +188,7 @@ corrmat <- function(
   use       = "pairwise.complete.obs",
   reorder   = TRUE,
   digits    = 2,
+  fontsize  = 4,
   legendpos = c(0.15, 0.35),
   cutpoints = c(-1, 0, 1),
                 # for lowest value of scale:
@@ -245,10 +248,12 @@ corrmat <- function(
     ggplot2::geom_text(aes(x = .data$var2, y = .data$var1,
                            label = format(round(.data$value, digits = digits),
                                           nsmall = digits)),
-                       color = "black", size = 4) +
+                       color = "black",
+                       size = fontsize) +
     ggplot2::geom_text(mapping = aes(x = as.numeric(.data$var2) - 0.7,
                                      y = as.numeric(.data$var1),
                                      label = .data$ylabel),
+                       size = fontsize,
                        hjust = 1) +
     ggplot2::scale_x_discrete(expand = c(0, 0)) +
     ggplot2::scale_y_discrete(expand = c(0, 0)) +
