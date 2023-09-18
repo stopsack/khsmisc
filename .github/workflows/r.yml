@@ -30,22 +30,34 @@ jobs:
           #- { os: windows-latest, r: "release" }
           - { os: macOS-latest, r: "release", pkgdown: "true" }
           #- { os: macOS-latest, r: "devel" }
-          #- { os: ubuntu-latest, r: "release" }
+          - { os: ubuntu-latest, r: "release" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout V2
-        uses: actions/checkout@v2
+      - name: Checkout V3
+        uses: actions/checkout@v3
 
-      - name: Set up R ${{ matrix.r-version }}
+      - name: Set up R ${{ matrix.config.r }}
         uses: r-lib/actions/setup-r@HEAD
         with:
-          r-version: ${{ matrix.r-version }}
+          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@HEAD
-
+      
+      - name: Install curl on Linux for rcmdcheck
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          sudo apt-get update && sudo apt-get -y install libcurl4-openssl-dev
+          
+      - uses: r-lib/actions/setup-r-dependencies@HEAD
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+      
       - name: Install remotes, GH dependency risks
         run: |
           install.packages(c("remotes", "rcmdcheck"))
