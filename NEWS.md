@@ -1,3 +1,17 @@
+# khsmisc 0.5.0
+
+* Remove deprecated functions that have moved to the [rifttable package](https://stopsack.github.io/rifttable):
+  + `table2()`: the core function of [rifttable](https://stopsack.github.io/rifttable)
+  + `table1()`: see [`rifttable::table1_design()`](https://stopsack.github.io/rifttable/articles/table1.html)
+  + `scoreci()`, `survdiff_ci()`, `rates()`: now internal 
+    functions available via rifttable
+  + `mytab()`: use `khsmisc::tabulate_rowcol()`
+* `mygt()` is deprecated in favor of `rifttable::rt_gt()`
+* Compatibility with `forcats::fct_na_value_to_level()` in {forcats} >= 1.0.0
+* Add examples how to alternatively define `make_exclusions()` criteria
+* Start reducing dependencies
+* Make `corrmat()` font size more customizable
+
 # khsmisc 0.4.6
 
 * `table1()` and `table2()` have been superseded by the more flexible and more
