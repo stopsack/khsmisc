@@ -11,6 +11,7 @@ corrmat(
   use = "pairwise.complete.obs",
   reorder = TRUE,
   digits = 2,
+  fontsize = 4,
   legendpos = c(0.15, 0.35),
   cutpoints = c(-1, 0, 1),
   colors = c((viridis::viridis_pal(option = "cividis"))(10)[1], "white",
@@ -40,6 +41,9 @@ dataset will be retained. Defaults to \code{TRUE}.}
 
 \item{digits}{Decimal digits for displayed correlation coefficients.
 Defaults to \code{2}.}
+
+\item{fontsize}{Size for text in boxes and to the left of the boxes ("y
+axis"). Defaults to \code{4}.}
 
 \item{legendpos}{(x, y) coordinates of color legend. Use
 \code{legendpos = "none"} to turn off the legend.
