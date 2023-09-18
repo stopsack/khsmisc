@@ -16,20 +16,15 @@ reference:
   - roundp
 - title: "Estimation functions"
 - contents:
-  - scoreci
   - estimate_rmtl
-  - survdiff_ci
 - title: "Functions for Tables"
   desc: "Tabulate data"
 - contents:
   - mygt
   - tab_footnote
   - tab_style
-  - rates
   - tabulate_rowcol
   - tsummary
-  - table1
-  - table2
 - title: "Functions for Plots"
   desc: "Generating figures"
 - contents:

@@ -32,24 +32,27 @@ remotes::install_github("stopsack/khsmisc")
 -   **Functions for vectors:** `scale_to_range()` to scale a vector to a
     given range; `Mode()` to obtain the most common value; and `roundp()` to
     round and format *p*-values. 
--   **Estimation functions:** `scoreci()` for Wilson confidence
-    intervals for proportions; `estimate_rmtl()` for restricted mean time lost
-    and its difference; `survdiff_ci()` for *x*-year survival differences.
+-   **Estimation functions:** `estimate_rmtl()` for restricted mean time lost
+    and its difference.
 -   **Functions for descriptive tables:** `tabulate_rowcol()` for
-    categorical variables; `tsummary()` for continuous variables;
-    `mygt()` for formatting and printing any tibble as a ‘gt’ table;
-    `table1()` for formatted stratified descriptive tables using
-    `gtsummary`; `table2()` for stratified result tables; `rates()` for
-    event counts, person-time, incidence rates, and cumulative
-    incidence.
+    categorical variables; `tsummary()` for continuous variables. 
 -   **Functions for figures:** `stripplot()` for box/whiskers plots
     overlaid with a dot plot of all data points; `corrmat()` for
     correlation matrices; `exclusion_flowchart()` for a flowchart with
-    consequences of exclusion criteria; `geom_stepribbon()` for
-    visualizing RMST differences; `brickchart()` for plotting proportions while
-    showing individual observations.
+    consequences of exclusion criteria; `brickchart()` for plotting
+    proportions while showing individual observations.
 -   **Others:** R Markdown template, available via File &gt; New
     File &gt; R Markdown &gt; From Template.
+    
+**Note** The functions 
+
+* `table1()` for formatted descriptive tables via gtsummary,
+* `table2()` for stratified result tables,
+* `mygt()` for formatting/printing tables as a ‘gt’ object, and
+* estimation functions `rates()`, `scoreci()`, and `survdiff_ci()`
+
+have been merged into functionality now available in the [rifttable package](https://stopsack.github.io/rifttable) and are being maintained there.
+
 
 ## An analysis example: TCGA `BLCA`
 
