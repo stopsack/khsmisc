@@ -7,9 +7,6 @@
     <loc>https://stopsack.github.io/khsmisc/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://stopsack.github.io/khsmisc/articles/fold.html</loc>
-  </url>
-  <url>
     <loc>https://stopsack.github.io/khsmisc/articles/index.html</loc>
   </url>
   <url>
@@ -58,16 +55,10 @@
     <loc>https://stopsack.github.io/khsmisc/reference/mygt.html</loc>
   </url>
   <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/mytab.html</loc>
-  </url>
-  <url>
     <loc>https://stopsack.github.io/khsmisc/reference/pdf_safely.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/rates.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/roundp.html</loc>
@@ -82,25 +73,13 @@
     <loc>https://stopsack.github.io/khsmisc/reference/scale_to_range.html</loc>
   </url>
   <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/scoreci.html</loc>
-  </url>
-  <url>
     <loc>https://stopsack.github.io/khsmisc/reference/stripplot.html</loc>
-  </url>
-  <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/survdiff_ci.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/tab_footnote.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/tab_style.html</loc>
-  </url>
-  <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/table1.html</loc>
-  </url>
-  <url>
-    <loc>https://stopsack.github.io/khsmisc/reference/table2.html</loc>
   </url>
   <url>
     <loc>https://stopsack.github.io/khsmisc/reference/tabulate_rowcol.html</loc>

@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -46,18 +46,6 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/fold.html">Tutorial: Ratios of continuous variables</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -105,14 +93,26 @@
 <li>
 <strong>Functions for vectors:</strong> <code><a href="reference/scale_to_range.html">scale_to_range()</a></code> to scale a vector to a given range; <code><a href="reference/Mode.html">Mode()</a></code> to obtain the most common value; and <code><a href="reference/roundp.html">roundp()</a></code> to round and format <em>p</em>-values.</li>
 <li>
-<strong>Estimation functions:</strong> <code><a href="reference/scoreci.html">scoreci()</a></code> for Wilson confidence intervals for proportions; <code><a href="reference/estimate_rmtl.html">estimate_rmtl()</a></code> for restricted mean time lost and its difference; <code><a href="reference/survdiff_ci.html">survdiff_ci()</a></code> for <em>x</em>-year survival differences.</li>
+<strong>Estimation functions:</strong> <code><a href="reference/estimate_rmtl.html">estimate_rmtl()</a></code> for restricted mean time lost and its difference.</li>
 <li>
-<strong>Functions for descriptive tables:</strong> <code><a href="reference/tabulate_rowcol.html">tabulate_rowcol()</a></code> for categorical variables; <code><a href="reference/tsummary.html">tsummary()</a></code> for continuous variables; <code><a href="reference/mygt.html">mygt()</a></code> for formatting and printing any tibble as a ‘gt’ table; <code><a href="reference/table1.html">table1()</a></code> for formatted stratified descriptive tables using <code>gtsummary</code>; <code><a href="reference/table2.html">table2()</a></code> for stratified result tables; <code><a href="reference/rates.html">rates()</a></code> for event counts, person-time, incidence rates, and cumulative incidence.</li>
+<strong>Functions for descriptive tables:</strong> <code><a href="reference/tabulate_rowcol.html">tabulate_rowcol()</a></code> for categorical variables; <code><a href="reference/tsummary.html">tsummary()</a></code> for continuous variables.</li>
 <li>
-<strong>Functions for figures:</strong> <code><a href="reference/stripplot.html">stripplot()</a></code> for box/whiskers plots overlaid with a dot plot of all data points; <code><a href="reference/corrmat.html">corrmat()</a></code> for correlation matrices; <code><a href="reference/exclusion_flowchart.html">exclusion_flowchart()</a></code> for a flowchart with consequences of exclusion criteria; <code><a href="reference/geom_stepribbon.html">geom_stepribbon()</a></code> for visualizing RMST differences; <code><a href="reference/brickchart.html">brickchart()</a></code> for plotting proportions while showing individual observations.</li>
+<strong>Functions for figures:</strong> <code><a href="reference/stripplot.html">stripplot()</a></code> for box/whiskers plots overlaid with a dot plot of all data points; <code><a href="reference/corrmat.html">corrmat()</a></code> for correlation matrices; <code><a href="reference/exclusion_flowchart.html">exclusion_flowchart()</a></code> for a flowchart with consequences of exclusion criteria; <code><a href="reference/brickchart.html">brickchart()</a></code> for plotting proportions while showing individual observations.</li>
 <li>
 <strong>Others:</strong> R Markdown template, available via File &gt; New File &gt; R Markdown &gt; From Template.</li>
 </ul>
+<p><strong>Note</strong> The functions</p>
+<ul>
+<li>
+<code>table1()</code> for formatted descriptive tables via gtsummary,</li>
+<li>
+<code>table2()</code> for stratified result tables,</li>
+<li>
+<code><a href="reference/mygt.html">mygt()</a></code> for formatting/printing tables as a ‘gt’ object, and</li>
+<li>estimation functions <code>rates()</code>, <code>scoreci()</code>, and <code>survdiff_ci()</code>
+</li>
+</ul>
+<p>have been merged into functionality now available in the <a href="https://stopsack.github.io/rifttable" class="external-link">rifttable package</a> and are being maintained there.</p>
 </div>
 <div class="section level2">
 <h2 id="an-analysis-example-tcga-blca">An analysis example: TCGA <code>BLCA</code>

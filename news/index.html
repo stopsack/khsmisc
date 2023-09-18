@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">khsmisc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -28,16 +28,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/fold.html">Tutorial: Ratios of continuous variables</a>
-    </li>
-  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -61,40 +51,63 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.5.0" id="khsmisc-050">khsmisc 0.5.0<a class="anchor" aria-label="anchor" href="#khsmisc-050"></a></h2>
+<ul><li>Remove deprecated functions that have moved to the <a href="https://stopsack.github.io/rifttable" class="external-link">rifttable package</a>:
+<ul><li>
+<code>table2()</code>: the core function of <a href="https://stopsack.github.io/rifttable" class="external-link">rifttable</a>
+</li>
+<li>
+<code>table1()</code>: see <a href="https://stopsack.github.io/rifttable/articles/table1.html" class="external-link"><code>rifttable::table1_design()</code></a>
+</li>
+<li>
+<code>scoreci()</code>, <code>survdiff_ci()</code>, <code>rates()</code>: now internal functions available via rifttable</li>
+<li>
+<code>mytab()</code>: use <code><a href="../reference/tabulate_rowcol.html">khsmisc::tabulate_rowcol()</a></code>
+</li>
+</ul></li>
+<li>
+<code><a href="../reference/mygt.html">mygt()</a></code> is deprecated in favor of <code>rifttable::rt_gt()</code>
+</li>
+<li>Compatibility with <code><a href="https://forcats.tidyverse.org/reference/fct_na_value_to_level.html" class="external-link">forcats::fct_na_value_to_level()</a></code> in {forcats} &gt;= 1.0.0</li>
+<li>Add examples how to alternatively define <code><a href="../reference/make_exclusions.html">make_exclusions()</a></code> criteria</li>
+<li>Start reducing dependencies</li>
+<li>Make <code><a href="../reference/corrmat.html">corrmat()</a></code> font size more customizable</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.6" id="khsmisc-046">khsmisc 0.4.6<a class="anchor" aria-label="anchor" href="#khsmisc-046"></a></h2>
 <ul><li>
-<code><a href="../reference/table1.html">table1()</a></code> and <code><a href="../reference/table2.html">table2()</a></code> have been superseded by the more flexible and more lightweight <a href="https://stopsack.github.io/rifttable" class="external-link">{rifttable} package</a>. They will remain available in this package for the near future as underlying packages permit.</li>
-<li>Keep <code><a href="../reference/table2.html">table2()</a></code> compatible with {dplyr} 1.1.0 (input type checks)</li>
+<code>table1()</code> and <code>table2()</code> have been superseded by the more flexible and more lightweight <a href="https://stopsack.github.io/rifttable" class="external-link">{rifttable} package</a>. They will remain available in this package for the near future as underlying packages permit.</li>
+<li>Keep <code>table2()</code> compatible with {dplyr} 1.1.0 (input type checks)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.5" id="khsmisc-045">khsmisc 0.4.5<a class="anchor" aria-label="anchor" href="#khsmisc-045"></a></h2>
-<ul><li>Provide workaround for gt tables to allow knitting to <code>github_document</code>: <code><a href="../reference/mygt.html">mygt()</a></code> and <code><a href="../reference/table1.html">table1()</a></code> now export directly to markdown, using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, eliminating the extraneous inline CSS. The <code><a href="../reference/tab_style.html">tab_style()</a></code> and <code><a href="../reference/tab_footnote.html">tab_footnote()</a></code> functions are wrappers that also accept on kable tables.</li>
+<ul><li>Provide workaround for gt tables to allow knitting to <code>github_document</code>: <code><a href="../reference/mygt.html">mygt()</a></code> and <code>table1()</code> now export directly to markdown, using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>, eliminating the extraneous inline CSS. The <code><a href="../reference/tab_style.html">tab_style()</a></code> and <code><a href="../reference/tab_footnote.html">tab_footnote()</a></code> functions are wrappers that also accept on kable tables.</li>
 <li>Update RMarkdown template: <code>here()</code>, knit to <code>github_document</code> by default.</li>
 <li>
 <code><a href="../reference/brickchart.html">brickchart()</a></code>: add <code>clip</code> and <code>flip</code> options</li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>: also pass <code>confounders</code>, <code>trend</code> to custom functions</li>
+<code>table2()</code>: also pass <code>confounders</code>, <code>trend</code> to custom functions</li>
 <li>Required updated {gt}, {gtsummary}; remove dependencies {survminer}, {svglite}; add requirement for {knitr}, suggest the {here} package</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.4" id="khsmisc-044">khsmisc 0.4.4<a class="anchor" aria-label="anchor" href="#khsmisc-044"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>: add option to suppress estimates if per-cell count lower than the <code>design</code> option <code>nmin</code>
+<code>table2()</code>: add option to suppress estimates if per-cell count lower than the <code>design</code> option <code>nmin</code>
 </li>
 <li>
 <code><a href="../reference/brickchart.html">brickchart()</a></code>: make proportion and counts per group available for labeling</li>
 <li>
-<code><a href="../reference/table1.html">table1()</a></code>: display one or more <em>un</em>stratified datasets</li>
+<code>table1()</code>: display one or more <em>un</em>stratified datasets</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.3" id="khsmisc-043">khsmisc 0.4.3<a class="anchor" aria-label="anchor" href="#khsmisc-043"></a></h2>
 <ul><li>
-<code><a href="../reference/table1.html">table1()</a></code>:
+<code>table1()</code>:
 <ul><li>Add option to display multiple stratified datasets side-by-side</li>
 <li>Adapt to gtsummary’s removal of global options to avoid warnings and format percentages to no decimal digits even at &lt;10%</li>
 </ul></li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Add <code>type = "irrrob"</code>, Poisson models with robust standard errors for ratios of continuous outcomes</li>
 <li>Suppress horizontal rules between results from <code>type</code> and <code>type2</code>
 </li>
@@ -108,20 +121,20 @@
 <code><a href="../reference/make_exclusions.html">make_exclusions()</a></code>: return a list of observations filtered out (<code>excluded</code>)</li>
 <li>
 <code><a href="../reference/brickchart.html">brickchart()</a></code>: do not drop <code>by</code> or <code>group</code> categories without events</li>
-<li>New vignette about ratio of continuous outcomes with <code><a href="../reference/table2.html">table2()</a></code>
+<li>New vignette about ratio of continuous outcomes with <code>table2()</code>
 </li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.1" id="khsmisc-041">khsmisc 0.4.1<a class="anchor" aria-label="anchor" href="#khsmisc-041"></a></h2>
 <ul><li>
-<code><a href="../reference/table1.html">table1()</a></code> and <code>table2() %&gt;% mygt()</code>: Remove horizontal border lines at the top of indented lines (parameter <code>remove_border</code>).</li>
+<code>table1()</code> and <code>table2() %&gt;% mygt()</code>: Remove horizontal border lines at the top of indented lines (parameter <code>remove_border</code>).</li>
 <li>
 <code><a href="../reference/mygt.html">mygt()</a></code>:
 <ul><li>Return raw HTML if knitting R Markdown to <code>output: github_document</code>.</li>
 <li>Format column labels.</li>
 </ul></li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Pass along indentation of labels to <code><a href="../reference/mygt.html">mygt()</a></code> as an attribute instead of HTML.</li>
 <li>Improve handling of missing effect modifier strata, empty exposure strata, uniform binary exposures, <code>logical</code> effect modifiers, missing per-stratum estimates, and rounding of <code>type = "time"</code> and <code>"events/time"</code>.</li>
 <li>New <code>type = "range"</code> (min-max).</li>
@@ -139,9 +152,9 @@
 <li>
 <code><a href="../reference/estimate_rmtl.html">estimate_rmtl()</a></code>: New function, reshaping code by Conner and Trinquart, that estimates restricted mean time lost, handling competing risks and weighting.</li>
 <li>
-<code><a href="../reference/survdiff_ci.html">survdiff_ci()</a></code>: New function for differences in <em>x</em>-year survival/cumulative incidence.</li>
+<code>survdiff_ci()</code>: New function for differences in <em>x</em>-year survival/cumulative incidence.</li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>
 <strong>Breaking change</strong>: In the <code>design</code> matrix, digits for rounding can no longer be provided as part of <code>type</code>. Use separate column <code>digits</code> if needed.</li>
 <li>Add unstratified, descriptive tables without an <code>exposure</code> variable, as well as showing overall and stratified estimates in one table.</li>
@@ -157,13 +170,13 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.6" id="khsmisc-036">khsmisc 0.3.6<a class="anchor" aria-label="anchor" href="#khsmisc-036"></a></h2>
 <ul><li>
-<code><a href="../reference/table1.html">table1()</a></code>:
+<code>table1()</code>:
 <ul><li>Set rounding of column percentages for categorical (and binary) variables to 0 decimal digits by default.</li>
-<li>Add optional <code>type</code> parameter, passed along to <code><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_summary.html" class="external-link">gtsummary::tbl_summary()</a></code>.</li>
+<li>Add optional <code>type</code> parameter, passed along to <code>gtsummary::tbl_summary()</code>.</li>
 <li>Update internal syntax and require gtsummary version &gt;= 1.3.6.</li>
 </ul></li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Add optional <code>type2</code> column to the <code>design</code> matrix to allow adding a second estimate per cell.</li>
 <li>Add <code>prepare_md</code> parameter and example for how to obtain a markdown-formatted <code>label</code> column (e.g., <code>**bold**</code> for a <strong>bold</strong> label).</li>
 </ul></li>
@@ -174,7 +187,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.5" id="khsmisc-035">khsmisc 0.3.5<a class="anchor" aria-label="anchor" href="#khsmisc-035"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Add <code>trend</code> to the <code>design</code> matrix to allow for estimating linear slopes for a continuously-coded exposure.</li>
 <li>Fix accidental handling of <code>type = "irr"</code> as an RR model with approach “i”.</li>
 </ul></li>
@@ -186,7 +199,7 @@
 <li>
 <code>DESCRIPTION</code>: Add <code>Suggests: markdown</code> to fix github-actions.</li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>: For risk ratios and risk differences, allow passing on model fitting approach and number of bootstrap repeats.</li>
+<code>table2()</code>: For risk ratios and risk differences, allow passing on model fitting approach and number of bootstrap repeats.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.3" id="khsmisc-033">khsmisc 0.3.3<a class="anchor" aria-label="anchor" href="#khsmisc-033"></a></h2>
@@ -195,7 +208,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.2" id="khsmisc-032">khsmisc 0.3.2<a class="anchor" aria-label="anchor" href="#khsmisc-032"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Fix input check for <code>outcome</code> variable for <code>type %in% c("fold", "or")</code>.</li>
 <li>Digits for rounding: Fix regular expression for parentheses.</li>
 <li>Add <code>type = "cases/controls"</code>.</li>
@@ -209,7 +222,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.1" id="khsmisc-031">khsmisc 0.3.1<a class="anchor" aria-label="anchor" href="#khsmisc-031"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>: Fix exposure category order if starting table with <code>"blank"</code> row.</li>
+<code>table2()</code>: Fix exposure category order if starting table with <code>"blank"</code> row.</li>
 <li>
 <code>khsmisc_rmarkdown_template</code>: custom RMarkdown template</li>
 <li>
@@ -224,27 +237,27 @@
 <code>DESCRIPTION</code>: Add <code>Remotes:</code> to install <a href="https://stopsack.github.io/risks" class="external-link">risks package from Github</a>
 </li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>: Add left-truncated survival models, using <code>time</code> and <code>time2</code> elements in the <code>design</code> matrix.</li>
+<code>table2()</code>: Add left-truncated survival models, using <code>time</code> and <code>time2</code> elements in the <code>design</code> matrix.</li>
 <li>Require readr &gt;= 1.4.0 and change <code>path =</code> argument of <code><a href="../reference/write_csv_safely.html">write_csv_safely()</a></code> to <code>file =</code>, as in <code><a href="../reference/save_safely.html">save_safely()</a></code> and <code>pdf_savely()</code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.6" id="khsmisc-026">khsmisc 0.2.6<a class="anchor" aria-label="anchor" href="#khsmisc-026"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Add <code>type = "or"</code> for logistic models.</li>
 <li>Fix “fold” (non-binary).</li>
 <li>Fix vector issue in use of <code>digits_...</code>.</li>
 </ul></li>
-<li>Update vignette to make use of <code><a href="../reference/table2.html">table2()</a></code>.</li>
+<li>Update vignette to make use of <code>table2()</code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.5" id="khsmisc-025">khsmisc 0.2.5<a class="anchor" aria-label="anchor" href="#khsmisc-025"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>Generalize regression model fitting framework in one function.</li>
 <li>Add Poisson models and Gaussian models with log link.</li>
 <li>Add median/IQR to descriptive statistics.</li>
-<li>Reshape requesting digits for rounding: <code>diff_digits</code>, <code>ratio_digits</code>, and <code>rate_digits</code> are global parameters of <code><a href="../reference/table2.html">table2()</a></code> that can be overridden using <code>type = "(estimand) (digits)"</code> in each line.</li>
+<li>Reshape requesting digits for rounding: <code>diff_digits</code>, <code>ratio_digits</code>, and <code>rate_digits</code> are global parameters of <code>table2()</code> that can be overridden using <code>type = "(estimand) (digits)"</code> in each line.</li>
 <li>In joint models, use the reference categories of the exposure and effect modifier factors.</li>
 </ul></li>
 </ul></div>
@@ -253,7 +266,7 @@
 <ul><li>
 <code><a href="../reference/exclusion_flowchart.html">exclusion_flowchart()</a></code>: visualize exclusions from study with a flowchart via <code><a href="https://rdrr.io/pkg/DiagrammeR/man/grViz.html" class="external-link">DiagrammeR::grViz()</a></code>.</li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>:
+<code>table2()</code>:
 <ul><li>For vectors that are not categorical, force <code>exposure</code> to be a factor and issue a warning, but do not abort.</li>
 <li>Allow for blank lines.</li>
 <li>Handle continuous outcomes variables with <code>type = "diff"</code> and <code>type = "mean"</code>.</li>
@@ -262,31 +275,31 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.3" id="khsmisc-023">khsmisc 0.2.3<a class="anchor" aria-label="anchor" href="#khsmisc-023"></a></h2>
 <ul><li>
-<code><a href="../reference/table1.html">table1()</a></code>, <code><a href="../reference/table2.html">table2()</a></code>, <code><a href="../reference/tsummary.html">tsummary()</a></code>: improve input error handling</li>
+<code>table1()</code>, <code>table2()</code>, <code><a href="../reference/tsummary.html">tsummary()</a></code>: improve input error handling</li>
 <li>
-<code><a href="../reference/table2.html">table2()</a></code>: allow grouping multiple strata of the effect modifier; add <code>type = "outcomes (risk)"</code>
+<code>table2()</code>: allow grouping multiple strata of the effect modifier; add <code>type = "outcomes (risk)"</code>
 </li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.2" id="khsmisc-022">khsmisc 0.2.2<a class="anchor" aria-label="anchor" href="#khsmisc-022"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>: include estimates from risk ratio and risk difference models; input checks; allow for missing effect modifier, confounders; more descriptive statistics; more examples.</li>
+<code>table2()</code>: include estimates from risk ratio and risk difference models; input checks; allow for missing effect modifier, confounders; more descriptive statistics; more examples.</li>
 <li>
-<code><a href="../reference/scoreci.html">scoreci()</a></code>: new function for Wilson score confidence intervals for proportions.</li>
+<code>scoreci()</code>: new function for Wilson score confidence intervals for proportions.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.1" id="khsmisc-021">khsmisc 0.2.1<a class="anchor" aria-label="anchor" href="#khsmisc-021"></a></h2>
 <ul><li>
-<code><a href="../reference/table2.html">table2()</a></code>: add alpha version.</li>
+<code>table2()</code>: add alpha version.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.0" id="khsmisc-020">khsmisc 0.2.0<a class="anchor" aria-label="anchor" href="#khsmisc-020"></a></h2>
 <ul><li>
-<code><a href="../reference/tabulate_rowcol.html">tabulate_rowcol()</a></code>: replacement for <code><a href="../reference/mytab.html">mytab()</a></code> (which remains available); it supports tidy evaluation.</li>
-<li>All other functions allow variable name arguments with tidy evaluation without introducing breaking changes. <code><a href="../reference/corrmat.html">corrmat()</a></code>, <code><a href="../reference/tsummary.html">tsummary()</a></code>, and <code><a href="../reference/table1.html">table1()</a></code> still use all variables in a dataset if none are selected but can now take variable names as an argument.</li>
+<code><a href="../reference/tabulate_rowcol.html">tabulate_rowcol()</a></code>: replacement for <code>mytab()</code> (which remains available); it supports tidy evaluation.</li>
+<li>All other functions allow variable name arguments with tidy evaluation without introducing breaking changes. <code><a href="../reference/corrmat.html">corrmat()</a></code>, <code><a href="../reference/tsummary.html">tsummary()</a></code>, and <code>table1()</code> still use all variables in a dataset if none are selected but can now take variable names as an argument.</li>
 <li>Breaking change: <code><a href="../reference/corrmat.html">corrmat()</a></code> argument <code>missing</code> renamed to <code>use</code> to be consistent with the underlying <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cor()</a></code>.</li>
 <li>
-<code><a href="../reference/rates.html">rates()</a></code>: new parameters <code>risk_time</code> to specify the time point at which cumulative incidence should be calculated, and <code>by</code> for stratification variables. If a dataset has already been grouped using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code>, grouping will be retained.</li>
+<code>rates()</code>: new parameters <code>risk_time</code> to specify the time point at which cumulative incidence should be calculated, and <code>by</code> for stratification variables. If a dataset has already been grouped using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code>, grouping will be retained.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.0" id="khsmisc-010">khsmisc 0.1.0<a class="anchor" aria-label="anchor" href="#khsmisc-010"></a></h2>
